@@ -1,0 +1,620 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE outline PUBLIC "-//omnigroup.com//DTD OUTLINE 3.0//EN" "http://www.omnigroup.com/namespace/OmniOutliner/xmloutline-v3.dtd">
+<outline xmlns="http://www.omnigroup.com/namespace/OmniOutliner/v3">
+  <style-attribute-registry>
+    <style-attribute version="0" key="font-weight" group="police" name="poids" class="number">5</style-attribute>
+    <style-attribute version="0" key="text-background-color" group="texte" name="couleur arr.-plan" class="color">
+      <color w="0" a="0"/>
+    </style-attribute>
+  </style-attribute-registry>
+  <settings>
+    <print-info>
+      <print-info-key name="NSPaperSize" type="size">{595.276, 841.89}</print-info-key>
+    </print-info>
+  </settings>
+  <editor content-size="{557, 775}">
+    <drawer width="200"/>
+    <selected-rows ids="iSp3_oJI7PY"/>
+    <selected-columns ids=":1"/>
+    <selected-characters range="{45, 0}"/>
+  </editor>
+  <columns>
+    <column id=":0" type="text" width="18" minimum-width="18" maximum-width="18" text-export-width="40" is-note-column="yes">
+      <title>
+        <text>
+          <p/>
+        </text>
+      </title>
+    </column>
+    <column id=":1" type="text" width="521" minimum-width="13" maximum-width="1000000" text-export-width="40" is-outline-column="yes">
+      <title>
+        <text>
+          <p>
+            <run>
+              <lit>Title</lit>
+            </run>
+          </p>
+        </text>
+      </title>
+    </column>
+  </columns>
+  <root>
+    <style/>
+    <style>
+      <value key="font-weight">9</value>
+      <value key="text-background-color">
+        <color r="1" g="1" b="1"/>
+      </value>
+    </style>
+    <item id="f38a0t_PohZ" expanded="yes">
+      <style/>
+      <style>
+        <value key="text-background-color">
+          <color r="1" g="1" b="1"/>
+        </value>
+      </style>
+      <style>
+        <value key="text-background-color">
+          <color r="1" g="1" b="1"/>
+        </value>
+      </style>
+      <values>
+        <text>
+          <p>
+            <run>
+              <lit>NodeLib</lit>
+            </run>
+          </p>
+        </text>
+      </values>
+      <children>
+        <item id="plE7SxOG9r6" expanded="yes">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>0.5 NodeLib</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+          <children>
+            <item id="kvLY7j6WxXn" expanded="yes">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>local receives</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+              <children>
+                <item id="n-e23akSZS-">
+                  <values>
+                    <text>
+                      <p>
+                        <run>
+                          <lit>returns</lit>
+                        </run>
+                      </p>
+                    </text>
+                  </values>
+                </item>
+                <item id="a_E4cqQDuem">
+                  <values>
+                    <text>
+                      <p>
+                        <run>
+                          <lit>parameters</lit>
+                        </run>
+                      </p>
+                    </text>
+                  </values>
+                </item>
+              </children>
+            </item>
+            <item id="pL3Gjuok8or" expanded="yes">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>break jcom.send/receive link</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+              <children>
+                <item id="dcUQ4mTispV">
+                  <values>
+                    <text>
+                      <p>
+                        <run>
+                          <lit>embedded receive/sends in jcom.parameter</lit>
+                        </run>
+                      </p>
+                    </text>
+                  </values>
+                </item>
+              </children>
+            </item>
+            <item id="l_EBD_nhF-K" expanded="yes">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>local sends for everything</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+              <children>
+                <item id="n-SacwbPlWC">
+                  <values>
+                    <text>
+                      <p>
+                        <run>
+                          <lit>parameters/messages (DONE)</lit>
+                        </run>
+                      </p>
+                    </text>
+                  </values>
+                </item>
+                <item id="gEHIGWZgmkD">
+                  <values>
+                    <text>
+                      <p>
+                        <run>
+                          <lit>attributes ?</lit>
+                        </run>
+                      </p>
+                    </text>
+                  </values>
+                </item>
+              </children>
+            </item>
+            <item id="oSijyCGiME1" expanded="yes">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>global sends</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+              <children>
+                <item id="mt10UaDgAdO">
+                  <values>
+                    <text>
+                      <p>
+                        <run>
+                          <lit>how are they addressed ? (not in each hub)</lit>
+                        </run>
+                      </p>
+                    </text>
+                  </values>
+                </item>
+              </children>
+            </item>
+          </children>
+        </item>
+        <item id="ie6jMNLgBry">
+          <style>
+            <value key="text-background-color">
+              <color r="1" g="1" b="1"/>
+            </value>
+          </style>
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>jcom.nodeview</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="kSgsQD8kQBZ" expanded="yes">
+          <style>
+            <value key="text-background-color">
+              <color r="1" g="1" b="1"/>
+            </value>
+          </style>
+          <style/>
+          <style>
+            <value key="text-background-color">
+              <color r="1" g="1" b="1"/>
+            </value>
+          </style>
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>Prototyping MVC-separation:Changing some modules to be used for testing</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+          <children>
+            <item id="n0HgfnC3mAF">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>the view model</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+            </item>
+          </children>
+        </item>
+        <item id="lMrfksbxuI7">
+          <style>
+            <value key="text-background-color">
+              <color r="1" g="1" b="1"/>
+            </value>
+          </style>
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>Planning and review</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="h7Jron-n9V3" expanded="yes">
+          <style/>
+          <style>
+            <value key="text-background-color">
+              <color r="1" g="1" b="1"/>
+            </value>
+          </style>
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>Changing jcom.parameter</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+          <children>
+            <item id="cIPMpEeF-Ty">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>jcom.parameter array...</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+            </item>
+            <item id="nwdTDZwH-eC">
+              <style>
+                <value key="text-background-color">
+                  <color r="1" g="1" b="1"/>
+                </value>
+              </style>
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>jcom.parameter~</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+            </item>
+          </children>
+        </item>
+        <item id="l2yymFURg80">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>jcom.ui need to change</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="plxnNIBrBgA" expanded="yes">
+          <style>
+            <value key="text-background-color">
+              <color r="1" g="1" b="1"/>
+            </value>
+          </style>
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>Changing hub</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+          <children>
+            <item id="eR3Cu4TfYxy">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>nodes above the module level</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+              <note expanded="yes">
+                <text>
+                  <p>
+                    <run>
+                      <lit>like /track.1/module.2</lit>
+                    </run>
+                  </p>
+                </text>
+              </note>
+            </item>
+          </children>
+        </item>
+        <item id="fR-4v0PXHu8">
+          <style>
+            <value key="text-background-color">
+              <color r="1" g="1" b="1"/>
+            </value>
+          </style>
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>Changing all modules</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="g1UFWQ0nWMX">
+          <style>
+            <value key="text-background-color">
+              <color r="1" g="1" b="1"/>
+            </value>
+          </style>
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>Local sends and receives</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="ebzQRh0dpRG">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>By this time we can create other views.</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+      </children>
+    </item>
+    <item id="mOVt2RetxRb" expanded="yes">
+      <values>
+        <text>
+          <p>
+            <run>
+              <lit>Model-View-Controller</lit>
+            </run>
+          </p>
+        </text>
+      </values>
+      <children>
+        <item id="c3sV6802H5m" expanded="yes">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>models can be nested</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+          <children>
+            <item id="gR-h9ZLeQLG">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>referring to the jcom.hub &quot;above&quot; </lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+            </item>
+            <item id="mO0yHj-w2Ld">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>nodes inheritance is defined explicitly</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+            </item>
+          </children>
+        </item>
+        <item id="mTZJmdm_0dK">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>slashes are not allowed in nodes names</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="b1YlDMuIrgN">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>jcom.hub/parameter, etc... are subclasses of jcom.nodes</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="pGAWPu1Xnrx">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>presets work in &quot;greedy&quot; mode</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="pBmoiIrRFtA" expanded="yes">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>different instances of a node refer to the same node (extend the existing node)</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+          <children>
+            <item id="h_eddYz0zgp">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>e.g. adding a audio node inside of the model, while it already exists in the jcom.ui</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+            </item>
+          </children>
+        </item>
+        <item id="mdfk3-afkG6">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>priorities are handled scoped to the node</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+      </children>
+    </item>
+    <item id="l_KAFlhPh4A" expanded="yes">
+      <values>
+        <text>
+          <p>
+            <run>
+              <lit>MultiCore</lit>
+            </run>
+          </p>
+        </text>
+      </values>
+      <children>
+        <item id="evho7hEKj_G">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>replacing jcom.multi.in~ and out~ to Multicore objects</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="msnn1uLWL59" expanded="yes">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>Multicore matrix</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+          <children>
+            <item id="i2CDvi1n3eS" expanded="yes">
+              <values>
+                <text>
+                  <p>
+                    <run>
+                      <lit>multicore versions of spatialization(matrix-based) techniques</lit>
+                    </run>
+                  </p>
+                </text>
+              </values>
+              <children>
+                <item id="llAzuIulW4j">
+                  <values>
+                    <text>
+                      <p>
+                        <run>
+                          <lit>Nils&apos; mighty mixer</lit>
+                        </run>
+                      </p>
+                    </text>
+                  </values>
+                </item>
+              </children>
+            </item>
+          </children>
+        </item>
+        <item id="hC7X8AmxJnY">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>Using MultiCore in all audio modules (jcom.in~/out~ replacement)</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="ihi3lfyVl2i">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>poly-like wrappers</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="iSp3_oJI7PY">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>parallel threads (later : request from Trond)</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+      </children>
+    </item>
+  </root>
+</outline>
