@@ -1,0 +1,75 @@
+Jamoma Ruby Language Bindings
+
+JamomaRuby is a set of language binding that allow access to the messages and attributes of any object built on top of the Foundation's TTObject.  
+
+
+Some possibities afforded by this:
+- Use irb for interactive, chuck-like, performance possibilities.
+- Realtime performance in a web browser and/or Flash-based interface (synthesis, processing, audio analysis, etc).
+- drawing with TTGraphics widgets (e.g. filtergraph~ like widgets) in the web browser.
+
+
+Jamoma Modular for Ruby:
+
+Jamoma Modular with have a separate implementation of models and views.  One way models can be defined is by creating a patcher in Max.  However, we do all communication using infrastructure (the NodeLib) in the Foundation.  So we can imagine that the models we work with in Max are only a visual layer representing the model in the same way that we use Max to create visual represenation of the Multicore audio graph while the actual audio graph is implemented completely apart from Max.  This means that models are ultimately TTObject classes, and thus can be created, addressed, combined, etc. using the Ruby language bindings.
+
+
+Implications:
+
+Ruby is likely one of the more interesting and also the easiest environments to work in for porting Jamoma to non-Max contexts.  However, a success in this area with a properly architected code-base opens the door to having Jamoma available in many different environments.
+
+Furthermore, it may also imply that modules can be defined not only in Max and in C++, but also in Ruby, and potentially other languages, and all of these different kinds of modules could be used in any other.
+
+
+
+Example Code Prototype: five second sine-wave 
+
+# Create Multicore Objects
+oscil = new TTMulticoreObject "wavetable"
+fader = new TTMulticoreObject "gain"
+dac   = new TTMulticoreObject "output"
+
+# Make Multicore Connections
+dac.setAudioInput(fader)
+fader.setAudioInput(oscil)
+
+# Set Attributes
+oscil.frequency= 440.0
+fader.linearGain= 0.5
+
+# Get Attributes
+shape = oscil.waveform?
+
+# Send Messages
+dac.start
+
+# This is just a standard ruby command to pause execution for 5 seconds
+wait 5
+
+# Send another Message
+dac.stop
+
+# We don't need to free anything at the end here because Ruby has garbage collection
+
+
+
+
+Example Code Prototype: a jamoma module (assumes all modules pass multicore signals)
+
+encoder = new TTModularObject "sur.ambi.encode~"
+decoder = new TTModularObject "sur.ambi.decode~"
+degrade = new TTModularObject "degrade~"
+
+degrade.srRatio 0.5 ramp 4 seconds
+
+
+
+Questions:
+
+- In the examples above, do we really need to have a distinction between TTMulticoreObjects and TTModularObjects?  
+- Not all modules do audio, so how do we handle that?
+- how would a module like the mouse module or hi module work?
++ at first, the language bindings would probably be limited to not using Max-created models.
+
+
+
