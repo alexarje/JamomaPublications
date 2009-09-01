@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<opml version="1.0">
+    <head>
+        <title>Jamoma Roadmap.opml</title>
+        <expansionState>0,3,8,9,10,13,16,20,21,24,27,30,34,39,43,46,47,54,56,58,59</expansionState>
+    </head>
+    <body>
+        <outline Nr="1" Info="" text="Making the 0.5 release" Travail_Planifié_Donné="" Pourcent_Terminé="12 %" Ressources_Affectées="Trond Lossius; Théo de la Hogue; Pascal Baltazar; Tim Place; Nils Peters" Affectation="0">
+            <outline Nr="2" Info="" text="Fixing windows" Travail_Planifié_Donné="3 jours" Pourcent_Terminé="80 %" Ressources_Affectées="Théo de la Hogue; Tim Place" Affectation="0">
+                <outline Nr="3" Info="" text="Théo de la Hogue" Travail_Planifié_Donné="50 %" Pourcent_Terminé="80 %" Ressources_Affectées="" Affectation="1"/>
+                <outline Nr="4" Info="" text="Tim Place" Travail_Planifié_Donné="50 %" Pourcent_Terminé="80 %" Ressources_Affectées="" Affectation="1"/>
+            </outline>
+            <outline Nr="5" Info="" text="Making sure all is working on both platforms" Travail_Planifié_Donné="30 jours" Pourcent_Terminé="0%" Ressources_Affectées="Nils Peters; Trond Lossius; Pascal Baltazar; Théo de la Hogue; Tim Place" Affectation="0">
+                <outline Nr="6" Info="" text="Nils Peters" Travail_Planifié_Donné="20 %" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="1"/>
+                <outline Nr="7" Info="" text="Trond Lossius" Travail_Planifié_Donné="20 %" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="1"/>
+                <outline Nr="8" Info="" text="Pascal Baltazar" Travail_Planifié_Donné="20 %" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="1"/>
+                <outline Nr="9" Info="" text="Théo de la Hogue" Travail_Planifié_Donné="20 %" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="1"/>
+                <outline Nr="10" Info="" text="Tim Place" Travail_Planifié_Donné="20 %" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="1"/>
+            </outline>
+            <outline Nr="11" Info="" text="Fixing the installer scripts" Travail_Planifié_Donné="" Pourcent_Terminé="85 %" Ressources_Affectées="Trond Lossius; Tim Place; Théo de la Hogue" Affectation="0">
+                <outline Nr="12" Info="" text="for Win" Travail_Planifié_Donné="1 jour ?" Pourcent_Terminé="90 %" Ressources_Affectées="Théo de la Hogue; Tim Place; Trond Lossius" Affectation="0">
+                    <outline Nr="13" Info="" text="Théo de la Hogue" Travail_Planifié_Donné="33,33 %" Pourcent_Terminé="90 %" Ressources_Affectées="" Affectation="1"/>
+                    <outline Nr="14" Info="" text="Tim Place" Travail_Planifié_Donné="33,33 %" Pourcent_Terminé="90 %" Ressources_Affectées="" Affectation="1"/>
+                    <outline Nr="15" Info="" text="Trond Lossius" Travail_Planifié_Donné="33,33 %" Pourcent_Terminé="90 %" Ressources_Affectées="" Affectation="1"/>
+                </outline>
+                <outline Nr="16" Info="" text="for Mac" Travail_Planifié_Donné="1 jour ?" Pourcent_Terminé="80 %" Ressources_Affectées="Tim Place" Affectation="0">
+                    <outline Nr="17" Info="" text="Tim Place" Travail_Planifié_Donné="100 %" Pourcent_Terminé="80 %" Ressources_Affectées="" Affectation="1"/>
+                </outline>
+            </outline>
+        </outline>
+        <outline Nr="18" Info="" text="0.5 Release for Mac" Travail_Planifié_Donné="" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0"/>
+        <outline Nr="19" Info="" text="0.5 Release for Win" Travail_Planifié_Donné="" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0"/>
+        <outline Nr="20" Info="" text="NodeLib" Travail_Planifié_Donné="" Pourcent_Terminé="10 %" Ressources_Affectées="Trond Lossius; Théo de la Hogue; Pascal Baltazar; Tim Place" Affectation="0">
+            <outline Nr="21" Info="" text="0.5 NodeLib" Travail_Planifié_Donné="" Pourcent_Terminé="20 %" Ressources_Affectées="Tim Place; Théo de la Hogue" Affectation="0">
+                <outline Nr="22" Info="" text="local receives" Travail_Planifié_Donné="" Pourcent_Terminé="0%" Ressources_Affectées="Tim Place; Théo de la Hogue" Affectation="0">
+                    <outline Nr="23" Info="" text="returns" Travail_Planifié_Donné="1 jour ?" Pourcent_Terminé="0%" Ressources_Affectées="Théo de la Hogue; Tim Place" Affectation="0">
+                        <outline Nr="24" Info="" text="Théo de la Hogue" Travail_Planifié_Donné="50 %" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="1"/>
+                        <outline Nr="25" Info="" text="Tim Place" Travail_Planifié_Donné="50 %" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="1"/>
+                    </outline>
+                    <outline Nr="26" Info="" text="parameters" Travail_Planifié_Donné="1 jour ?" Pourcent_Terminé="0%" Ressources_Affectées="Théo de la Hogue; Tim Place" Affectation="0">
+                        <outline Nr="27" Info="" text="Théo de la Hogue" Travail_Planifié_Donné="50 %" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="1"/>
+                        <outline Nr="28" Info="" text="Tim Place" Travail_Planifié_Donné="50 %" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="1"/>
+                    </outline>
+                </outline>
+                <outline Nr="29" Info="" text="break jcom.send/receive link" Travail_Planifié_Donné="" Pourcent_Terminé="0%" Ressources_Affectées="Tim Place; Théo de la Hogue" Affectation="0">
+                    <outline Nr="30" Info="" text="embedded receive/sends in jcom.parameter" Travail_Planifié_Donné="1 jour ?" Pourcent_Terminé="0%" Ressources_Affectées="Théo de la Hogue" Affectation="0">
+                        <outline Nr="31" Info="" text="Théo de la Hogue" Travail_Planifié_Donné="100 %" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="1"/>
+                    </outline>
+                    <outline Nr="32" Info="" text="replace jcom.send/receive" Travail_Planifié_Donné="1 jour ?" Pourcent_Terminé="0%" Ressources_Affectées="Tim Place" Affectation="0">
+                        <outline Nr="33" Info="" text="Tim Place" Travail_Planifié_Donné="100 %" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="1"/>
+                    </outline>
+                </outline>
+                <outline Nr="34" Info="" text="local sends for everything" Travail_Planifié_Donné="" Pourcent_Terminé="100 %" Ressources_Affectées="Tim Place; Théo de la Hogue" Affectation="0">
+                    <outline Nr="35" Info="" text="parameters/messages (DONE)" Travail_Planifié_Donné="1 jour ?" Pourcent_Terminé="100 %" Ressources_Affectées="Théo de la Hogue; Tim Place" Affectation="0">
+                        <outline Nr="36" Info="" text="Théo de la Hogue" Travail_Planifié_Donné="50 %" Pourcent_Terminé="100 %" Ressources_Affectées="" Affectation="1"/>
+                        <outline Nr="37" Info="" text="Tim Place" Travail_Planifié_Donné="50 %" Pourcent_Terminé="100 %" Ressources_Affectées="" Affectation="1"/>
+                    </outline>
+                </outline>
+            </outline>
+            <outline Nr="38" Info="" text="turn jcom.parameter.array into an external" Travail_Planifié_Donné="3 jours" Pourcent_Terminé="50 %" Ressources_Affectées="Théo de la Hogue; Pascal Baltazar; Trond Lossius; Tim Place" Affectation="0">
+                <outline Nr="39" Info="" text="Théo de la Hogue" Travail_Planifié_Donné="25 %" Pourcent_Terminé="50 %" Ressources_Affectées="" Affectation="1"/>
+                <outline Nr="40" Info="" text="Pascal Baltazar" Travail_Planifié_Donné="25 %" Pourcent_Terminé="50 %" Ressources_Affectées="" Affectation="1"/>
+                <outline Nr="41" Info="" text="Trond Lossius" Travail_Planifié_Donné="25 %" Pourcent_Terminé="50 %" Ressources_Affectées="" Affectation="1"/>
+                <outline Nr="42" Info="" text="Tim Place" Travail_Planifié_Donné="25 %" Pourcent_Terminé="50 %" Ressources_Affectées="" Affectation="1"/>
+            </outline>
+            <outline Nr="43" Info="" text="0.5.5 Release " Travail_Planifié_Donné="" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0"/>
+            <outline Nr="44" Info="" text="0.6 NodeLib" Travail_Planifié_Donné="" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0">
+                <outline Nr="45" Info="" text="local receives" Travail_Planifié_Donné="" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0">
+                    <outline Nr="46" Info="" text="returns" Travail_Planifié_Donné="1 jour ?" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0"/>
+                    <outline Nr="47" Info="" text="parameters" Travail_Planifié_Donné="1 jour ?" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0"/>
+                </outline>
+                <outline Nr="48" Info="" text="break jcom.send/receive link" Travail_Planifié_Donné="" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0">
+                    <outline Nr="49" Info="" text="embedded receive/sends in jcom.parameter" Travail_Planifié_Donné="1 jour ?" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0"/>
+                    <outline Nr="50" Info="" text="replace jcom.send/receive" Travail_Planifié_Donné="1 jour ?" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0"/>
+                </outline>
+                <outline Nr="51" Info="" text="local sends for everything" Travail_Planifié_Donné="" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0">
+                    <outline Nr="52" Info="" text="parameters/messages (DONE)" Travail_Planifié_Donné="1 jour ?" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0"/>
+                    <outline Nr="53" Info="" text="attributes ?" Travail_Planifié_Donné="1 jour ?" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0"/>
+                </outline>
+                <outline Nr="54" Info="" text="global sends" Travail_Planifié_Donné="" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0">
+                    <outline Nr="55" Info="" text="how are they addressed ? (not in each hub)" Travail_Planifié_Donné="1 jour ?" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0"/>
+                </outline>
+                <outline Nr="56" Info="" text="Find a graphical solution for browsing the Namespace" Travail_Planifié_Donné="1 jour ?" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0"/>
+                <outline Nr="57" Info="" text="jcom.nodeview" Travail_Planifié_Donné="1 jour ?" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0"/>
+            </outline>
+            <outline Nr="58" Info="" text="Prototyping MVC-separation" Travail_Planifié_Donné="" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0">
+                <outline Nr="59" Info="" text="the view model" Travail_Planifié_Donné="1 jour ?" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0"/>
+                <outline Nr="60" Info="" text="experimenting with some modules" Travail_Planifié_Donné="1 jour ?" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0"/>
+                <outline Nr="61" Info="" text="By this time we can create other views." Travail_Planifié_Donné="1 jour ?" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0"/>
+            </outline>
+            <outline Nr="62" Info="" text="Planning and review (workshop ?)" Travail_Planifié_Donné="1 jour ?" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0"/>
+            <outline Nr="63" Info="" text="Changing jcom.parameter" Travail_Planifié_Donné="" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0">
+                <outline Nr="64" Info="" text="jcom.parameter array..." Travail_Planifié_Donné="1 jour ?" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0"/>
+                <outline Nr="65" Info="" text="jcom.parameter~" Travail_Planifié_Donné="1 jour ?" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0"/>
+            </outline>
+            <outline Nr="66" Info="" text="jcom.ui need to change" Travail_Planifié_Donné="1 jour ?" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0"/>
+            <outline Nr="67" Info="" text="Changing hub" Travail_Planifié_Donné="" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0">
+                <outline Nr="68" Info="" text="nodes above the module level" Travail_Planifié_Donné="1 jour ?" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0"/>
+            </outline>
+            <outline Nr="69" Info="" text="Changing all modules" Travail_Planifié_Donné="1 jour ?" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0"/>
+        </outline>
+        <outline Nr="70" Info="" text="Model-View-Controller" Travail_Planifié_Donné="" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0">
+            <outline Nr="71" Info="" text="models can be nested" Travail_Planifié_Donné="" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0">
+                <outline Nr="72" Info="" text="&quot;referring to the jcom.hub &quot;&quot;above&quot;&quot;&quot;" Travail_Planifié_Donné="1 jour ?" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0"/>
+                <outline Nr="73" Info="" text="nodes inheritance is defined explicitly" Travail_Planifié_Donné="1 jour ?" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0"/>
+                <outline Nr="74" Info="" text="slashes are not allowed in nodes names" Travail_Planifié_Donné="1 jour ?" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0"/>
+                <outline Nr="75" Info="" text="jcom.hub/parameter, etc... are subclasses of jcom.nodes" Travail_Planifié_Donné="1 jour ?" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0"/>
+                <outline Nr="76" Info="" text="&quot;presets work in &quot;&quot;greedy&quot;&quot; mode&quot;" Travail_Planifié_Donné="1 jour ?" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0"/>
+            </outline>
+            <outline Nr="77" Info="" text="priorities are handled scoped to the node" Travail_Planifié_Donné="1 jour ?" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0"/>
+            <outline Nr="78" Info="" text="different instances of a node refer to the same node (extend the existing node)" Travail_Planifié_Donné="" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0">
+                <outline Nr="79" Info="" text="e.g. adding a audio node inside of the model, while it already exists in the jcom.ui" Travail_Planifié_Donné="1 jour ?" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0"/>
+            </outline>
+        </outline>
+        <outline Nr="80" Info="" text="MultiCore" Travail_Planifié_Donné="" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0">
+            <outline Nr="81" Info="" text="replacing jcom.multi.in~ and out~ to Multicore objects" Travail_Planifié_Donné="1 jour ?" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0"/>
+            <outline Nr="82" Info="" text="Multicore matrix" Travail_Planifié_Donné="" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0">
+                <outline Nr="83" Info="" text="multicore versions of spatialization(matrix-based) techniques" Travail_Planifié_Donné="" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0">
+                    <outline Nr="84" Info="" text="Nils' mighty mixer" Travail_Planifié_Donné="1 jour ?" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0"/>
+                </outline>
+            </outline>
+            <outline Nr="85" Info="" text="Using MultiCore in all audio modules (jcom.in~/out~ replacement)" Travail_Planifié_Donné="1 jour ?" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0"/>
+            <outline Nr="86" Info="" text="poly-like wrappers" Travail_Planifié_Donné="1 jour ?" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0"/>
+            <outline Nr="87" Info="" text="parallel threads (later : request from Trond)" Travail_Planifié_Donné="1 jour ?" Pourcent_Terminé="0%" Ressources_Affectées="" Affectation="0"/>
+        </outline>
+    </body>
+</opml>
