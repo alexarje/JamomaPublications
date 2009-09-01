@@ -111,6 +111,9 @@ We discussed this in Montréal and it seemed to be the most demanding use case f
 - the list of all available items are stored as /range attributes and can be changed dynamically and queried remotely
 - we need a notification system so that jcom.nodeview is informed if the list of items is changed... 
 
+The list of items in the enum is set using the range attribute. E.g. in the input module:
+	[ jcom.parameter source @type enum @range none soundfile "pink noise" "1000 Hz" ]
+There is a problem with this, however (see below).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -119,6 +122,7 @@ We discussed this in Montréal and it seemed to be the most demanding use case f
 
 maybe we want to return the current item to the world as an index number OR the item's name... how do we manage that ?
 
+We said @range defines the items, the problem is that we don't have a simple "range" attr anymore.  We have "range/bounds" and "range/clipmode".  Do we just use range/bounds?  That seems clumsy.  Do we define a new one like range/catalog?
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
