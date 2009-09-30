@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<opml version="1.0">
+  <head>
+    <title>Roadmap</title>
+    <expansionState>10,21,22,25,31,40,59,76,83,85,86,93,94,101,112,117,123</expansionState>
+  </head>
+  <body>
+    <outline text="Making the 0.5 release" Assigned_Resources="Théo de la Hogue; Trond Lossius; Pascal Baltazar; Tim Place; Nils Peters" Assignment="0" Nr="1" Percent_Complete="80 %">
+      <outline text="Fixing windows" Assigned_Resources="Théo de la Hogue; Tim Place" Assignment="0" Given_Planned_Work="20 %" Nr="2" Percent_Complete="80 %">
+        <outline text="Théo de la Hogue" Assignment="1" Given_Planned_Work="50 %" Nr="3" Percent_Complete="80 %"/>
+        <outline text="Tim Place" Assignment="1" Given_Planned_Work="50 %" Nr="4" Percent_Complete="80 %"/>
+      </outline>
+      <outline text="Making sure all is working on both platforms" Assigned_Resources="Nils Peters; Trond Lossius; Pascal Baltazar; Théo de la Hogue; Tim Place" Assignment="0" Given_Planned_Work="10 %" Nr="5" Percent_Complete="80 %">
+        <outline text="Nils Peters" Assignment="1" Given_Planned_Work="20 %" Nr="6" Percent_Complete="80 %"/>
+        <outline text="Trond Lossius" Assignment="1" Given_Planned_Work="20 %" Nr="7" Percent_Complete="80 %"/>
+        <outline text="Pascal Baltazar" Assignment="1" Given_Planned_Work="20 %" Nr="8" Percent_Complete="80 %"/>
+        <outline text="Théo de la Hogue" Assignment="1" Given_Planned_Work="20 %" Nr="9" Percent_Complete="80 %"/>
+        <outline text="Tim Place" Assignment="1" Given_Planned_Work="20 %" Nr="10" Percent_Complete="80 %"/>
+      </outline>
+      <outline text="Fixing the installer scripts" Assigned_Resources="Trond Lossius; Tim Place; Théo de la Hogue" Assignment="0" Nr="11" Percent_Complete="95 %">
+        <outline text="for Win" Assigned_Resources="Théo de la Hogue; Tim Place; Trond Lossius" Assignment="0" Given_Planned_Work="1 day ?" Nr="12" Percent_Complete="100 %">
+          <outline text="Théo de la Hogue" Assignment="1" Given_Planned_Work="33,33 %" Nr="13" Percent_Complete="100 %"/>
+          <outline text="Tim Place" Assignment="1" Given_Planned_Work="33,33 %" Nr="14" Percent_Complete="100 %"/>
+          <outline text="Trond Lossius" Assignment="1" Given_Planned_Work="33,33 %" Nr="15" Percent_Complete="100 %"/>
+        </outline>
+        <outline text="for Mac" Assigned_Resources="Tim Place" Assignment="0" Given_Planned_Work="1 day ?" Nr="16" Percent_Complete="90 %">
+          <outline text="Tim Place" Assignment="1" Given_Planned_Work="100 %" Nr="17" Percent_Complete="90 %"/>
+        </outline>
+      </outline>
+    </outline>
+    <outline text="0.5 Release for Mac" Assignment="0" Nr="18" Percent_Complete="0%"/>
+    <outline text="0.5 Release for Win" Assignment="0" Nr="19" Percent_Complete="0%"/>
+    <outline text="NodeLib" Assigned_Resources="Théo de la Hogue; Trond Lossius; Pascal Baltazar; Tim Place; Nils Peters" Assignment="0" Nr="20" Percent_Complete="1 %">
+      <outline text="0.5 NodeLib" Assigned_Resources="Théo de la Hogue; Trond Lossius; Pascal Baltazar; Tim Place; Nils Peters" Assignment="0" Nr="21" Percent_Complete="2 %">
+        <outline text="local sends for everything" Assigned_Resources="Théo de la Hogue; Tim Place" Assignment="0" Nr="22" Percent_Complete="100 %">
+          <outline text="parameters/messages (DONE)" Assigned_Resources="Théo de la Hogue; Tim Place" Assignment="0" Given_Planned_Work="1 day ?" Nr="23" Percent_Complete="100 %">
+            <outline text="Théo de la Hogue" Assignment="1" Given_Planned_Work="50 %" Nr="24" Percent_Complete="100 %"/>
+            <outline text="Tim Place" Assignment="1" Given_Planned_Work="50 %" Nr="25" Percent_Complete="100 %"/>
+          </outline>
+        </outline>
+        <outline text="turn jcom.parameter.array into an external" Assigned_Resources="Théo de la Hogue; Pascal Baltazar; Trond Lossius; Tim Place" Assignment="0" Given_Planned_Work="1 day" Nr="26" Percent_Complete="70 %">
+          <outline text="Théo de la Hogue" Assignment="1" Given_Planned_Work="25 %" Nr="27" Percent_Complete="70 %"/>
+          <outline text="Pascal Baltazar" Assignment="1" Given_Planned_Work="25 %" Nr="28" Percent_Complete="70 %"/>
+          <outline text="Trond Lossius" Assignment="1" Given_Planned_Work="25 %" Nr="29" Percent_Complete="70 %"/>
+          <outline text="Tim Place" Assignment="1" Given_Planned_Work="25 %" Nr="30" Percent_Complete="70 %"/>
+        </outline>
+        <outline text="local receives" Assigned_Resources="Théo de la Hogue; Tim Place" Assignment="0" Nr="31" Percent_Complete="0%">
+          <outline text="returns" Assigned_Resources="Théo de la Hogue; Tim Place" Assignment="0" Given_Planned_Work="1 day ?" Nr="32" Percent_Complete="0%">
+            <outline text="Théo de la Hogue" Assignment="1" Given_Planned_Work="50 %" Nr="33" Percent_Complete="0%"/>
+            <outline text="Tim Place" Assignment="1" Given_Planned_Work="50 %" Nr="34" Percent_Complete="0%"/>
+          </outline>
+          <outline text="parameters" Assigned_Resources="Théo de la Hogue; Tim Place" Assignment="0" Given_Planned_Work="1 day ?" Nr="35" Percent_Complete="0%">
+            <outline text="Théo de la Hogue" Assignment="1" Given_Planned_Work="50 %" Nr="36" Percent_Complete="0%"/>
+            <outline text="Tim Place" Assignment="1" Given_Planned_Work="50 %" Nr="37" Percent_Complete="0%"/>
+          </outline>
+        </outline>
+        <outline text="break jcom.send/receive link" Assigned_Resources="Théo de la Hogue; Tim Place" Assignment="0" Nr="38" Percent_Complete="0%">
+          <outline text="embedded receive/sends in jcom.parameter" Assigned_Resources="Théo de la Hogue" Assignment="0" Given_Planned_Work="3 days" Nr="39" Percent_Complete="0%">
+            <outline text="Théo de la Hogue" Assignment="1" Given_Planned_Work="100 %" Nr="40" Percent_Complete="0%"/>
+          </outline>
+          <outline text="replace jcom.send/receive" Assigned_Resources="Tim Place" Assignment="0" Given_Planned_Work="3 days" Nr="41" Percent_Complete="0%">
+            <outline text="Tim Place" Assignment="1" Given_Planned_Work="100 %" Nr="42" Percent_Complete="0%"/>
+          </outline>
+        </outline>
+        <outline text="Making sure all is working on both platforms" Assigned_Resources="Nils Peters; Trond Lossius; Pascal Baltazar; Théo de la Hogue; Tim Place" Assignment="0" Given_Planned_Work="10 %" Nr="43" Percent_Complete="0%">
+          <outline text="Nils Peters" Assignment="1" Given_Planned_Work="20 %" Nr="44" Percent_Complete="0%"/>
+          <outline text="Trond Lossius" Assignment="1" Given_Planned_Work="20 %" Nr="45" Percent_Complete="0%"/>
+          <outline text="Pascal Baltazar" Assignment="1" Given_Planned_Work="20 %" Nr="46" Percent_Complete="0%"/>
+          <outline text="Théo de la Hogue" Assignment="1" Given_Planned_Work="20 %" Nr="47" Percent_Complete="0%"/>
+          <outline text="Tim Place" Assignment="1" Given_Planned_Work="20 %" Nr="48" Percent_Complete="0%"/>
+        </outline>
+      </outline>
+      <outline text="0.5.5 Release " Assignment="0" Nr="49" Percent_Complete="0%"/>
+      <outline text="0.6 NodeLib" Assignment="0" Nr="50" Percent_Complete="0%">
+        <outline text="local receives" Assignment="0" Nr="51" Percent_Complete="0%">
+          <outline text="returns" Assignment="0" Given_Planned_Work="1 day ?" Nr="52" Percent_Complete="0%"/>
+          <outline text="parameters" Assignment="0" Given_Planned_Work="1 day ?" Nr="53" Percent_Complete="0%"/>
+        </outline>
+        <outline text="break jcom.send/receive link" Assignment="0" Nr="54" Percent_Complete="0%">
+          <outline text="embedded receive/sends in jcom.parameter" Assignment="0" Given_Planned_Work="1 day ?" Nr="55" Percent_Complete="0%"/>
+          <outline text="replace jcom.send/receive" Assignment="0" Given_Planned_Work="1 day ?" Nr="56" Percent_Complete="0%"/>
+        </outline>
+        <outline text="local sends for everything" Assignment="0" Nr="57" Percent_Complete="0%">
+          <outline text="parameters/messages " Assignment="0" Given_Planned_Work="1 day ?" Nr="58" Percent_Complete="0%"/>
+          <outline text="attributes ?" Assignment="0" Given_Planned_Work="1 day ?" Nr="59" Percent_Complete="0%"/>
+        </outline>
+        <outline text="global sends" Assignment="0" Nr="60" Percent_Complete="0%">
+          <outline text="how are they addressed ? (not in each hub)" Assignment="0" Given_Planned_Work="1 day ?" Nr="61" Percent_Complete="0%"/>
+        </outline>
+        <outline text="Find a graphical solution for browsing the Namespace" Assignment="0" Given_Planned_Work="1 day ?" Nr="62" Percent_Complete="0%"/>
+        <outline text="jcom.nodeview" Assignment="0" Given_Planned_Work="1 day ?" Nr="63" Percent_Complete="0%"/>
+      </outline>
+      <outline text="Prototyping MVC-separation" Assignment="0" Nr="64" Percent_Complete="0%">
+        <outline text="the view model" Assignment="0" Given_Planned_Work="1 day ?" Nr="65" Percent_Complete="0%"/>
+        <outline text="experimenting with some modules" Assignment="0" Given_Planned_Work="20 days" Nr="66" Percent_Complete="0%"/>
+        <outline text="By this time we can create other views." Assignment="0" Given_Planned_Work="1 day ?" Nr="67" Percent_Complete="0%"/>
+      </outline>
+      <outline text="Planning and review (workshop ?)" Assignment="0" Given_Planned_Work="1 day ?" Nr="68" Percent_Complete="0%"/>
+      <outline text="Changing jcom.parameter" Assignment="0" Nr="69" Percent_Complete="0%">
+        <outline text="jcom.parameter array..." Assignment="0" Given_Planned_Work="1 day ?" Nr="70" Percent_Complete="0%"/>
+        <outline text="jcom.parameter~" Assignment="0" Given_Planned_Work="1 day ?" Nr="71" Percent_Complete="0%"/>
+      </outline>
+      <outline text="jcom.ui need to change" Assignment="0" Given_Planned_Work="1 day ?" Nr="72" Percent_Complete="0%"/>
+      <outline text="Changing hub" Assignment="0" Nr="73" Percent_Complete="0%">
+        <outline text="nodes above the module level" Assignment="0" Given_Planned_Work="1 day ?" Nr="74" Percent_Complete="0%"/>
+      </outline>
+      <outline text="Changing all modules" Assignment="0" Given_Planned_Work="1 day ?" Nr="75" Percent_Complete="0%"/>
+    </outline>
+    <outline text="Model-View-Controller" Assignment="0" Nr="76" Percent_Complete="0%">
+      <outline text="models can be nested" Assignment="0" Nr="77" Percent_Complete="0%">
+        <outline text="&quot;referring to the jcom.hub &quot;&quot;above&quot;&quot;&quot;" Assignment="0" Given_Planned_Work="1 day ?" Nr="78" Percent_Complete="0%"/>
+        <outline text="nodes inheritance is defined explicitly" Assignment="0" Given_Planned_Work="1 day ?" Nr="79" Percent_Complete="0%"/>
+        <outline text="slashes are not allowed in nodes names" Assignment="0" Given_Planned_Work="1 day ?" Nr="80" Percent_Complete="0%"/>
+        <outline text="jcom.hub/parameter, etc... are subclasses of jcom.nodes" Assignment="0" Given_Planned_Work="1 day ?" Nr="81" Percent_Complete="0%"/>
+        <outline text="&quot;presets work in &quot;&quot;greedy&quot;&quot; mode&quot;" Assignment="0" Given_Planned_Work="1 day ?" Nr="82" Percent_Complete="0%"/>
+      </outline>
+      <outline text="priorities are handled scoped to the node" Assignment="0" Given_Planned_Work="1 day ?" Nr="83" Percent_Complete="0%"/>
+      <outline text="different instances of a node refer to the same node (extend the existing node)" Assignment="0" Nr="84" Percent_Complete="0%">
+        <outline text="e.g. adding a audio node inside of the model, while it already exists in the jcom.ui" Assignment="0" Given_Planned_Work="1 day ?" Nr="85" Percent_Complete="0%"/>
+      </outline>
+      <outline text="peer-object architecture">
+        <outline text="hub/param/etc exist in a pure TT layer (coupled with the nodelib) and are then represented in the Max patcher using peer objects (a sort of meta-layer).">
+          <outline text="important for maintainability"/>
+          <outline text="important for automated testing"/>
+          <outline text="important for more easily dealing with dynamic conglometerate nodes (e.g. multi-parameter)"/>
+          <outline text="important for independence of the model from the Max environment"/>
+        </outline>
+      </outline>
+    </outline>
+    <outline text="MultiCore" Assignment="0" Nr="86" Percent_Complete="0%">
+      <outline text="replacing jcom.multi.in~ and out~ to Multicore objects" Assignment="0" Given_Planned_Work="1 day ?" Nr="87" Percent_Complete="0%"/>
+      <outline text="Multicore matrix" Assignment="0" Nr="88" Percent_Complete="0%">
+        <outline text="multicore versions of spatialization(matrix-based) techniques" Assignment="0" Nr="89" Percent_Complete="0%">
+          <outline text="Nils' mighty mixer" Assignment="0" Given_Planned_Work="1 day ?" Nr="90" Percent_Complete="0%"/>
+        </outline>
+      </outline>
+      <outline text="Using MultiCore in all audio modules (jcom.in~/out~ replacement)" Assignment="0" Given_Planned_Work="1 day ?" Nr="91" Percent_Complete="0%"/>
+      <outline text="poly-like wrappers" Assignment="0" Given_Planned_Work="1 day ?" Nr="92" Percent_Complete="0%"/>
+      <outline text="parallel threads (later : request from Trond)" Assignment="0" Given_Planned_Work="1 day ?" Nr="93" Percent_Complete="0%"/>
+    </outline>
+    <outline text="Infrastructure" Assignment="0" Nr="86" Percent_Complete="0%">
+      <outline text="fully automated release process"/>
+      <outline text="Testing">
+        <outline text="unit testing of the foundation"/>
+        <outline text="fully automated testing of modular"/>
+        <outline text="thorough test suite for all parts"/>
+      </outline>
+      <outline text="fully automated documentation updates (e.g. refgen)"/>
+      <outline text="Code Cleanup (internally our code-base has become very inconsistent, confusing, and prone to non-obvious problems)."/>
+      <outline/>
+    </outline>
+    <outline text="Ruby?">
+      <outline text="Ruby bindings for testing and basic object usage (e.g. in IRB or a web browser)"/>
+      <outline text="Ruby bindings for instantiating Jamoma models and creating 'patches' in a web browser (or IRB) patched with multicore"/>
+    </outline>
+    <outline text="UI Lib?">
+      <outline text="TTGraphicsObject">
+        <outline text="base class for all widgets"/>
+        <outline text="automatic handling of contexts, windows, etc."/>
+        <outline text="dispatching and handling for mouse interaction"/>
+        <outline text="key presses and focus issues"/>
+      </outline>
+      <outline text="Simple Widgets">
+        <outline text="dial/knob"/>
+        <outline text="signal meter"/>
+        <outline text="number box"/>
+        <outline text="text-slider"/>
+        <outline text="time display -- important so that we don't degrade the performance of the Max symbol table!"/>
+      </outline>
+      <outline text="Meta Widgets (built using simple widgets)">
+        <outline text="Ambimonitor"/>
+        <outline text="Module View"/>
+      </outline>
+    </outline>
+  </body>
+</opml>
