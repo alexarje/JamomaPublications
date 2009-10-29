@@ -1,5 +1,4 @@
-section: Appendix A - Style Guide
-
+h1. Appendix A: C++ Coding Style Guide
 
 
 

@@ -1,6 +1,4 @@
-\appendix
-
-\chapter{Common Tags}
+h1. Appendix B: Common Tags
 
 audio - indicates that this object derived from TTAudioObject can can process audio
 
