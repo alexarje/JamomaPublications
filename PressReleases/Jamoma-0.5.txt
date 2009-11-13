@@ -51,7 +51,7 @@ organization of Jamoma.
 
 Here are some resources to get started with Jamoma 0.5:
 
-    * Download Jamoma : http://www.jamoma.org/download.html
+    * Free Download : http://www.jamoma.org/download.html
     * Jamoma 0.5 Tutorials :
 http://groupware.bek.no/groups/jamoma/wiki/c05cb/Documentation_and_tutorials.html
     * Mailing lists and forums for users and developers:
