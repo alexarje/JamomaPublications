@@ -1,0 +1,11 @@
+2010 -- DAFx -- Multicore
+
+
+
+Prior Art
+
+* Audio Units (pull method for graphs)
+* MSP/Pd/etc.
+
+
+
