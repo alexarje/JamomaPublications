@@ -1,0 +1,118 @@
+2010 -- ICMC -- DSP
+
+
+
+
+Prior Art
+* STK
+* Max
+* Objective-C
+* Smalltalk
+* SuperCollider?
+
+
+
+What differentiates TTBlue?
+
+
+Major Features
+	
+	Reflection: introspection, dynamic-binding, polymorphic value typing
+	Class Registry: searchable class factory based on a metadata/database model
+	Efficient block processing: including system of manipulating function pointers for process methods
+	Scheduler: for asynchronous events and operations
+	C++: Can use an compiler on any platform (unlike ObjC, for instance)
+	Cross Platform: Mac, Win, Embedded, Linux?
+	Clean interface for extending TTBlue with external classes
+	Tools for automated stress testing and regression testing
+	Automated wrapper creation for generating plug-ins from TTBlue classes very quickly
+	Built for multi-channel with support flexible and dynamically changing channel configurations
+	Library of ready-built units for audio analysis, generation, and transformation
+	How do we approach interpolation facilities?
+	Integrated Instrumentation for Debugging and Measuring Performance Metrics
+	
+
+An example: 
+	The DC blocker?  Or the 1-pole lowpass?
+
+
+Working Demo Projects
+* Max/MSP
+* Pd
+* VST
+* AudioUnits
+* SuperCollider
+* Embedded devices?
+
+
+In Context:
+* Open Source: Jamoma
+* Commercial: Tap.Tools, Hipno
+
+
+References
+
+
+
+
+
+INTRODUCTION
+
+Why does the world need another DSP library?  
+
+TTBlue is different from existing DSP libraries (such as Perry Cook's STK) in a number of ways:
+* Dynamic environment which itself can be queried for available components (using the TTFactory registry)
+* Dynamic binding, message passing architecture (reflective programming)
+
+
+Different from other C++ libraries in that it provides reflective programming techniques.
+Different from other languages with similar features in that it is implemented in C++ with good support for multiple platforms including embedded processor.
+ IEC 61508
+ Isograph
+
+
+Allows for:
+* programmatic creation of user interfaces
+* adaptive wrappers for various plug-in architectures (VST, AU, Max/MSP, SuperCollider)
+* dynamic, self-modifying networks of components 
+
+
+
+
+
+HISTORY
+
+Jamoma DSP was initially created by Timothy Place in 2003 in Bergen, Norway as TTBlue and open sourced in 2005. The name TTBlue derives from its initial incarnation in support of Tap.Tools 2.0, which was code named 'Blue'.
+
+It has been used effectively to create VST and AU plug-ins as well as external objects Pure Data and Cycling '74's Max/MSP. It is used extensively by Electrotap's Tap.Tools and the open source Jamoma Modular project.
+
+
+STRUCTURE
+
+* Foundation
+* DSP
+* Note additional libraries including Graphics and Multicore (but this paper just mentions them in passing, as we focus on Foundation and DSP).
+
+
+THEORY OF OPERATION
+
+Like Smalltalk and Objective-C, Jamoma DSP typically communicates by sending messages rather than calling functions. The emphasis on realtime signal processing is manifested in several ways throughout Jamoma DSP, including its very strong support for vector-based audio processing.
+
+
+
+
+BENEFITS
+
+Dynamic re-configuration of the signal networks and control structures means that TTBlue can be run on a web server and the signal chain defined (or re-defined) in real time on a web client using a GUI (such as a web browser or iPhone) or SMS.
+
+One application of this is an installation or sculptural art work where you could tweak the behavior by sending it SMS messages using a phone.
+
+
+
+FUTURE DEVELOPMENT
+
+I would also like to develop a systematic approach for dealing with interpolation algorithms...
+Some sort of an interpolation library in TTBlue
+For example, this would allow us to apply the cubic interpolation everywhere without re-writing the code
+
+
