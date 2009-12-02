@@ -1,0 +1,466 @@
+This is pdfTeXk, Version 3.1415926-1.40.9 (Web2C 7.5.7) (format=pdflatex 2008.12.28)  22 NOV 2009 10:28
+entering extended mode
+\write18 enabled.
+ %&-line parsing enabled.
+**template.tex
+(./template.tex
+LaTeX2e <2005/12/01>
+Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
+yphenation, german-x-2008-06-18, ngerman-x-2008-06-18, ancientgreek, ibycus, ar
+abic, basque, bulgarian, catalan, pinyin, coptic, croatian, czech, danish, dutc
+h, esperanto, estonian, farsi, finnish, french, galician, german, ngerman, mono
+greek, greek, hungarian, icelandic, indonesian, interlingua, irish, italian, la
+tin, lithuanian, mongolian, mongolian2a, bokmal, nynorsk, polish, portuguese, r
+omanian, russian, sanskrit, serbian, slovak, slovenian, spanish, swedish, turki
+sh, ukenglish, ukrainian, uppersorbian, welsh, loaded.
+(/usr/local/texlive/2008/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2005/09/16 v1.4f Standard LaTeX document class
+(/usr/local/texlive/2008/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2005/09/16 v1.4f Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+) (./icmc2010.sty (/usr/local/texlive/2008/texmf-dist/tex/latex/geometry/geomet
+ry.sty
+Package: geometry 2008/12/21 v4.2 Page Geometry
+
+(/usr/local/texlive/2008/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+(/usr/local/texlive/2008/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2007/12/12 v1.6 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in pdf mode detected.
+)
+(/usr/local/texlive/2008/texmf-dist/tex/generic/oberdiek/ifvtex.sty
+Package: ifvtex 2008/11/04 v1.4 Switches for detecting VTeX and its modes (HO)
+Package ifvtex Info: VTeX not detected.
+)
+\Gm@cnth=\count87
+\Gm@cntv=\count88
+\c@Gm@tempcnt=\count89
+\Gm@bindingoffset=\dimen103
+\Gm@wd@mp=\dimen104
+\Gm@odd@mp=\dimen105
+\Gm@even@mp=\dimen106
+\Gm@dimlist=\toks15
+
+(/usr/local/texlive/2008/texmf-dist/tex/xelatex/xetexconfig/geometry.cfg)
+
+Package geometry Warning: Over-specification in `h'-direction.
+    `width' (498.66255pt) is ignored.
+
+
+Package geometry Warning: Over-specification in `v'-direction.
+    `height' (650.43pt) is ignored.
+
+)
+\headrulewidth=\dimen107
+\footrulewidth=\dimen108
+\plainheadrulewidth=\dimen109
+\plainfootrulewidth=\dimen110
+\headwidth=\dimen111
+) (/usr/local/texlive/2008/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2002/01/22 v2.2d
+
+(/usr/local/texlive/2008/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2001/10/25 v2.2f
+\@emptytoks=\toks16
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 132.
+))
+(/usr/local/texlive/2008/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2000/07/18 v2.13 AMS math features
+\@mathmargin=\skip43
+
+For additional information on amsmath, use the `?' option.
+(/usr/local/texlive/2008/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2000/06/29 v2.01
+
+(/usr/local/texlive/2008/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0
+\@emptytoks=\toks17
+\ex@=\dimen112
+))
+(/usr/local/texlive/2008/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d
+\pmbraise@=\dimen113
+)
+(/usr/local/texlive/2008/texmf-dist/tex/latex/amsmath/amsopn.sty
+Package: amsopn 1999/12/14 v2.01 operator names
+)
+\inf@bad=\count90
+LaTeX Info: Redefining \frac on input line 211.
+\uproot@=\count91
+\leftroot@=\count92
+LaTeX Info: Redefining \overline on input line 307.
+\classnum@=\count93
+\DOTSCASE@=\count94
+LaTeX Info: Redefining \ldots on input line 379.
+LaTeX Info: Redefining \dots on input line 382.
+LaTeX Info: Redefining \cdots on input line 467.
+\Mathstrutbox@=\box26
+\strutbox@=\box27
+\big@size=\dimen114
+LaTeX Font Info:    Redeclaring font encoding OML on input line 567.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
+\macc@depth=\count95
+\c@MaxMatrixCols=\count96
+\dotsspace@=\muskip10
+\c@parentequation=\count97
+\dspbrk@lvl=\count98
+\tag@help=\toks18
+\row@=\count99
+\column@=\count100
+\maxfields@=\count101
+\andhelp@=\toks19
+\eqnshift@=\dimen115
+\alignsep@=\dimen116
+\tagshift@=\dimen117
+\tagwidth@=\dimen118
+\totwidth@=\dimen119
+\lineht@=\dimen120
+\@envbody=\toks20
+\multlinegap=\skip44
+\multlinetaggap=\skip45
+\mathdisplay@stack=\toks21
+LaTeX Info: Redefining \[ on input line 2666.
+LaTeX Info: Redefining \] on input line 2667.
+)
+(/usr/local/texlive/2008/texmf-dist/tex/latex/psnfss/mathptmx.sty
+Package: mathptmx 2005/04/12 PSNFSS-v9.2a Times w/ Math, improved (SPQR, WaS) 
+LaTeX Font Info:    Redeclaring symbol font `operators' on input line 28.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
+(Font)                  OT1/cmr/m/n --> OT1/ztmcm/m/n on input line 28.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/ztmcm/m/n on input line 28.
+LaTeX Font Info:    Redeclaring symbol font `letters' on input line 29.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `normal'
+(Font)                  OML/cmm/m/it --> OML/ztmcm/m/it on input line 29.
+LaTeX Font Info:    Overwriting symbol font `letters' in version `bold'
+(Font)                  OML/cmm/b/it --> OML/ztmcm/m/it on input line 29.
+LaTeX Font Info:    Redeclaring symbol font `symbols' on input line 30.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `normal'
+(Font)                  OMS/cmsy/m/n --> OMS/ztmcm/m/n on input line 30.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
+(Font)                  OMS/cmsy/b/n --> OMS/ztmcm/m/n on input line 30.
+LaTeX Font Info:    Redeclaring symbol font `largesymbols' on input line 31.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `normal'
+(Font)                  OMX/cmex/m/n --> OMX/ztmcm/m/n on input line 31.
+LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
+(Font)                  OMX/cmex/m/n --> OMX/ztmcm/m/n on input line 31.
+\symbold=\mathgroup6
+\symitalic=\mathgroup7
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 34.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
+(Font)                  OT1/cmr/bx/n --> OT1/ptm/bx/n on input line 34.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
+(Font)                  OT1/cmr/bx/n --> OT1/ptm/bx/n on input line 34.
+LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 35.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
+(Font)                  OT1/cmr/m/it --> OT1/ptm/m/it on input line 35.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
+(Font)                  OT1/cmr/bx/it --> OT1/ptm/m/it on input line 35.
+LaTeX Info: Redefining \hbar on input line 50.
+)
+(/usr/local/texlive/2008/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2009/02/22 v6.78p Hypertext links for LaTeX
+
+(/usr/local/texlive/2008/texmf-dist/tex/generic/ifxetex/ifxetex.sty
+Package: ifxetex 2009/01/23 v0.5 Provides ifxetex conditional
+)
+(/usr/local/texlive/2008/texmf-dist/tex/latex/oberdiek/hycolor.sty
+Package: hycolor 2008/09/08 v1.4 Code for color options of hyperref/bookmark (H
+O)
+
+(/usr/local/texlive/2008/texmf-dist/tex/latex/oberdiek/xcolor-patch.sty
+Package: xcolor-patch 2008/09/08 xcolor patch
+))
+\@linkdim=\dimen121
+\Hy@linkcounter=\count102
+\Hy@pagecounter=\count103
+
+(/usr/local/texlive/2008/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2009/02/22 v6.78p Hyperref: PDFDocEncoding definition (HO)
+)
+(/usr/local/texlive/2008/texmf-dist/tex/generic/oberdiek/etexcmds.sty
+Package: etexcmds 2007/12/12 v1.2 Prefix for e-TeX command names (HO)
+
+(/usr/local/texlive/2008/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+Package: infwarerr 2007/09/09 v1.2 Providing info/warning/message (HO)
+)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+)
+(/usr/local/texlive/2008/texmf/tex/latex/config/hyperref.cfg
+File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
+)
+(/usr/local/texlive/2008/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2007/10/18 v3.0 Keyval support for LaTeX options (HO)
+)
+Package hyperref Info: Option `colorlinks' set `false' on input line 2824.
+Package hyperref Info: Option `bookmarksnumbered' set `true' on input line 2824
+.
+Package hyperref Info: Hyper figures OFF on input line 2935.
+Package hyperref Info: Link nesting OFF on input line 2940.
+Package hyperref Info: Hyper index ON on input line 2943.
+Package hyperref Info: Plain pages OFF on input line 2950.
+Package hyperref Info: Backreferencing OFF on input line 2955.
+
+Implicit mode ON; LaTeX internals redefined
+Package hyperref Info: Bookmarks ON on input line 3145.
+(/usr/local/texlive/2008/texmf-dist/tex/latex/ltxmisc/url.sty
+\Urlmuskip=\muskip11
+Package: url 2006/04/12  ver 3.3  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 3382.
+
+(/usr/local/texlive/2008/texmf-dist/tex/generic/oberdiek/bitset.sty
+Package: bitset 2007/09/28 v1.0 Data type bit set (HO)
+
+(/usr/local/texlive/2008/texmf-dist/tex/generic/oberdiek/intcalc.sty
+Package: intcalc 2007/09/27 v1.1 Expandable integer calculations (HO)
+)
+(/usr/local/texlive/2008/texmf-dist/tex/generic/oberdiek/bigintcalc.sty
+Package: bigintcalc 2007/11/11 v1.1 Expandable big integer calculations (HO)
+
+(/usr/local/texlive/2008/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
+Package: pdftexcmds 2007/12/12 v0.3 LuaTeX support for pdfTeX utility functions
+ (HO)
+Package pdftexcmds Info: LuaTeX not detected on input line 139.
+)))
+(/usr/local/texlive/2008/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
+Package: kvsetkeys 2007/09/29 v1.3 Key value parser with default handler suppor
+t (HO)
+)
+\Fld@menulength=\count104
+\Field@Width=\dimen122
+\Fld@charsize=\dimen123
+\Field@toks=\toks22
+Package hyperref Info: Hyper figures OFF on input line 4299.
+Package hyperref Info: Link nesting OFF on input line 4304.
+Package hyperref Info: Hyper index ON on input line 4307.
+Package hyperref Info: backreferencing OFF on input line 4314.
+Package hyperref Info: Link coloring OFF on input line 4319.
+Package hyperref Info: Link coloring with OCG OFF on input line 4324.
+Package hyperref Info: PDF/A mode OFF on input line 4329.
+
+(/usr/local/texlive/2008/texmf-dist/tex/generic/oberdiek/atbegshi.sty
+Package: atbegshi 2008/07/31 v1.9 At begin shipout hook (HO)
+)
+\Hy@abspage=\count105
+\c@Item=\count106
+\c@Hfootnote=\count107
+)
+*hyperref using driver hpdftex*
+(/usr/local/texlive/2008/texmf-dist/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2009/02/22 v6.78p Hyperref driver for pdfTeX
+\Fld@listcount=\count108
+)
+(/usr/local/texlive/2008/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texlive/2008/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2006/02/20 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texlive/2008/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/usr/local/texlive/2008/texmf/tex/latex/config/graphics.cfg
+File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
+)
+Package graphics Info: Driver file: pdftex.def on input line 90.
+
+(/usr/local/texlive/2008/texmf-dist/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2008/09/08 v0.04l Graphics/color for pdfTeX
+\Gread@gobject=\count109
+))
+\Gin@req@height=\dimen124
+\Gin@req@width=\dimen125
+)
+(/usr/local/texlive/2008/texmf-dist/tex/latex/oberdiek/hypcap.sty
+Package: hypcap 2008/09/08 v1.10 Adjusting anchors of captions (HO)
+)
+(./template.aux)
+\openout1 = `template.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 78.
+ (/usr/local/texlive/2008/texmf-dist/tex/latex/psnfss/ot1ptm.fd
+File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
+)
+*geometry auto-detecting driver*
+*geometry detected driver: pdftex*
+-------------------- Geometry parameters
+paper: class default
+landscape: --
+twocolumn: true
+twoside: true
+asymmetric: --
+h-parts: 57.81621pt, 498.66258pt, 57.81621pt
+v-parts: 72.26999pt, 650.43001pt, 72.26999pt
+hmarginratio: --
+vmarginratio: --
+lines: --
+heightrounded: --
+bindingoffset: 0.0pt
+truedimen: --
+includehead: --
+includefoot: --
+includemp: --
+driver: pdftex
+-------------------- Page layout dimensions and switches
+\paperwidth  614.295pt
+\paperheight 794.96999pt
+\textwidth  498.66258pt
+\textheight 650.43001pt
+\oddsidemargin  -14.45378pt
+\evensidemargin -14.45378pt
+\topmargin  -12.0pt
+\headheight 12.0pt
+\headsep    0.0pt
+\footskip   30.0pt
+\marginparwidth 121.0pt
+\marginparsep   11.0pt
+\columnsep  21.68121pt
+\skip\footins  9.0pt plus 4.0pt minus 2.0pt
+\hoffset 0.0pt
+\voffset 0.0pt
+\mag 1000
+\@twocolumntrue \@twosidetrue \@mparswitchtrue 
+(1in=72.27pt, 1cm=28.45pt)
+-----------------------
+Package hyperref Info: Link coloring OFF on input line 78.
+(/usr/local/texlive/2008/texmf-dist/tex/latex/hyperref/nameref.sty
+Package: nameref 2007/05/29 v2.31 Cross-referencing by name of section
+
+(/usr/local/texlive/2008/texmf-dist/tex/latex/oberdiek/refcount.sty
+Package: refcount 2008/08/11 v3.1 Data extraction from references (HO)
+)
+\c@section@level=\count110
+)
+LaTeX Info: Redefining \ref on input line 78.
+LaTeX Info: Redefining \pageref on input line 78.
+
+(./template.out) (./template.out)
+\@outlinefile=\write3
+\openout3 = `template.out'.
+
+\AtBeginShipoutBox=\box28
+
+(/usr/local/texlive/2008/texmf-dist/tex/context/base/supp-pdf.tex
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count111
+\scratchdimen=\dimen126
+\scratchbox=\box29
+\nofMPsegments=\count112
+\nofMParguments=\count113
+\everyMPshowfont=\toks23
+\MPscratchCnt=\count114
+\MPscratchDim=\dimen127
+\MPnumerator=\count115
+\everyMPtoPDFconversion=\toks24
+)
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14.4> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 83.
+LaTeX Font Info:    Try loading font information for OT1+ztmcm on input line 83
+.
+ (/usr/local/texlive/2008/texmf-dist/tex/latex/psnfss/ot1ztmcm.fd
+File: ot1ztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OT1/ztmcm.
+)
+LaTeX Font Info:    Try loading font information for OML+ztmcm on input line 83
+.
+
+(/usr/local/texlive/2008/texmf-dist/tex/latex/psnfss/omlztmcm.fd
+File: omlztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OML/ztmcm.
+)
+LaTeX Font Info:    Try loading font information for OMS+ztmcm on input line 83
+.
+
+(/usr/local/texlive/2008/texmf-dist/tex/latex/psnfss/omsztmcm.fd
+File: omsztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMS/ztmcm.
+)
+LaTeX Font Info:    Try loading font information for OMX+ztmcm on input line 83
+.
+
+(/usr/local/texlive/2008/texmf-dist/tex/latex/psnfss/omxztmcm.fd
+File: omxztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMX/ztmcm.
+)
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 83.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 83.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 83.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 84.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7.4> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 97.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 97.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 135.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 135.
+
+<figure.pdf, id=71, 130.4875pt x 91.34125pt>
+File: figure.pdf Graphic file (type pdf)
+ <use figure.pdf> [1{/usr/local/texlive/2008/texmf-var/fonts/map/pdftex/updmap/
+pdftex.map}
+
+
+
+]
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 188.
+
+
+(/usr/local/texlive/2008/texmf-dist/tex/latex/psnfss/ot1pcr.fd
+File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
+) (./template.bbl) [2 <./figure.pdf>] (./template.aux) ) 
+Here is how much of TeX's memory you used:
+ 5636 strings out of 493876
+ 79574 string characters out of 1150567
+ 157756 words of memory out of 3000000
+ 8789 multiletter control sequences out of 10000+50000
+ 42323 words of font info for 100 fonts, out of 3000000 for 5000
+ 714 hyphenation exceptions out of 8191
+ 36i,14n,37p,1534b,304s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/local/texlive/200
+8/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/texlive/2008/texmf-dist/fo
+nts/type1/bluesky/cm/cmr10.pfb></usr/local/texlive/2008/texmf-dist/fonts/type1/
+bluesky/cm/cmsy10.pfb></usr/local/texlive/2008/texmf-dist/fonts/type1/urw/couri
+er/ucrr8a.pfb></usr/local/texlive/2008/texmf-dist/fonts/type1/urw/times/utmb8a.
+pfb></usr/local/texlive/2008/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/
+local/texlive/2008/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on template.pdf (2 pages, 78373 bytes).
+PDF statistics:
+ 129 PDF objects out of 1000 (max. 8388607)
+ 25 named destinations out of 1000 (max. 131072)
+ 146 words of extra memory for PDF output out of 10000 (max. 10000000)
+
