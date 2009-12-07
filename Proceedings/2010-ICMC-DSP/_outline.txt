@@ -18,7 +18,7 @@ What differentiates TTBlue?
 Major Features
 	
 	Reflection: introspection, dynamic-binding, polymorphic value typing
-	Class Registry: searchable class factory based on a metadata/database model
+	Class Registry: searchable class factory based on a tag/metadata/database model
 	Efficient block processing: including system of manipulating function pointers for process methods
 	Scheduler: for asynchronous events and operations
 	C++: Can use an compiler on any platform (unlike ObjC, for instance)
@@ -31,6 +31,11 @@ Major Features
 	How do we approach interpolation facilities?
 	Integrated Instrumentation for Debugging and Measuring Performance Metrics
 	
+
+	General Purpose -- flexible for use in many application areas
+	User extensible -- dynamically loaded extension classes from a search path
+					-- doesn't exist yet, but eventually write extension classes in Ruby?
+
 
 An example: 
 	The DC blocker?  Or the 1-pole lowpass?
@@ -106,6 +111,9 @@ BENEFITS
 Dynamic re-configuration of the signal networks and control structures means that TTBlue can be run on a web server and the signal chain defined (or re-defined) in real time on a web client using a GUI (such as a web browser or iPhone) or SMS.
 
 One application of this is an installation or sculptural art work where you could tweak the behavior by sending it SMS messages using a phone.
+
+
+vs. Java, we can actually hope to run on an embedded platform...
 
 
 
