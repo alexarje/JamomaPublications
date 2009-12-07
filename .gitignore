@@ -2,3 +2,13 @@
 .DS_Store
 build
 
+# Files Generated when writing LaTeX documents
+*.aux
+*.bbl
+*.blg
+*.log
+*.synctex.gz
+*.out
+
+# PDF files are generated too -- sometimes we might want them in, but when that is the case we can force-add them
+*.pdf
