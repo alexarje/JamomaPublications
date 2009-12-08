@@ -330,10 +330,11 @@ Marsyas is released under the terms of the GNU GPL.  This is fairly restrictive 
 
 % (end)
 
-\subsection{Music Kit} % (fold)
+\subsection{NeXT Music Kit} % (fold)
 
-Is there anything interesting or still relevant about this besides the Objective-C thing? \cite{Jaffe:1989}
+The NeXT MusicKit, together with the SndKit, provides a library of objects for DSP and MIDI applications written in the Objective-C language\cite{Jaffe:1989,Jaffe:1991}.  The Music Kit comprises not only a layer for creating audio and midi unit generators but also a hardware abstraction layer.  Despite the demise of NeXT Computer, the Music Kit continues to be maintained and updated to work on current operating systems that support the Objective-C Runtime\footnote{http://sourceforge.net/projects/musickit/}.
 
+As a framework implemented in Objective-C, Music Kit inherits the reflective, object-oriented, dynamically-bound message passing API that is implemented by the Jamoma Foundation.  However, building on top of Objective-C instead of C++ also presents portability challenges.  Jamoma Foundation/DSP should run on a myriad of embedded and mobile devices, and also natively compile using Microsoft's MSVC compiler.  These tasks are not easily performed, if performed at all, when using the Objective-C language\footnote{The authors also look upon Apple's corporate control of the Objective-C language and runtime with some degree of skepticism, as compared to the open consortium that is mediating the C++ language's evolution}.
 % (end)
 
 % (end)
@@ -459,7 +460,7 @@ The power of this runtime is demonstrated through the ability to compile objects
 
 \section{Acknowledgements} % (fold)
 
-Dave Watson, Joshua Kit Clayton, BEK, GMEA
+Dave Watson, Joshua Kit Clayton, Théo Delahogue
 
 % (end)
 
