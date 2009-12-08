@@ -30,7 +30,8 @@ Major Features
 	Library of ready-built units for audio analysis, generation, and transformation
 	How do we approach interpolation facilities?
 	Integrated Instrumentation for Debugging and Measuring Performance Metrics
-	
+	Light Weight: we never get "too far from the metal"
+	Approachable and clean API
 
 	General Purpose -- flexible for use in many application areas
 	User extensible -- dynamically loaded extension classes from a search path

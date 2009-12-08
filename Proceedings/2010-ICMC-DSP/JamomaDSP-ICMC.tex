@@ -1,3 +1,4 @@
+% (fold)
 % Template: LaTeX file for ICMC 2010 papers, with hyper-references
 %
 % derived from the DAFx-06 templates
@@ -72,7 +73,29 @@
 \usepackage[pdftex]{graphicx}	% for compatible graphics with hyperref
 \usepackage[figure,table]{hypcap}	% corrects the hyper-anchor of figures/tables
 
+% Stuff added by [tap]
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{color}
+\definecolor{black}{rgb}{0,0,0}
+\hypersetup{colorlinks
+,linkcolor=black
+,filecolor=black
+,urlcolor=black
+,citecolor=black}
+%reduces the space between the items in the itemize-environment 
+\newenvironment{packed_item}{
+\begin{itemize}
+  \setlength{\itemsep}{1pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}
+}{\end{itemize}}
+
+
+
 \title{\papertitle}
+% (end)
 
 %------------------------------------------------------------------------------------------
 \begin{document}
@@ -81,47 +104,55 @@
     
 \maketitle
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{abstract}
 
-This paper presents an object-oriented, reflective, application programming interface for C++, with an emphasis on real-time signal processing. It makes use of polymorphic typing, dynamic binding, and introspection to create a cross-platform environment pulling ideas from languages such as Smalltalk and Objective-C while remaining within the bounds of the portable and cross-platform C++ context.  The Jamoma Foundation and DSP Library provide a flexible framework and runtime environment, as well as an expanding collection of unit generators for synthesis, processing, and analysis.  This library has been used in both open source and commercial software projects over the past seven years including Electrotap's Tap.Tools\footnote{http://74objects.com/taptools}, Cycling '74's Hipno\footnote{http://74objects.com/hipno}, and the Jamoma Modular Framework\footnote{http://jamoma.org}.
+This paper presents an object-oriented, reflective, light-weight application programming interface for C++, with an emphasis on real-time signal processing. It makes use of polymorphic typing, dynamic binding, and introspection to create a cross-platform environment pulling ideas from languages such as Smalltalk and Objective-C while remaining within the bounds of the portable and cross-platform C++ context.  The Jamoma Foundation and DSP Library provide a flexible framework and runtime environment, as well as an expanding collection of unit generators for synthesis, processing, and analysis.  This library has been used in both open source and commercial software projects over the past seven years including Electrotap's Tap.Tools\footnote{http://74objects.com/taptools}, Cycling '74's Hipno\footnote{http://74objects.com/hipno}, and the Jamoma Modular Framework\footnote{http://jamoma.org}.
 
 \end{abstract}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Introduction}\label{sec:introduction}
+\section{Introduction} % (fold)
+\label{sec:introduction}
 
 "The SMC Roadmap identifies two broad research challenges: (1) To design better sound objects and environments and (2) To understand, model, and improve human interaction with sound and music." \cite{serra:2007}  The Jamoma DSP library directly addresses the first task as means by which to address the second task.
+
+\subsection History
+
+Came out of Tap.Tools and Hipno development.  This was pre-Electrotap, so maybe the credit here should somehow go to 74Objects?
+
+% (end)
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{The Jamoma "Platform"}
+\section{The Jamoma "Platform"} % (fold)
 
 We have to discuss all of the pieces here because they constantly come up later in the paper.
 
 % TODO: maybe we should use the graphic from 74Objects DSP tutorial?
 
+% (end)
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Structure / API}
+\section{Structure / API} % (fold)
 
 How is this whole beast structured.
 
 \subsubsection{An Example Class: the DC Blocker?}
 
 Or maybe a FunctionLib thing to show off the calculate method?
+% (end)
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Components}
+\section{Components} % (fold)
 
 \subsection{The Standard Libraries}
 
@@ -144,20 +175,45 @@ I had started this code, but where is it now?
 
 \subsection{Ruby Language Bindings}
 
+% (end)
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Comparison with Other DSP Frameworks}
+\section{Comparison with Other DSP Frameworks} % (fold)
 
 Or: Why in the world do we need another DSP framework?
 
+% TODO: Section 5 of Amatraian:2008 maybe provide the start of a way to categorize different frameworks.
+% I'm not sure if it actually makes sense to distinguish between text and gui interfaces, given that the 
+% underlying data-flow basis is exactly the same (as argued in several of the Tzanetakis papers)  
+%
+% However, I think it is useful to distinguish between Unit Generators (STK, AU, VST), Unit Graphs
+% (AUGraph, Multicore, ?), and those that combine both into one (CLAM, Max/MSP, Marsyas)
+% [tap]
 
-\subsection{Synthesis ToolKit}
 
-Perry Cook and Gary Scavone...
+\subsection{Synthesis ToolKit} % (fold)
 
-\subsection{CLAM}
+"The Synthesis ToolKit offers an array of unit generators for filtering, input/output, etc., as well as examples of new and classic synthesis and effects algorithms for research, teaching, performance, and composition purposes."\cite{Cook:1999}
+
+Written in C++ and is crossplatform.
+
+
+A defining difference between the STK and the Jamoma Foundation/DSP frameworks is that the STK is a statically-bound system based on method calls that are linked at compile-time.  Jamoma's frameworks, on the other hand, are dynamically-bound and use a message passing system inspired by Smalltalk\cite{Krasner:1988} and Objective-C\cite{Cox:1986}.
+
+As of version 4.2.0, the STK offers multichannel and frame-based sample processing\cite{Scavone:2005}. Still, the StkFrames type and tick() method operates on single sets of multichannel frames\footnote{as of version 4.4.1, downloaded from https://ccrma.stanford.edu/software/stk/download.html on 7 December 2009}, whereas a Jamoma DSP's process method is designed to work with N multichannel signal frames of input and N multichannel frames of output.
+
+At this time the STK offers two potential benefits over Jamoma DSP.  First is the extensive library of unit generators, particularly for synthesis.  The second is that due to static linking there is a slight performance advantage when making function calls rather than sending messages.  On desktop computer the difference is unlikely to be discernible, but on mobile devices it is possible that the difference will become noticeable.
+
+\subsubsection{License}
+The license for the STK is reasonably liberal.  At the time that the Jamoma DSP library was initially written, however, the license for the STK specified non-commercial use and thus using the STK was not an option for the authors.  
+
+
+
+% (end)
+
+\subsection{CLAM} % (fold)
 
 "CLAM stands for C++ Library for Audio and Music and it is a full-fledged software framework for research and appli- cation development in the audio and music domain with applicability also to the broader multimedia domain.   It offers a conceptual model; algorithms for analyzing, synthesizing and transforming audio signals; and tools for handling audio and music streams and creating cross-platform applications."
 
@@ -203,8 +259,9 @@ In Jamoma we want simple and clear, while flexible underneath.  We're a focused 
 
 We also make a clear de-coupling between the framework for implementing unit generators and the framework that manages a graph of these unit generators -- each of which may be freely interchanged.
 
+% (end)
 
-\subsection{Marsyas}
+\subsection{Marsyas} % (fold)
 
 Marsyas is a software framework for building efficient complex audio processing systems and applications \cite{Tzanetakis:2008}. "Audio processing systems are defined hierarchically through composition using implicit patching. Both the specification of the processing network and the control of it while data is flowing through can be performed at runtime without requiring recompilation."
 
@@ -263,15 +320,19 @@ Marsyas is released under the terms of the GNU GPL.  This is fairly restrictive 
 % influenced by the design of the Synthesis Toolkit (Cook and Scavone, 1999). Other influences include the powerful but more complex architecture of CLAM (Amatriain, 2005), the patching model and strong timing of Chuck (Wang and Cook, 2003), and ideas from Aura (Dannenberg and Brandt, 1996). The matrix model used in Implicit Patching was influenced by the design of SDIFF and the default naming scheme for controls is inspired by the Open Sound Control (OSC) protocol (Wright and Freed, 1997). The code structure reflects many ideas from Design Patterns (Gamma et al., 1995).
 % 
 
+% (end)
 
-\subsection{Music Kit}
+\subsection{Music Kit} % (fold)
 
 Is there anything interesting or still relevant about this besides the Objective-C thing? \cite{Jaffe:1989}
 
+% (end)
+
+% (end)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Applications}
+\section{Applications} % (fold)
 
 \subsection{Spatialization}
 
@@ -302,10 +363,11 @@ In the summer of 2009 we combined the application domains of spatialization, gra
 
 Because we can put together objects in the environment of our choice: Max, Pd, a DAW if we use AudioUnits, and then even a web-browser using Ruby on Rails.  Then we can move the code from one environment to another easily, or port it back to C++ with minimal effort.
 
+% (end)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Further Development}
+\section{Further Development} % (fold)
 
 \subsection{UI}
 
@@ -358,10 +420,11 @@ Place tables/figures in text as close to the reference as possible
 across both columns to a maximum width of 17.5cm (6.9").
 
 
+% (end)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Equations}
+\section{Equations} % (fold)
 
 Equations should be placed on separated lines and numbered.
 The number should be on the right side.
@@ -370,106 +433,31 @@ The number should be on the right side.
 E=mc^{2}
 \end{equation}
 
+% (end)
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section Summary
+\section Summary % (fold)
 
 Jamoma Foundation and DSP provide a flexible, user-extendable, runtime environment for creating and using audio and digital signal processing objects.  Due to its advanced use of dynamic binding and message-passing paradigm, the building blocks can be reconfigured at runtime without requiring re-compilation, but with the unit generators themselves compiled as C++ and performing block-processing we retain the performance of a compiled language.
 
 The power of this runtime is demonstrated through the ability to compile objects for Max, Pd, AudioUnits, VST, etc.  The future includes Multicore.
 
 
+% (end)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\section Acknowledgements % (fold)
 
+Dave Watson, Joshua Kit Clayton, BEK, GMEA
+
+% (end)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \bibliographystyle{IEEEtranS}
 \bibliography{../../Shared/bibtex/Jamoma} % requires file template.bib
 
 \end{document}
-
-%
-%This is the template file for the proceedings of the 9$^{th}$ International Conference on Digital Audio Effects (DAFx-06). 
-%This template has been generated from WASPAA'99 templates and aims at producing conference proceedings in electronic form. 
-%The format is essentially the one used for ICASSP conferences.
-
-%Please use either this \LaTeX{} or the accompanying Word formats when preparing your submission. 
-%The templates are available in electronic form at the website:
-%\\ \href{http://www.dafx.ca}{http://www.dafx.ca}. Thanks!
-
-%
-
-%
-%This template can be found on the conference website.
-
-%\subsection{Figures} 
-%All figures should be centered on the column (or page, if the figure spans both columns). 
-%Figure captions (in italic) should follow each figure and have the format given in Figure \ref{fft_plot}.
-%\begin{figure}[ht]
-%\centerline{\includegraphics[scale=0.8]{fft_plot2}}
-%\caption{{\it Sinusoid in time and frequency domain.}}  
-%\label{fft_plot}
-%\end{figure}
-%Figures must be vectorial (no screen copy, no bitmap, etc). For example when using \texttt{Matlab}, export using either Postscript or PDF format. Also, in order to provide a better readibility, figure text font size should be at list identical to footnote font size. To do so using \texttt{Matlab}, use the \texttt{subplot} command before plotting.
-
-%\subsection{Tables} 
-%As for figures, all tables should be centered on the column (or page, if the table spans both columns). 
-%Table captions should be in italic, follow each table and have the format given in Table \ref{tab:example}.
-
-%\begin{table}[htdp]
-%  \begin{center}
-%    \begin{tabular}{|c|c|}\hline
-%    	angle ($\theta$, rad) & $\sin \theta$ \\\hline
-%	$\frac{\pi}{2}$ & 1 \\
-%	$\pi$ & 0 \\
-%	$\frac{3\pi}{2}$ & -1 \\
-%	$2\pi$ & 0 \\\hline
-%    \end{tabular}
-%  \end{center}
-%  \label{tab:example}
-%  \caption{{\it Basic trigonometric values.}}
-%\end{table}%
-
-%\subsection{Equations}
-%Equations should be placed on separate lines and numbered:
-
-%\begin{equation}
-%X(e^{j\Omega})=\sum_{n=0}^{N-1}x(n)e^{-j\Omega n}
-%\label{eq1}
-%\end{equation}
-%where the sequence $x(n)$ in equation (\ref{eq1}) is a windowed frame:
-%\begin{equation}
-%x(n)=s(n)\cdot w(n)
-%\label{eq2}
-%\end{equation}
-%with a window function $w(n)$.
-
-%\subsection{Page Numbers}
-%Page numbers will be added to the document electronically, so {\em please leave the numbering as is},
-%that is, the first page will start at page DAFX-1 and the last page, at most, will have to be DAFX-6
-%for the submission of papers for an oral presentation or DAFX-4 in the case of a poster presentation.
-
-%\subsection{References}
-%The references will be numbered in order of appearance \cite{Mitra:Kaiser:1993:DSP:handbook}, \cite{Haykin:1991:adaptive:filter}, \cite{Moorer:2000:AES:audio:millenium} and \cite{Arfib:1998:DAFx}. Please avoid listing references that do not appear in the text (we did the opposite in this template).
-
-%\subsubsection{Reference Format}
-%The reference format is the standard IEEE one. We recommend to use BibTeX to create the reference list.
-
-%\section{Conclusions}
-%This template can be found on the conference website. 
-%If you wish to include two authors' affiliations please use the companion LaTeX template tmpl\_la2\_href. 
-%Please, submit full-length papers (max.~6 pages for oral presentation and max.~4 pages for posters).
-% 
-%Submission is fully electronic and automated through the Conference Web Submission System. 
-%DO NOT send us papers directly by e-mail. 
-
-%\section{Acknowledgements}
-%Many thanks to the great number of anonymous reviewers!
-
-%%\newpage
-%\nocite{*}
-%\bibliographystyle{IEEEbib}
-%\bibliography{template} % requires file template.bib
-
-%\end{document}
