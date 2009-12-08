@@ -108,7 +108,7 @@
 
 \begin{abstract}
 
-This paper presents an object-oriented, reflective, light-weight application programming interface for C++, with an emphasis on real-time signal processing. It makes use of polymorphic typing, dynamic binding, and introspection to create a cross-platform environment pulling ideas from languages such as Smalltalk and Objective-C while remaining within the bounds of the portable and cross-platform C++ context.  The Jamoma Foundation and DSP Library provide a flexible framework and runtime environment, as well as an expanding collection of unit generators for synthesis, processing, and analysis.  This library has been used in both open source and commercial software projects over the past seven years including Electrotap's Tap.Tools\footnote{http://74objects.com/taptools}, Cycling '74's Hipno\footnote{http://74objects.com/hipno}, and the Jamoma Modular Framework\footnote{http://jamoma.org}.
+This paper presents an object-oriented, reflective, light-weight application programming interface for C++, with an emphasis on real-time signal processing. It makes use of polymorphic typing, dynamic binding, and introspection to create a cross-platform environment pulling ideas from languages such as Smalltalk and Objective-C while remaining within the bounds of the portable and cross-platform C++ context.  The Jamoma Foundation and DSP Library provide a flexible framework and runtime environment, as well as an expanding collection of unit generators for synthesis, processing, and analysis.  This library has been used in both open source and commercial software projects over the past seven years including Electrotap's Tap.Tools\footnote{http://electrotap.com/taptools}, Cycling '74's Hipno\cite{Place:2005}, and the Jamoma Modular Framework\cite{Place:2006}.
 
 \end{abstract}
 
@@ -336,6 +336,16 @@ The NeXT MusicKit, together with the SndKit, provides a library of objects for D
 
 As a framework implemented in Objective-C, Music Kit inherits the reflective, object-oriented, dynamically-bound message passing API that is implemented by the Jamoma Foundation.  However, building on top of Objective-C instead of C++ also presents portability challenges.  Jamoma Foundation/DSP should run on a myriad of embedded and mobile devices, and also natively compile using Microsoft's MSVC compiler.  These tasks are not easily performed, if performed at all, when using the Objective-C language\footnote{The authors also look upon Apple's corporate control of the Objective-C language and runtime with some degree of skepticism, as compared to the open consortium that is mediating the C++ language's evolution}.
 % (end)
+
+\subsection{The Max Family}
+
+The Max family includes both MSP\cite{Zicarelli:1998} and PureData\cite{Puckette:1996}.
+
+"The Max paradigm can be described as a way of combining pre-designed building blocks into configurations useful for real-time computer music performance."\cite{Puckette:2002_max_at_17}
+
+This description is more similar to Multicore than to DSP.  In fact, The Max environments also define APIs for creating unit generators and provide libraries of these unit generators (or "pre-designed building blocks").  The environments also define an API for message passing in much the same way that the Jamoma Foundation provides.
+
+
 
 % (end)
 
