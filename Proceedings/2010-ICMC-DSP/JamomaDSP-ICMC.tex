@@ -82,6 +82,7 @@
 \maketitle
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{abstract}
 
@@ -90,41 +91,247 @@ This paper presents an object-oriented, reflective, application programming inte
 \end{abstract}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Introduction}\label{sec:introduction}
 
 "The SMC Roadmap identifies two broad research challenges: (1) To design better sound objects and environments and (2) To understand, model, and improve human interaction with sound and music." \cite{serra:2007}  The Jamoma DSP library directly addresses the first task as means by which to address the second task.
 
 
-\section{First level headings}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-First level headings are in Times 10pt bold, centered with 12 pt of space above the section head, and 12 pt space below it.  For a section header immediately followed by a subsection header, the space should be merged to 12 pt total.
+\section{The Jamoma "Platform"}
 
-\subsection{Second Level Headings}
+We have to discuss all of the pieces here because they constantly come up later in the paper.
 
-Second level headings are in Times 10pt bold, flush left, with 12 pt of space above the section head, and 6 pt space below it.  The first letters of significant words are capitalized.
+% TODO: maybe we should use the graphic from 74Objects DSP tutorial?
 
-\subsubsection{Third level headings}
 
-Third level headings are in Times 10pt italic, flush left, with 12 pt line of space above and 6 pt space below the section head. More than three levels are highly discouraged.  The first word is capitalized.
 
-\section{Footnotes and Figures}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Footnotes}
+\section{Structure / API}
 
-Indicate footnotes with a number in the text\footnote{This is a footnote.}.
-Use 8pt type for footnotes. Place the footnotes at the bottom of the page
-on which they appear. Precede the footnote with a 0.5pt horizontal rule.
+How is this whole beast structured.
+
+\subsubsection{An Example Class: the DC Blocker?}
+
+Or maybe a FunctionLib thing to show off the calculate method?
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Components}
+
+\subsection{The Standard Libraries}
+
+The FilterLib
+The EffectsLib
+The MathLib
+DataspaceLib
+FunctionLib
+etc.
+
+\subsection{Unit Testing}
+
+baked right in (though currently on a branch that needs to be finished and merged to master...)
+
+
+\subsection{Serialization}
+
+I had started this code, but where is it now?
+
+
+\subsection{Ruby Language Bindings}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Comparison with Other DSP Frameworks}
+
+Or: Why in the world do we need another DSP framework?
+
+
+\subsection{Synthesis ToolKit}
+
+Perry Cook and Gary Scavone...
+
+\subsection{CLAM}
+
+"CLAM stands for C++ Library for Audio and Music and it is a full-fledged software framework for research and appli- cation development in the audio and music domain with applicability also to the broader multimedia domain.   It offers a conceptual model; algorithms for analyzing, synthesizing and transforming audio signals; and tools for handling audio and music streams and creating cross-platform applications."
+
+"CLAM, a C++ software framework, that offers a complete development and research platform for the audio and music domain. It offers an abstract model for audio systems and includes a repository of processing algorithms and data types as well as all the nec- essary tools for audio and control input/output. The frame- work offers tools that enable the exploitation of all these features to easily build cross-platform applications or rapid prototypes for media processing algorithms and systems." \cite{Amatraian:2008}
+
+Like Jamoma DSP, it is cross-platform (Mac, Linux, and Windows) and uses automatic integrated building, testing, versioning systems, and generally subscribes to Agile Development practices\footnote{http://en.wikipedia.org/wiki/Agile_software_development}.  
+
+\subsubsection{MetaModel}
+
+A key feature of CLAM is it's so-called "metamodel", which is a programming layer for creating hierarchical graphs of objects to produce a signal processing chain.  Jamoma DSP does not define the way in which one must produce signal processing topographies.  Instead, the process of creating objects and connecting them are envisioned and implemented orthogonally and the graph is created using a separate framework known as Jamoma Multicore.
+
+Thanks to this decoupling of Jamoma DSP and Jamoma Multicore you aren't "boxed-in" to any particular way of creating connections between objects.
+
+\subsubsection{Class Design}
+
+Objects include "support for synchronous data processing and asynchronous event-driven control as well as a configuration mechanism and an explicit life cycle state model". 
+
+Jamoma DSP objects do this as well, via the "calculate" and "process" methods.  Also, like CLAM, all objects provide an interface for working on data and support "metaobject-like facilities such as reflection and serialization".
+
+Well, actually, nothing is synchronous or asynchonous in Jamoma DSP/Foundation.  We are synchronously-agnostic.  Multicore is cable of operating the lower-level DSP in a synchronous matter, as can MSP or Pd or AU etc...
+
+Similar to CLAM, Jamoma Foundation objects have life-cycle state management.  In Jamoma DSP an object can be flagged as valid and/or busy.  CLAM differentiates between "controls" which are attributes that can be changed at any time and "configurations" which require the object to not be busy ("running" in CLAM parlance).  Jamoma DSP does not make this distinction externally: both are simply considered "attributes" and the locking or other requirements are handled internally. 
+
+
+
+\subsubsection{Object Networks}
+
+The Jamoma Foundation punts on this issue.  CLAM does queing and connecting for data objects and processing objects etc.  We consider this to be another layer, and so we don't address it directly in this paper.
+
+What CLAM calls a 'composite', an object which itself instantiates other classes internally, is fully supported by Jamoma DSP.
+
+
+\subsubsection{API}
+
+Unlike CLAM, Jamoma DSP offers a simple and minimal Application Programming Interface.  To be fair, this is in part due to the fact that creating connections and networks of objects is not a part of the Jamoma Foundation or DSP APIs.  But we also have a flatter namespace, making only differentiation between attributes and messages,
+
+
+\subsubsection{Summary}
+
+Full featured, but very complex.  It tries to be a framework, complete with visual editors, for building entire applications.
+
+In Jamoma we want simple and clear, while flexible underneath.  We're a focused object runtime and DSP layer.  Like Ruby on Rails we value convention over configuration.  So if you can follow the default conventions you don't have to know all this complex stuff that is going on.
+
+We also make a clear de-coupling between the framework for implementing unit generators and the framework that manages a graph of these unit generators -- each of which may be freely interchanged.
+
+
+\subsection{Marsyas}
+
+Marsyas is a software framework for building efficient complex audio processing systems and applications \cite{Tzanetakis:2008}. "Audio processing systems are defined hierarchically through composition using implicit patching. Both the specification of the processing network and the control of it while data is flowing through can be performed at runtime without requiring recompilation."
+
+"It is based on a dataflow model of computa- tion in which any audio processing system is represented as a large network of interconnected basic audio process- ing units."  Just like Max/MSP, Pd, Chuck, etc.
+
+One difference to Max/MSP and Pd is that the signal network can be reconfigured dynamically without requiring a 'recompile' of the signal chain.  This is addressed through Jamoma Multicore -- Jamoma DSP is low level and is agnostic about how objects are combined into a network or topology.
+
+However, objects can be recombined and structured at runtime, offering the same kind of flexibility and "expressive power".
+
+\subsubsection{Implicit Patching}
+
+One thing that makes Marsyas special is its notion of "Implicit Patching".  In this paradigm unit generators are added to a collection and their interaction with the signal processing graph is determined according to a pattern such as 'series', 'fanout', etc. \cite{Bray:2005}.
+
+Currently Jamoma DSP (and Multicore) operate solely through an 'explicit' patching paradigm similar to most other frameworks.  "In explicit patching the user would first create the modules and then connect them by explicit patching statements."  Due to the flexibility of the dynamically bound objects, however, it is quite easy to see how the implementation of pattern-based collections might be defined.
+
+
+\subsubsection{Dynamic Discovery and Access to Modules and Controls}
+
+In much the same way as Jamoma DSP, all control for a module are published and made accessible.  What controls are available can be queried for -- both for the name and the type  \cite{Tzanetakis:2006}.  
+
+In Marsyas the modules are organized in a heirarchy and address with an OSC-like string.  This very similar to the work we are doing with Jamoma 0.6 and the NodeLib, but it's unclear how to state all of that here.  What is cool is that you can find any DSP object instantiated in the system.  It would be easy for us to implement this at the top level, but I'm not sure how we would determine the path structure NodeLib type of thing for them when objects instantiate other objects inside of them.
+
+Both Marsyas and Jamoma DSP are able to extend existing objects by adding new controls or attributes at runtime to extend instances or create proxy controls.  This is something that Objective-C can do, but that Max/MSP or Pd cannot do at this time.
+
+\subsubsection{User Interface Hooks}
+
+Marsyas is somewhat tightly bound to the Qt\footnote{http://www.trolltech.com/products/qt/} toolkit for handling support of user interface integration with its classes.  Jamoma DSP takes a different approach.  The Jamoma Foundation implements at its core the ability to register observers for any class according to the Observer Pattern\cite{Gamma:1995}.  This has a number of benefits:
+
+- makes it easier to tie into any user interface framework, or to make your own
+- doesn't require linking to third-party software to get threading help
+
+\subsubsection{MatLab Engine}
+
+Marsyas implements a singleton wrapper class for the MATLAB Engine API, enabling Marsyas developers to easily and conveniently send and receive data (i.e. in- tegers, doubles, vectors and matrices) to/from MATLAB in run-time.  This is cool -- Eno says "It is just a matter of work".
+
+\subsubsection{MaxMSP}
+
+Marsyas tries to create a whole runtime environment a graph inside of an external.  This is different than the way we usually use the DSP Lib: we wrap the objects and then let MSP take care of the audio graph.  In Multicore we we manage our own audio graph but use Max/MSP's patcher interface to control it be creating a set of peer objects.  Do we somehow forward reference the DAFx paper here?
+
+\subsubsection{Bindings to other languages}
+
+Marsyas uses SWIG\footnote{http://www.swig.org} to make control of it's runtime available to other programming environments.  The Jamoma Foundation does not currently use SWIG, basically because I (tim) don't feel like figuring it out.  We do however implement Ruby language bindings natively, and so we can offer more natural and direct tie-ins to the Ruby language.  At least that's the theory...
+
+% NOTE: Marsyas has some facilities to deal with distributed computing, but let's not worry about that until we get to the Multicore paper.  In particular, we should pay attention to Bray:2005a  [tap]
+
+% NOTE: Marsyas also has a scheduler, but I don't think that we need to get into scheduler stuff -- that can be a paper for next year...  [tap]
+
+\subsubsection{Additional Info..}
+
+Marsyas is released under the terms of the GNU GPL.  This is fairly restrictive license, prohibiting commercial use.  Jamoma is licensed under the GNU LGPL which allows commercial applications to be be created and distributed.
+
++ cross-platform, but 
+- on windows it *requires* cygwin (we don't)
+
+% QUOTE:
+% influenced by the design of the Synthesis Toolkit (Cook and Scavone, 1999). Other influences include the powerful but more complex architecture of CLAM (Amatriain, 2005), the patching model and strong timing of Chuck (Wang and Cook, 2003), and ideas from Aura (Dannenberg and Brandt, 1996). The matrix model used in Implicit Patching was influenced by the design of SDIFF and the default naming scheme for controls is inspired by the Open Sound Control (OSC) protocol (Wright and Freed, 1997). The code structure reflects many ideas from Design Patterns (Gamma et al., 1995).
+% 
+
+
+\subsection{Music Kit}
+
+Is there anything interesting or still relevant about this besides the Objective-C thing? \cite{Jaffe:1989}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Applications}
+
+\subsection{Spatialization}
+
+Spatialization at the Encoding/Decoding and Authoring layers\cite{Peters:2009}.  In fact, through the development of the NodeLib we are now able to work also at the Scene Description Layer by communicating as SpatDIF\cite{Peters:2008spatdif}.
+
+\subsection{User Interface Development}
+
+Yup yup yup yup...
+
+\subsection{AudioUnit Creation}
+
+Blah blah blah...
+
+\subsection{External Object Generation for Max/MSP and PureData}
+
+Class wrappers...  What about SuperCollider?  I guess we should actually do it first before we claim that we can.
+
+\subsection{Ruby and Ruby on Rails}
+
+Server-side web application framework.  :-)
+
+\subsection{ViMiC}
+In the summer of 2009 we combined the application domains of spatialization, graphical rendering, and AudioUnit creation to create a plug-in version of ViMiC\cite{Peters:2008b}.
+
+% TODO: Nils, do you have a a screenshot we could add here?  [tap]
+
+\subsection{Rapid Prototyping Environment}
+
+Because we can put together objects in the environment of our choice: Max, Pd, a DAW if we use AudioUnits, and then even a web-browser using Ruby on Rails.  Then we can move the code from one environment to another easily, or port it back to C++ with minimal effort.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Further Development}
+
+\subsection{UI}
+
+Automated UI editor generation through Jamoma Graphics.
+
+\subsection{Multicore}
+
+Not sure what to say here yet -- need to do some assessment on Multicore (fun fun fun).
+
+\subsection{ClassWrappers}
+
+For more environments, such as VST and SuperCollider
+
+\subsection{Standard Library Expansion}
+
+Spectral processing
+
+Granular processing
+
+More effects (reverb, pitch-shifting, chorus)
+
+SynthesisLib
+
+
 
 \subsection{Figures, Tables and Captions}
-
-All artwork must be centered, neat, clean, and legible. All lines
-should be very dark for purposes of reproduction and art work should
-not be hand-drawn.  The proceedings is not in color and therefore all
-figures must make sense in black-and-white form.  Figure and table
-captions, with numbers, always appear below the figure. Leave 1 line
-space between the figure or table and the caption. Each figure or
-table is numbered consecutively. Captions should be Times 10pt.
 
 \begin{table}[htbp]
 \begin{center}
@@ -150,6 +357,10 @@ Place tables/figures in text as close to the reference as possible
 (see Figure~\ref{fig:example} and Table~\ref{tab:example}). They may extend
 across both columns to a maximum width of 17.5cm (6.9").
 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \section{Equations}
 
 Equations should be placed on separated lines and numbered.
@@ -158,6 +369,18 @@ The number should be on the right side.
 \begin{equation}
 E=mc^{2}
 \end{equation}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section Summary
+
+Jamoma Foundation and DSP provide a flexible, user-extendable, runtime environment for creating and using audio and digital signal processing objects.  Due to its advanced use of dynamic binding and message-passing paradigm, the building blocks can be reconfigured at runtime without requiring re-compilation, but with the unit generators themselves compiled as C++ and performing block-processing we retain the performance of a compiled language.
+
+The power of this runtime is demonstrated through the ability to compile objects for Max, Pd, AudioUnits, VST, etc.  The future includes Multicore.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
