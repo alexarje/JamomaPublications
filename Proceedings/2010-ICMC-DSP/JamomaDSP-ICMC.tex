@@ -173,6 +173,11 @@ The design of the Jamoma Foundation and DSP Library strives to adhere to Dieter 
 
 The basic calls: lifecycle, attributes, messages
 
+\subsubsection{Attributes}
+
+Attributes are not merely maintaining the state of a single value but are multifaceted entities whose behavior is modified through the use of properties\cite{Place:2008params}.
+
+
 \subsubsection{An Example Class: the DC Blocker?}
 
 Or maybe a FunctionLib thing to show off the calculate method?
@@ -511,6 +516,9 @@ Integrated Analysis and Benchmarking -- perhaps reference the upchuck operator i
 \subsection{Web Browser Support}
 We have begun implementing support for server-side integration of the Jamoma Runtime via the Ruby language bindings and Ruby on Rails\footnote{http://rubyonrails.org}.  To fully leverage the DSP library and Jamoma Foundation in a web-browser we need the ability to invoke the runtime on the client-side of the equation through a web browser plug-in similar to that done in the iARS Project\cite{Frauenberger:2003}.
 
+\subsection{NodeLib}
+
+As a means of addressing parts of the system via OSC.  Somewhat like what Marsyas does.  An implementation of the ideas presented in\cite{Place:2008osc}.
 
 \subsection{Figures, Tables and Captions}
 
