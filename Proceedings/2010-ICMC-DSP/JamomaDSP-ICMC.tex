@@ -134,7 +134,16 @@ Came out of Tap.Tools and Hipno development.  This was pre-Electrotap, so maybe 
 
 We have to discuss all of the pieces here because they constantly come up later in the paper.
 
-% TODO: maybe we should use the graphic from 74Objects DSP tutorial?
+\begin{figure}[htbp]
+\centerline{\framebox{
+	\includegraphics[width=0.9\columnwidth]{layers}}}
+\caption{The Jamoma Platform as Layered Architecture.}
+\label{fig:layers}
+\end{figure}
+
+The Jamoma Platform comprises a number of initiatives working together
+(see Figure~\ref{fig:example}).
+
 
 % (end)
 
@@ -494,6 +503,9 @@ Initial work on a scheduler for the DSP library was begun in 2007.  Competing pr
 Unit testing
 Integrated Analysis and Benchmarking -- perhaps reference the upchuck operator in ChucK?
 
+\subsection{Web Browser Support}
+We have begun implementing support for server-side integration of the Jamoma Runtime via the Ruby language bindings and Ruby on Rails\footnote{http://rubyonrails.org}.  To fully leverage the DSP library and Jamoma Foundation in a web-browser we need the ability to invoke the runtime on the client-side of the equation through a web browser plug-in similar to that done in the iARS Project\cite{Frauenberger:2003}.
+
 
 \subsection{Figures, Tables and Captions}
 
@@ -510,16 +522,6 @@ hello ICMC  & 1073 \\
 \caption{Table captions are placed below the table.}
 \label{tab:example}
 \end{table}
-
-\begin{figure}[htbp]
-\centerline{\framebox{
-	\includegraphics[width=0.9\columnwidth]{figure}}}
-\caption{Figure captions are placed below the figure.}
-\label{fig:example}
-\end{figure}
-Place tables/figures in text as close to the reference as possible
-(see Figure~\ref{fig:example} and Table~\ref{tab:example}). They may extend
-across both columns to a maximum width of 17.5cm (6.9").
 
 
 % (end)
