@@ -124,6 +124,7 @@ This paper presents an object-oriented, reflective, light-weight application pro
 
 Came out of Tap.Tools and Hipno development.  This was pre-Electrotap, so maybe the credit here should somehow go to 74Objects?
 
+
 % (end)
 
 
@@ -142,7 +143,26 @@ We have to discuss all of the pieces here because they constantly come up later 
 
 \section{Structure / API} % (fold)
 
-How is this whole beast structured.
+\subsection{Design}
+
+The design of the Jamoma Foundation and DSP Library strives to adhere to Dieter Rams' "ten principles for good design"\footnote{http://www.vitsoe.com/en/gb/about/dieterrams/gooddesign}
+\begin{packed_item}%\begin{itemize}
+	\item Good design is innovative
+	\item Good design makes a product useful
+	\item Good design is aesthetic
+	\item Good design helps us to understand a product
+	\item Good design is unobtrusive
+	\item Good design is honest
+	\item Good design is long-lasting
+	\item Good design is consequent to the last detail
+	\item Good design is concerned with the environment
+	\item Good design is as little design as possible
+\end{packed_item}%\end{itemize}
+
+
+\subsection{The API}
+
+The basic calls: lifecycle, attributes, messages
 
 \subsubsection{An Example Class: the DC Blocker?}
 
@@ -337,7 +357,7 @@ The NeXT MusicKit, together with the SndKit, provides a library of objects for D
 As a framework implemented in Objective-C, Music Kit inherits the reflective, object-oriented, dynamically-bound message passing API that is implemented by the Jamoma Foundation.  However, building on top of Objective-C instead of C++ also presents portability challenges.  Jamoma Foundation/DSP should run on a myriad of embedded and mobile devices, and also natively compile using Microsoft's MSVC compiler.  These tasks are not easily performed, if performed at all, when using the Objective-C language\footnote{The authors also look upon Apple's corporate control of the Objective-C language and runtime with some degree of skepticism, as compared to the open consortium that is mediating the C++ language's evolution}.
 % (end)
 
-\subsection{The Max Family}
+\subsection{The Max Family} % (fold)
 
 The Max family includes both MSP\cite{Zicarelli:1998} and PureData\cite{Puckette:1996}.
 
@@ -345,7 +365,63 @@ The Max family includes both MSP\cite{Zicarelli:1998} and PureData\cite{Puckette
 
 This description is more similar to Multicore than to DSP.  In fact, The Max environments also define APIs for creating unit generators and provide libraries of these unit generators (or "pre-designed building blocks").  The environments also define an API for message passing in much the same way that the Jamoma Foundation provides.
 
+% (end)
 
+
+\subsection{Domain-Specific Text-Based Languages} % (fold)
+
+These are similar to the Max Family except that they create networks of Unit Generators using a text interface.  I don't really want to talk about CSound.  Is that really neccesary?  Can I just mention CSound and SuperCollider together in one sentence?
+
+\subsubsection{SuperCollider} % (fold)
+
+Is there anything particularly pertinent here?\cite{McCartney:1996}
+
+SuperCollider combines the unit generators, the audio engine, and an object-oriented language with semantics similar to C and Smalltalk.  SuperCollider is incredibly powerful because of the language constructs and idioms that manipulate the unit generators.  The API for creating unit generators is similar to many other environments we have reviewed.
+
+% (end)
+
+\subsubsection{ChucK} % (fold)
+
+Probably a bit more here that is pertinent.  Ge Wang might balk at calling ChucK a domain-specific language, but that's what it really is.
+
+``the design of ChucK strives to “hide the mundane aspects of pro- gramming, and expose true control”''\cite{wang:2008}.
+
+Unfortunately, ChucK is not suitable for use by Jamoma due to the excessive restrictiveness of the GNU GPL, under which it is licensed.
+
+To it's own admission, execution speed is not the primary priority for ChucK.  As such it does not perform frame-based signal computation but computes at every sample.  This contributes to ChucK's strong timing model, but at the expense of slower number-crunching for audio.
+
+% NOTE: ChucK audio processing is driven by the sink on the graph, using a pull model as we do in Multicore 
+
+
+% TODO: Do we need to mention something about CMix and RTCMix?
+% (end)
+
+
+\subsection{JSyn} % (fold)
+
+Like the STK but for Java.  Need Source.
+% (end)
+
+% (end)
+
+\subsection{Audio Plug-ins} % (fold)
+
+VST, RTAS, LADSSPA, and AudioUnits are all, in essence, APIs for creating UnitGenerators.  Somehow it doesn't seem like they should count though.  Why is that?
+
+% (end)
+
+
+\subsection{Kronos} % (fold)
+
+This expresses the problem domain well:
+
+" the musician may want to change the program during its execution. This was possible in the analog music studio, where swapping out patch cords often resulted in immediate gratification. In the digital world programs often have to be aborted, edited, re- compiled, linked and launched. The all-important musical hacking suffers from such a heavy compilation cycle, making a traditional programming language less desirable for real time artistic expres- sion." \cite{Norilo:2009}
+
+The Jamoma Foundation and other dynamically-bound frameworks, such as PureData, Objective-C, or Marsyas, solve this problem by precompiling the unit generators and then directing messages to these objects at runtime.  Kronos takes an alternative approach where the graph of objects, indeed even the unit generators themselves, are not precompiled at all but rather compiled 'Just in Time' from a custom meta-language. 
+
+This results in better performance from the code, while still maintaining much of the flexibility offered by a dynamically-bound runtime.  Indeed, the published performance results are convincing.  However, I [tim] remain skeptical of the true runtime-flexibility, as just-in-time compilation still requires compilation every time you change the interconnections between objects.
+
+% (end)
 
 % (end)
 
@@ -410,6 +486,13 @@ More effects (reverb, pitch-shifting, chorus)
 
 SynthesisLib
 
+\subsection{Scheduler}
+
+Initial work on a scheduler for the DSP library was begun in 2007.  Competing priorities have left it unfinished...  More interesting models for scheduling, such as the the model implemented in ChucK provide impetus for further research into new approaches to this topic.
+
+\subsection{Tools}
+Unit testing
+Integrated Analysis and Benchmarking -- perhaps reference the upchuck operator in ChucK?
 
 
 \subsection{Figures, Tables and Captions}
@@ -440,20 +523,6 @@ across both columns to a maximum width of 17.5cm (6.9").
 
 
 % (end)
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Equations} % (fold)
-
-Equations should be placed on separated lines and numbered.
-The number should be on the right side.
-
-\begin{equation}
-E=mc^{2}
-\end{equation}
-
-% (end)
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
