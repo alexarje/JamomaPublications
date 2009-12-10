@@ -124,6 +124,33 @@ This paper presents an object-oriented, reflective, light-weight application pro
 
 Came out of Tap.Tools and Hipno development.  This was pre-Electrotap, so maybe the credit here should somehow go to 74Objects?
 
+\subsection{Requirements}
+
+For the Jamoma Platform we require a DSP Library has the following demands:
+
+Requirements:
+\begin{packed_item}%\begin{itemize}
+	\item liberal licensing for both open source and commercial end use
+	\item cross-platform
+	\item extremely easy to wrap classes for use in different environments such as Max/MSP, VST, and ChucK
+	\item user-extensible
+	\item dynamically reconfigurable classes at runtime (object decoration, process routine switching)
+	\item multichannel support
+	\item reasonably efficient (i.e. frame-based audio processing)
+	\item process methods must be able to adapt to varying input (frame sizes, channel configurations, etc.) on-the-fly
+	\item must support 64-bit audio streams
+	\item be as thread-agnostic as possible (don't manage it, but take care of requisite protection)
+\end{packed_item}%\end{itemize}
+
+Desires:
+\begin{packed_item}%\begin{itemize}
+	\item expressive syntax, idioms, and conventions
+	\item DRY / clear code
+	\item convention over configuration
+	\item potential to run on embedded/mobile devices
+	\item tag-based searching for class categorization and object instantiation
+	\item integrated unit testing and benchmarking
+\end{packed_item}%\end{itemize}
 
 % (end)
 
@@ -253,8 +280,25 @@ As of version 4.2.0, the STK offers multichannel and frame-based sample processi
 
 At this time the STK offers two potential benefits over Jamoma DSP.  First is the extensive library of unit generators, particularly for synthesis.  The second is that due to static linking there is a slight performance advantage when making function calls rather than sending messages.  On desktop computer the difference is unlikely to be discernible, but on mobile devices it is possible that the difference will become noticeable.
 
+However the STK does not provide a runtime architecture that dynamically loads user-defined extensions or provide factories capable of search the database of classes and then instantiating such objects at runtime.
+
+Marsyas has this same problem.  
+
+% TODO: Consider restructuring this whole section based on our "requirements" secion in the Intro.  Then we just discuss the problem domains and mention each toolkit like STK or Marsyas as they come up in a description of the problem domain... [tap]
+
+
 \subsubsection{License}
 The license for the STK is reasonably liberal.  At the time that the Jamoma DSP library was initially written, however, the license for the STK specified non-commercial use and thus using the STK was not an option for the authors.  
+
+% (end)
+
+\subsection{SndObj} % (fold)
+
+The SndObj\cite{Lazzarini:2001} library provides a number of classes much like the STK.  It uses frame-based audio processing routines, as we desire.  One problem is that the frame size (or vector size in SndObj parlance) is an attribute of the object rather than an attribute of the signal being passed to the object.  This may appear to be a subtle difference, but the result is that the process routines cannot adapt to varying vector sizes on-the-fly, such as those produced in contexts such as IRCAM's Gabor.
+
+% TODO: Trond, I wrote that last sentence -- the reality is that I'm guess it is Gabor but I might have used the wrong name or been too ambiguous.  Can you please adise?  [tap]
+
+Another Flaw: GNU GPL license.
 
 
 
@@ -386,7 +430,6 @@ This description is more similar to Multicore than to DSP.  In fact, The Max env
 
 % (end)
 
-
 \subsection{Domain-Specific Text-Based Languages} % (fold)
 
 These are similar to the Max Family except that they create networks of Unit Generators using a text interface.  I don't really want to talk about CSound.  Is that really neccesary?  Can I just mention CSound and SuperCollider together in one sentence?
@@ -429,7 +472,6 @@ VST, RTAS, LADSSPA, and AudioUnits are all, in essence, APIs for creating UnitGe
 
 % (end)
 
-
 \subsection{Kronos} % (fold)
 
 This expresses the problem domain well:
@@ -442,6 +484,13 @@ This results in better performance from the code, while still maintaining much o
 
 % (end)
 
+\subsection{TANGA} % (fold)
+
+TANGA provides and interesting environment because the audio engine is explicitly multi-threaded and thus multi-core capable\cite{Reiter:2007}.  However, it doesn't fit the bill because it is targeted at one context: MPEG-4 scene rendering.  We need something more general.  And it doesn't matter because we are thread-agnostic.
+
+TANGA does provide a message passing interface and a plug-in or extension API.
+
+% (end)
 % (end)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -518,8 +567,12 @@ SynthesisLib
 Initial work on a scheduler for the DSP library was begun in 2007.  Competing priorities have left it unfinished...  More interesting models for scheduling, such as the the model implemented in ChucK provide impetus for further research into new approaches to this topic.
 
 \subsection{Tools}
-Unit testing
-Integrated Analysis and Benchmarking -- perhaps reference the upchuck operator in ChucK?
+
+- Unit testing
+
+- Integrated Analysis and Benchmarking -- perhaps reference the upchuck operator in ChucK?
+   -- This integrated analysis and benchmarking could also provide the basis by which an audio graph such as Jamoma Multicore is able to evaluate how to optimize the processes in the graph to make intelligent decisions on how to distribute the processing among threads or processors.
+
 
 \subsection{Web Browser Support}
 We have begun implementing support for server-side integration of the Jamoma Runtime via the Ruby language bindings and Ruby on Rails\footnote{http://rubyonrails.org}.  To fully leverage the DSP library and Jamoma Foundation in a web-browser we need the ability to invoke the runtime on the client-side of the equation through a web browser plug-in similar to that done in the iARS Project\cite{Frauenberger:2003}.
@@ -553,7 +606,12 @@ hello ICMC  & 1073 \\
 
 Jamoma Foundation and DSP provide a flexible, user-extendable, runtime environment for creating and using audio and digital signal processing objects.  Due to its advanced use of dynamic binding and message-passing paradigm, the building blocks can be reconfigured at runtime without requiring re-compilation, but with the unit generators themselves compiled as C++ and performing block-processing we retain the performance of a compiled language.
 
+
+"A well-defined API can also speed up the development process, since the implementation can focus more on the algorithmic aspects and less on implementation issues like API design." \cite{Lerch:2005}
+
 The power of this runtime is demonstrated through the ability to compile objects for Max, Pd, AudioUnits, VST, etc.  The future includes Multicore.
+
+
 
 
 % (end)
