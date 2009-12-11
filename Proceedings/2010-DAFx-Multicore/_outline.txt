@@ -8,6 +8,8 @@ Prior Art
 * MSP/Pd/etc.
 
 * Multithreading ?
+* AUGraph in CoreAudio is very relevant 
+* Grand Central Dispatch (GCD) open source !
 
 
 
