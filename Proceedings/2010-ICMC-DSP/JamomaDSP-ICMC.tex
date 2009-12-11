@@ -118,7 +118,7 @@ This paper presents an object-oriented, reflective, light-weight application pro
 \section{Introduction} % (fold)
 \label{sec:introduction}
 
-"The SMC Roadmap identifies two broad research challenges: (1) To design better sound objects and environments and (2) To understand, model, and improve human interaction with sound and music." \cite{serra:2007}  The Jamoma DSP library directly addresses the first task as means by which to address the second task.
+``The SMC Roadmap identifies two broad research challenges: (1) To design better sound objects and environments and (2) To understand, model, and improve human interaction with sound and music.'' \cite{serra:2007}  The Jamoma DSP library directly addresses the first task as means by which to address the second task.
 
 \subsection{History}
 
@@ -157,7 +157,7 @@ Desires:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{The Jamoma "Platform"} % (fold)
+\section{The Jamoma ``Platform''} % (fold)
 
 We have to discuss all of the pieces here because they constantly come up later in the paper.
 
@@ -169,7 +169,7 @@ We have to discuss all of the pieces here because they constantly come up later 
 \end{figure}
 
 The Jamoma Platform comprises a number of initiatives working together
-(see Figure~\ref{fig:example}).
+(see Figure~\ref{fig:layers}).
 
 
 % (end)
@@ -181,7 +181,7 @@ The Jamoma Platform comprises a number of initiatives working together
 
 \subsection{Design}
 
-The design of the Jamoma Foundation and DSP Library strives to adhere to Dieter Rams' "ten principles for good design"\footnote{http://www.vitsoe.com/en/gb/about/dieterrams/gooddesign}
+The design of the Jamoma Foundation and DSP Library strives to adhere to Dieter Rams' ``ten principles for good design''\footnote{http://www.vitsoe.com/en/gb/about/dieterrams/gooddesign}
 \begin{packed_item}%\begin{itemize}
 	\item Good design is innovative
 	\item Good design makes a product useful
@@ -221,7 +221,8 @@ The FilterLib
 The EffectsLib
 The MathLib
 DataspaceLib
-FunctionLib
+FunctionLib 
+ChaosLib [NP]
 etc.
 
 \subsection{Unit Testing}
@@ -269,7 +270,7 @@ Jamoma Foundation/DSP is not an environment.  It is a framework that you can use
 
 \subsection{Synthesis ToolKit} % (fold)
 
-"The Synthesis ToolKit offers an array of unit generators for filtering, input/output, etc., as well as examples of new and classic synthesis and effects algorithms for research, teaching, performance, and composition purposes."\cite{Cook:1999}
+``The Synthesis ToolKit offers an array of unit generators for filtering, input/output, etc., as well as examples of new and classic synthesis and effects algorithms for research, teaching, performance, and composition purposes.''\cite{Cook:1999}
 
 Written in C++ and is crossplatform.
 
@@ -306,17 +307,17 @@ Another Flaw: GNU GPL license.
 
 \subsection{CLAM} % (fold)
 
-"CLAM stands for C++ Library for Audio and Music and it is a full-fledged software framework for research and appli- cation development in the audio and music domain with applicability also to the broader multimedia domain.   It offers a conceptual model; algorithms for analyzing, synthesizing and transforming audio signals; and tools for handling audio and music streams and creating cross-platform applications."
+``CLAM stands for C++ Library for Audio and Music and it is a full-fledged software framework for research and application development in the audio and music domain with applicability also to the broader multimedia domain.   It offers a conceptual model; algorithms for analyzing, synthesizing and transforming audio signals; and tools for handling audio and music streams and creating cross-platform applications.''
 
-"CLAM, a C++ software framework, that offers a complete development and research platform for the audio and music domain. It offers an abstract model for audio systems and includes a repository of processing algorithms and data types as well as all the nec- essary tools for audio and control input/output. The frame- work offers tools that enable the exploitation of all these features to easily build cross-platform applications or rapid prototypes for media processing algorithms and systems." \cite{Amatraian:2008}
+``CLAM, a C++ software framework, that offers a complete development and research platform for the audio and music domain. It offers an abstract model for audio systems and includes a repository of processing algorithms and data types as well as all the necessary tools for audio and control input/output. The frame- work offers tools that enable the exploitation of all these features to easily build cross-platform applications or rapid prototypes for media processing algorithms and systems.'' \cite{Amatraian:2008}
 
-Like Jamoma DSP, it is cross-platform (Mac, Linux, and Windows) and uses automatic integrated building, testing, versioning systems, and generally subscribes to Agile Development practices\footnote{http://en.wikipedia.org/wiki/Agile_software_development}.  
-
+Like Jamoma DSP, it is cross-platform (Mac, Linux, and Windows) and uses automatic integrated building, testing, versioning systems, and generally subscribes to Agile Development practices\footnote{\url{http://en.wikipedia.org/wiki/Agile_software_development}}.  
+                                      
 \subsubsection{MetaModel}
 
-A key feature of CLAM is it's so-called "metamodel", which is a programming layer for creating hierarchical graphs of objects to produce a signal processing chain.  Jamoma DSP does not define the way in which one must produce signal processing topographies.  Instead, the process of creating objects and connecting them are envisioned and implemented orthogonally and the graph is created using a separate framework known as Jamoma Multicore.
+A key feature of CLAM is it's so-called ``metamodel'', which is a programming layer for creating hierarchical graphs of objects to produce a signal processing chain.  Jamoma DSP does not define the way in which one must produce signal processing topographies.  Instead, the process of creating objects and connecting them are envisioned and implemented orthogonally and the graph is created using a separate framework known as Jamoma Multicore.
 
-Thanks to this decoupling of Jamoma DSP and Jamoma Multicore you aren't "boxed-in" to any particular way of creating connections between objects.
+Thanks to this decoupling of Jamoma DSP and Jamoma Multicore you aren't ``boxed-in'' to any particular way of creating connections between objects.
 
 \subsubsection{Class Design}
 
@@ -386,7 +387,8 @@ Marsyas is somewhat tightly bound to the Qt\footnote{http://www.trolltech.com/pr
 
 \subsubsection{MatLab Engine}
 
-Marsyas implements a singleton wrapper class for the MATLAB Engine API, enabling Marsyas developers to easily and conveniently send and receive data (i.e. in- tegers, doubles, vectors and matrices) to/from MATLAB in run-time.  This is cool -- Eno says "It is just a matter of work".
+Marsyas implements a singleton wrapper class for the MATLAB Engine API, enabling Marsyas developers to easily and conveniently send and receive data (i.e. in- tegers, doubles, vectors and matrices) to/from MATLAB in run-time.  This is cool -- Eno says "It is just a matter of work".   \\
+(There is an Octave bridge for PD (pdoctave) and a Matlab bridge for Max/MSP (matlabcommunicate) [NP])
 
 \subsubsection{MaxMSP}
 
@@ -446,7 +448,7 @@ SuperCollider combines the unit generators, the audio engine, and an object-orie
 
 Probably a bit more here that is pertinent.  Ge Wang might balk at calling ChucK a domain-specific language, but that's what it really is.
 
-``the design of ChucK strives to “hide the mundane aspects of pro- gramming, and expose true control”''\cite{wang:2008}.
+``the design of ChucK strives to “hide the mundane aspects of programming, and expose true control”''\cite{wang:2008}.
 
 Unfortunately, ChucK is not suitable for use by Jamoma due to the excessive restrictiveness of the GNU GPL, under which it is licensed.
 
@@ -554,11 +556,14 @@ For more environments, such as VST and SuperCollider
 
 \subsection{Standard Library Expansion}
 
-Spectral processing
+Spectral processing \\
 
-Granular processing
+Granular processing   \\
 
-More effects (reverb, pitch-shifting, chorus)
+More effects (reverb, pitch-shifting, chorus) 
+
+
+Spectral(FFT) Processes\\
 
 SynthesisLib
 
@@ -568,7 +573,7 @@ Initial work on a scheduler for the DSP library was begun in 2007.  Competing pr
 
 \subsection{Tools}
 
-- Unit testing
+- Unit testing      \\
 
 - Integrated Analysis and Benchmarking -- perhaps reference the upchuck operator in ChucK?
    -- This integrated analysis and benchmarking could also provide the basis by which an audio graph such as Jamoma Multicore is able to evaluate how to optimize the processes in the graph to make intelligent decisions on how to distribute the processing among threads or processors.
