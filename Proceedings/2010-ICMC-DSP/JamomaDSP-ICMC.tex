@@ -353,6 +353,14 @@ We also make a clear de-coupling between the framework for implementing unit gen
 
 % (end)
 
+\subsection{CSL} % (fold)
+
+CSL is really well architected framework informed by the design patterns of CLAM and written in C++.  It has a full library of unit generators that include a particularly strong representation of spatialization algorithms and techniques.  CSL looks like it passes audio signals are true objects with N channels and N samples per frame in a similar way to what we do and is more flexible than most systems in how it handles flexible and dynamic channel and sample frame sizing.
+
+CSL has a couple of major strikes against it:   not dynamically bound, no introspection, no ability to modify instances (giving them new attributes) after instantiation, etc. evil University of California licensing
+
+% (end)
+
 \subsection{Marsyas} % (fold)
 
 Marsyas is a software framework for building efficient complex audio processing systems and applications \cite{Tzanetakis:2008}. "Audio processing systems are defined hierarchically through composition using implicit patching. Both the specification of the processing network and the control of it while data is flowing through can be performed at runtime without requiring recompilation."
@@ -415,6 +423,14 @@ Marsyas is released under the terms of the GNU GPL.  This is fairly restrictive 
 
 % (end)
 
+\subsection{CMix} % (fold)
+
+Lanski, P. (1990). The architecture and musical logic and cmix.
+In Proceedings of the 1990 International Computer Music
+Conference (ICMC 90).
+
+% (end)
+
 \subsection{NeXT Music Kit} % (fold)
 
 The NeXT MusicKit, together with the SndKit, provides a library of objects for DSP and MIDI applications written in the Objective-C language\cite{Jaffe:1989,Jaffe:1991}.  The Music Kit comprises not only a layer for creating audio and midi unit generators but also a hardware abstraction layer.  Despite the demise of NeXT Computer, the Music Kit continues to be maintained and updated to work on current operating systems that support the Objective-C Runtime\footnote{http://sourceforge.net/projects/musickit/}.
@@ -435,6 +451,8 @@ This description is more similar to Multicore than to DSP.  In fact, The Max env
 \subsection{Domain-Specific Text-Based Languages} % (fold)
 
 These are similar to the Max Family except that they create networks of Unit Generators using a text interface.  I don't really want to talk about CSound.  Is that really neccesary?  Can I just mention CSound and SuperCollider together in one sentence?
+
+% (end)
 
 \subsubsection{SuperCollider} % (fold)
 
@@ -459,7 +477,6 @@ To it's own admission, execution speed is not the primary priority for ChucK.  A
 
 % TODO: Do we need to mention something about CMix and RTCMix?
 % (end)
-
 
 \subsection{JSyn} % (fold)
 
@@ -585,6 +602,15 @@ We have begun implementing support for server-side integration of the Jamoma Run
 \subsection{NodeLib}
 
 As a means of addressing parts of the system via OSC.  Somewhat like what Marsyas does.  An implementation of the ideas presented in\cite{Place:2008osc}.
+
+\subsection{Processing Arrays}
+[12/10/09 7:58:39 PM] Nils Peters: on the other hand, IMHO in most use cases you want to have separate control over the filter parameter of each channel
+[12/10/09 8:00:26 PM] Nils Peters: or the delay
+[12/10/09 8:00:41 PM] Nils Peters: You want to set different delays to your input channels
+
+[12/10/09 7:59:32 PM] Tim Place: It could be possible to create an object which wraps an array of objects that process each channel individually
+[12/10/09 7:59:58 PM] Tim Place: I think that would address the filter problem you mention more generally
+
 
 \subsection{Figures, Tables and Captions}
 
