@@ -108,7 +108,7 @@
 
 \begin{abstract}
 
-This paper presents an object-oriented, reflective, light-weight application programming interface for C++, with an emphasis on real-time signal processing. It makes use of polymorphic typing, dynamic binding, and introspection to create a cross-platform environment pulling ideas from languages such as Smalltalk and Objective-C while remaining within the bounds of the portable and cross-platform C++ context.  The Jamoma Foundation and DSP Library provide a flexible framework and runtime environment, as well as an expanding collection of unit generators for synthesis, processing, and analysis.  This library has been used in both open source and commercial software projects over the past seven years including Electrotap's Tap.Tools\footnote{http://electrotap.com/taptools}, Cycling '74's Hipno\cite{Place:2005}, and the Jamoma Modular Framework\cite{Place:2006}.
+This paper presents an object-oriented, reflective, light-weight application programming interface for C++, with an emphasis on real-time signal processing. It makes use of polymorphic typing, dynamic binding, and introspection to create a cross-platform environment pulling ideas from languages such as Smalltalk and Objective-C while remaining within the bounds of the portable and cross-platform C++ context.  The Jamoma Foundation and DSP Library provide a flexible framework and runtime environment, as well as an expanding collection of unit generators for synthesis, processing, and analysis.  This library has been used in both open source and commercial software projects over the past seven years.
 
 \end{abstract}
 
@@ -120,131 +120,62 @@ This paper presents an object-oriented, reflective, light-weight application pro
 
 ``The SMC Roadmap identifies two broad research challenges: (1) To design better sound objects and environments and (2) To understand, model, and improve human interaction with sound and music.'' \cite{serra:2007}  The Jamoma DSP library directly addresses the first task as means by which to address the second task.
 
-\subsection{History}
+% CHANGED: More interesting where we are now rather than how we got here, as suggested by Trond
+%\subsection{History}
+%
+% Came out of Tap.Tools and Hipno development.  This was pre-Electrotap, so maybe the credit here should somehow go to 74Objects?
+%
 
-Came out of Tap.Tools and Hipno development.  This was pre-Electrotap, so maybe the credit here should somehow go to 74Objects?
 
 \subsection{Requirements}
 
 For the Jamoma Platform we require a DSP Library has the following demands:
 
-Requirements:
+'Product' Requirements (how the product/platform will behave):
 \begin{packed_item}%\begin{itemize}
 	\item liberal licensing for both open source and commercial end use
-	\item cross-platform
-	\item extremely easy to wrap classes for use in different environments such as Max/MSP, VST, and ChucK
+	\item cross-platform (Mac/Windows/Linux/Embedded Devices/Mobile Platforms)
+	
+	\item effortless to wrap (integrate?) classes for use in different environments (Max/MSP, VST, AU, ChucK, Pd)
 	\item user-extensible
 	\item dynamically reconfigurable classes at runtime (object decoration, process routine switching)
 	\item multichannel support
 	\item reasonably efficient (i.e. frame-based audio processing)
 	\item process methods must be able to adapt to varying input (frame sizes, channel configurations, etc.) on-the-fly
-	\item must support 64-bit audio streams
-	\item be as thread-agnostic as possible (don't manage it, but take care of requisite protection)
+	\item must support 64-bit audio streams (future proof ?)
+	\item be as thread-agnostic as possible (don't manage it, but take care of requisite protection, adaptable to various architectures)
 \end{packed_item}%\end{itemize}
 
-Desires:
+
+'Process' Requirements:  adhering to contemporary philosophies for good coding practice, or is it pleasant to work with this code? software design paradigm
 \begin{packed_item}%\begin{itemize}
 	\item expressive syntax, idioms, and conventions
-	\item DRY / clear code
+	\item DRY (Don't Reapeat Yourself)  % TODO: reference Hunt book "The Pragmatic Programmer"
+	\item clear code % what do we mean by this?
 	\item convention over configuration
-	\item potential to run on embedded/mobile devices
 	\item tag-based searching for class categorization and object instantiation
-	\item integrated unit testing and benchmarking
-\end{packed_item}%\end{itemize}
+	\item integrated unit testing and benchmarking % TODO: reference
 
-% (end)
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{The Jamoma ``Platform''} % (fold)
-
-We have to discuss all of the pieces here because they constantly come up later in the paper.
-
-\begin{figure}[htbp]
-\centerline{\framebox{
-	\includegraphics[width=0.9\columnwidth]{layers}}}
-\caption{The Jamoma Platform as Layered Architecture.}
-\label{fig:layers}
-\end{figure}
-
-The Jamoma Platform comprises a number of initiatives working together
-(see Figure~\ref{fig:layers}).
-
-
-% (end)
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Structure / API} % (fold)
-
-\subsection{Design}
-
-The design of the Jamoma Foundation and DSP Library strives to adhere to Dieter Rams' ``ten principles for good design''\footnote{http://www.vitsoe.com/en/gb/about/dieterrams/gooddesign}
-\begin{packed_item}%\begin{itemize}
-	\item Good design is innovative
-	\item Good design makes a product useful
-	\item Good design is aesthetic
-	\item Good design helps us to understand a product
-	\item Good design is unobtrusive
-	\item Good design is honest
-	\item Good design is long-lasting
-	\item Good design is consequent to the last detail
-	\item Good design is concerned with the environment
-	\item Good design is as little design as possible
 \end{packed_item}%\end{itemize}
 
 
-\subsection{The API}
-
-The basic calls: lifecycle, attributes, messages
-
-\subsubsection{Attributes}
-
-Attributes are not merely maintaining the state of a single value but are multifaceted entities whose behavior is modified through the use of properties\cite{Place:2008params}.
+% One list for efficiency to the computer
+% One list for efficiency for the development process / programmers's workflow : Ruby : set out top make a program that would "make programmers happy"; "Ruby is simple in appearance, but is very complex inside, just like our human body" - Yukihiro “matz” Matsumoto
 
 
-\subsubsection{An Example Class: the DC Blocker?}
 
-Or maybe a FunctionLib thing to show off the calculate method?
 % (end)
+
+Terms we have to make sure that are defined in the paper:
+- environment
+- framework
+- toolkit?
+- classes 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Components} % (fold)
-
-\subsection{The Standard Libraries}
-
-The FilterLib
-The EffectsLib
-The MathLib
-DataspaceLib
-FunctionLib 
-ChaosLib [NP]
-etc.
-
-\subsection{Unit Testing}
-
-baked right in (though currently on a branch that needs to be finished and merged to master...)
-
-
-\subsection{Serialization}
-
-I had started this code, but where is it now?
-
-
-\subsection{Ruby Language Bindings}
-
-This is cool
-
-% (end)
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Comparison with Other DSP Frameworks} % (fold)
+\section{Review of Existing DSP Frameworks} % (fold)
 
 Or: Why in the world do we need another DSP framework?
 
@@ -307,7 +238,7 @@ Another Flaw: GNU GPL license.
 
 \subsection{CLAM} % (fold)
 
-``CLAM stands for C++ Library for Audio and Music and it is a full-fledged software framework for research and application development in the audio and music domain with applicability also to the broader multimedia domain.   It offers a conceptual model; algorithms for analyzing, synthesizing and transforming audio signals; and tools for handling audio and music streams and creating cross-platform applications.''
+``CLAM stands for C++ Library for Audio and Music and it is a full-fledged software framework for research and application development in the audio and music domain with applicability also to the broader multimedia domain. It offers a conceptual model; algorithms for analyzing, synthesizing and transforming audio signals; and tools for handling audio and music streams and creating cross-platform applications.''
 
 ``CLAM, a C++ software framework, that offers a complete development and research platform for the audio and music domain. It offers an abstract model for audio systems and includes a repository of processing algorithms and data types as well as all the necessary tools for audio and control input/output. The frame- work offers tools that enable the exploitation of all these features to easily build cross-platform applications or rapid prototypes for media processing algorithms and systems.'' \cite{Amatraian:2008}
 
@@ -395,7 +326,7 @@ Marsyas is somewhat tightly bound to the Qt\footnote{http://www.trolltech.com/pr
 
 \subsubsection{MatLab Engine}
 
-Marsyas implements a singleton wrapper class for the MATLAB Engine API, enabling Marsyas developers to easily and conveniently send and receive data (i.e. in- tegers, doubles, vectors and matrices) to/from MATLAB in run-time.  This is cool -- Eno says "It is just a matter of work".   \\
+Marsyas implements a singleton wrapper class for the MATLAB Engine API, enabling Marsyas developers to easily and conveniently send and receive data (i.e. integers, doubles, vectors and matrices) to/from MATLAB in run-time.  This is cool -- Eno says "It is just a matter of work".   \\
 (There is an Octave bridge for PD (pdoctave) and a Matlab bridge for Max/MSP (matlabcommunicate) [NP])
 
 \subsubsection{MaxMSP}
@@ -514,7 +445,103 @@ TANGA does provide a message passing interface and a plug-in or extension API.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Applications} % (fold)
+\section{The Jamoma ``Platform''} % (fold)
+
+We have to discuss all of the pieces here because they constantly come up later in the paper.\\
+
+the Jamoma Foundation deals with the non-musical things, such as class creating/deleting/attributes/...
+
+One feature: we have clear divisions between the functionalities.   The DSP/unitgens fully-separate from the audio graph layer.
+
+
+\begin{figure}[htbp]
+\centerline{\framebox{
+	\includegraphics[width=0.9\columnwidth]{layers}}}
+\caption{The Jamoma Platform as Layered Architecture.}
+\label{fig:layers}
+\end{figure}
+
+The Jamoma Platform comprises a number of initiatives working together
+(see Figure~\ref{fig:layers}).
+
+
+% (end)
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Structure / API} % (fold)
+
+\subsection{Design}
+
+%The design of the Jamoma Foundation and DSP Library is informed by the qualities Dieter Rams' ``ten principles for good %design''\footnote{http://www.vitsoe.com/en/gb/about/dieterrams/gooddesign}
+%\begin{packed_item}%\begin{itemize}
+%	\item Good design is innovative
+%	\item Good design makes a product useful
+%	\item Good design is aesthetic
+%	\item Good design helps us to understand a product
+%	\item Good design is unobtrusive
+%	\item Good design is honest
+%	\item Good design is long-lasting
+%	\item Good design is consequent to the last detail
+%	\item Good design is concerned with the environment
+%	\item Good design is as little design as possible
+%\end{packed_item}%\end{itemize}
+
+
+\subsection{The API}
+
+The basic calls: lifecycle, attributes, messages
+
+\subsubsection{Attributes}
+
+Attributes are not merely maintaining the state of a single value but are multifaceted entities whose behavior is modified through the use of properties\cite{Place:2008params}.
+
+
+\subsubsection{An Example Class: the DC Blocker?}
+
+Or maybe a FunctionLib thing to show off the calculate method?
+% (end)
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Components} % (fold)
+
+\subsection{The Standard Libraries}
+
+The FilterLib
+The EffectsLib
+The MathLib
+DataspaceLib
+FunctionLib 
+ChaosLib [NP]
+etc.
+
+\subsection{Unit Testing}
+
+baked right in (though currently on a branch that needs to be finished and merged to master...)
+
+
+\subsection{Serialization}
+
+I had started this code, but where is it now?
+
+
+\subsection{Ruby Language Bindings}
+
+This is cool
+
+% (end)
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Discussion / Applications} % (fold)
+
+real-world use includes Electrotap's Tap.Tools\footnote{http://electrotap.com/taptools}, Cycling '74's Hipno\cite{Place:2005}, and the Jamoma Modular Framework\cite{Place:2006}
+
 
 \subsection{Spatialization}
 
@@ -651,7 +678,7 @@ The power of this runtime is demonstrated through the ability to compile objects
 
 \section{Acknowledgements} % (fold)
 
-Dave Watson, Joshua Kit Clayton, Théo Delahogue
+Dave Watson, Joshua Kit Clayton, Théo Delahogue, Tristan Mathews
 
 % (end)
 
