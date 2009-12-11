@@ -7,5 +7,7 @@ Prior Art
 * Audio Units (pull method for graphs)
 * MSP/Pd/etc.
 
+* Multithreading ?
+
 
 
