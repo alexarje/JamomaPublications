@@ -227,9 +227,10 @@ The license for the STK is reasonably liberal.  At the time that the Jamoma DSP 
 
 \subsection{SndObj} % (fold)
 
-The SndObj\cite{Lazzarini:2001} library provides a number of classes much like the STK.  It uses frame-based audio processing routines, as we desire.  One problem is that the frame size (or vector size in SndObj parlance) is an attribute of the object rather than an attribute of the signal being passed to the object.  This may appear to be a subtle difference, but the result is that the process routines cannot adapt to varying vector sizes on-the-fly, such as those produced in contexts such as IRCAM's Gabor.
+The SndObj\cite{Lazzarini:2001} library provides a number of classes much like the STK.  It uses frame-based audio processing routines, as we desire.  One problem is that the frame size (or vector size in SndObj parlance) is an attribute of the object rather than an attribute of the signal being passed to the object.  This may appear to be a subtle difference, but the result is that the process routines cannot adapt to varying vector sizes on-the-fly, such as those produced in contexts such as IRCAM's Gabor \cite{Schnell:2005_Gabor}.
 
 % TODO: Trond, I wrote that last sentence -- the reality is that I'm guess it is Gabor but I might have used the wrong name or been too ambiguous.  Can you please adise?  [tap]
+% CHANGED: Gabor is the right one, Tim. I have added citation.
 
 Another Flaw: GNU GPL license.
 
