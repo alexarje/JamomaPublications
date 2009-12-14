@@ -48,7 +48,7 @@ Working Demo Projects
 * VST
 * AudioUnits
 * SuperCollider
-* Embedded devices?
+* Embedded devices? (Android, iPhone)
 
 
 In Context:
