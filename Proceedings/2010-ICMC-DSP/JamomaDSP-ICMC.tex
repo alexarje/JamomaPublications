@@ -144,6 +144,7 @@ For the Jamoma Platform we require a DSP Library has the following demands:
 	\item process methods must be able to adapt to varying input (frame sizes, channel configurations, etc.) on-the-fly
 	\item must support 64-bit audio streams (future proof ?)
 	\item be as thread-agnostic as possible (don't manage it, but take care of requisite protection, adaptable to various architectures)
+	\item MVC-friendly (reconfigurable)
 \end{packed_item}%\end{itemize}
 
 
@@ -177,6 +178,30 @@ Terms we have to make sure that are defined in the paper:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Review of Existing DSP Frameworks} % (fold)
+
+
+\subection{Frameworks and libraries}
+
+Definitions of framework, library, environment, toolkit, etc.
+
+\subsection{Non-C/C++ libs}
+
+- Why do we choose C/C++
+- libries in other programming languages (e.g. in Java) are out of the scope of this paper
+- Part of a general literature review
+- What can we learn/take from these (e.g. Objective-C)
+
+\subsubsection{Domain-specific languages}
+
+- What can we learn/take from these
+- What do we have to take into consideration in order to be able to use the lib to create objects for them? (maybe not so important for our discussion)
+
+
+\subsection{C and C++ libraries}
+
+- detailed review with respect to the various criteria that are important to us
+
+
 
 Or: Why in the world do we need another DSP framework?
 
@@ -532,10 +557,56 @@ I had started this code, but where is it now?
 
 \subsection{Ruby Language Bindings}
 
-This is cool
+This is cool!
+
+example: filter design using reflective features in a web browser
+
+MVC
+    Model: DSP Objects/Foundation DSP
+    View: web browser
+    Controller: ruby/rails
+
+MVC
+    Model: DSP Objects/Foundation DSP
+    View: TTGraphics
+    Controller: Max
+
+MVC
+    Model: Virage Sequencer \url{http://www.plateforme-virage.org/}
+    View: TTGraphics
+    Controller: OSC
+    
+    
+Possible models:
+    DSP Objects/Foundation DSP
+    Virage Sequencer
+Possible Controllers:
+    Ruby/Rails
+    OSC
+    Mac
+    CopperLAN
+Possible Views:
+    Max
+    TTGraphics
+    Web browser
+
 
 % (end)
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Examples} % (fold)
+
+1. DC Blocker class
+2. How to wrap the class
+3. How to combine two classes: e.g. noise + bandpass filter
+4. FM that can be repatching the FM unit in real time (different algorithms)  -- (perhaps this could a part of the discussion section?) 
+    %TODO: Trond will try to find examples/graphics illustrating this for further discussions between authors
+    %TODO: interpolation for TTWavetable
+    %TODO: Non-linear filters - limiting or saturation inside the filter as xn is cast to xn-1 and yn to yn-1 (switching the feedback-filter on the fly)
+
+% (end)
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
