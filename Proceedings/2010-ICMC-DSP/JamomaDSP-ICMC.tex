@@ -127,6 +127,26 @@ This paper presents an object-oriented, reflective, light-weight application pro
 %
 
 
+\subsection{Terminology}
+
+It is useful to clarify our usage of various computer science jargon and terminology.  In \emphasis{object-oriented programming} functionality related to a set of data is treated as a unit.  These units, or objects, are created and then often passed using a reference or pointer to the memory in which the object's contents are stored.  These objects comprise \emphasis{methods} (functions) and \emphasis{attributes} (properties or data which represents state).
+
+\emphasis{Introspection} refers to the ability to determine the characteristics of an object at runtime.  This means that when handed a pointer in C++, we can take the pointer and query for an object's name, its type or \emphasis{class}, the messages that it understands, the attributes it possesses, etc.  By extension, \emphasis{reflection} refers to the ability to then modify the behavior of an object at runtime.  In practical terms this means adding messages, changing attributes, and extending existing instances of objects as the software is executing and without stopping the software to re-compile the code.
+
+Introspection and reflection are often implemented by making use of a \emphasis{dynamic binding model}.  Programming languages including C++ and Java link function and method calls when a program is compiled, known as static binding.  A dynamically bound model does not link these functions at compile-time, but instead waits until runtime to resolve the address of a method being called.  When a dynamic binding model is in use, calling methods is referred to as `sending messages' to objects.  Dynamic binding is the hallmark of languages such as Smalltalk, Objective-C, and Ruby.
+
+Throughout the literature exists a confusing gaggle of terminology for classifying systems of objects.  These include \emphasis{framework}, \emphasis{library}, \emphasis{environment}, and \emphasis{toolkit}.  For the purposes of this paper, these will be defined as follows.  
+
+\begin{packed_item}%\begin{itemize}
+	\item unit generator :
+	\item toolkit	:
+	\item library :
+	\item framework :
+	\item environment :
+	\item runtime :
+\end{packed_item}%\end{itemize}
+
+
 \subsection{Requirements}
 
 For the Jamoma Platform we require a DSP Library has the following demands:
@@ -167,17 +187,6 @@ For the Jamoma Platform we require a DSP Library has the following demands:
 
 % (end)
 
-Terms we have to make sure that are defined in the paper:
-- environment
-- framework
-- toolkit?
-- classes 
-- stuff currently in the abstract (reflective, introspection, etc.)
-
-From the Jitter SDK:
-"
-Max and Jitter implement their object models by maintaining a registry of ordinary C functions and struct members that map to methods and attributes associated with names. When some other code wishes to make use of these methods or attributes, it asks the Jitter object to look up the method or attribute in its registry based on a name. This is called dynamic binding, and is similar to Smalltalk or Objective C's object model. C++ and Java typically make use of static binding — i.e. methods and member variables are resolved at compile time rather than being dynamically looked up at run time.
-"
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
