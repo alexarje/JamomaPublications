@@ -229,6 +229,25 @@ That said, we also wish to see what we can learn from DSP libraries created for 
 Jamoma Foundation/DSP is not an environment.  It is a framework that you can use to create an environment, or to extend an existing environment, but it is not itself and environment.  That same can be said of the STK but other examples here, such as Marsyas and CLAM, are really full environments in the same way the ChucK or PureData is an environment.
 
 
+\subsection{ZenGarden}
+
+I spent a little time with this ZenGarden.  It's very interesting!
+They are basically only really using Pd as an authoring environment.
+Their framework then opens the Pd patcher file, but all of the audio
+objects and audio graph code are re-implemented using their own C++
+classes (not using Pd at all).
+
+RjDj on the iPhone
+
+\footnote{\url{http://github.com/mhroth/ZenGarden}}
+
+
+\subsection{DSSI}
+DSSI is an open and well-documented specification developed for use in Linux audio applications, although portable to other platforms. It may be thought of as LADSPA-for-instruments, or something comparable to VSTi.
+
+\footnote{\url{http://dssi.sourceforge.net/}}
+
+
 \subsection{Synthesis ToolKit} % (fold)
 
 ``The Synthesis ToolKit offers an array of unit generators for filtering, input/output, etc., as well as examples of new and classic synthesis and effects algorithms for research, teaching, performance, and composition purposes.''\cite{Cook:1999}
