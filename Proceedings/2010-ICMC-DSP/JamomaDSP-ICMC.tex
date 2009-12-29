@@ -131,6 +131,8 @@ This paper presents an object-oriented, reflective, light-weight application pro
 
 It is useful to clarify our usage of various computer science jargon and terminology.  In \emph{object-oriented programming} functionality related to a set of data is treated as a unit.  These units, or objects, are created and then often passed using a reference or pointer to the memory in which the object's contents are stored.  These objects comprise \emph{methods} (functions) and \emph{attributes} (properties or data which represents state).
 
+\emph{Polymorphism} is a means by which a programming language generalizes different types of functions or data using a common \emph{API}, or Application Programming Interface.  An example of a polymorphic data-type of the variety in which we are interested is a `var' in the Javascript language.  That is to say a data type which may be any data type internally (including an object or array), the details of which are not necessary in order to use or pass the data type amongst functions.
+
 \emph{Introspection} refers to the ability to determine the characteristics of an object at runtime.  This means that when handed a pointer in C++, we can take the pointer and query for an object's name, its type or \emph{class}, the messages that it understands, the attributes it possesses, etc.  By extension, \emph{reflection} refers to the ability to then modify the behavior of an object at runtime.  In practical terms this means adding messages, changing attributes, and extending existing instances of objects as the software is executing and without stopping the software to re-compile the code.
 
 Introspection and reflection are often implemented by making use of a \emph{dynamic binding model}.  Programming languages including C++ and Java link function and method calls when a program is compiled, known as static binding.  A dynamically bound model does not link these functions at compile-time, but instead waits until runtime to resolve the address of a method being called.  When a dynamic binding model is in use, calling methods is referred to as `sending messages' to objects.  Dynamic binding is the hallmark of languages such as Smalltalk, Objective-C, and Ruby.
@@ -209,6 +211,8 @@ A related subject is the creation of audio plug-ins using existing APIs.  VST, R
 \subsection{Licensing}
 
 As stated, the author require a framework that can be used in both open-source and commercial applications.  This immediately rules out the use of any existing work licensed under the GNU GPL, which stipulates that all works using it are themselves licensed under the GNU GPL.  Among the options this rules out are SndObj\cite{Lazzarini:2001}, CLAM\cite{Amatraian:2008}, and Marsyas \cite{Tzanetakis:2008}.  Additionally, the CSL framework\cite{Pope:2003} requires licensing through the University of California, which is not agreeable to the open use we require.
+
+
 
 
 \subsection{ZenGarden} % (fold)
