@@ -206,12 +206,9 @@ The C++ language and its compilers are ubiquitous across platforms.  Plug-ins an
 A related subject is the creation of audio plug-ins using existing APIs.  VST, RTAS, LADSSPA/DSSI, and AudioUnits are all APIs for creating UnitGenerators in C/C++.  None of these technologies, however, meet our requirements.  None are actually libraries, though there are a standard set of the non-cross-platform AudioUnit plug-ins provided by Apple.
 
 
-\subsection {Frameworks vs. Environments}
+\subsection{Licensing}
 
-%TODO: Look for how Pascal was relating Lloopp and TapeMovie as environments when compared to Jamoma Modular, the same thing applies here...
-
-Jamoma Foundation/DSP is not an environment.  It is a framework that you can use to create an environment, or to extend an existing environment, but it is not itself and environment.  That same can be said of the STK but other examples here, such as Marsyas and CLAM, are really full environments in the same way the ChucK or PureData is an environment.
-
+As stated, the author require a framework that can be used in both open-source and commercial applications.  This immediately rules out the use of any existing work licensed under the GNU GPL, which stipulates that all works using it are themselves licensed under the GNU GPL.  Among the options this rules out are SndObj\cite{Lazzarini:2001}, CLAM\cite{Amatraian:2008}, and Marsyas \cite{Tzanetakis:2008}.  Additionally, the CSL framework\cite{Pope:2003} requires licensing through the University of California, which is not agreeable to the open use we require.
 
 
 \subsection{ZenGarden} % (fold)
@@ -251,137 +248,6 @@ Marsyas has this same problem.
 
 \subsubsection{License}
 The license for the STK is reasonably liberal.  At the time that the Jamoma DSP library was initially written, however, the license for the STK specified non-commercial use and thus using the STK was not an option for the authors.  
-
-% (end)
-
-\subsection{SndObj} % (fold)
-
-The SndObj\cite{Lazzarini:2001} library provides a number of classes much like the STK.  It uses frame-based audio processing routines, as we desire.  One problem is that the frame size (or vector size in SndObj parlance) is an attribute of the object rather than an attribute of the signal being passed to the object.  This may appear to be a subtle difference, but the result is that the process routines cannot adapt to varying vector sizes on-the-fly, such as those produced in contexts such as IRCAM's Gabor \cite{Schnell:2005_Gabor}.
-
-% TODO: Trond, I wrote that last sentence -- the reality is that I'm guess it is Gabor but I might have used the wrong name or been too ambiguous.  Can you please adise?  [tap]
-% CHANGED: Gabor is the right one, Tim. I have added citation.
-
-Another Flaw: GNU GPL license.
-
-
-
-% (end)
-
-\subsection{CLAM} % (fold)
-
-``CLAM stands for C++ Library for Audio and Music and it is a full-fledged software framework for research and application development in the audio and music domain with applicability also to the broader multimedia domain. It offers a conceptual model; algorithms for analyzing, synthesizing and transforming audio signals; and tools for handling audio and music streams and creating cross-platform applications.''
-
-``CLAM, a C++ software framework, that offers a complete development and research platform for the audio and music domain. It offers an abstract model for audio systems and includes a repository of processing algorithms and data types as well as all the necessary tools for audio and control input/output. The frame- work offers tools that enable the exploitation of all these features to easily build cross-platform applications or rapid prototypes for media processing algorithms and systems.'' \cite{Amatraian:2008}
-
-Like Jamoma DSP, it is cross-platform (Mac, Linux, and Windows) and uses automatic integrated building, testing, versioning systems, and generally subscribes to Agile Development practices\footnote{\url{http://en.wikipedia.org/wiki/Agile_software_development}}.  
-                                      
-\subsubsection{MetaModel}
-
-A key feature of CLAM is it's so-called ``metamodel'', which is a programming layer for creating hierarchical graphs of objects to produce a signal processing chain.  Jamoma DSP does not define the way in which one must produce signal processing topographies.  Instead, the process of creating objects and connecting them are envisioned and implemented orthogonally and the graph is created using a separate framework known as Jamoma Multicore.
-
-Thanks to this decoupling of Jamoma DSP and Jamoma Multicore you aren't ``boxed-in'' to any particular way of creating connections between objects.
-
-\subsubsection{Class Design}
-
-Objects include "support for synchronous data processing and asynchronous event-driven control as well as a configuration mechanism and an explicit life cycle state model". 
-
-Jamoma DSP objects do this as well, via the "calculate" and "process" methods.  Also, like CLAM, all objects provide an interface for working on data and support "metaobject-like facilities such as reflection and serialization".
-
-Well, actually, nothing is synchronous or asynchonous in Jamoma DSP/Foundation.  We are synchronously-agnostic.  Multicore is cable of operating the lower-level DSP in a synchronous matter, as can MSP or Pd or AU etc...
-
-Similar to CLAM, Jamoma Foundation objects have life-cycle state management.  In Jamoma DSP an object can be flagged as valid and/or busy.  CLAM differentiates between "controls" which are attributes that can be changed at any time and "configurations" which require the object to not be busy ("running" in CLAM parlance).  Jamoma DSP does not make this distinction externally: both are simply considered "attributes" and the locking or other requirements are handled internally. 
-
-
-
-\subsubsection{Object Networks}
-
-The Jamoma Foundation punts on this issue.  CLAM does queing and connecting for data objects and processing objects etc.  We consider this to be another layer, and so we don't address it directly in this paper.
-
-What CLAM calls a 'composite', an object which itself instantiates other classes internally, is fully supported by Jamoma DSP.
-
-
-\subsubsection{API}
-
-Unlike CLAM, Jamoma DSP offers a simple and minimal Application Programming Interface.  To be fair, this is in part due to the fact that creating connections and networks of objects is not a part of the Jamoma Foundation or DSP APIs.  But we also have a flatter namespace, making only differentiation between attributes and messages,
-
-
-\subsubsection{Summary}
-
-Full featured, but very complex.  It tries to be a framework, complete with visual editors, for building entire applications.
-
-In Jamoma we want simple and clear, while flexible underneath.  We're a focused object runtime and DSP layer.  Like Ruby on Rails we value convention over configuration.  So if you can follow the default conventions you don't have to know all this complex stuff that is going on.
-
-We also make a clear de-coupling between the framework for implementing unit generators and the framework that manages a graph of these unit generators -- each of which may be freely interchanged.
-
-% (end)
-
-\subsection{CSL} % (fold)
-
-CSL is really well architected framework informed by the design patterns of CLAM and written in C++\cite{Pope:2003,Pope:2006}.  It has a full library of unit generators that include a particularly strong representation of spatialization algorithms and techniques.  CSL looks like it passes audio signals are true objects with N channels and N samples per frame in a similar way to what we do and is more flexible than most systems in how it handles flexible and dynamic channel and sample frame sizing.
-
-CSL has a couple of major strikes against it:   not dynamically bound, no introspection, no ability to modify instances (giving them new attributes) after instantiation, etc. evil University of California licensing
-
-% (end)
-
-\subsection{Marsyas} % (fold)
-
-Marsyas is a software framework for building efficient complex audio processing systems and applications \cite{Tzanetakis:2008}. "Audio processing systems are defined hierarchically through composition using implicit patching. Both the specification of the processing network and the control of it while data is flowing through can be performed at runtime without requiring recompilation."
-
-"It is based on a dataflow model of computa- tion in which any audio processing system is represented as a large network of interconnected basic audio process- ing units."  Just like Max/MSP, Pd, Chuck, etc.
-
-One difference to Max/MSP and Pd is that the signal network can be reconfigured dynamically without requiring a 'recompile' of the signal chain.  This is addressed through Jamoma Multicore -- Jamoma DSP is low level and is agnostic about how objects are combined into a network or topology.
-
-However, objects can be recombined and structured at runtime, offering the same kind of flexibility and "expressive power".
-
-\subsubsection{Implicit Patching}
-
-One thing that makes Marsyas special is its notion of "Implicit Patching".  In this paradigm unit generators are added to a collection and their interaction with the signal processing graph is determined according to a pattern such as 'series', 'fanout', etc. \cite{Bray:2005}.
-
-Currently Jamoma DSP (and Multicore) operate solely through an 'explicit' patching paradigm similar to most other frameworks.  "In explicit patching the user would first create the modules and then connect them by explicit patching statements."  Due to the flexibility of the dynamically bound objects, however, it is quite easy to see how the implementation of pattern-based collections might be defined.
-
-
-\subsubsection{Dynamic Discovery and Access to Modules and Controls}
-
-In much the same way as Jamoma DSP, all control for a module are published and made accessible.  What controls are available can be queried for -- both for the name and the type  \cite{Tzanetakis:2006}.  
-
-In Marsyas the modules are organized in a heirarchy and address with an OSC-like string.  This very similar to the work we are doing with Jamoma 0.6 and the NodeLib, but it's unclear how to state all of that here.  What is cool is that you can find any DSP object instantiated in the system.  It would be easy for us to implement this at the top level, but I'm not sure how we would determine the path structure NodeLib type of thing for them when objects instantiate other objects inside of them.
-
-Both Marsyas and Jamoma DSP are able to extend existing objects by adding new controls or attributes at runtime to extend instances or create proxy controls.  This is something that Objective-C can do, but that Max/MSP or Pd cannot do at this time.
-
-\subsubsection{User Interface Hooks}
-
-Marsyas is somewhat tightly bound to the Qt\footnote{http://www.trolltech.com/products/qt/} toolkit for handling support of user interface integration with its classes.  Jamoma DSP takes a different approach.  The Jamoma Foundation implements at its core the ability to register observers for any class according to the Observer Pattern\cite{Gamma:1995}.  This has a number of benefits:
-
-- makes it easier to tie into any user interface framework, or to make your own
-- doesn't require linking to third-party software to get threading help
-
-\subsubsection{MatLab Engine}
-
-Marsyas implements a singleton wrapper class for the MATLAB Engine API, enabling Marsyas developers to easily and conveniently send and receive data (i.e. integers, doubles, vectors and matrices) to/from MATLAB in run-time.  This is cool -- Eno says "It is just a matter of work".   \\
-(There is an Octave bridge for PD (pdoctave) and a Matlab bridge for Max/MSP (matlabcommunicate) [NP])
-
-\subsubsection{MaxMSP}
-
-Marsyas tries to create a whole runtime environment a graph inside of an external.  This is different than the way we usually use the DSP Lib: we wrap the objects and then let MSP take care of the audio graph.  In Multicore we we manage our own audio graph but use Max/MSP's patcher interface to control it be creating a set of peer objects.  Do we somehow forward reference the DAFx paper here?
-
-\subsubsection{Bindings to other languages}
-
-Marsyas uses SWIG\footnote{http://www.swig.org} to make control of it's runtime available to other programming environments.  The Jamoma Foundation does not currently use SWIG, basically because I (tim) don't feel like figuring it out.  We do however implement Ruby language bindings natively, and so we can offer more natural and direct tie-ins to the Ruby language.  At least that's the theory...
-
-% NOTE: Marsyas has some facilities to deal with distributed computing, but let's not worry about that until we get to the Multicore paper.  In particular, we should pay attention to Bray:2005a  [tap]
-
-% NOTE: Marsyas also has a scheduler, but I don't think that we need to get into scheduler stuff -- that can be a paper for next year...  [tap]
-
-\subsubsection{Additional Info..}
-
-Marsyas is released under the terms of the GNU GPL.  This is fairly restrictive license, prohibiting commercial use.  Jamoma is licensed under the GNU LGPL which allows commercial applications to be be created and distributed.
-
-+ cross-platform, but 
-- on windows it *requires* cygwin (we don't)
-
-% QUOTE:
-% influenced by the design of the Synthesis Toolkit (Cook and Scavone, 1999). Other influences include the powerful but more complex architecture of CLAM (Amatriain, 2005), the patching model and strong timing of Chuck (Wang and Cook, 2003), and ideas from Aura (Dannenberg and Brandt, 1996). The matrix model used in Implicit Patching was influenced by the design of SDIFF and the default naming scheme for controls is inspired by the Open Sound Control (OSC) protocol (Wright and Freed, 1997). The code structure reflects many ideas from Design Patterns (Gamma et al., 1995).
-% 
 
 % (end)
 
@@ -440,6 +306,8 @@ Why in the world do we need another DSP framework?
 
 
 
+
+
 \begin{figure}[htbp]
 \centerline{\framebox{
 	\includegraphics[width=0.9\columnwidth]{layers}}}
@@ -449,6 +317,14 @@ Why in the world do we need another DSP framework?
 
 The Jamoma Platform comprises a number of initiatives working together
 (see Figure~\ref{fig:layers}).
+
+
+
+\subsection {Frameworks vs. Environments}
+
+%TODO: Look for how Pascal was relating Lloopp and TapeMovie as environments when compared to Jamoma Modular, the same thing applies here...
+
+Jamoma Foundation/DSP is not an environment.  It is a framework that you can use to create an environment, or to extend an existing environment, but it is not itself and environment.  That same can be said of the STK but other examples here, such as Marsyas and CLAM, are really full environments in the same way the ChucK or PureData is an environment.
 
 
 % (end)
