@@ -187,7 +187,7 @@ Having met these technical requirements, the authors also deem an additional set
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Review of Existing DSP Frameworks} % (fold)
+\section{Prior Art} % (fold)
 
 A myriad of existing libraries, toolkits, frameworks, and environments are available for digital signal processing.  To justify the effort of creating a new framework the merits of the extant members in this field should be considered, particularly with regard to our previously stated requirements.
 
@@ -203,39 +203,54 @@ The C++ language and its compilers are ubiquitous across platforms.  Plug-ins an
 % (end)
 
 
-\subsection{Plug-in APIs}
+\subsection{Plug-in APIs} % (fold)
 
 A related subject is the creation of audio plug-ins using existing APIs.  VST, RTAS, LADSSPA/DSSI, and AudioUnits are all APIs for creating UnitGenerators in C/C++.  None of these technologies, however, meet our requirements.  None are actually libraries, though there are a standard set of the non-cross-platform AudioUnit plug-ins provided by Apple.
-
-
-\subsection{Licensing}
-
-As stated, the author require a framework that can be used in both open-source and commercial applications.  This immediately rules out the use of any existing work licensed under the GNU GPL, which stipulates that all works using it are themselves licensed under the GNU GPL.  Among the options this rules out are SndObj\cite{Lazzarini:2001}, CLAM\cite{Amatraian:2008}, and Marsyas \cite{Tzanetakis:2008}.  Additionally, the CSL framework\cite{Pope:2003} requires licensing through the University of California, which is not agreeable to the open use we require.
-
-
-
-
-\subsection{ZenGarden} % (fold)
-
-I spent a little time with this ZenGarden.  It's very interesting!
-They are basically only really using Pd as an authoring environment.
-Their framework then opens the Pd patcher file, but all of the audio
-objects and audio graph code are re-implemented using their own C++
-classes (not using Pd at all).
-
-RjDj on the iPhone
-
-\footnote{\url{http://github.com/mhroth/ZenGarden}}
 
 % (end)
 
 
-\subsection{Synthesis ToolKit} % (fold)
+\subsection{Licensing} % (fold)
+
+As stated, the author require a framework that can be used in both open-source and commercial applications.  This immediately rules out the use of any existing work licensed under the GNU GPL, which stipulates that all works using it are themselves licensed under the GNU GPL.  Among the options this rules out are SndObj\cite{Lazzarini:2001}, CLAM\cite{Amatraian:2008}, and Marsyas \cite{Tzanetakis:2008}.  Additionally, the CSL framework\cite{Pope:2003} requires licensing through the University of California, which is not agreeable to the open use we require.
+
+Due to these licensing restrictions, none of these packages are suitable for our use\footnote{The license for the STK is reasonably liberal.  At the time that the Jamoma DSP library was initially written, however, the license for the STK specified non-commercial use and thus using the STK was not an option for the authors.  }.  They do, however, contain many valuable ideas that serve to inform our own work.
+
+% (end)
+
+
+\subsection{Dynamic Binding} % (fold)
+
+One of our core concerns is the requirement for dynamically reconfigurable classes at runtime.  The Kronos framework tackles this problem 
+
+ 
+
+
+Dynamic binding is of critical importance, and is implemented to some degree in many of the aforementioned environments including Marsyas, Max/MSP, and the NeXT SoundKit for Objective-C.  However, due to our cross-platform and liberal licensing requirements they are not options.  Of the remaining DSP libraries and toolkits, the STK\cite{Cook:1999}, CMix\cite{Lansky:1990}, and TANGA\cite{Reiter:2007} are all statically-bound.  
+
+An interesting middle-of-the-road option is Kronos.  In fact, the problem domain of the Kronos system is the same as our problem domain: `` the musician may want to change the program during its execution. This was possible in the analog music studio, where swapping out patch cords often resulted in immediate gratification. In the digital world programs often have to be aborted, edited, re- compiled, linked and launched. The all-important musical hacking suffers from such a heavy compilation cycle, making a traditional programming language less desirable for real time artistic expression.'' \cite{Norilo:2009}
+
+The Jamoma Foundation and other dynamically-bound frameworks, such as PureData, Objective-C, or Marsyas, solve this problem by precompiling the unit generators and then directing messages to these objects at runtime.  Kronos takes an alternative approach where the graph of objects, indeed even the unit generators themselves, are not precompiled at all but rather compiled `Just in Time' from a custom meta-language. 
+
+This results in better performance from the code, while still maintaining much of the flexibility offered by a dynamically-bound runtime.  Indeed, the published performance results are convincing.  However, I [tim] remain skeptical of the true runtime-flexibility, as just-in-time compilation still requires compilation every time you change the interconnections between objects.
+
+Of the statically-bound options, Kronos is interesting in that it tries to bridge the divide between static and dynamic binding 
+
+
+
+A defining difference between the STK and the Jamoma Foundation/DSP frameworks is that the STK is a statically-bound system based on method calls that are linked at compile-time.  Jamoma's frameworks, on the other hand, are dynamically-bound and use a message passing system inspired by Smalltalk\cite{Krasner:1988} and Objective-C\cite{Cox:1986}.
+	
+	
+	
+% (end)
+
+\subsection{Existing Libraries and Toolkits}
+
+Having narrowed the field of available packages to libraries and toolkits with suitable (or potentially suitable) licensing and platform independence, we can take a slightly deeper look at some of the remaining contenders.
+
+\subsubsection{STK - The Synthesis ToolKit} % (fold)
 
 ``The Synthesis ToolKit offers an array of unit generators for filtering, input/output, etc., as well as examples of new and classic synthesis and effects algorithms for research, teaching, performance, and composition purposes.''\cite{Cook:1999}
-
-Written in C++ and is crossplatform.
-
 
 A defining difference between the STK and the Jamoma Foundation/DSP frameworks is that the STK is a statically-bound system based on method calls that are linked at compile-time.  Jamoma's frameworks, on the other hand, are dynamically-bound and use a message passing system inspired by Smalltalk\cite{Krasner:1988} and Objective-C\cite{Cox:1986}.
 
@@ -250,40 +265,27 @@ Marsyas has this same problem.
 % TODO: Consider restructuring this whole section based on our "requirements" secion in the Intro.  Then we just discuss the problem domains and mention each toolkit like STK or Marsyas as they come up in a description of the problem domain... [tap]
 
 
-\subsubsection{License}
-The license for the STK is reasonably liberal.  At the time that the Jamoma DSP library was initially written, however, the license for the STK specified non-commercial use and thus using the STK was not an option for the authors.  
+% (end)
+
+\subsubsection{ZenGarden} % (fold)
+
+I spent a little time with this ZenGarden.  It's very interesting!
+They are basically only really using Pd as an authoring environment.
+Their framework then opens the Pd patcher file, but all of the audio
+objects and audio graph code are re-implemented using their own C++
+classes (not using Pd at all).
+
+RjDj on the iPhone
+
+\footnote{\url{http://github.com/mhroth/ZenGarden}}
 
 % (end)
 
-\subsection{CMix} % (fold)
 
-Lanski, P. (1990). The architecture and musical logic and cmix.
-In Proceedings of the 1990 International Computer Music
-Conference (ICMC 90).
-
-% (end)
+% (end) subsection:Existing Libs
+% (end) section:Prior Art
 
 
-\subsection{Kronos} % (fold)
-
-This expresses the problem domain well:
-
-" the musician may want to change the program during its execution. This was possible in the analog music studio, where swapping out patch cords often resulted in immediate gratification. In the digital world programs often have to be aborted, edited, re- compiled, linked and launched. The all-important musical hacking suffers from such a heavy compilation cycle, making a traditional programming language less desirable for real time artistic expres- sion." \cite{Norilo:2009}
-
-The Jamoma Foundation and other dynamically-bound frameworks, such as PureData, Objective-C, or Marsyas, solve this problem by precompiling the unit generators and then directing messages to these objects at runtime.  Kronos takes an alternative approach where the graph of objects, indeed even the unit generators themselves, are not precompiled at all but rather compiled 'Just in Time' from a custom meta-language. 
-
-This results in better performance from the code, while still maintaining much of the flexibility offered by a dynamically-bound runtime.  Indeed, the published performance results are convincing.  However, I [tim] remain skeptical of the true runtime-flexibility, as just-in-time compilation still requires compilation every time you change the interconnections between objects.
-
-% (end)
-
-\subsection{TANGA} % (fold)
-
-TANGA provides and interesting environment because the audio engine is explicitly multi-threaded and thus multi-core capable\cite{Reiter:2007}.  However, it doesn't fit the bill because it is targeted at one context: MPEG-4 scene rendering.  We need something more general.  And it doesn't matter because we are thread-agnostic.
-
-TANGA does provide a message passing interface and a plug-in or extension API.
-
-% (end)
-% (end)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
