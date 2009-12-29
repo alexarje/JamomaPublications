@@ -129,33 +129,31 @@ This paper presents an object-oriented, reflective, light-weight application pro
 
 \subsection{Terminology}
 
-It is useful to clarify our usage of various computer science jargon and terminology.  In \emphasis{object-oriented programming} functionality related to a set of data is treated as a unit.  These units, or objects, are created and then often passed using a reference or pointer to the memory in which the object's contents are stored.  These objects comprise \emphasis{methods} (functions) and \emphasis{attributes} (properties or data which represents state).
+It is useful to clarify our usage of various computer science jargon and terminology.  In \emph{object-oriented programming} functionality related to a set of data is treated as a unit.  These units, or objects, are created and then often passed using a reference or pointer to the memory in which the object's contents are stored.  These objects comprise \emph{methods} (functions) and \emph{attributes} (properties or data which represents state).
 
-\emphasis{Introspection} refers to the ability to determine the characteristics of an object at runtime.  This means that when handed a pointer in C++, we can take the pointer and query for an object's name, its type or \emphasis{class}, the messages that it understands, the attributes it possesses, etc.  By extension, \emphasis{reflection} refers to the ability to then modify the behavior of an object at runtime.  In practical terms this means adding messages, changing attributes, and extending existing instances of objects as the software is executing and without stopping the software to re-compile the code.
+\emph{Introspection} refers to the ability to determine the characteristics of an object at runtime.  This means that when handed a pointer in C++, we can take the pointer and query for an object's name, its type or \emph{class}, the messages that it understands, the attributes it possesses, etc.  By extension, \emph{reflection} refers to the ability to then modify the behavior of an object at runtime.  In practical terms this means adding messages, changing attributes, and extending existing instances of objects as the software is executing and without stopping the software to re-compile the code.
 
-Introspection and reflection are often implemented by making use of a \emphasis{dynamic binding model}.  Programming languages including C++ and Java link function and method calls when a program is compiled, known as static binding.  A dynamically bound model does not link these functions at compile-time, but instead waits until runtime to resolve the address of a method being called.  When a dynamic binding model is in use, calling methods is referred to as `sending messages' to objects.  Dynamic binding is the hallmark of languages such as Smalltalk, Objective-C, and Ruby.
+Introspection and reflection are often implemented by making use of a \emph{dynamic binding model}.  Programming languages including C++ and Java link function and method calls when a program is compiled, known as static binding.  A dynamically bound model does not link these functions at compile-time, but instead waits until runtime to resolve the address of a method being called.  When a dynamic binding model is in use, calling methods is referred to as `sending messages' to objects.  Dynamic binding is the hallmark of languages such as Smalltalk, Objective-C, and Ruby.
 
-Throughout the literature exists a confusing gaggle of terminology for classifying systems of objects.  These include \emphasis{framework}, \emphasis{library}, \emphasis{environment}, and \emphasis{toolkit}.  For the purposes of this paper, these will be defined as follows.  
+Throughout the literature exists a confusing gaggle of terminology for classifying systems of objects.  These include \emph{framework}, \emph{library}, \emph{environment}, and \emph{toolkit}.  For the purposes of this paper, these will be defined as follows.  
 
 \begin{packed_item}%\begin{itemize}
-	\item unit generator :
-	\item toolkit	:
-	\item library :
-	\item framework :
-	\item environment :
-	\item runtime :
+	\item unit generator : A class or object that implements a well-defined DSP task such as generating, analyzing, or processing audio data.
+	\item library : a collection of pre-built, ready-to-use, unit generators
+	\item toolkit	: a collection of functions, helpers, possibly with an API, for creating unit generators
+	\item framework : 
+	\item environment : au/vst/max/sc3/chuck
+	\item runtime : 
 \end{packed_item}%\end{itemize}
 
 
 \subsection{Requirements}
 
-For the Jamoma Platform we require a DSP Library has the following demands:
+The authors are involved in a number of divergent and parallel efforts requiring a both a framework for creating unit generators and a library of ready-to-go unit generators.  These efforts include both open-source and closed-source commercial applications targeting multiple platforms and environments.  To meet the manifold demands of these endeavors the following list of requirements must be met regarding how said framework must perform and behave.
 
-'Product' Requirements (how the product/platform will behave):
 \begin{packed_item}%\begin{itemize}
 	\item liberal licensing for both open source and commercial end use
-	\item cross-platform (Mac/Windows/Linux/Embedded Devices/Mobile Platforms)
-	
+	\item cross-platform (Mac/Windows/Linux/Embedded Devices/Mobile Platforms)	
 	\item effortless to wrap (integrate?) classes for use in different environments (Max/MSP, VST, AU, ChucK, Pd)
 	\item user-extensible
 	\item dynamically reconfigurable classes at runtime (object decoration, process routine switching)
@@ -167,8 +165,8 @@ For the Jamoma Platform we require a DSP Library has the following demands:
 	\item MVC-friendly (reconfigurable)
 \end{packed_item}%\end{itemize}
 
+Having met these technical requirements, the authors also deem an additional set of process requirements to be important.  These requirements are in adhering to contemporary philosophies for good coding practice, ensuring that it is pleasant to work with the code, to maintain it, to test it, and to distribute it.
 
-'Process' Requirements:  adhering to contemporary philosophies for good coding practice, or is it pleasant to work with this code? software design paradigm
 \begin{packed_item}%\begin{itemize}
 	\item expressive syntax, idioms, and conventions
 	\item adhere to the DRY principle (Don't Reapeat Yourself): ``Every piece of knowledge must have a single, unambiguous, authoritative representation within a system''\cite{Hunt:1999}
@@ -176,14 +174,11 @@ For the Jamoma Platform we require a DSP Library has the following demands:
 	\item convention over configuration
 	\item tag-based searching for class categorization and object instantiation
 	\item integrated unit testing and benchmarking % TODO: reference
-
 \end{packed_item}%\end{itemize}
 
 
 % One list for efficiency to the computer
 % One list for efficiency for the development process / programmers's workflow : Ruby : set out top make a program that would "make programmers happy"; "Ruby is simple in appearance, but is very complex inside, just like our human body" - Yukihiro “matz” Matsumoto
-
-
 
 % (end)
 
@@ -192,43 +187,23 @@ For the Jamoma Platform we require a DSP Library has the following demands:
 
 \section{Review of Existing DSP Frameworks} % (fold)
 
-
-\subection{Frameworks and libraries}
-
-Definitions of framework, library, environment, toolkit, etc.
-
-\subsection{Non-C/C++ libs}
-
-- Why do we choose C/C++
-- libries in other programming languages (e.g. in Java) are out of the scope of this paper
-- Part of a general literature review
-- What can we learn/take from these (e.g. Objective-C)
-
-\subsubsection{Domain-specific languages}
-
-- What can we learn/take from these
-- What do we have to take into consideration in order to be able to use the lib to create objects for them? (maybe not so important for our discussion)
+A myriad of existing libraries, toolkits, frameworks, and environments are available for digital signal processing.  To justify the effort of creating a new framework the merits of the extant members in this field should be considered, particularly with regard to our previously stated requirements.
 
 
-\subsection{C and C++ libraries}
+\subsection{Choice of Language} % (fold)
 
-- detailed review with respect to the various criteria that are important to us
+An immediate winnowing of the field of contenders can be accomplished by discussing the choice of programming language.  There are popular and well structured DSP libraries for Java\cite{Guillemard:2005, Burk:1998} and Objective-C\cite{Jaffe:1989,Jaffe:1991}, for example, but these languages also carry restrictions and baggage.  Java is not installed on Windows systems by default and is not available in the context of many embedded devices.  Objective-C is available on Windows only through the clumsy and inadequate GnuStep\footnote{\url{http://www.gnustep.org/}} project\footnote{For example, one cannot natively compile using Microsoft's MSVC compiler.} and also is not available in the context of many embedded or mobile devices\footnote{The authors also look upon Apple's corporate control of the Objective-C language and runtime with some degree of skepticism, as compared to the open consortium that is mediating the C++ language's evolution}.  Interpreted languages are quite powerful, but do not provide the required speed for real-time DSP performance in embedded environments and can also create portability problems in some cases.  
+
+Another class of languages are domain-specific languages for audio signal processing.  These include SuperCollider\cite{McCartney:1996}, ChucK\cite{wang:2008}, and CSound.  For our purposes we will also consider the Max family (including MSP\cite{Zicarelli:1998} and PureData\cite{Puckette:1996}) to be domain-specific-languages\footnote{We acknowledge the heated debate as to whether these environments actually constitute languages and the dispute regarding whether the use of these environments should be considered programming.}.  These domain-specific languages do provide facilities both for creating and using Unit Generators, but often have portability limitations and very frequently have licensing limitations\footnote{For example, ChucK and SuperCollider are licensed as GPL and thus not available for commercial development, while Max/MSP is not available on embedded devices nor in plug-in host environments other than Ableton Live \url{http://cycling74.com/2009/05/14/pluggo-technology-moves-to-max-for-live/}}.  These environments also frequently have a large footprint in that they are very resource demanding, while we desire a light-weight framework.
+
+The C++ language and its compilers are ubiquitous across platforms.  Plug-ins and extensions for sundry environments and languages can be compiled using C and C++.  The C++ language is also capable of creating extremely high-performance code optimized for digital signal processing.
+
+% (end)
 
 
+\subsection{Plug-in APIs}
 
-Or: Why in the world do we need another DSP framework?
-
-% TODO: Section 5 of Amatraian:2008 maybe provide the start of a way to categorize different frameworks.
-% I'm not sure if it actually makes sense to distinguish between text and gui interfaces, given that the 
-% underlying data-flow basis is exactly the same (as argued in several of the Tzanetakis papers)  
-%
-% However, I think it is useful to distinguish between Unit Generators (STK, AU, VST), Unit Graphs
-% (AUGraph, Multicore, ?), and those that combine both into one (CLAM, Max/MSP, Marsyas)
-% [tap]
-
-First, let's limit ourselves to the C family of languages, which is to say C, C++, Objective-C.  These languages are well established, capable of producing efficient compiled binaries, widely available, and very portable.  One consideration is that we wish for the DSP library to be capable of running not only in the desktop context buy also on embedded processors and mobile devices.  Many languages, such as D, are not available for many embedded systems environments.  The same applies to Java.  Interpreted languages also present challenges for some embedded processors.
-
-That said, we also wish to see what we can learn from DSP libraries created for other language families.  JSyn is perhaps the most well-known of several initiatives based on the Java language\cite{Guillemard:2005, Burk:1998}.  JSyn is particularly adept at running in Web browsers.  One of the drawbacks of JSyn is the somewhat ambiguous and anti-commerical nature of the licensing.
+A related subject is the creation of audio plug-ins using existing APIs.  VST, RTAS, LADSSPA/DSSI, and AudioUnits are all APIs for creating UnitGenerators in C/C++.  None of these technologies, however, meet our requirements.  None are actually libraries, though there are a standard set of the non-cross-platform AudioUnit plug-ins provided by Apple.
 
 
 \subsection {Frameworks vs. Environments}
@@ -238,7 +213,8 @@ That said, we also wish to see what we can learn from DSP libraries created for 
 Jamoma Foundation/DSP is not an environment.  It is a framework that you can use to create an environment, or to extend an existing environment, but it is not itself and environment.  That same can be said of the STK but other examples here, such as Marsyas and CLAM, are really full environments in the same way the ChucK or PureData is an environment.
 
 
-\subsection{ZenGarden}
+
+\subsection{ZenGarden} % (fold)
 
 I spent a little time with this ZenGarden.  It's very interesting!
 They are basically only really using Pd as an authoring environment.
@@ -250,11 +226,7 @@ RjDj on the iPhone
 
 \footnote{\url{http://github.com/mhroth/ZenGarden}}
 
-
-\subsection{DSSI}
-DSSI is an open and well-documented specification developed for use in Linux audio applications, although portable to other platforms. It may be thought of as LADSPA-for-instruments, or something comparable to VSTi.
-
-\footnote{\url{http://dssi.sourceforge.net/}}
+% (end)
 
 
 \subsection{Synthesis ToolKit} % (fold)
@@ -421,65 +393,6 @@ Conference (ICMC 90).
 
 % (end)
 
-\subsection{NeXT Music Kit} % (fold)
-
-The NeXT MusicKit, together with the SndKit, provides a library of objects for DSP and MIDI applications written in the Objective-C language\cite{Jaffe:1989,Jaffe:1991}.  The Music Kit comprises not only a layer for creating audio and midi unit generators but also a hardware abstraction layer.  Despite the demise of NeXT Computer, the Music Kit continues to be maintained and updated to work on current operating systems that support the Objective-C Runtime\footnote{http://sourceforge.net/projects/musickit/}.
-
-As a framework implemented in Objective-C, Music Kit inherits the reflective, object-oriented, dynamically-bound message passing API that is implemented by the Jamoma Foundation.  However, building on top of Objective-C instead of C++ also presents portability challenges.  Jamoma Foundation/DSP should run on a myriad of embedded and mobile devices, and also natively compile using Microsoft's MSVC compiler.  These tasks are not easily performed, if performed at all, when using the Objective-C language\footnote{The authors also look upon Apple's corporate control of the Objective-C language and runtime with some degree of skepticism, as compared to the open consortium that is mediating the C++ language's evolution}.
-% (end)
-
-\subsection{The Max Family} % (fold)
-
-The Max family includes both MSP\cite{Zicarelli:1998} and PureData\cite{Puckette:1996}.
-
-"The Max paradigm can be described as a way of combining pre-designed building blocks into configurations useful for real-time computer music performance."\cite{Puckette:2002_max_at_17}
-
-This description is more similar to Multicore than to DSP.  In fact, The Max environments also define APIs for creating unit generators and provide libraries of these unit generators (or "pre-designed building blocks").  The environments also define an API for message passing in much the same way that the Jamoma Foundation provides.
-
-% (end)
-
-\subsection{Domain-Specific Text-Based Languages} % (fold)
-
-These are similar to the Max Family except that they create networks of Unit Generators using a text interface.  I don't really want to talk about CSound.  Is that really neccesary?  Can I just mention CSound and SuperCollider together in one sentence?
-
-% (end)
-
-\subsubsection{SuperCollider} % (fold)
-
-Is there anything particularly pertinent here?\cite{McCartney:1996}
-
-SuperCollider combines the unit generators, the audio engine, and an object-oriented language with semantics similar to C and Smalltalk.  SuperCollider is incredibly powerful because of the language constructs and idioms that manipulate the unit generators.  The API for creating unit generators is similar to many other environments we have reviewed.
-
-% (end)
-
-\subsubsection{ChucK} % (fold)
-
-Probably a bit more here that is pertinent.  Ge Wang might balk at calling ChucK a domain-specific language, but that's what it really is.
-
-``the design of ChucK strives to “hide the mundane aspects of programming, and expose true control”''\cite{wang:2008}.
-
-Unfortunately, ChucK is not suitable for use by Jamoma due to the excessive restrictiveness of the GNU GPL, under which it is licensed.
-
-To it's own admission, execution speed is not the primary priority for ChucK.  As such it does not perform frame-based signal computation but computes at every sample.  This contributes to ChucK's strong timing model, but at the expense of slower number-crunching for audio.
-
-% NOTE: ChucK audio processing is driven by the sink on the graph, using a pull model as we do in Multicore 
-
-
-% TODO: Do we need to mention something about CMix and RTCMix?
-% (end)
-
-\subsection{JSyn} % (fold)
-
-Like the STK but for Java.  Need Source.
-% (end)
-
-% (end)
-
-\subsection{Audio Plug-ins} % (fold)
-
-VST, RTAS, LADSSPA, and AudioUnits are all, in essence, APIs for creating UnitGenerators.  Somehow it doesn't seem like they should count though.  Why is that?
-
-% (end)
 
 \subsection{Kronos} % (fold)
 
@@ -511,6 +424,20 @@ We have to discuss all of the pieces here because they constantly come up later 
 the Jamoma Foundation deals with the non-musical things, such as class creating/deleting/attributes/...
 
 One feature: we have clear divisions between the functionalities.   The DSP/unitgens fully-separate from the audio graph layer.
+
+
+
+Why in the world do we need another DSP framework?
+
+% TODO: Section 5 of Amatraian:2008 maybe provide the start of a way to categorize different frameworks.
+% I'm not sure if it actually makes sense to distinguish between text and gui interfaces, given that the 
+% underlying data-flow basis is exactly the same (as argued in several of the Tzanetakis papers)  
+%
+% However, I think it is useful to distinguish between Unit Generators (STK, AU, VST), Unit Graphs
+% (AUGraph, Multicore, ?), and those that combine both into one (CLAM, Max/MSP, Marsyas)
+% [tap]
+
+
 
 
 \begin{figure}[htbp]

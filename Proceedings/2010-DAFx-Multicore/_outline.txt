@@ -13,3 +13,56 @@ Prior Art
 
 
 
+
+
+
+
+
+The Max family includes both MSP\cite{Zicarelli:1998} and PureData\cite{Puckette:1996}.
+
+"The Max paradigm can be described as a way of combining pre-designed building blocks into configurations useful for real-time computer music performance."\cite{Puckette:2002_max_at_17}
+
+This description is more similar to Multicore than to DSP.  In fact, The Max environments also define APIs for creating unit generators and provide libraries of these unit generators (or "pre-designed building blocks").  The environments also define an API for message passing in much the same way that the Jamoma Foundation provides.
+
+
+
+
+\subsection{Domain-Specific Text-Based Languages} % (fold)
+
+These are similar to the Max Family except that they create networks of Unit Generators using a text interface.  I don't really want to talk about CSound.  Is that really neccesary?  Can I just mention CSound and SuperCollider together in one sentence?
+
+% (end)
+
+
+
+
+
+\subsection{Domain-Specific Text-Based Languages} % (fold)
+
+These are similar to the Max Family except that they create networks of Unit Generators using a text interface.  I don't really want to talk about CSound.  Is that really neccesary?  Can I just mention CSound and SuperCollider together in one sentence?
+
+% (end)
+
+\subsubsection{SuperCollider} % (fold)
+
+Is there anything particularly pertinent here?\cite{McCartney:1996}
+
+SuperCollider combines the unit generators, the audio engine, and an object-oriented language with semantics similar to C and Smalltalk.  SuperCollider is incredibly powerful because of the language constructs and idioms that manipulate the unit generators.  The API for creating unit generators is similar to many other environments we have reviewed.
+
+% (end)
+
+\subsubsection{ChucK} % (fold)
+
+Probably a bit more here that is pertinent.  Ge Wang might balk at calling ChucK a domain-specific language, but that's what it really is.
+
+``the design of ChucK strives to “hide the mundane aspects of programming, and expose true control”''\cite{wang:2008}.
+
+Unfortunately, ChucK is not suitable for use by Jamoma due to the excessive restrictiveness of the GNU GPL, under which it is licensed.
+
+To it's own admission, execution speed is not the primary priority for ChucK.  As such it does not perform frame-based signal computation but computes at every sample.  This contributes to ChucK's strong timing model, but at the expense of slower number-crunching for audio.
+
+% NOTE: ChucK audio processing is driven by the sink on the graph, using a pull model as we do in Multicore 
+
+
+% TODO: Do we need to mention something about CMix and RTCMix?
+% (end)
