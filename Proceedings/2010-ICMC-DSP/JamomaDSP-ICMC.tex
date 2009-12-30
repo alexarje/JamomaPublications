@@ -250,30 +250,12 @@ While ZenGarden has much to offer, it still lacks out-of-the-box support for 64-
 
 % (end)
 
+
 \subsection{Conclusion} % (fold)
 
 In the end we found now one framework to possess all of the requirements set forth.  As the de facto standard for audio DSP libraries, the STK comes perilously close as of more recent revisions\cite{Scavone:2005}, and offers a rich and mature array of unit generators.  The STK is statically-bound.  While a problem for the kinds of applications we envision, this does yield potentially faster execution of the code.  We propose an alternative that will not replace the STK, but rather coexist with it as a part of the greater computer music ecology.
 
-% (end)
-
-
-% (end) section:Prior Art
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{The Jamoma ``Platform''} % (fold)
-
-We have to discuss all of the pieces here because they constantly come up later in the paper.\\
-
-the Jamoma Foundation deals with the non-musical things, such as class creating/deleting/attributes/...
-
-One feature: we have clear divisions between the functionalities.   The DSP/unitgens fully-separate from the audio graph layer.
-
-
-
-Why in the world do we need another DSP framework?
+% Why in the world do we need another DSP framework?
 
 % TODO: Section 5 of Amatraian:2008 maybe provide the start of a way to categorize different frameworks.
 % I'm not sure if it actually makes sense to distinguish between text and gui interfaces, given that the 
@@ -283,14 +265,17 @@ Why in the world do we need another DSP framework?
 % (AUGraph, Multicore, ?), and those that combine both into one (CLAM, Max/MSP, Marsyas)
 % [tap]
 
+% (end)
 
-
-Jamoma's frameworks, on the other hand, are dynamically-bound and use a message passing system inspired by Smalltalk\cite{Krasner:1988} and Objective-C\cite{Cox:1986}.
-	
-	
+% (end) section:Prior Art
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{The Jamoma ``Platform''} % (fold)
+
+The Jamoma Platform provides a layered architecture of frameworks that combine to provide essential functionality for creating computer music systems.  This layered approach is similar to other such approaches in the field including its application by the authors to spatialization systems\cite{Peters:2009}.  
 
 \begin{figure}[htbp]
 \centerline{\framebox{
@@ -299,16 +284,37 @@ Jamoma's frameworks, on the other hand, are dynamically-bound and use a message 
 \label{fig:layers}
 \end{figure}
 
-The Jamoma Platform comprises a number of initiatives working together
-(see Figure~\ref{fig:layers}).
+In this layered architecture frameworks may build upon and extend frameworks below them in the hierarchy, but the lower frameworks have no knowledge of the higher frameworks.  Divisions between the frameworks help to establish clarity as to what functionalities belong to which part of the system.  Users of Jamoma may then use only the parts of the system that are relevant to a given project.  Figure~\ref{fig:layers} illustrates the layers of the Jamoma Platform.  Each colored shape is implemented as it's own framework.
+
+The Jamoma Platform is not an environment.  It is a set of frameworks that can be used to create environments, or to extend existing environments, but it is not itself and environment. 
+
+
+\subsection{Foundation} % (fold)
+
+The Jamoma Foundation may be seen as analogous to the Objective-C Foundation, which ``Defines the `nuts and bolts' classes for Objective-C programming''\footnote{\url{http://developer.apple.com/cocoa/}}.  The Jamoma Foundation defines base classes, including our primary base class, \texttt{TTObject}.  Object life-cycle facilities include factories for creating, destroying, and referencing these classes.  A message-passing and attribute system inspired by Smalltalk\cite{Krasner:1988} and Objective-C\cite{Cox:1986} is implemented to enable dynamically-bound object topologies.  
+
+The Jamoma Foundation classes are informed by many best-practices of software development.   This includes use of design patterns\cite{Gamma:1995}.  In particular, all objects possess a built-in observer notification system.
+
+Functionality specific to audio or digital signal processing is not present in this framework.  In fact, the Jamoma Foundation can be used as a general framework and runtime as a dynamically-bound API layer on top of C++ for any purpose.  This is evident, for example, in the Jamoma Graphics Library.
+
+% (end)
+
+
+\subsection{DSP Layer} % (fold)
+
+
+% (end)
+
+
+\subsection{Additional Layers} % (fold)
+
+Additional layers have been implemented on top of the Jamoma Foundation, but in series and in parallel with the DSP layer.
 
 
 
-\subsection {Frameworks vs. Environments}
+One feature: we have clear divisions between the functionalities.   The DSP/unitgens fully-separate from the audio graph layer.
 
-%TODO: Look for how Pascal was relating Lloopp and TapeMovie as environments when compared to Jamoma Modular, the same thing applies here...
-
-Jamoma Foundation/DSP is not an environment.  It is a framework that you can use to create an environment, or to extend an existing environment, but it is not itself and environment.  That same can be said of the STK but other examples here, such as Marsyas and CLAM, are really full environments in the same way the ChucK or PureData is an environment.
+% (end)
 
 
 % (end)
@@ -316,7 +322,7 @@ Jamoma Foundation/DSP is not an environment.  It is a framework that you can use
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Structure / API} % (fold)
+\section{In Practice: Structure / API} % (fold)
 
 \subsection{Design}
 
@@ -437,6 +443,7 @@ real-world use includes Electrotap's Tap.Tools\footnote{http://electrotap.com/ta
 
 \subsection{Spatialization}
 
+%TODO: we have already cited Peters:2009
 Spatialization at the Encoding/Decoding and Authoring layers\cite{Peters:2009}.  In fact, through the development of the NodeLib we are now able to work also at the Scene Description Layer by communicating as SpatDIF\cite{Peters:2008spatdif}.
 
 One example that is ready for implementation in the Jamoma DSP library is DBAP\cite{Lossius:2009}.
