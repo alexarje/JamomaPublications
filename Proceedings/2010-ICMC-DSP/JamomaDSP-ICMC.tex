@@ -152,11 +152,11 @@ Throughout the literature exists a confusing gaggle of terminology for classifyi
 
 \begin{packed_item}%\begin{itemize}
 	\item unit generator : A class or object that implements a well-defined DSP task such as generating, analyzing, or processing audio data.
-	\item library        : a collection of pre-built, ready-to-use, unit generators
-	\item toolkit	       : a collection of functions, helpers, possibly with an API, for creating unit generators
-	\item framework      : architectural structure / a basic structure underlying a system
-	\item runtime        : dispatching messages, running the machinery (ObjC/Java), executing in real-time as you are using it
-	\item environment    : au/vst/max/sc3/chuck top-level
+	\item library        : A collection of pre-built, ready-to-use, unit generators
+	\item toolkit	     : A collection of functions, helpers, possibly with an API, for creating unit generators
+	\item framework      : Architectural structure / a basic structure underlying a system
+	\item runtime        : Dispatching messages, running the machinery (ObjC/Java), executing in real-time as you are using it
+	\item environment    : AU/VST/Max/sc3/ChucK top-level
 \end{packed_item}%\end{itemize}
 
 %(end)
@@ -170,14 +170,14 @@ The authors are involved in a number of divergent and parallel efforts requiring
 	\item liberal licensing for both open source and commercial end use
 	\item cross-platform (Mac/Windows/Linux/Embedded Devices/Mobile Platforms)	
 	\item effortless to wrap (integrate?) classes for use in different environments (Max/MSP, VST, AU, ChucK, Pd)
-	\item user-extensible
+	\item user-extensible (adding functionalities without recompiling core frameworks)
 	\item dynamically reconfigurable classes at runtime (dynamic-binding)
 	\item multichannel support
-	\item reasonably efficient (i.e. frame-based audio processing)
 	\item process methods must be able to adapt to varying input (frame sizes, channel configurations, etc.) on-the-fly
+	\item reasonably efficient (i.e. frame-based audio processing)
 	\item must support 64-bit audio streams (future proof ?)
-	\item be as thread-agnostic as possible (don't manage it, but take care of requisite protection, adaptable to various architectures) % new term: thread agnostic
-	\item MVC-friendly (reconfigurable) % new term: mvc
+%	\item be as thread-agnostic as possible (don't manage it, but take care of requisite protection, adaptable to various architectures) % new term: thread agnostic
+%	\item MVC-friendly (reconfigurable) % new term: mvc
 
 % TODO: Terms not defined: reconfigure classes, object decoration, process routine switching, frame-based audio processing, thread-agnostic, requisite protection,  MVC [tl]
 
@@ -285,7 +285,7 @@ In the end we found no one framework to possess all of the requirements set fort
 
 \section{The Jamoma ``Platform''} % (fold)
 
-The Jamoma Platform provides a layered architecture of frameworks that combine to provide essential functionality for creating computer music systems.  This layered approach is similar to other such approaches in the field including its application by the authors to spatialization systems\cite{Peters:2009}.  
+Jamoma started out as a modular standard for structuring patches in Max \cite{Place:2006}. Over the last few years it has developed into a platform providing a layered architecture of frameworks that combine to provide essential functionality for creating computer music systems.  
 
 \begin{figure}[htbp]
 \centerline{\framebox{
@@ -294,11 +294,13 @@ The Jamoma Platform provides a layered architecture of frameworks that combine t
 \label{fig:layers}
 \end{figure}
 
-In this layered architecture frameworks may build upon and extend frameworks below them in the hierarchy, but the lower frameworks have no knowledge of the higher frameworks.  Divisions between the frameworks help to establish clarity as to what functionalities belong to which part of the system.  Users of Jamoma may then use only the parts of the system that are relevant to a given project.  Figure~\ref{fig:layers} illustrates the layers of the Jamoma Platform.  Each colored shape is implemented as it's own framework.
-
-The Jamoma Platform is not an environment.  It is a set of frameworks that can be used to create environments, or to extend existing environments, but it is not itself and environment. 
+In this layered architecture frameworks may build upon and extend frameworks below them in the hierarchy, but the lower frameworks have no knowledge of the higher frameworks.  Divisions between the frameworks help to establish clarity as to what functionalities belong to which part of the system.  Users of Jamoma may then use only the parts of the system that are relevant to a given project.  The Jamoma Platform currently consists of five frameworks: Jamoma Foundation, Jamoma DSP, Jamoma Multicore, Jamoma Graphics and Jamoma Modular. This paper is focusing on the Jamoma Foundation and Jamoma DSP frameworks. Figure~\ref{fig:layers} illustrates the layers of the Jamoma Platform.  Each colored shape is implemented as it's own framework.
 
 Each framework within the Jamoma Platform shares a common structure.  A shared-library implementing base classes and core functionality exists at the core.  This functionality is then extended and enhanced by creating extensions.  An extension is a plug-in library that is dynamically loaded at runtime.  In this way the system can be expanded without re-compiling core components.
+
+% The Jamoma Platform is not an environment.  It is a set of frameworks that can be used to create environments, or to extend existing environments, but it is not itself and environment. 
+
+This layered approach is similar to other such approaches in the field including its application by the authors to spatialization systems\cite{Peters:2009}.
 
 
 \subsection{Foundation} % (fold)
@@ -309,6 +311,8 @@ The Jamoma Foundation classes are informed by many best-practices of software de
 
 Functionality specific to audio or digital signal processing is not present in this framework.  In fact, the Jamoma Foundation can be used as a general framework and runtime as a dynamically-bound API layer on top of C++ for any purpose.  This is evident, for example, in the Jamoma Graphics Library.
 
+% TODO: add github link as footnote
+
 % (end)
 
 
@@ -318,16 +322,24 @@ The DSP Layer augments the Foundation by extending \texttt{TTObject} to create a
 
 In addition to the framework and base-classes, the DSP player also provides a library of classes as extensions implementing a variety of unit generators.  The provided unit generators include basic trigonometry functions, filters (including butterworth), oscillators, noise generators, analysis, effects, etc.
 
+% TODO: add github link as footnote
+
 % (end)
 
 
 \subsection{Additional Layers} % (fold)
 
-Additional layers have been implemented on top of the Jamoma Foundation, both in series and in parallel with the DSP layer.  For example, a graphics layer based on Cairo\footnote{\url{http://cairographics.org}} provides both a platform-independent, and a host-independent, way to draw to the screen.  While not necessarily related to audio or DSP it is relevant in that GUI widgets can be created that will work, for example, both in the Max/MSP environment and in an AudioUnit plug-in.
+Additional layers have been implemented on top of the Jamoma Foundation, both in series and in parallel with the DSP layer.  For example, a \emph{Graphics Layer} based on Cairo\footnote{\url{http://cairographics.org}} provides both a platform-independent, and a host-independent, way to draw to the screen.  While not necessarily related to audio or DSP it is relevant in that GUI widgets can be created that will work, for example, both in the Max/MSP environment and in an AudioUnit plug-in.
 
-Many of the initiatives reviewed in Section~\ref{sec:prior_art} combined not only a means by which to create unit generators, but also a method by which unit generators are combined into a graph for processing audio.  In the Jamoma Platform we create a clear division between creating and using unit generators versus combining them into a graph.  This allows the unit generators to be combined in any way that seems desirable for a particular context.  The Jamoma Multicore Audio Graph layer is a framework that manages the creation of graphs of \texttt{TTAudioObject} instances.
+% TODO: add github link as footnote
 
-%TODO: Modular should be mentioned here
+Many of the initiatives reviewed in Section~\ref{sec:prior_art} combined not only a means by which to create unit generators, but also a method by which unit generators are combined into a graph for processing audio.  In the Jamoma Platform we create a clear division between creating and using unit generators versus combining them into a graph.  This allows the unit generators to be combined in any way that seems desirable for a particular context.  The \emph{Jamoma Multicore Audio Graph Layer} is a framework that manages the creation of graphs of \texttt{TTAudioObject} instances.
+
+% TODO: add github link as footnote
+
+Jamoma Modular is a modular framework for a structured approach to development and control of modules in the graphical media environment Max.
+
+% TODO: add github link as footnote
 
 % (end)
 
@@ -337,7 +349,7 @@ Many of the initiatives reviewed in Section~\ref{sec:prior_art} combined not onl
 
 As a dynamically-bound API, the Jamoma Foundation is a natural fit for control from the Ruby environment.  
 
-%TODO: flesh this out -- web browser, irb, rails
+%TODO: flesh this out -- web browser, irb, rails [tap]
 
 % (end)
 
@@ -346,7 +358,76 @@ As a dynamically-bound API, the Jamoma Foundation is a natural fit for control f
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{In Practice: Structure / API} % (fold)
+\section{IN PRACTICE} % (fold)
+Tech spec
+
+    %- Going into conceptual-techical details of Foundation
+
+    %- Going into conceptual-techical details of DSP (code can be linked via github footnote)
+
+Stuff not fitted in yet:
+
+    % Unit testing - covered
+    Attributes
+    DBAP interesting example of what kind of units Jamoma DSP can cater for
+        - split personality operating at audio and control rate
+            - two units tied together at runtime
+                - audio matrix
+                - coefficients for matrix calculated at control rate
+        - a biquad filter is really the same ....
+            - but if values at control rate can cause interpolation to new value, the ramp lib could get involved and we could choose what curve to use for interpolation (e.g. glissandi in the pitch domain)
+
+    inheriting mute, bypass attributes
+    inheriting dsp "stuff" like sample-rate attribute and SR-based convenience functions
+    useful functions readily available: denorm, dcblocking (only as unit though),  
+
+
+    - Examples
+        What extensions do we have?
+            Filters with common interface and the jcom.filter~ external
+        Giving an example of how a simple unit is implemented?
+
+
+- Applications
+
+    real-world use includes Electrotap’s Tap.Tools11, Cycling ’74’s Hipno[25], and the Jamoma Modular Framework[22]
+
+- Discussions:
+
+% TODO: How do we explain this in 15 minutes so that it seems significant to someone new?
+% _How_ do we go ahead to implement the fancy stuff that we required? Are there important design decisions involved that are worth presenting/discussing?
+% What's Cool:
+%   1. writing unit generators is clear and straight-forward (e.g. gain, delay, \ldots)  -- thanks in part to convention over configuration, DRY,...
+%   2. combining unit generators is simple - example: combining simple units into compound (e.g. DC Blocker: see Section 'Examples')
+%   3. wrapping for different environments is easy - this will be further improved in future using Jamoma Graphics
+
+    Benefits
+        - available for open and commercial products - used for Jamoma Modular, Hipno, TapTools, ...
+        - cross-platform - Jamoma available for Max and Windows
+        - "effortless to wrap" -  provide example of code for Max external, screenshots of external in Max, AudioUnit,...
+        - user-extensible - function lib, analysis lib, math lib, 
+        - reuse of code in different environments: (going beyond flext) but more pleasant
+        - dynamically reconfigurable objects without recompiling code or DSP graphs
+            - FM example
+            - Live coding (irb?)
+        - multichannel, adapt to varying input  - quote the not net written paper for DAFx
+        - 64-bit - higher fidelity, timing issues when counting samples, better use of modern processors
+        - thread-agnostic
+        - "code pleasant to work with"
+
+    Downsides (if any):
+        -  dynamically binding is not as fast
+        - 
+    
+- Future work
+
+    - Graphics
+    - Multicore
+    
+    
+
+    
+    
 
 \subsection{Design}
 
@@ -359,32 +440,32 @@ The basic calls: lifecycle, attributes, messages
 Attributes are not merely maintaining the state of a single value but are multifaceted entities whose behavior is modified through the use of properties\cite{Place:2008params}.
 
 
-\subsubsection{An Example Class: the one pole filter}
-
-\begin{lstlisting}
-	#include "TTDSP.h"
-
-	class TTLowpassOnePole : public TTAudioObject {
-		TTCLASS_SETUP(TTLowpassOnePole)
-
-		TTFloat64					mFrequency;
-		TTFloat64					mCoefficient;
-		TTSampleVector		mFeedback;
-
-		TTErr updateMaxNumChans(const TTValue&);
-		TTErr updateSr();
-		TTErr clear();	
-		TTErr setFreq(const TTValue& value);
-		
-		inline TTErr 
-		calcValue(const	TTFloat64& x, 
-							      TTFloat64& y, 
-										TTPtrSizedInt channel);
-		TTErr 
-		processAudio(TTAudioSignalArrayPtr in, 
-								 TTAudioSignalArrayPtr out);
-	};
-\end{lstlisting}
+%\subsubsection{An Example Class: the one pole filter}
+%
+%\begin{lstlisting}
+%	#include "TTDSP.h"
+%
+%	class TTLowpassOnePole : public TTAudioObject {
+%		TTCLASS_SETUP(TTLowpassOnePole)
+%
+%		TTFloat64					mFrequency;
+%		TTFloat64					mCoefficient;
+%		TTSampleVector		mFeedback;
+%
+%		TTErr updateMaxNumChans(const TTValue&);
+%		TTErr updateSr();
+%		TTErr clear();	
+%		TTErr setFreq(const TTValue& value);
+%		
+%		inline TTErr 
+%		calcValue(const	TTFloat64& x, 
+%							      TTFloat64& y, 
+%										TTPtrSizedInt channel);
+%		TTErr 
+%		processAudio(TTAudioSignalArrayPtr in, 
+%								 TTAudioSignalArrayPtr out);
+%	};
+%\end{lstlisting}
 
 
 % (end)
@@ -421,8 +502,8 @@ Real-world usage...
 
 \subsection{Spatialization}
 
-%TODO: we have already cited Peters:2009
-Spatialization at the Encoding/Decoding and Authoring layers\cite{Peters:2009}.  In fact, through the development of the NodeLib we are now able to work also at the Scene Description Layer by communicating as SpatDIF\cite{Peters:2008spatdif}.
+%TODO: CUT THIS:
+%Spatialization at the Encoding/Decoding and Authoring layers\cite{Peters:2009}.  In fact, through the development of the NodeLib we are now able to work also at the Scene Description Layer by communicating as SpatDIF\cite{Peters:2008spatdif}.
 
 One example that is ready for implementation in the Jamoma DSP library is DBAP\cite{Lossius:2009}.
 
@@ -524,7 +605,8 @@ The power of this runtime is demonstrated through the ability to compile objects
 
 \section{Acknowledgements} % (fold)
 
-Dave Watson, Joshua Kit Clayton, Théo Delahogue, Tristan Mathews
+%TODO: Théo's name shows up wrong
+Dave Watson, Joshua Kit Clayton, Th\'eo Delahogue, Tristan Mathews
 
 % (end)
 
