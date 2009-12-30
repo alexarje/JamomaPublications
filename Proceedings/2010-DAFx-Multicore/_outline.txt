@@ -97,3 +97,17 @@ Marsyas has this same problem.
 
 
 % (end)
+
+
+
+
+
+
+\subsection{Tools}
+
+- Unit testing      \\
+
+- Integrated Analysis and Benchmarking -- perhaps reference the upchuck operator in ChucK?
+   -- This integrated analysis and benchmarking could also provide the basis by which an audio graph such as Jamoma Multicore is able to evaluate how to optimize the processes in the graph to make intelligent decisions on how to distribute the processing among threads or processors.
+
+

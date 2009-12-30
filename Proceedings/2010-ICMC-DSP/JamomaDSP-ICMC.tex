@@ -379,8 +379,7 @@ Or maybe a FunctionLib thing to show off the calculate method?
 
 \section{Discussion / Applications} % (fold)
 
-real-world use includes Electrotap's Tap.Tools\footnote{http://electrotap.com/taptools}, Cycling '74's Hipno\cite{Place:2005}, and the Jamoma Modular Framework\cite{Place:2006}
-
+Real-world usage...
 
 \subsection{Spatialization}
 
@@ -390,26 +389,27 @@ Spatialization at the Encoding/Decoding and Authoring layers\cite{Peters:2009}. 
 One example that is ready for implementation in the Jamoma DSP library is DBAP\cite{Lossius:2009}.
 
 
-\subsection{User Interface Development}
-
-Yup yup yup yup...
-
 \subsection{AudioUnit Creation}
 
-Blah blah blah...
+In the summer of 2009 we combined the application domains of spatialization, graphical rendering, and AudioUnit creation to create a plug-in version of ViMiC\cite{Peters:2008b}.
+
+% TODO: Nils, do you have a a screenshot we could add here?  [tap]
+
 
 \subsection{External Object Generation for Max/MSP and PureData}
 
 Class wrappers...  What about SuperCollider?  I guess we should actually do it first before we claim that we can.
 
+Electrotap's Tap.Tools\footnote{http://electrotap.com/taptools}
+
+Cycling '74's Hipno\cite{Place:2005}
+
+Jamoma Modular Framework\cite{Place:2006}
+
+
 \subsection{Ruby and Ruby on Rails}
 
 Server-side web application framework.  :-)
-
-\subsection{ViMiC}
-In the summer of 2009 we combined the application domains of spatialization, graphical rendering, and AudioUnit creation to create a plug-in version of ViMiC\cite{Peters:2008b}.
-
-% TODO: Nils, do you have a a screenshot we could add here?  [tap]
 
 \subsection{Rapid Prototyping Environment}
 
@@ -426,19 +426,12 @@ Introspection features of the Jamoma Foundation make it possible to query object
 
 \section{Further Development} % (fold)
 
-\subsection{UI}
-
-Automated UI editor generation through Jamoma Graphics.
-
-\subsection{Multicore}
-
-Not sure what to say here yet -- need to do some assessment on Multicore (fun fun fun).
 
 \subsection{ClassWrappers}
 
 For more environments, such as VST and SuperCollider
 
-\subsection{Standard Library Expansion}
+\subsection{DSP Library Expansion}
 
 Spectral processing \\
 
@@ -455,16 +448,10 @@ SynthesisLib
 
 Initial work on a scheduler for the DSP library was begun in 2007.  Competing priorities have left it unfinished...  More interesting models for scheduling, such as the the model implemented in ChucK provide impetus for further research into new approaches to this topic.
 
-\subsection{Tools}
-
-- Unit testing      \\
-
-- Integrated Analysis and Benchmarking -- perhaps reference the upchuck operator in ChucK?
-   -- This integrated analysis and benchmarking could also provide the basis by which an audio graph such as Jamoma Multicore is able to evaluate how to optimize the processes in the graph to make intelligent decisions on how to distribute the processing among threads or processors.
-
 
 \subsection{Web Browser Support}
 We have begun implementing support for server-side integration of the Jamoma Runtime via the Ruby language bindings and Ruby on Rails\footnote{http://rubyonrails.org}.  To fully leverage the DSP library and Jamoma Foundation in a web-browser we need the ability to invoke the runtime on the client-side of the equation through a web browser plug-in similar to that done in the iARS Project\cite{Frauenberger:2003}.
+
 
 \subsection{NodeLib}
 
@@ -478,22 +465,6 @@ As a means of addressing parts of the system via OSC.  Somewhat like what Marsya
 [12/10/09 7:59:32 PM] Tim Place: It could be possible to create an object which wraps an array of objects that process each channel individually
 [12/10/09 7:59:58 PM] Tim Place: I think that would address the filter problem you mention more generally
 
-
-\subsection{Figures, Tables and Captions}
-
-\begin{table}[htbp]
-\begin{center}
-\begin{tabular}{|l|l|}
-\hline
-String value & Numeric value \\
-\hline
-hello ICMC  & 1073 \\
-\hline
-\end{tabular}
-\end{center}
-\caption{Table captions are placed below the table.}
-\label{tab:example}
-\end{table}
 
 
 % (end)

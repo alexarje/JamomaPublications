@@ -1,19 +1,6 @@
 2010 -- ICMC -- DSP
 
-
-
-
-Prior Art
-* STK
-* Max
-* Objective-C
-* Smalltalk
-* SuperCollider?
-
-
-
 What differentiates TTBlue?
-
 
 Major Features
 	
@@ -38,31 +25,10 @@ Major Features
 					-- doesn't exist yet, but eventually write extension classes in Ruby?
 
 
-An example: 
-	The DC blocker?  Or the 1-pole lowpass?
-
-
-Working Demo Projects
-* Max/MSP
-* Pd
-* VST
-* AudioUnits
-* SuperCollider
-* Embedded devices? (Android, iPhone)
-
-
 In Context:
 * Open Source: Jamoma
 * Commercial: Tap.Tools, Hipno
 
-
-References
-
-
-
-
-
-INTRODUCTION
 
 Why does the world need another DSP library?  
 
@@ -102,7 +68,8 @@ STRUCTURE
 
 THEORY OF OPERATION
 
-Like Smalltalk and Objective-C, Jamoma DSP typically communicates by sending messages rather than calling functions. The emphasis on realtime signal processing is manifested in several ways throughout Jamoma DSP, including its very strong support for vector-based audio processing.
+Like Smalltalk and Objective-C, Jamoma DSP typically communicates by sending messages rather than calling functions. 
+The emphasis on realtime signal processing is manifested in several ways throughout Jamoma DSP, including its very strong support for vector-based audio processing.
 
 
 
@@ -112,9 +79,6 @@ BENEFITS
 Dynamic re-configuration of the signal networks and control structures means that TTBlue can be run on a web server and the signal chain defined (or re-defined) in real time on a web client using a GUI (such as a web browser or iPhone) or SMS.
 
 One application of this is an installation or sculptural art work where you could tweak the behavior by sending it SMS messages using a phone.
-
-
-vs. Java, we can actually hope to run on an embedded platform...
 
 
 
