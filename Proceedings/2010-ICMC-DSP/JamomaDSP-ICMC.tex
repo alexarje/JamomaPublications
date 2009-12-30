@@ -127,7 +127,9 @@ This paper presents an object-oriented, reflective, light-weight application pro
 %
 
 
-\subsection{Terminology}
+\subsection{Terminology} % (fold)
+
+% TODO: some sort of citation for the definitions?  [TL]
 
 It is useful to clarify our usage of various computer science jargon and terminology.  In \emph{object-oriented programming} functionality related to a set of data is treated as a unit.  These units, or objects, are created and then often passed using a reference or pointer to the memory in which the object's contents are stored.  These objects comprise \emph{methods} (functions) and \emph{attributes} (properties or data which represents state).
 
@@ -141,37 +143,46 @@ Throughout the literature exists a confusing gaggle of terminology for classifyi
 
 \begin{packed_item}%\begin{itemize}
 	\item unit generator : A class or object that implements a well-defined DSP task such as generating, analyzing, or processing audio data.
-	\item library : a collection of pre-built, ready-to-use, unit generators
-	\item toolkit	: a collection of functions, helpers, possibly with an API, for creating unit generators
-	\item framework : 
-	\item environment : au/vst/max/sc3/chuck
-	\item runtime : 
+	\item library        : a collection of pre-built, ready-to-use, unit generators
+	\item toolkit	       : a collection of functions, helpers, possibly with an API, for creating unit generators
+	\item framework      : architectural structure / a basic structure underlying a system
+	\item runtime        : dispatching messages, running the machinery (ObjC/Java), executing in real-time as you are using it
+	\item environment    : au/vst/max/sc3/chuck top-level
 \end{packed_item}%\end{itemize}
 
+%(end)
 
-\subsection{Requirements}
 
-The authors are involved in a number of divergent and parallel efforts requiring a both a framework for creating unit generators and a library of ready-to-go unit generators.  These efforts include both open-source and closed-source commercial applications targeting multiple platforms and environments.  To meet the manifold demands of these endeavors the following list of requirements must be met regarding how said framework must perform and behave.
+\subsection{Requirements} % (fold)
+
+The authors are involved in a number of divergent and parallel efforts requiring both a framework for creating unit generators and a library of ready-to-go unit generators.  These efforts include both open-source and closed-source commercial applications targeting multiple platforms and environments.  To meet the manifold demands of these endeavors the following list of requirements must be met regarding how said framework must perform and behave.
 
 \begin{packed_item}%\begin{itemize}
 	\item liberal licensing for both open source and commercial end use
 	\item cross-platform (Mac/Windows/Linux/Embedded Devices/Mobile Platforms)	
 	\item effortless to wrap (integrate?) classes for use in different environments (Max/MSP, VST, AU, ChucK, Pd)
 	\item user-extensible
-	\item dynamically reconfigurable classes at runtime (object decoration, process routine switching)
+	\item dynamically reconfigurable classes at runtime (dynamic-binding)
 	\item multichannel support
 	\item reasonably efficient (i.e. frame-based audio processing)
 	\item process methods must be able to adapt to varying input (frame sizes, channel configurations, etc.) on-the-fly
 	\item must support 64-bit audio streams (future proof ?)
-	\item be as thread-agnostic as possible (don't manage it, but take care of requisite protection, adaptable to various architectures)
-	\item MVC-friendly (reconfigurable)
+	\item be as thread-agnostic as possible (don't manage it, but take care of requisite protection, adaptable to various architectures) % new term: thread agnostic
+	\item MVC-friendly (reconfigurable) % new term: mvc
+
+% TODO: Terms not defined: reconfigure classes, object decoration, process routine switching, frame-based audio processing, thread-agnostic, requisite protection,  MVC [tl]
+
+% TODO: maybe simplify list, remove MVC?  [tap]
+
 \end{packed_item}%\end{itemize}
 
 Having met these technical requirements, the authors also deem an additional set of process requirements to be important.  These requirements are in adhering to contemporary philosophies for good coding practice, ensuring that it is pleasant to work with the code, to maintain it, to test it, and to distribute it.
 
+% TODO: more citations or footnotes for the following terms? [tl]
+
 \begin{packed_item}%\begin{itemize}
 	\item expressive syntax, idioms, and conventions
-	\item adhere to the DRY principle (Don't Reapeat Yourself): ``Every piece of knowledge must have a single, unambiguous, authoritative representation within a system''\cite{Hunt:1999}
+	\item adhere to the DRY principle (Don't Repeat Yourself): ``Every piece of knowledge must have a single, unambiguous, authoritative representation within a system''\cite{Hunt:1999}
 	\item clear code % what do we mean by this?
 	\item convention over configuration
 	\item tag-based searching for class categorization and object instantiation
@@ -182,6 +193,7 @@ Having met these technical requirements, the authors also deem an additional set
 % One list for efficiency to the computer
 % One list for efficiency for the development process / programmers's workflow : Ruby : set out top make a program that would "make programmers happy"; "Ruby is simple in appearance, but is very complex inside, just like our human body" - Yukihiro “matz” Matsumoto
 
+% (end)
 % (end)
 
 
@@ -194,9 +206,9 @@ A myriad of existing libraries, toolkits, frameworks, and environments are avail
 
 \subsection{Choice of Language} % (fold)
 
-An immediate winnowing of the field of contenders can be accomplished by discussing the choice of programming language.  There are popular and well structured DSP libraries for Java\cite{Guillemard:2005, Burk:1998} and Objective-C\cite{Jaffe:1989,Jaffe:1991}, for example, but these languages also carry restrictions and baggage.  Java is not installed on Windows systems by default and is not available in the context of many embedded devices.  Objective-C is available on Windows only through the clumsy and inadequate GnuStep\footnote{\url{http://www.gnustep.org/}} project\footnote{For example, one cannot natively compile using Microsoft's MSVC compiler.} and also is not available in the context of many embedded or mobile devices\footnote{The authors also look upon Apple's corporate control of the Objective-C language and runtime with some degree of skepticism, as compared to the open consortium that is mediating the C++ language's evolution}.  Interpreted languages are quite powerful, but do not provide the required speed for real-time DSP performance in embedded environments and can also create portability problems in some cases.  
+An immediate winnowing of the field of contenders can be accomplished by discussing the choice of programming language.  There are popular and well structured DSP libraries for Java\cite{Guillemard:2005, Burk:1998} and Objective-C\cite{Jaffe:1989,Jaffe:1991}, for example, but these languages also carry restrictions and baggage.  Java is not installed on Windows systems by default and is not available in the context of many embedded devices.  Objective-C is available on Windows only through the clumsy and inadequate GnuStep\footnote{\url{http://www.gnustep.org/}} project\footnote{For example, one cannot natively compile using Microsoft's MSVC compiler.} and also is not available in the context of many embedded or mobile devices\footnote{The authors also look upon Apple's corporate control of the Objective-C language and runtime with some degree of skepticism, as compared to the open consortium that is mediating the C++ language's evolution}.  Interpreted languages such as Ruby and Python are quite powerful, but do not provide the required speed for real-time DSP performance in embedded environments and can also create portability problems in some cases.  
 
-Another class of languages are domain-specific languages for audio signal processing.  These include SuperCollider\cite{McCartney:1996}, ChucK\cite{wang:2008}, and CSound.  For our purposes we will also consider the Max family (including MSP\cite{Zicarelli:1998} and PureData\cite{Puckette:1996}) to be domain-specific-languages\footnote{We acknowledge the heated debate as to whether these environments actually constitute languages and the dispute regarding whether the use of these environments should be considered programming.}.  These domain-specific languages do provide facilities both for creating and using Unit Generators, but often have portability limitations and very frequently have licensing limitations\footnote{For example, ChucK and SuperCollider are licensed as GPL and thus not available for commercial development, while Max/MSP is not available on embedded devices nor in plug-in host environments other than Ableton Live \url{http://cycling74.com/2009/05/14/pluggo-technology-moves-to-max-for-live/}}.  These environments also frequently have a large footprint in that they are very resource demanding, while we desire a light-weight framework.
+Another class of languages are domain-specific languages for audio signal processing.  These include SuperCollider\cite{McCartney:1996}, ChucK\cite{wang:2008}, and CSound.  For our purposes we will also consider the Max family (including MSP\cite{Zicarelli:1998} and PureData\cite{Puckette:1996}) to be domain-specific-languages\footnote{We acknowledge the heated debate as to whether these environments actually constitute languages and the dispute regarding whether the use of these environments should be considered programming.}.  These domain-specific languages do provide facilities both for creating and using Unit Generators, but often have portability limitations and very frequently have licensing limitations\footnote{For example, ChucK and SuperCollider are licensed as GPL and thus not available for commercial development, while Max/MSP is not available on embedded devices nor in plug-in host environments other than Ableton Live}.  These environments also frequently have a large footprint in that they are very resource demanding, while we desire a light-weight framework.
 
 The C++ language and its compilers are ubiquitous across platforms.  Plug-ins and extensions for sundry environments and languages can be compiled using C and C++.  The C++ language is also capable of creating extremely high-performance code optimized for digital signal processing.
 
@@ -205,16 +217,16 @@ The C++ language and its compilers are ubiquitous across platforms.  Plug-ins an
 
 \subsection{Plug-in APIs} % (fold)
 
-A related subject is the creation of audio plug-ins using existing APIs.  VST, RTAS, LADSSPA/DSSI, and AudioUnits are all APIs for creating UnitGenerators in C/C++.  None of these technologies, however, meet our requirements.  None are actually libraries, though there are a standard set of the non-cross-platform AudioUnit plug-ins provided by Apple.
+A related subject is the creation of audio plug-ins using existing APIs.  VST, RTAS, LADSSPA/DSSI, and AudioUnits are all APIs for creating UnitGenerators in C/C++.  None of these technologies, however, meet our requirements.  None are actually libraries, though there is a standard set of the non-cross-platform AudioUnit plug-ins provided by Apple.
 
 % (end)
 
 
 \subsection{Licensing} % (fold)
 
-As stated, the author require a framework that can be used in both open-source and commercial applications.  This immediately rules out the use of any existing work licensed under the GNU GPL, which stipulates that all works using it are themselves licensed under the GNU GPL.  Among the options this rules out are SndObj\cite{Lazzarini:2001}, CLAM\cite{Amatraian:2008}, and Marsyas \cite{Tzanetakis:2008}.  Additionally, the CSL framework\cite{Pope:2003} requires licensing through the University of California, which is not agreeable to the open use we require.
+As stated, the authors require a framework that can be used in both open-source and commercial applications.  This immediately rules out the use of any existing work licensed under the GNU GPL, which stipulates that all works using it are themselves licensed under the GNU GPL.  Among the options this rules out are SndObj\cite{Lazzarini:2001}, CLAM\cite{Amatraian:2008}, and Marsyas \cite{Tzanetakis:2008}.  Additionally, the CSL framework\cite{Pope:2003} requires licensing through the University of California, which is not agreeable to the open use we require.
 
-Due to these licensing restrictions, none of these packages are suitable for our use\footnote{The license for the STK is reasonably liberal.  At the time that the Jamoma DSP library was initially written, however, the license for the STK specified non-commercial use and thus using the STK was not an option for the authors.  }.  They do, however, contain many valuable ideas that serve to inform our own work.
+Due to these licensing restrictions, none of these packages are suitable for our use\footnote{The license for the STK is reasonably liberal.  At the time that the Jamoma DSP library was initially written, however, the license for the STK specified non-commercial use and thus using the STK was not an option for the authors.}.  They do, however, contain many valuable ideas that serve to inform our own work.
 
 % (end)
 
@@ -229,45 +241,22 @@ Dynamically-bound frameworks and runtimes, such as PureData, Objective-C, or Mar
 
 % (end)
 
-\subsection{Existing Libraries and Toolkits}
 
-Having narrowed the field of available packages to libraries and toolkits with suitable (or potentially suitable) licensing and platform independence, we can take a slightly deeper look at some of the remaining contenders.
+\subsection{ZenGarden} % (fold)
 
-\subsubsection{STK - The Synthesis ToolKit} % (fold)
+Having narrowed the field to libraries and toolkits with suitable (or potentially suitable) licensing and platform independence, and also built on a dynamically-bound architecture, we are left with only one package that is readily available: ZenGarden\footnote{\url{http://github.com/mhroth/ZenGarden}}.  ZenGarden is a dynamically-bound cross-platform framework licensed under the LGPL.  PureData can be used as an authoring environment to define a graph of ZenGarden's unit generators, as was done for the popular RjDj iPhone app\footnote{\url{http://rjdj.me/}}.
 
-``The Synthesis ToolKit offers an array of unit generators for filtering, input/output, etc., as well as examples of new and classic synthesis and effects algorithms for research, teaching, performance, and composition purposes.''\cite{Cook:1999}
-
-A defining difference between the STK and the Jamoma Foundation/DSP frameworks is that the STK is a statically-bound system based on method calls that are linked at compile-time.  Jamoma's frameworks, on the other hand, are dynamically-bound and use a message passing system inspired by Smalltalk\cite{Krasner:1988} and Objective-C\cite{Cox:1986}.
-
-As of version 4.2.0, the STK offers multichannel and frame-based sample processing\cite{Scavone:2005}. Still, the StkFrames type and tick() method operates on single sets of multichannel frames\footnote{as of version 4.4.1, downloaded from https://ccrma.stanford.edu/software/stk/download.html on 7 December 2009}, whereas a Jamoma DSP's process method is designed to work with N multichannel signal frames of input and N multichannel frames of output.
-
-At this time the STK offers two potential benefits over Jamoma DSP.  First is the extensive library of unit generators, particularly for synthesis.  The second is that due to static linking there is a slight performance advantage when making function calls rather than sending messages.  On desktop computer the difference is unlikely to be discernible, but on mobile devices it is possible that the difference will become noticeable.
-
-However the STK does not provide a runtime architecture that dynamically loads user-defined extensions or provide factories capable of search the database of classes and then instantiating such objects at runtime.
-
-Marsyas has this same problem.  
-
-% TODO: Consider restructuring this whole section based on our "requirements" secion in the Intro.  Then we just discuss the problem domains and mention each toolkit like STK or Marsyas as they come up in a description of the problem domain... [tap]
-
+While ZenGarden has much to offer, it still lacks out-of-the-box support for 64-bit audio processing graphs and the kind of dynamic multichannel audio operation that is required.
 
 % (end)
 
-\subsubsection{ZenGarden} % (fold)
+\subsection{Conclusion} % (fold)
 
-I spent a little time with this ZenGarden.  It's very interesting!
-They are basically only really using Pd as an authoring environment.
-Their framework then opens the Pd patcher file, but all of the audio
-objects and audio graph code are re-implemented using their own C++
-classes (not using Pd at all).
-
-RjDj on the iPhone
-
-\footnote{\url{http://github.com/mhroth/ZenGarden}}
+In the end we found now one framework to possess all of the requirements set forth.  As the de facto standard for audio DSP libraries, the STK comes perilously close as of more recent revisions\cite{Scavone:2005}, and offers a rich and mature array of unit generators.  The STK is statically-bound.  While a problem for the kinds of applications we envision, this does yield potentially faster execution of the code.  We propose an alternative that will not replace the STK, but rather coexist with it as a part of the greater computer music ecology.
 
 % (end)
 
 
-% (end) subsection:Existing Libs
 % (end) section:Prior Art
 
 
