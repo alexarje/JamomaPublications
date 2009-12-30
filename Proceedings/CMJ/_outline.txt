@@ -1,0 +1,39 @@
+CMJ -- MVC Jamoma
+
+
+
+
+\subsection{Ruby Language Bindings}
+
+This is cool!
+
+example: filter design using reflective features in a web browser
+
+MVC
+    Model: DSP Objects/Foundation DSP
+    View: web browser
+    Controller: ruby/rails
+
+MVC
+    Model: DSP Objects/Foundation DSP
+    View: TTGraphics
+    Controller: Max
+
+MVC
+    Model: Virage Sequencer \url{http://www.plateforme-virage.org/}
+    View: TTGraphics
+    Controller: OSC
+    
+    
+Possible models:
+    DSP Objects/Foundation DSP
+    Virage Sequencer
+Possible Controllers:
+    Ruby/Rails
+    OSC
+    Mac
+    CopperLAN
+Possible Views:
+    Max
+    TTGraphics
+    Web browser

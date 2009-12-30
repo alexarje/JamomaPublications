@@ -200,6 +200,7 @@ Having met these technical requirements, the authors also deem an additional set
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Prior Art} % (fold)
+\label{sec:prior_art}
 
 A myriad of existing libraries, toolkits, frameworks, and environments are available for digital signal processing.  To justify the effort of creating a new framework the merits of the extant members in this field should be considered, particularly with regard to our previously stated requirements.
 
@@ -288,12 +289,14 @@ In this layered architecture frameworks may build upon and extend frameworks bel
 
 The Jamoma Platform is not an environment.  It is a set of frameworks that can be used to create environments, or to extend existing environments, but it is not itself and environment. 
 
+Each framework within the Jamoma Platform shares a common structure.  A shared-library implementing base classes and core functionality exists at the core.  This functionality is then extended and enhanced by creating extensions.  An extension is a plug-in library that is dynamically loaded at runtime.  In this way the system can be expanded without re-compiling core components.
+
 
 \subsection{Foundation} % (fold)
 
 The Jamoma Foundation may be seen as analogous to the Objective-C Foundation, which ``Defines the `nuts and bolts' classes for Objective-C programming''\footnote{\url{http://developer.apple.com/cocoa/}}.  The Jamoma Foundation defines base classes, including our primary base class, \texttt{TTObject}.  Object life-cycle facilities include factories for creating, destroying, and referencing these classes.  A message-passing and attribute system inspired by Smalltalk\cite{Krasner:1988} and Objective-C\cite{Cox:1986} is implemented to enable dynamically-bound object topologies.  
 
-The Jamoma Foundation classes are informed by many best-practices of software development.   This includes use of design patterns\cite{Gamma:1995}.  In particular, all objects possess a built-in observer notification system.
+The Jamoma Foundation classes are informed by many best-practices of software development.  Unit Testing, for example, is integrated directly into the class design.  There is also an emphasis on the use of design patterns\cite{Gamma:1995}.  In particular, all objects possess a built-in observer notification system.
 
 Functionality specific to audio or digital signal processing is not present in this framework.  In fact, the Jamoma Foundation can be used as a general framework and runtime as a dynamically-bound API layer on top of C++ for any purpose.  This is evident, for example, in the Jamoma Graphics Library.
 
@@ -302,17 +305,18 @@ Functionality specific to audio or digital signal processing is not present in t
 
 \subsection{DSP Layer} % (fold)
 
+The DSP Layer augments the Foundation by extending \texttt{TTObject} to create a new \texttt{TTAudioObject} base class.  \texttt{TTAudioObject} provides the core functionality for processing multichannel, 64-bit, audio samples singly or in blocks while providing basic thread protection.
+
+In addition to the framework and base-classes, the DSP player also provides a library of classes as extensions implementing a variety of unit generators.  The provided unit generators include basic trigonometry functions, filters (including butterworth), oscillators, noise generators, analysis, effects, etc.
 
 % (end)
 
 
 \subsection{Additional Layers} % (fold)
 
-Additional layers have been implemented on top of the Jamoma Foundation, but in series and in parallel with the DSP layer.
+Additional layers have been implemented on top of the Jamoma Foundation, both in series and in parallel with the DSP layer.  For example, a graphics layer based on Cairo\footnote{\url{http://cairographics.org}} provides both a platform-independent, and a host-independent, way to draw to the screen.  While not necessarily related to audio or DSP it is relevant in that GUI widgets can be created that will work, for example, both in the Max/MSP environment and in an AudioUnit plug-in.
 
-
-
-One feature: we have clear divisions between the functionalities.   The DSP/unitgens fully-separate from the audio graph layer.
+Many of the initiatives reviewed in Section~\ref{sec:prior_art} combined not only a means by which to create unit generators, but also a method by which unit generators are combined into a graph for processing audio.  In the Jamoma Platform we create a clear division between creating and using unit generators versus combining them into a graph.  This allows the unit generators to be combined in any way that seems desirable for a particular context.  The Jamoma Multicore Audio Graph layer is a framework that manages the creation of graphs of \texttt{TTAudioObject} instances.
 
 % (end)
 
@@ -325,21 +329,6 @@ One feature: we have clear divisions between the functionalities.   The DSP/unit
 \section{In Practice: Structure / API} % (fold)
 
 \subsection{Design}
-
-%The design of the Jamoma Foundation and DSP Library is informed by the qualities Dieter Rams' ``ten principles for good %design''\footnote{http://www.vitsoe.com/en/gb/about/dieterrams/gooddesign}
-%\begin{packed_item}%\begin{itemize}
-%	\item Good design is innovative
-%	\item Good design makes a product useful
-%	\item Good design is aesthetic
-%	\item Good design helps us to understand a product
-%	\item Good design is unobtrusive
-%	\item Good design is honest
-%	\item Good design is long-lasting
-%	\item Good design is consequent to the last detail
-%	\item Good design is concerned with the environment
-%	\item Good design is as little design as possible
-%\end{packed_item}%\end{itemize}
-
 
 \subsection{The API}
 
@@ -360,24 +349,6 @@ Or maybe a FunctionLib thing to show off the calculate method?
 
 \section{Components} % (fold)
 
-\subsection{The Standard Libraries}
-
-The FilterLib
-The EffectsLib
-The MathLib
-DataspaceLib
-FunctionLib 
-ChaosLib [NP]
-etc.
-
-\subsection{Unit Testing}
-
-baked right in (though currently on a branch that needs to be finished and merged to master...)
-
-
-\subsection{Serialization}
-
-I had started this code, but where is it now?
 
 
 \subsection{Ruby Language Bindings}
@@ -424,12 +395,18 @@ Possible Views:
 \section{Examples} % (fold)
 
 1. DC Blocker class
+
 2. How to wrap the class
+
 3. How to combine two classes: e.g. noise + bandpass filter
+
 4. FM that can be repatching the FM unit in real time (different algorithms)  -- (perhaps this could a part of the discussion section?) 
-    %TODO: Trond will try to find examples/graphics illustrating this for further discussions between authors
-    %TODO: interpolation for TTWavetable
-    %TODO: Non-linear filters - limiting or saturation inside the filter as xn is cast to xn-1 and yn to yn-1 (switching the feedback-filter on the fly)
+
+%TODO: Trond will try to find examples/graphics illustrating this for further discussions between authors
+
+%TODO: interpolation for TTWavetable
+
+%TODO: Non-linear filters - limiting or saturation inside the filter as xn is cast to xn-1 and yn to yn-1 (switching the feedback-filter on the fly)
 
 % (end)
 
@@ -567,9 +544,6 @@ Jamoma Foundation and DSP provide a flexible, user-extendable, runtime environme
 "A well-defined API can also speed up the development process, since the implementation can focus more on the algorithmic aspects and less on implementation issues like API design." \cite{Lerch:2005}
 
 The power of this runtime is demonstrated through the ability to compile objects for Max, Pd, AudioUnits, VST, etc.  The future includes Multicore.
-
-
-
 
 % (end)
 
