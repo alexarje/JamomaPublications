@@ -311,6 +311,8 @@ The Jamoma Foundation classes are informed by many best-practices of software de
 
 Functionality specific to audio or digital signal processing is not present in this framework.  In fact, the Jamoma Foundation can be used as a general framework and runtime as a dynamically-bound API layer on top of C++ for any purpose.  This is evident, for example, in the Jamoma Graphics Library.
 
+% TODO: discuss     Attributes
+
 % TODO: add github link as footnote
 
 % (end)
@@ -321,6 +323,17 @@ Functionality specific to audio or digital signal processing is not present in t
 The DSP Layer augments the Foundation by extending \texttt{TTObject} to create a new \texttt{TTAudioObject} base class.  \texttt{TTAudioObject} provides the core functionality for processing multichannel, 64-bit, audio samples singly or in blocks while providing basic thread protection.
 
 In addition to the framework and base-classes, the DSP player also provides a library of classes as extensions implementing a variety of unit generators.  The provided unit generators include basic trigonometry functions, filters (including butterworth), oscillators, noise generators, analysis, effects, etc.
+
+
+Tech section (but also "Easy code" "DRY"):
+
+    inheriting mute, bypass attributes
+
+    inheriting dsp "stuff" like sample-rate attribute and SR-based convenience functions
+
+    useful functions readily available: denorm, dcblocking (only as unit though),  
+
+
 
 % TODO: add github link as footnote
 
@@ -359,38 +372,23 @@ As a dynamically-bound API, the Jamoma Foundation is a natural fit for control f
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{IN PRACTICE} % (fold)
-Tech spec
 
-    %- Going into conceptual-techical details of Foundation
+- Applications
 
-    %- Going into conceptual-techical details of DSP (code can be linked via github footnote)
-
-Stuff not fitted in yet:
-
-    % Unit testing - covered
-    Attributes
-    DBAP interesting example of what kind of units Jamoma DSP can cater for
+    - wrappers for Max, Csound, Audio Unit ,....
+        Giving an example of how a simple unit is implemented?
+        - Filters with common interface and the jcom.filter~ external (dynamic binding example all while audio is running)
+    - DBAP interesting example of what kind of units Jamoma DSP can cater for
         - split personality operating at audio and control rate
             - two units tied together at runtime
                 - audio matrix
                 - coefficients for matrix calculated at control rate
         - a biquad filter is really the same ....
             - but if values at control rate can cause interpolation to new value, the ramp lib could get involved and we could choose what curve to use for interpolation (e.g. glissandi in the pitch domain)
+    - real-world use includes Electrotap’s Tap.Tools11, Cycling ’74’s Hipno[25], and the Jamoma Modular Framework[22]
+    - ViMiC
+        (screenshot)
 
-    inheriting mute, bypass attributes
-    inheriting dsp "stuff" like sample-rate attribute and SR-based convenience functions
-    useful functions readily available: denorm, dcblocking (only as unit though),  
-
-
-    - Examples
-        What extensions do we have?
-            Filters with common interface and the jcom.filter~ external
-        Giving an example of how a simple unit is implemented?
-
-
-- Applications
-
-    real-world use includes Electrotap’s Tap.Tools11, Cycling ’74’s Hipno[25], and the Jamoma Modular Framework[22]
 
 - Discussions:
 
@@ -401,7 +399,7 @@ Stuff not fitted in yet:
 %   2. combining unit generators is simple - example: combining simple units into compound (e.g. DC Blocker: see Section 'Examples')
 %   3. wrapping for different environments is easy - this will be further improved in future using Jamoma Graphics
 
-    Benefits
+    Benefits:
         - available for open and commercial products - used for Jamoma Modular, Hipno, TapTools, ...
         - cross-platform - Jamoma available for Max and Windows
         - "effortless to wrap" -  provide example of code for Max external, screenshots of external in Max, AudioUnit,...
@@ -414,20 +412,32 @@ Stuff not fitted in yet:
         - 64-bit - higher fidelity, timing issues when counting samples, better use of modern processors
         - thread-agnostic
         - "code pleasant to work with"
+        - Introspection features of the Jamoma Foundation make it possible to query objects to automate the process of creating mappings and advanced control of the objects such as those cataloged in [18].
+        - Because we can put together objects in the environment of our choice: Max, Pd, a DAW if we use AudioUnits, and then even a web-browser using Ruby on Rails. Then we can move the code from one environment to another easily, or port it back to C++ with minimal effort.
 
     Downsides (if any):
         -  dynamically binding is not as fast
         - 
     
-- Future work
+- Future work (no subsections -- the headers waste space)
 
     - Graphics
     - Multicore
-    
+    - Server-side web application framework. :-)
+    - SuperCollider wrapper
+    - Scheduler - possibilities for sample-accurate scheduler?
+    - Processing arrays
+    - Node Lib
+    - Web Browser Support
+    - more units, support for common and well-established audio processing methods -  is it possible to borrow code from other projects where license permits it?
+    - 
     
 
     
     
+
+%%%%%%%%% OLD STUFF FROM HERE ON
+
 
 \subsection{Design}
 
@@ -576,12 +586,17 @@ We have begun implementing support for server-side integration of the Jamoma Run
 
 As a means of addressing parts of the system via OSC.  Somewhat like what Marsyas does.  An implementation of the ideas presented in\cite{Place:2008osc}.
 
+
 \subsection{Processing Arrays}
+
 [12/10/09 7:58:39 PM] Nils Peters: on the other hand, IMHO in most use cases you want to have separate control over the filter parameter of each channel
+
 [12/10/09 8:00:26 PM] Nils Peters: or the delay
+
 [12/10/09 8:00:41 PM] Nils Peters: You want to set different delays to your input channels
 
 [12/10/09 7:59:32 PM] Tim Place: It could be possible to create an object which wraps an array of objects that process each channel individually
+
 [12/10/09 7:59:58 PM] Tim Place: I think that would address the filter problem you mention more generally
 
 
