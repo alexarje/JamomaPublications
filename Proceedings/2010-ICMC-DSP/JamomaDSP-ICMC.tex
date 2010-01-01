@@ -283,9 +283,9 @@ In the end we found no one framework to possess all of the requirements set fort
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{The Jamoma ``Platform''} % (fold)
+\section{The Jamoma Platform} % (fold)
 
-Jamoma started out as a modular standard for structuring patches in Max \cite{Place:2006}. Over the last few years it has developed into a platform providing a layered architecture of frameworks that combine to provide essential functionality for creating computer music systems.  
+Jamoma was initially conceived as a modular standard for structuring patchers in Max \cite{Place:2006}. Over the last few years, however, it has been greatly augmented.  Jamoma has now developed into a platform providing a layered architecture of frameworks that combine to provide essential functionality for creating computer music systems in general, not just for Max/MSP.
 
 \begin{figure}[htbp]
 \centerline{\framebox{
@@ -307,29 +307,31 @@ This layered approach is similar to other such approaches in the field including
 
 The Jamoma Foundation\footnote{\url{http://github.com/tap/JamomaFoundation}} may be seen as analogous to the Objective-C Foundation, which ``Defines the `nuts and bolts' classes for Objective-C programming''\footnote{\url{http://developer.apple.com/cocoa/}}.  The Jamoma Foundation defines base classes, including our primary base class, \texttt{TTObject}.  Object life-cycle facilities include factories for creating, destroying, and referencing these classes.  A message-passing and attribute system inspired by Smalltalk\cite{Krasner:1988} and Objective-C\cite{Cox:1986} is implemented to enable dynamically-bound object topologies.  
 
-The Jamoma Foundation classes are informed by many best-practices of software development.  Unit Testing, for example, is integrated directly into the class design.  There is also an emphasis on the use of design patterns\cite{Gamma:1995}.  In particular, all objects possess a built-in observer notification system.
+The Jamoma Foundation classes are informed by many best-practices of software development.  Unit Testing, for example, is integrated directly into the class design.  There is also an emphasis on the use of design patterns\cite{Gamma:1995}.  In particular, all objects possess a built-in observer notification system.  
 
-Functionality specific to audio or digital signal processing is not present in this framework.  In fact, the Jamoma Foundation can be used as a general framework and runtime as a dynamically-bound API layer on top of C++ for any purpose.  This is evident, for example, in the Jamoma Graphics Library.
+As much as possible, complexity, `glue code', and the mechanics of writing C++ are hidden from the programmer.  They may be accessed if necessary, however, by relying on a convention-over-configuration paradigm the clarity of the code is dramatically improved.  In the opinions of the authors' this makes the code not only less time consuming to create and maintain, but also more enjoyable.  This aim is also aided by emphasizing DRY principles throughout the Jamoma Platform.
 
-% TODO: discuss     Attributes
+Functionality specific to audio or digital signal processing is not present in this particular framework.  In fact, the Jamoma Foundation can be used as a general framework and runtime as a dynamically-bound API layer on top of C++ for any purpose.  This is evident, for example, in the Jamoma Graphics Library.
 
+\subsubsection{Messages and Attributes} % (fold)
+
+As with other similar runtime systems, the Jamoma Foundation defines a symbol table for efficient message dispatch and lookup.  This symbol table is leveraged in the implementation of messages and attributes.  
+
+A \emph{message} is defined as a method of a class or instance that is then bound to a symbol.  Messages may optionally possess arguments for passing data to and from the object.
+
+An \emph{attribute} is defined as a data member of a class or instance, whose access is bound to symbol.  Typically, the setting or retrieving of the value then uses a built-in accessor method.  If needed, a custom setter or getter method can be defined to override the built-in mechanism.
+
+Additionally, attributes may possess \emph{properties}.  Properties are implemented as attributes of the attribute.  They include the ability define ranges for an attribute, the behavior of an attribute's value when the range is exceeded, etc.  The design of this system is consistent with the authors' previous proposals for more sophisticated control in parametric systems\cite{Place:2008params}.
+
+% (end)
 % (end)
 
 
 \subsection{DSP Layer} % (fold)
 
-The Jamoma DSP Layer\footnote{\url{http://github.com/tap/JamomaDSP}} augments the Foundation by extending \texttt{TTObject} to create a new \texttt{TTAudioObject} base class.  \texttt{TTAudioObject} provides the core functionality for processing multichannel, 64-bit, audio samples singly or in blocks while providing basic thread protection.
+The Jamoma DSP Layer\footnote{\url{http://github.com/tap/JamomaDSP}} augments the Foundation by extending \texttt{TTObject} to create a new \texttt{TTAudioObject} base class.  \texttt{TTAudioObject} provides the core functionality for processing multichannel, 64-bit, audio samples singly or in blocks while providing basic thread protection.  It also provides attributes and audio processing methods for controlling muting, bypass, sample-rate, etc. which are inherited by subclasses.
 
-In addition to the framework and base-classes, the DSP player also provides a library of classes as extensions implementing a variety of unit generators.  The provided unit generators include basic trigonometry functions, filters (including butterworth), oscillators, noise generators, analysis, effects, etc.
-
-
-Tech section (but also "Easy code" "DRY"):
-
-    inheriting mute, bypass attributes
-
-    inheriting dsp "stuff" like sample-rate attribute and SR-based convenience functions
-
-    useful functions readily available: denorm, dcblocking (only as unit though),  
+In addition to the framework and base-classes, the DSP player also provides toolkit functionality with convenience functions such as denormals and dc-offset blocking, and a library of classes as extensions implementing a variety of unit generators.  The provided unit generators include basic trigonometry functions, filters (including butterworth), oscillators, noise generators, analysis, effects, etc.
 
 % (end)
 
@@ -340,20 +342,16 @@ Additional layers have been implemented on top of the Jamoma Foundation, both in
 
 Many of the initiatives reviewed in Section~\ref{sec:prior_art} combined not only a means by which to create unit generators, but also a method by which unit generators are combined into a graph for processing audio.  In the Jamoma Platform we create a clear division between creating and using unit generators versus combining them into a graph.  This allows the unit generators to be combined in any way that seems desirable for a particular context.  The \emph{Jamoma Multicore Audio Graph Layer}\footnote{\url{http://github.com/tap/JamomaMulticore}} is a framework that manages the creation of graphs of \texttt{TTAudioObject} instances.
 
-Jamoma Modular\footnote{\url{http://github.com/tap/JamomaModular}} is a modular framework for a structured approach to development and control of modules in the graphical media environment Max.
+Jamoma Modular\footnote{\url{http://github.com/tap/JamomaModular}} is a modular framework for a structured approach to development and control of modules in the Max/MSP/Jitter environment.  It builds upon the Foundation, DSP, Graphics, and Multicore frameworks to accomplish this end.
 
 % (end)
-
 
 
 \subsection{Ruby Language Bindings} % (fold)
 
-As a dynamically-bound API, the Jamoma Foundation is a natural fit for control from the Ruby environment.  \footnote{\url{http://github.com/tap/JamomaRuby}}
-
-%TODO: flesh this out -- web browser, irb, rails [tap]
+As a dynamically-bound API, the Jamoma Foundation is a natural fit for control from the Ruby environment.  Language bindings for Jamoma in Ruby exist via the Jamoma Ruby project\footnote{\url{http://github.com/tap/JamomaRuby}}.  This enables use in a wide range of applications including live coding using \emph{irb}\footnote{\url{http://ruby-doc.org/docs/ProgrammingRuby/html/irb.html}} and integration with web applications using \emph{Ruby on Rails}\footnote{\url{http://rubyonrails.org}}.
 
 % (end)
-
 % (end)
 
 
@@ -435,7 +433,6 @@ The basic calls: lifecycle, attributes, messages
 
 \subsubsection{Attributes}
 
-Attributes are not merely maintaining the state of a single value but are multifaceted entities whose behavior is modified through the use of properties\cite{Place:2008params}.
 
 
 %\subsubsection{An Example Class: the one pole filter}
