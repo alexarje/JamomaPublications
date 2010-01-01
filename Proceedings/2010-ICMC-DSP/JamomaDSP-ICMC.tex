@@ -305,7 +305,7 @@ This layered approach is similar to other such approaches in the field including
 
 \subsection{Foundation} % (fold)
 
-The Jamoma Foundation may be seen as analogous to the Objective-C Foundation, which ``Defines the `nuts and bolts' classes for Objective-C programming''\footnote{\url{http://developer.apple.com/cocoa/}}.  The Jamoma Foundation defines base classes, including our primary base class, \texttt{TTObject}.  Object life-cycle facilities include factories for creating, destroying, and referencing these classes.  A message-passing and attribute system inspired by Smalltalk\cite{Krasner:1988} and Objective-C\cite{Cox:1986} is implemented to enable dynamically-bound object topologies.  
+The Jamoma Foundation\footnote{\url{http://github.com/tap/JamomaFoundation}} may be seen as analogous to the Objective-C Foundation, which ``Defines the `nuts and bolts' classes for Objective-C programming''\footnote{\url{http://developer.apple.com/cocoa/}}.  The Jamoma Foundation defines base classes, including our primary base class, \texttt{TTObject}.  Object life-cycle facilities include factories for creating, destroying, and referencing these classes.  A message-passing and attribute system inspired by Smalltalk\cite{Krasner:1988} and Objective-C\cite{Cox:1986} is implemented to enable dynamically-bound object topologies.  
 
 The Jamoma Foundation classes are informed by many best-practices of software development.  Unit Testing, for example, is integrated directly into the class design.  There is also an emphasis on the use of design patterns\cite{Gamma:1995}.  In particular, all objects possess a built-in observer notification system.
 
@@ -313,14 +313,12 @@ Functionality specific to audio or digital signal processing is not present in t
 
 % TODO: discuss     Attributes
 
-% TODO: add github link as footnote
-
 % (end)
 
 
 \subsection{DSP Layer} % (fold)
 
-The DSP Layer augments the Foundation by extending \texttt{TTObject} to create a new \texttt{TTAudioObject} base class.  \texttt{TTAudioObject} provides the core functionality for processing multichannel, 64-bit, audio samples singly or in blocks while providing basic thread protection.
+The Jamoma DSP Layer\footnote{\url{http://github.com/tap/JamomaDSP}} augments the Foundation by extending \texttt{TTObject} to create a new \texttt{TTAudioObject} base class.  \texttt{TTAudioObject} provides the core functionality for processing multichannel, 64-bit, audio samples singly or in blocks while providing basic thread protection.
 
 In addition to the framework and base-classes, the DSP player also provides a library of classes as extensions implementing a variety of unit generators.  The provided unit generators include basic trigonometry functions, filters (including butterworth), oscillators, noise generators, analysis, effects, etc.
 
@@ -333,26 +331,16 @@ Tech section (but also "Easy code" "DRY"):
 
     useful functions readily available: denorm, dcblocking (only as unit though),  
 
-
-
-% TODO: add github link as footnote
-
 % (end)
 
 
 \subsection{Additional Layers} % (fold)
 
-Additional layers have been implemented on top of the Jamoma Foundation, both in series and in parallel with the DSP layer.  For example, a \emph{Graphics Layer} based on Cairo\footnote{\url{http://cairographics.org}} provides both a platform-independent, and a host-independent, way to draw to the screen.  While not necessarily related to audio or DSP it is relevant in that GUI widgets can be created that will work, for example, both in the Max/MSP environment and in an AudioUnit plug-in.
+Additional layers have been implemented on top of the Jamoma Foundation, both in series and in parallel with the DSP layer.  For example, a \emph{Graphics Layer}\footnote{\url{http://github.com/tap/JamomaGraphics}} based on Cairo\footnote{\url{http://cairographics.org}} provides both a platform-independent, and a host-independent, way to draw to the screen.  While not necessarily related to audio or DSP it is relevant in that GUI widgets can be created that will work, for example, both in the Max/MSP environment and in an AudioUnit plug-in.
 
-% TODO: add github link as footnote
+Many of the initiatives reviewed in Section~\ref{sec:prior_art} combined not only a means by which to create unit generators, but also a method by which unit generators are combined into a graph for processing audio.  In the Jamoma Platform we create a clear division between creating and using unit generators versus combining them into a graph.  This allows the unit generators to be combined in any way that seems desirable for a particular context.  The \emph{Jamoma Multicore Audio Graph Layer}\footnote{\url{http://github.com/tap/JamomaMulticore}} is a framework that manages the creation of graphs of \texttt{TTAudioObject} instances.
 
-Many of the initiatives reviewed in Section~\ref{sec:prior_art} combined not only a means by which to create unit generators, but also a method by which unit generators are combined into a graph for processing audio.  In the Jamoma Platform we create a clear division between creating and using unit generators versus combining them into a graph.  This allows the unit generators to be combined in any way that seems desirable for a particular context.  The \emph{Jamoma Multicore Audio Graph Layer} is a framework that manages the creation of graphs of \texttt{TTAudioObject} instances.
-
-% TODO: add github link as footnote
-
-Jamoma Modular is a modular framework for a structured approach to development and control of modules in the graphical media environment Max.
-
-% TODO: add github link as footnote
+Jamoma Modular\footnote{\url{http://github.com/tap/JamomaModular}} is a modular framework for a structured approach to development and control of modules in the graphical media environment Max.
 
 % (end)
 
@@ -360,7 +348,7 @@ Jamoma Modular is a modular framework for a structured approach to development a
 
 \subsection{Ruby Language Bindings} % (fold)
 
-As a dynamically-bound API, the Jamoma Foundation is a natural fit for control from the Ruby environment.  
+As a dynamically-bound API, the Jamoma Foundation is a natural fit for control from the Ruby environment.  \footnote{\url{http://github.com/tap/JamomaRuby}}
 
 %TODO: flesh this out -- web browser, irb, rails [tap]
 
