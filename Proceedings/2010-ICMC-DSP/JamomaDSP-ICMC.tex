@@ -117,7 +117,7 @@
 
 \begin{abstract}
 
-This paper presents an object-oriented, reflective, light-weight application programming interface for C++, with an emphasis on real-time signal processing. It makes use of polymorphic typing, dynamic binding, and introspection to create a cross-platform environment pulling ideas from languages such as Smalltalk and Objective-C while remaining within the bounds of the portable and cross-platform C++ context.  The Jamoma Foundation and DSP Library provide a flexible framework and runtime environment, as well as an expanding collection of unit generators for synthesis, processing, and analysis.  This library has been used in both open source and commercial software projects over the past seven years.
+This paper presents an object-oriented, reflective, light-weight application programming interface for C++, with an emphasis on real-time signal processing. It makes use of polymorphic typing, dynamic binding, and introspection to create a cross-platform environment pulling ideas from languages such as Smalltalk and Objective-C while remaining within the bounds of the portable and cross-platform C++ context.  The Jamoma Foundation and DSP Library provide a flexible framework and runtime environment, as well as an expanding collection of unit generators for synthesis, processing, and analysis.  This library has been used in both open source and commercial software projects over the past several years.
 
 \end{abstract}
 
@@ -127,36 +127,28 @@ This paper presents an object-oriented, reflective, light-weight application pro
 \section{Introduction} % (fold)
 \label{sec:introduction}
 
-``The SMC Roadmap identifies two broad research challenges: (1) To design better sound objects and environments and (2) To understand, model, and improve human interaction with sound and music.'' \cite{serra:2007}  The Jamoma DSP library directly addresses the first task as means by which to address the second task.
-
-% CHANGED: More interesting where we are now rather than how we got here, as suggested by Trond
-%\subsection{History}
-%
-% Came out of Tap.Tools and Hipno development.  This was pre-Electrotap, so maybe the credit here should somehow go to 74Objects?
-%
+``The SMC Roadmap identifies two broad research challenges: (1) To design better sound objects and environments and (2) To understand, model, and improve human interaction with sound and music.'' \cite{serra:2007}  The Jamoma Foundation and DSP Library directly addresses the first task as a means by which to address the second task.  Before discussing the approach and relative merits taken in the Jamoma project we will first lay out some definitions and quickly assess the existing field of similar projects.
 
 
 \subsection{Terminology} % (fold)
 
-% TODO: some sort of citation for the definitions?  [TL]
+It is useful to clarify our usage of various computer science jargon and terminology.  In \emph{object-oriented programming} functionality related to a set of data is treated as a unit.  These units, or objects, are created and then often passed using a reference or pointer to the memory in which the object's contents are stored.  These objects comprise \emph{methods} (functions) and \emph{attributes} (properties or data which represent part of an object's state).
 
-It is useful to clarify our usage of various computer science jargon and terminology.  In \emph{object-oriented programming} functionality related to a set of data is treated as a unit.  These units, or objects, are created and then often passed using a reference or pointer to the memory in which the object's contents are stored.  These objects comprise \emph{methods} (functions) and \emph{attributes} (properties or data which represents state).
+\emph{Polymorphism} is a means by which a programming language generalizes different types of functions or data using a common \emph{API}, or Application Programming Interface.  An example of a polymorphic data-type of the variety in which we are interested is a `var' in the Javascript language\cite{Flanagan:2002}.  That is to say a data type which may be any data type internally (including an object or array), the details of which are not necessary in order to use or pass the data type amongst functions.
 
-\emph{Polymorphism} is a means by which a programming language generalizes different types of functions or data using a common \emph{API}, or Application Programming Interface.  An example of a polymorphic data-type of the variety in which we are interested is a `var' in the Javascript language.  That is to say a data type which may be any data type internally (including an object or array), the details of which are not necessary in order to use or pass the data type amongst functions.
-
-\emph{Introspection} refers to the ability to determine the characteristics of an object at runtime.  This means that when handed a pointer in C++, we can take the pointer and query for an object's name, its type or \emph{class}, the messages that it understands, the attributes it possesses, etc.  By extension, \emph{reflection} refers to the ability to then modify the behavior of an object at runtime.  In practical terms this means adding messages, changing attributes, and extending existing instances of objects as the software is executing and without stopping the software to re-compile the code.
+\emph{Introspection} refers to the ability to determine the characteristics of an object at runtime.  This means that when handed a pointer in C++, we can take the pointer and query for an object's name, its type or \emph{class}, the messages that it understands, the attributes it possesses, etc.  By extension, \emph{reflection} refers to the ability to then modify the behavior of an object at runtime\cite{Malenfant:1996}.  In practical terms this means adding messages, changing attributes, and extending existing instances of objects as the software is executing and without stopping the software to re-compile the code.
 
 Introspection and reflection are often implemented by making use of a \emph{dynamic binding model}.  Programming languages including C++ and Java link function and method calls when a program is compiled, known as static binding.  A dynamically bound model does not link these functions at compile-time, but instead waits until runtime to resolve the address of a method being called.  When a dynamic binding model is in use, calling methods is referred to as `sending messages' to objects.  Dynamic binding is the hallmark of languages such as Smalltalk, Objective-C, and Ruby.
 
 Throughout the literature exists a confusing gaggle of terminology for classifying systems of objects.  These include \emph{framework}, \emph{library}, \emph{environment}, and \emph{toolkit}.  For the purposes of this paper, these will be defined as follows.  
 
 \begin{packed_item}%\begin{itemize}
-	\item unit generator : A class or object that implements a well-defined DSP task such as generating, analyzing, or processing audio data.
-	\item library        : A collection of pre-built, ready-to-use, unit generators
-	\item toolkit	     : A collection of functions, helpers, possibly with an API, for creating unit generators
-	\item framework      : Architectural structure / a basic structure underlying a system
-	\item runtime        : Dispatching messages, running the machinery (ObjC/Java), executing in real-time as you are using it
-	\item environment    : AU/VST/Max/sc3/ChucK top-level
+	\item unit generator 	: A class or object that implements a well-defined DSP task such as generating, analyzing, or processing audio data
+	\item library        	: A collection of pre-built, ready-to-use, unit generators
+	\item toolkit	     		: A collection of functions, utilities, and helpers, possibly with an API, for creating unit generators
+	\item framework      	: An architectural structure that underlies a system of unit generators.
+	\item runtime        	: A daemon or library operating in real-time when a framework, toolkit, or unit generator is in use.  A runtime's role is typically for dispatching messages, balancing processor loads, or otherwise running the background machinery such as in the Objective-C or Java runtime environments.
+	\item environment    	: A full-fledged system intended for use by an end-user.  Examples include Max, SuperCollider, ChucK, DAW applications, and CSound.
 \end{packed_item}%\end{itemize}
 
 %(end)
@@ -169,35 +161,31 @@ The authors are involved in a number of divergent and parallel efforts requiring
 \begin{packed_item}%\begin{itemize}
 	\item liberal licensing for both open source and commercial end use
 	\item cross-platform (Mac/Windows/Linux/Embedded Devices/Mobile Platforms)	
-	\item effortless to wrap (integrate?) classes for use in different environments (Max/MSP, VST, AU, ChucK, Pd)
+	\item support for 64-bit audio signals
+	\item multichannel audio support
+	\item reasonably efficient (i.e. frame-based audio processing)
 	\item user-extensible (adding functionalities without recompiling core frameworks)
 	\item dynamically reconfigurable classes at runtime (dynamic-binding)
-	\item multichannel support
 	\item process methods must be able to adapt to varying input (frame sizes, channel configurations, etc.) on-the-fly
-	\item reasonably efficient (i.e. frame-based audio processing)
-	\item must support 64-bit audio streams (future proof ?)
+	\item effortless to wrap (integrate?) classes for use in different environments (Max/MSP, VST, AU, ChucK, Pd)
 %	\item be as thread-agnostic as possible (don't manage it, but take care of requisite protection, adaptable to various architectures) % new term: thread agnostic
 %	\item MVC-friendly (reconfigurable) % new term: mvc
 
 % TODO: Terms not defined: reconfigure classes, object decoration, process routine switching, frame-based audio processing, thread-agnostic, requisite protection,  MVC [tl]
-
 % TODO: maybe simplify list, remove MVC?  [tap]
 
 \end{packed_item}%\end{itemize}
 
 Having met these technical requirements, the authors also deem an additional set of process requirements to be important.  These requirements are in adhering to contemporary philosophies for good coding practice, ensuring that it is pleasant to work with the code, to maintain it, to test it, and to distribute it.
 
-% TODO: more citations or footnotes for the following terms? [tl]
-
 \begin{packed_item}%\begin{itemize}
 	\item expressive syntax, idioms, and conventions
-	\item adhere to the DRY principle (Don't Repeat Yourself): ``Every piece of knowledge must have a single, unambiguous, authoritative representation within a system''\cite{Hunt:1999}
-	\item clear code % what do we mean by this?
-	\item convention over configuration
+	\item adhere to the DRY (Don't Repeat Yourself) principle, which states that ``Every piece of knowledge must have a single, unambiguous, authoritative representation within a system''\cite{Hunt:1999}
+%	\item clear code % what do we mean by this?
+	\item convention over configuration\footnote{\url{http://softwareengineering.vazexqi.com/files/pattern.html}}
 	\item tag-based searching for class categorization and object instantiation
-	\item integrated unit testing and benchmarking % TODO: reference
+	\item integrated unit testing and benchmarking\footnote{\url{http://www.extremeprogramming.org/rules/unittests.html}}
 \end{packed_item}%\end{itemize}
-
 
 % One list for efficiency to the computer
 % One list for efficiency for the development process / programmers's workflow : Ruby : set out top make a program that would "make programmers happy"; "Ruby is simple in appearance, but is very complex inside, just like our human body" - Yukihiro “matz” Matsumoto
