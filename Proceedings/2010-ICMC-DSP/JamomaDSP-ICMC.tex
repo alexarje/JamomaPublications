@@ -222,7 +222,7 @@ A related subject is the creation of audio plug-ins using existing APIs.  VST, R
 
 \subsection{Licensing} % (fold)
 
-As stated, the authors require a framework that can be used in both open-source and commercial applications.  This immediately rules out the use of any existing work licensed under the GNU GPL, which stipulates that all works using it are themselves licensed under the GNU GPL.  Among the options this rules out are SndObj\cite{Lazzarini:2001}, CLAM\cite{Amatraian:2008}, and Marsyas \cite{Tzanetakis:2008}.  Additionally, the CSL framework\cite{Pope:2003} requires licensing through the University of California, which is not agreeable to the open use we require.
+As stated, the authors require a framework that can be used in both open-source and commercial applications.  This immediately rules out the use of any existing work licensed under the GNU GPL, which stipulates that all works using it are themselves licensed under the GNU GPL.  Among the options this rules out are SndObj \cite{Lazzarini:2001}, CLAM \cite{Amatraian:2008}, and Marsyas \cite{Tzanetakis:2008}.  Additionally, the CSL framework \cite{Pope:2003} requires licensing through the University of California, which is not agreeable to the open use we require.
 
 Due to these licensing restrictions, none of these packages are suitable for our use\footnote{The license for the STK is reasonably liberal.  At the time that the Jamoma DSP library was initially written, however, the license for the STK specified non-commercial use and thus using the STK was not an option for the authors.}.  They do, however, contain many valuable ideas that serve to inform our own work.
 
@@ -231,7 +231,7 @@ Due to these licensing restrictions, none of these packages are suitable for our
 
 \subsection{Dynamic Binding} % (fold)
 
-One of our core concerns is the requirement for dynamically reconfigurable classes at runtime.  For this, dynamic binding is of critical importance.  Dynamic binding is implemented to some degree in many of the aforementioned environments including Marsyas, Max/MSP, and the NeXT SoundKit for Objective-C.  However, due to our cross-platform and liberal licensing requirements they are not options.  Of the remaining DSP libraries and toolkits, the STK\cite{Cook:1999}, CMix\cite{Lansky:1990}, and TANGA\cite{Reiter:2007} are all statically-bound.  
+One of our core concerns is the requirement for dynamically reconfigurable classes at runtime.  For this, dynamic binding is of critical importance.  Dynamic binding is implemented to some degree in many of the aforementioned environments including Marsyas, Max/MSP, and the NeXT SoundKit for Objective-C.  However, due to our cross-platform and liberal licensing requirements they are not options.  Of the remaining DSP libraries and toolkits, the STK\cite{Cook:1999}, CMix \cite{Lansky:1990}, and TANGA \cite{Reiter:2007} are all statically-bound.  
 
 An interesting middle-of-the-road option is Kronos.  In fact, the problem domain of the Kronos system is the same as our problem domain: `` the musician may want to change the program during its execution. This was possible in the analog music studio, where swapping out patch cords often resulted in immediate gratification. In the digital world programs often have to be aborted, edited, re- compiled, linked and launched. The all-important musical hacking suffers from such a heavy compilation cycle, making a traditional programming language less desirable for real time artistic expression.'' \cite{Norilo:2009}
 
@@ -293,9 +293,9 @@ This layered approach is similar to other such approaches in the field including
 
 \subsection{Foundation} % (fold)
 
-The Jamoma Foundation\footnote{\url{http://github.com/tap/JamomaFoundation}} may be seen as analogous to the Objective-C Foundation, which ``Defines the `nuts and bolts' classes for Objective-C programming''\footnote{\url{http://developer.apple.com/cocoa/}}.  The Jamoma Foundation defines base classes, including our primary base class, \texttt{TTObject}.  Object life-cycle facilities include factories for creating, destroying, and referencing these classes.  A message-passing and attribute system inspired by Smalltalk\cite{Krasner:1988} and Objective-C\cite{Cox:1986} is implemented to enable dynamically-bound object topologies.  
+The Jamoma Foundation\footnote{\url{http://github.com/tap/JamomaFoundation}} may be seen as analogous to the Objective-C Foundation, which ``Defines the `nuts and bolts' classes for Objective-C programming''\footnote{\url{http://developer.apple.com/cocoa/}}.  The Jamoma Foundation defines base classes, including our primary base class, \texttt{TTObject}.  Object life-cycle facilities include factories for creating, destroying, and referencing these classes.  A message-passing and attribute system inspired by Smalltalk \cite{Krasner:1988} and Objective-C \cite{Cox:1986} is implemented to enable dynamically-bound object topologies.  
 
-The Jamoma Foundation classes are informed by many best-practices of software development.  Unit Testing, for example, is integrated directly into the class design.  There is also an emphasis on the use of design patterns\cite{Gamma:1995}.  In particular, all objects possess a built-in observer notification system.  
+The Jamoma Foundation classes are informed by many best-practices of software development.  Unit Testing, for example, is integrated directly into the class design.  There is also an emphasis on the use of design patterns \cite{Gamma:1995}.  In particular, all objects possess a built-in observer notification system.  
 
 As much as possible, complexity, `glue code', and the mechanics of writing C++ are hidden from the programmer.  They may be accessed if necessary, however, by relying on a convention-over-configuration paradigm the clarity of the code is dramatically improved.  In the opinions of the authors' this makes the code not only less time consuming to create and maintain, but also more enjoyable.  This aim is also aided by emphasizing DRY principles throughout the Jamoma Platform.
 
@@ -309,7 +309,7 @@ A \emph{message} is defined as a method of a class or instance that is then boun
 
 An \emph{attribute} is defined as a data member of a class or instance, whose access is bound to symbol.  Typically, the setting or retrieving of the value then uses a built-in accessor method.  If needed, a custom setter or getter method can be defined to override the built-in mechanism.
 
-Additionally, attributes may possess \emph{properties}.  Properties are implemented as attributes of the attribute.  They include the ability define ranges for an attribute, the behavior of an attribute's value when the range is exceeded, etc.  The design of this system is consistent with the authors' previous proposals for more sophisticated control in parametric systems\cite{Place:2008params}.
+Additionally, attributes may possess \emph{properties}.  Properties are implemented as attributes of the attribute.  They include the ability define ranges for an attribute, the behavior of an attribute's value when the range is exceeded, etc.  The design of this system is consistent with the authors' previous proposals for more sophisticated control in parametric systems \cite{Place:2008params}.
 
 % (end)
 % (end)
@@ -326,11 +326,13 @@ In addition to the framework and base-classes, the DSP player also provides tool
 
 \subsection{Additional Layers} % (fold)
 
-Additional layers have been implemented on top of the Jamoma Foundation, both in series and in parallel with the DSP layer.  For example, a \emph{Graphics Layer}\footnote{\url{http://github.com/tap/JamomaGraphics}} based on Cairo\footnote{\url{http://cairographics.org}} provides both a platform-independent, and a host-independent, way to draw to the screen.  While not necessarily related to audio or DSP it is relevant in that GUI widgets can be created that will work, for example, both in the Max/MSP environment and in an AudioUnit plug-in.
+Additional layers have been implemented on top of the Jamoma Foundation, both in series and in parallel with the DSP layer.  
 
-Many of the initiatives reviewed in Section~\ref{sec:prior_art} combined not only a means by which to create unit generators, but also a method by which unit generators are combined into a graph for processing audio.  In the Jamoma Platform we create a clear division between creating and using unit generators versus combining them into a graph.  This allows the unit generators to be combined in any way that seems desirable for a particular context.  The \emph{Jamoma Multicore Audio Graph Layer}\footnote{\url{http://github.com/tap/JamomaMulticore}} is a framework that manages the creation of graphs of \texttt{TTAudioObject} instances.
+The \textbf{Graphics Layer}\footnote{\url{http://github.com/tap/JamomaGraphics}},based on Cairo\footnote{\url{http://cairographics.org}}, provides both a platform-independent, and a host-independent, way to draw to the screen.  While not necessarily related to audio or DSP it is relevant in that GUI widgets can be created that will work, for example, both in the Max/MSP environment and in an AudioUnit plug-in.
 
-Jamoma Modular\footnote{\url{http://github.com/tap/JamomaModular}} is a modular framework for a structured approach to development and control of modules in the Max/MSP/Jitter environment.  It builds upon the Foundation, DSP, Graphics, and Multicore frameworks to accomplish this end.
+The \textbf{Multicore Audio Graph Layer}\footnote{\url{http://github.com/tap/JamomaMulticore}} combines unit generators from Jamoma DSP into audio processing topologies.  This differs from many of the initiatives reviewed in Section~\ref{sec:prior_art}, as they combined not only a means by which to create unit generators but also a method by which those objects are combined into a graphs.  In the Jamoma Platform we create a clear division between creating and using unit generators versus combining them into a graph.  This allows the unit generators to be combined in any way that seems desirable for a particular context.
+
+The \textbf{Modular Framework}\footnote{\url{http://github.com/tap/JamomaModular}} provides structure for the development and control of modules in the Max/MSP/Jitter environment.  It builds upon the Foundation, DSP, Graphics, and Multicore frameworks.
 
 % (end)
 
@@ -361,7 +363,9 @@ Given a Jamoma DSP unit generator, this object can be easily compiled for Cyclin
     int main(void)
     {
         TTDSPInit();
-        return wrapTTClassAsMaxClass(TT("limiter"), "myMaxLimiter~", NULL);
+        return wrapTTClassAsMaxClass(   TT("limiter"), 
+                                        "myMaxLimiter~", 
+                                        NULL);
     }
 %\end{lstlisting}
 
@@ -399,15 +403,7 @@ Ruby Language Bindings make the entirety of the DSP library accessible in the Ru
 Jamoma DSP includes further example projects wrapping classes for PureData and SuperCollider.
 
 
-
-- Applications
-[TL]    - DBAP interesting example of what kind of units Jamoma DSP can cater for
-        - split personality operating at audio and control rate
-            - two units tied together at runtime
-                - audio matrix
-                - coefficients for matrix calculated at control rate
-        - a biquad filter is really the same ....
-            - but if values at control rate can cause interpolation to new value, the ramp lib could get involved and we could choose what curve to use for interpolation (e.g. glissandi in the pitch domain)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Discussion}
 
@@ -418,9 +414,7 @@ Jamoma DSP includes further example projects wrapping classes for PureData and S
 %   2. combining unit generators is simple - example: combining simple units into compound (e.g. DC Blocker: see Section 'Examples')
 %   3. wrapping for different environments is easy - this will be further improved in future using Jamoma Graphics
 
-The GNU LGPL license chosen for the Jamoma frameworks have enabled them to be used for open-source as well as commersial software development: 
-
-Electrotap's Tap.Tools\footnote{http://shop.electrotap.com/products/taptools} is ashareware collection of 3rd party externals for Max/MSP. Tap.tools have a particular emphasis on common audio effects processing, and inherits multichannel audio support and 64-bit internal processing from the Jamoma DSP library.
+The GNU LGPL license chosen for the Jamoma frameworks have enabled them to be used for open-source as well as commersial software development.  Electrotap's Tap.Tools\footnote{http://shop.electrotap.com/products/taptools} is a collection of externals for Max/MSP with an emphasis on audio effects processing.  They inherit multichannel audio support and 64-bit internal processing from the Jamoma DSP library.
 
 Jamoma Modular \cite{Place:2006} is a framework providing a structured approach to development and control of modules in Max/MSP, licensed as GNU LGPL. Several 3rd party libraries of Jamoma Modules are currently in developmeent. The license used for Jamoma Modular allows such libraries to be made available on a commercial basis as well as open-sourced.
 
@@ -442,6 +436,18 @@ The now discontinued Hipno\cite{Place:2005} was a set of audio effects plug-ins 
         - "code pleasant to work with"
         - Introspection features of the Jamoma Foundation make it possible to query objects to automate the process of creating mappings and advanced control of the objects such as those cataloged in [18].
         - Because we can put together objects in the environment of our choice: Max, Pd, a DAW if we use AudioUnits, and then even a web-browser using Ruby on Rails. Then we can move the code from one environment to another easily, or port it back to C++ with minimal effort.
+
+
+
+
+[TL]    - DBAP interesting example of what kind of units Jamoma DSP can cater for
+        - split personality operating at audio and control rate
+            - two units tied together at runtime
+                - audio matrix
+                - coefficients for matrix calculated at control rate
+        - a biquad filter is really the same ....
+            - but if values at control rate can cause interpolation to new value, the ramp lib could get involved and we could choose what curve to use for interpolation (e.g. glissandi in the pitch domain)
+
 
     Downsides (if any):
         -  dynamically binding is not as fast
