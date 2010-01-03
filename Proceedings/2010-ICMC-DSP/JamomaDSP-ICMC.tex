@@ -241,8 +241,11 @@ Dynamically-bound frameworks and runtimes, such as PureData, Objective-C, or Mar
 % (end)
 
 
-% TODO: change name to 64-bit or some other criteria rather than the framework name
-\subsection{ZenGarden} % (fold)
+\subsection{64-bit Audio} % (fold)
+
+64-bit audio chains is important.
+
+TODO: Trond, can you come up with a couple of examples why?  something like distortion when using ramps to drive playback and some filter instability thing...
 
 Having narrowed the field to libraries and toolkits with suitable (or potentially suitable) licensing and platform independence, and also built on a dynamically-bound architecture, we are left with only one package that is readily available: ZenGarden\footnote{\url{http://github.com/mhroth/ZenGarden}}.  ZenGarden is a dynamically-bound cross-platform framework licensed under the LGPL.  PureData can be used as an authoring environment to define a graph of ZenGarden's unit generators, as was done for the popular RjDj iPhone app\footnote{\url{http://rjdj.me/}}.
 
@@ -319,16 +322,13 @@ An \emph{attribute} is defined as a data member of a class or instance, whose ac
 
 Additionally, attributes may possess \emph{properties}.  Properties are implemented as attributes of the attribute.  They include the ability define ranges for an attribute, the behavior of an attribute's value when the range is exceeded, etc.  The design of this system is consistent with the authors' previous proposals for more sophisticated control in parametric systems \cite{Place:2008params}.
 
-\subsubsection{Dynamic Something?}
+\subsubsection{Implementation}
 
-% TODO: Tim -- do this:
+To actualize the notion of sending messages to objects, and by extensions setting attributes, the Jamoma Foundation relies upon two primary underpinnings.  First is a polymorphic data-type, \texttt{TTValue}, that enables us pass data to and from methods regardless of the kind of data actually contained while using a common interface.  %TODO: TTValue does some other cool things...
 
-%TODO: come out and actually say this is implementing the reflective/dynamic-binding/polymorphic stuff from the abstract [tap]  e.g. Quoting Tim: All attribute setters use the same interface (prototype) regardless of the type of data.
+By using \texttt{TTValue} to represent any arbitrary data, we are able to abstract the function/method prototype for any message or attribute.  By doing so, we create system by which all communication to and from objects occurs using a singular interface.  Internally the messages and attributes of an object are managed a hash tables (for speed) of pointers.  Changing the contents of the hash table or the values of the pointers at runtime then reconfigures how messages are directed and handled while not requiring any recompiling or relinking of the code.
 
-% talk about how this relates to other parts of the system, e.g. observers
-
-% Introduce TTValue / polymorphic concepts here too (required for Message and Attr interfaces)
-
+\texttt{TTObject} implements and observer pattern by maintaining linked-lists of other objects that wish to be notified of events.  The objects registered as observers are then sent messages from \texttt{TTObject}.  If the objects respond to the message sent then they can respond appriopriately.  If they do not respond to the message, then they will simply ignore it.  In this case no intervention is required by the user or programmer, and this situation is not considered an error.  In a statically-bound system this situation would likely lead to a compile-failure, thrown exceptions, crashes during operation, or worse.
 
 % (end)
 % (end)
@@ -519,17 +519,7 @@ The now discontinued Hipno\cite{Place:2005} was a set of audio effects plug-ins 
 
 \section{Examples} % (fold)
 
-1. DC Blocker class
-
-2. How to wrap the class
-
-3. How to combine two classes: e.g. noise + bandpass filter
-
-4. FM that can be repatching the FM unit in real time (different algorithms)  -- (perhaps this could a part of the discussion section?) 
-
-%TODO: Trond will try to find examples/graphics illustrating this for further discussions between authors
-% I would guess more here than in the multicore, as it's an example of dynamic binding between units
-
+4. FM that can be repatching the FM unit in real time (different algorithms), like DX7 or Ableton Operator  -- (perhaps this could a part of the discussion section?) -- I would guess more here than in the multicore, as it's an example of dynamic binding between units
 
 %TODO: interpolation for TTWavetable
 
