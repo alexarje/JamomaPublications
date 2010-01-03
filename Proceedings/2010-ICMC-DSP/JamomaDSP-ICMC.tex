@@ -145,6 +145,8 @@ Introspection and reflection are often implemented by making use of a \textbf{dy
 
 Throughout the literature exists a confusing gaggle of terminology for classifying systems of objects.  These include \emph{framework}, \emph{library}, \emph{environment}, and \emph{toolkit}.  For the purposes of this paper, these will be defined as follows. 
 
+% TODO: I think the following should be re-written into a paragraph since it doesn't flow very well as is [tap]
+
 \noindent\textbf{Unit generator:} A class or object that implements a well-defined DSP task such as generating, analyzing, or processing audio data\\
 	\textbf{Library:} A collection of pre-built, ready-to-use, unit generators\\
 	\textbf{Toolkit:} A collection of functions, utilities, and helpers, possibly with an API, for creating unit generators\\
@@ -158,6 +160,7 @@ Throughout the literature exists a confusing gaggle of terminology for classifyi
 
 The authors are involved in a number of divergent and parallel efforts requiring both a framework for creating unit generators and a library of ready-to-go unit generators.  These efforts include both open-source and closed-source commercial applications targeting multiple platforms and environments.  To meet the manifold demands of these endeavors the following list of requirements must be met regarding how said framework must perform and behave.\\
 
+% TODO: I think the following should be use bullet items as the list below.  Without them it looks unclear to me in the PDF. [tap]
 
 \noindent\textbf{Licensing} allows for both open source and commercial use\\
 	\textbf{Cross-platform} compliant (Mac, Windows, Linux, Embedded Devices, Mobile Platforms)\\	
@@ -338,7 +341,11 @@ By using \texttt{TTValue} to represent any arbitrary data, we are able to abstra
 
 The Jamoma DSP Layer\footnote{\url{http://github.com/tap/JamomaDSP}} augments the Foundation by extending \texttt{TTObject} to create a new \texttt{TTAudioObject} base class.  \texttt{TTAudioObject} provides the core functionality for processing multichannel, 64-bit, audio samples singly or in blocks while providing basic thread protection.  It also provides attributes and audio processing methods for controlling muting, bypass, sample-rate, etc. which are inherited by subclasses.
 
-In addition to the framework and base-classes, the DSP layer also provides toolkit functionality with convenience functions such as denormals and dc-offset blocking, and a library of classes as extensions implementing a variety of unit generators.  The provided unit generators include basic trigonometry functions, filters (including butterworth), oscillators, noise generators, analysis, effects, etc.
+In addition to the framework and base-classes, the DSP layer also provides toolkit functionality with convenience functions such as denormals and dc-offset blocking, and a library of classes as extensions implementing a variety of unit generators.  The provided unit generators include basic trigonometry functions, filters (including butterworth), oscillators, noise generators, analysis, effects, etc.  These classes are organized and classified on several different levels.  First, every object is classified using tags when the object is registered with the Foundation at runtime.  Secondly, the classes are organized into dynamically loaded \emph{extensions} which share common interfaces and functionality.
+
+\subsubsection Extensions
+
+User extensions may be created for any of layers built-upon the Jamoma Foundation.  At this time, extensions are almost exclusively for the purpose of creating unit generator classes with Jamoma DSP.
 
 % TODO: instead of the above, discuss 
 - how these are organized into extensions 
