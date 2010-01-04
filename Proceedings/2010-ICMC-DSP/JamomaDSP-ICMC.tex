@@ -230,6 +230,7 @@ A related subject is the creation of audio plug-ins using existing APIs.  VST, R
 As stated, the authors require a framework that can be used in both open-source and commercial applications.  This immediately rules out the use of any existing work licensed under the GNU GPL, which stipulates that all works using it are themselves licensed under the GNU GPL.  Among the options this rules out are SndObj \cite{Lazzarini:2001}, CLAM \cite{Amatraian:2008}, and Marsyas \cite{Tzanetakis:2008}.  Additionally, the CSL framework \cite{Pope:2003} requires licensing through the University of California, which is not agreeable to the open use we require.
 
 Due to these licensing restrictions, none of these packages are suitable for our use\footnote{The license for the STK is reasonably liberal.  At the time that the Jamoma DSP library was initially written, however, the license for the STK specified non-commercial use and thus using the STK was not an option for the authors.}.  They do, however, contain many valuable ideas that serve to inform our own work.
+% TODO: Will we be touching upon valuable ideas from these libraries later again?
 
 % (end)
 
@@ -237,8 +238,9 @@ Due to these licensing restrictions, none of these packages are suitable for our
 \subsection{Dynamic Binding} % (fold)
 
 One of our core concerns is the requirement for dynamically reconfigurable classes at runtime.  For this, dynamic binding is of critical importance.  Dynamic binding is implemented to some degree in many of the aforementioned environments including Marsyas, Max/MSP, and the NeXT SoundKit for Objective-C.  However, due to our cross-platform and liberal licensing requirements they are not options.  Of the remaining DSP libraries and toolkits, the STK\cite{Cook:1999}, CMix \cite{Lansky:1990}, and TANGA \cite{Reiter:2007} are all statically-bound.  
+%TODO: IMHO the second last sentence could be left out, as we have dismissed all the aforementioned libraries already, including Marsyas, Max/MSP and NeXT SoundKit [TL]
 
-An interesting middle-of-the-road option is Kronos.  In fact, the problem domain of the Kronos system is the same as our problem domain: `` the musician may want to change the program during its execution. This was possible in the analog music studio, where swapping out patch cords often resulted in immediate gratification. In the digital world programs often have to be aborted, edited, re- compiled, linked and launched. The all-important musical hacking suffers from such a heavy compilation cycle, making a traditional programming language less desirable for real time artistic expression.'' \cite{Norilo:2009}
+An interesting middle-of-the-road option is Kronos.  In fact, the problem domain of the Kronos system is the same as our problem domain: `` the musician may want to change the program during its execution. This was possible in the analog music studio, where swapping out patch cords often resulted in immediate gratification. In the digital world programs often have to be aborted, edited, re-compiled, linked and launched. The all-important musical hacking suffers from such a heavy compilation cycle, making a traditional programming language less desirable for real time artistic expression.'' \cite{Norilo:2009}
 
 Dynamically-bound frameworks and runtimes, such as PureData, Objective-C, or Marsyas, solve this problem by precompiling the unit generators and then directing messages to these objects at runtime.  Kronos takes an alternative approach where the graph of objects, indeed the unit generators themselves, are not precompiled at all but rather compiled `Just in Time' from a custom meta-language. This results in better performance from the code, while still maintaining much of the flexibility offered by a dynamically-bound runtime.  The performance results are compelling.  Unfortunately a just-in-time compilation still requires compilation every time you change the interconnections between objects, and the resulting domain-specific language may be limited to only the domain for which it is written.
 
@@ -249,7 +251,7 @@ Dynamically-bound frameworks and runtimes, such as PureData, Objective-C, or Mar
 
 64-bit audio chains is important.
 
-TODO: Trond, can you come up with a couple of examples why?  something like distortion when using ramps to drive playback and some filter instability thing...
+TODO: Trond, can you come up with a couple of examples why?  something like distortion when using ramps to drive playback and some filter instability thing... Also an issue with numerical stability in filters, potential precision loss in calculations, etc...
 
 Having narrowed the field to libraries and toolkits with suitable (or potentially suitable) licensing and platform independence, and also built on a dynamically-bound architecture, we are left with only one package that is readily available: ZenGarden\footnote{\url{http://github.com/mhroth/ZenGarden}}.  ZenGarden is a dynamically-bound cross-platform framework licensed under the LGPL.  PureData can be used as an authoring environment to define a graph of ZenGarden's unit generators, as was done for the popular RjDj iPhone app\footnote{\url{http://rjdj.me/}}.
 
