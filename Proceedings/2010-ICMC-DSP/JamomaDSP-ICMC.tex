@@ -151,7 +151,7 @@ Throughout the literature exists a confusing gaggle of terminology for classifyi
 	\textbf{Library:} A collection of pre-built, ready-to-use, unit generators\\
 	\textbf{Toolkit:} A collection of functions, utilities, and helpers, possibly with an API, for creating unit generators\\
 	\textbf{Framework:} An architectural structure that underlies a system of unit generators.\\
-	\textbf{Runtime:} A daemon or library operating in real-time when a framework, toolkit, or unit generator is in use. A runtime's role is typically for dispatching messages, balancing processor loads, or otherwise running the background machinery such as in the Objective-C or Java runtime environments.\\
+	\textbf{Runtime:} A daemon or library operating in real-time when a framework, toolkit, or unit generator is in use. A runtime's role is typically for dispatching messages, balancing processor loads, or otherwise running the background machinery such as in the Objective-C or Java runtime environments.\\ % Is the word "library" in this bulleted point used in the same way as in the first bulleted point of this list? For me reading this, it sounds as if the word is used with a more vague meaning here. [TL]
 	\textbf{Environment:} A full-fledged system intended for use by an end-user.  Examples include Max, SuperCollider, ChucK, DAW applications, and CSound.
 %(end)
 
@@ -160,7 +160,7 @@ Throughout the literature exists a confusing gaggle of terminology for classifyi
 
 The authors are involved in a number of divergent and parallel efforts requiring both a framework for creating unit generators and a library of ready-to-go unit generators.  These efforts include both open-source and closed-source commercial applications targeting multiple platforms and environments.  To meet the manifold demands of these endeavors the following list of requirements must be met regarding how said framework must perform and behave.\\
 
-% TODO: I think the following should be use bullet items as the list below.  Without them it looks unclear to me in the PDF. [tap]
+% TODO: I think the following should be use bullet items as the list below.  Without them it looks unclear to me in the PDF. [tap] Trond agrees, currently it looks messy. If it is not to be a bulledet list at least the sentences will need to end with a dot.
 
 \noindent\textbf{Licensing} allows for both open source and commercial use\\
 	\textbf{Cross-platform} compliant (Mac, Windows, Linux, Embedded Devices, Mobile Platforms)\\	
@@ -170,7 +170,7 @@ The authors are involved in a number of divergent and parallel efforts requiring
 	\textbf{User-extensible} (adding functionalities without recompiling core frameworks)\\
 	\textbf{Dynamically reconfigurable} classes at runtime (dynamic-binding)\\
 	\textbf{Adaptable} process method to varying input (frame sizes, channel configurations, etc.) on-the-fly\\
-	\textbf{Effortless use} of classes in different environments (Max/MSP, VST, AU, ChucK, Pd)\\
+	\textbf{Effortless use} of classes in different environments (Max/MSP, VST, AudioUnit, ChucK, Pd)\\
 %	\item be as thread-agnostic as possible (don't manage it, but take care of requisite protection, adaptable to various architectures) % new term: thread agnostic
 %	\item MVC-friendly (reconfigurable) % new term: mvc
 
