@@ -160,10 +160,10 @@ Throughout the literature exists a confusing gaggle of terminology for classifyi
 
 The authors are involved in a number of divergent and parallel efforts requiring both a framework for creating unit generators and a library of ready-to-go unit generators.  These efforts include both open-source and closed-source commercial applications targeting multiple platforms and environments.  To meet the manifold demands of these endeavors the following list of requirements must be met regarding how said framework must perform and behave.\\
 
-\begin{packed_item}%\begin{itemize}
-	\item \textbf{Licensing} allows for both open source and commercial use\\
-	\item \textbf{Cross-platform} compliant (Mac, Windows, Linux, Embedded Devices, Mobile Platforms)\\	
-	\item \textbf{64-bit} audio bit-depth\\
+\begin{packed_item}%\begin{itemize}     TODO: if we want to use the list with bullet points, we shoudl get rid of the line breaks. I would like to avoid bulletpoints, because they et up a lot of space  
+	\item \textbf{Licensing} allows for both open source and commercial use
+	\item \textbf{Cross-platform} compliant (Mac, Windows, Linux, Embedded Devices, Mobile Platforms)	
+	\item \textbf{64-bit} audio bit-depth
 	\item \textbf{Multichannel audio support}\\
 	\item \textbf{Reasonably efficient},i.e. frame-based audio processing\\
 	\item \textbf{User-extensible} (adding functionalities without recompiling core frameworks)\\
@@ -177,16 +177,16 @@ The authors are involved in a number of divergent and parallel efforts requiring
 % NOTE: Terms not defined: reconfigure classes, object decoration, process routine switching, frame-based audio processing, thread-agnostic, requisite protection,  MVC [tl]
 
 \noindent Having met these technical requirements, the authors also deem an additional set of process requirements to be important.  These requirements are in adhering to contemporary philosophies for good coding practice, 
-which facilitates the readability, debugging, maintainance and distrubution of code. 
+which facilitates the readability, debugging, maintenance and distribution of code. 
 %ensuring that it is pleasant to work with the code, to maintain it, to test it, and to distribute it.
 
 \begin{packed_item}%\begin{itemize}
 	\item expressive syntax, idioms, and conventions
 	\item adhere to the DRY (Don't Repeat Yourself) principle, which states that ``Every piece of knowledge must have a single, unambiguous, authoritative representation within a system''\cite{Hunt:1999}
 %	\item clear code % what do we mean by this?
-	\item convention over configuration\cite{web1}\footnote{\url{http://softwareengineering.vazexqi.com/files/pattern.html}}
+	\item convention over configuration\cite{web1}%\footnote{\url{http://softwareengineering.vazexqi.com/files/pattern.html}}
 	\item tag-based searching for class categorization and object instantiation
-	\item integrated unit testing and benchmarking\footnote{\url{http://www.extremeprogramming.org/rules/unittests.html}}
+	\item integrated unit testing and benchmarking\cite{web2}%\footnote{\url{http://www.extremeprogramming.org/rules/unittests.html}}
 \end{packed_item}%\end{itemize}
 
 % One list for efficiency to the computer
@@ -207,7 +207,8 @@ A myriad of existing libraries, toolkits, frameworks, and environments are avail
 
 \subsection{Choice of Language} % (fold)
 
-An immediate winnowing of the field of contenders can be accomplished by discussing the choice of programming language.  There are popular and well structured DSP libraries for Java \cite{Guillemard:2005, Burk:1998} and Objective-C \cite{Jaffe:1989,Jaffe:1991}, for example, but these languages also carry restrictions and baggage.  Java is not installed on Windows systems by default and is not available in the context of many embedded devices.  Objective-C is available on Windows only through the clumsy and inadequate GnuStep\footnote{\url{http://www.gnustep.org/}} project\footnote{For example, one cannot natively compile using Microsoft's MSVC compiler.} and also is not available in the context of many embedded or mobile devices\footnote{The authors also look upon Apple's corporate control of the Objective-C language and runtime with some degree of skepticism, as compared to the open consortium that is mediating the C++ language's evolution}.  Interpreted languages such as Ruby and Python are quite powerful, but do not provide the required speed for real-time DSP performance in embedded environments and can also create portability problems in some cases. %TODO: is there any recent comparison of DSP speed between Java, Python and C ? [NP}  
+An immediate winnowing of the field of contenders can be accomplished by discussing the choice of programming language.  There are popular and well structured DSP libraries for Java \cite{Guillemard:2005, Burk:1998} and Objective-C \cite{Jaffe:1989,Jaffe:1991}, for example, but these languages also carry restrictions and baggage.  Java is not installed on Windows systems by default and is not available in the context of many embedded devices.  Objective-C is available on Windows only through the clumsy and inadequate GnuStep %\footnote{\url{http://www.gnustep.org/}}
+  project\footnote{For example, one cannot natively compile using Microsoft's MSVC compiler.} \cite{web3} and also is not available in the context of many embedded or mobile devices\footnote{The authors also look upon Apple's corporate control of the Objective-C language and runtime with some degree of skepticism, as compared to the open consortium that is mediating the C++ language's evolution}.  Interpreted languages such as Ruby and Python are quite powerful, but do not provide the required speed for real-time DSP performance in embedded environments and can also create portability problems in some cases. %TODO: is there any recent comparison of DSP speed between Java, Python and C ? [NP}  
 
 Another class of languages are domain-specific languages for audio signal processing.  These include SuperCollider\cite{McCartney:1996}, ChucK\cite{wang:2008}, and CSound.  For our purposes we will also consider the Max family (including MSP\cite{Zicarelli:1998} and PureData\cite{Puckette:1996}) to be domain-specific-languages
 %\footnote{We acknowledge the heated debate as to whether these environments actually constitute languages and the dispute regarding whether the use of these environments should be considered programming.}
@@ -255,7 +256,8 @@ Dynamically-bound frameworks and runtimes, such as PureData, Objective-C, or Mar
 
 The higher resolution of 64-bit audio improves stability and fidelity in processes than might else way be vulnerable to numerical instability, such as filters at extreme settings and algorithms solving differential equations, as might be the case for physical modeling. If audio signals are used as wavetable lookup indexes, a 32 bit float signal with a 24 bit signed mantissa is able to address only 6'20" of audio with sample accuracy at 44.1 kHz and no more than 1'26" at 192 kHz. In a 64bit audio chain this problem will be non-existing for all practical concerns. The computational overhead required for 64bit processing is counter-acted by the fact that 64bit processors are getting increasingly common.
 
-Having narrowed the field to libraries and toolkits with suitable (or potentially suitable) licensing and platform independence, and also built on a dynamically-bound architecture, we are left with only one package that is readily available: ZenGarden\footnote{\url{http://github.com/mhroth/ZenGarden}}.  ZenGarden is a dynamically-bound cross-platform framework licensed under the LGPL.  PureData can be used as an authoring environment to define a graph of ZenGarden's unit generators, as was done for the popular RjDj iPhone app\footnote{\url{http://rjdj.me/}}.
+Having narrowed the field to libraries and toolkits with suitable (or potentially suitable) licensing and platform independence, and also built on a dynamically-bound architecture, we are left with only one package that is readily available: ZenGarden \cite{web4}%\footnote{\url{http://github.com/mhroth/ZenGarden}} 
+  .  ZenGarden is a dynamically-bound cross-platform framework licensed under the LGPL.  PureData can be used as an authoring environment to define a graph of ZenGarden's unit generators, as was done for the popular RjDj iPhone app \cite{web5}.%\footnote{\url{http://rjdj.me/}}.
 
 While ZenGarden has much to offer, it still lacks out-of-the-box support for 64-bit audio processing graphs and the kind of dynamic multichannel audio operation that is required.
 
@@ -292,7 +294,8 @@ In the end we found no one framework to possess all of the requirements set fort
 
 It is common to organize software frameworks into a number of layers from low level system services at the bottom towards high level abstraction at the top.  Frameworks may build upon and extend frameworks below them in the hierarchy, but the lower frameworks have no knowledge of the higher frameworks. Divisions between the frameworks help to establish clarity as to what functionalities belong to which part of the system. 
 
-Examples of such layered architectures are the Open Systems Interconnection network model (OSI) \footnote{\url{http://en.wikipedia.org/wiki/OSI_model}} for layered communications and computer network protocol design or the iPhone Software Architecture. A similar layered approach has been proposed by the authors for spatialization systems \cite{Peters:2009}. 
+Examples of such layered architectures are the Open Systems Interconnection network model (OSI) \cite{web6} %\footnote{\url{http://en.wikipedia.org/wiki/OSI_model}} 
+for layered communications and computer network protocol design or the iPhone Software Architecture. A similar layered approach has been proposed by the authors for spatialization systems \cite{Peters:2009}. 
 
 
 \begin{figure}[htbp]
@@ -313,7 +316,7 @@ Each framework within the Jamoma Platform shares a common structure.  A shared-l
 
 \subsection{Foundation} % (fold)
 
-The Jamoma Foundation\footnote{\url{http://github.com/tap/JamomaFoundation}} may be seen as analogous to the Objective-C Foundation, which ``Defines the `nuts and bolts' classes for Objective-C programming''\footnote{\url{http://developer.apple.com/cocoa/}}.  The Jamoma Foundation defines base classes, including our primary base class, \texttt{TTObject}.  Object life-cycle facilities include factories for creating, destroying, and referencing these classes.  A message-passing and attribute system inspired by Smalltalk and Objective-C is implemented to enable dynamically-bound object topologies.  
+The Jamoma Foundation \cite{web7} may be seen as analogous to the Objective-C Foundation, which ``Defines the `nuts and bolts' classes for Objective-C programming''\cite{web8}.  The Jamoma Foundation defines base classes, including our primary base class, \texttt{TTObject}.  Object life-cycle facilities include factories for creating, destroying, and referencing these classes.  A message-passing and attribute system inspired by Smalltalk and Objective-C is implemented to enable dynamically-bound object topologies.  
 
 The Jamoma Foundation classes are informed by many best-practices of software development.  Unit Testing, for example, is integrated directly into the class design.  There is also an emphasis on the use of design patterns \cite{Gamma:1995}.  In particular, all objects possess a built-in observer notification system.  
 
@@ -344,7 +347,7 @@ By using \texttt{TTValue} to represent any arbitrary data, we are able to abstra
 
 \subsection{DSP Layer} % (fold)
 
-The Jamoma DSP Layer\footnote{\url{http://github.com/tap/JamomaDSP}} augments the Foundation by extending \texttt{TTObject} to create a new \texttt{TTAudioObject} base class.  \texttt{TTAudioObject} provides the core functionality for processing multichannel, 64-bit, audio samples singly or in blocks while providing basic thread protection.  It also provides attributes and audio processing methods for controlling muting, bypass, sample-rate, etc. which are inherited by subclasses.
+The Jamoma DSP Layer \cite{web9} augments the Foundation by extending \texttt{TTObject} to create a new \texttt{TTAudioObject} base class.  \texttt{TTAudioObject} provides the core functionality for processing multichannel, 64-bit, audio samples singly or in blocks while providing basic thread protection.  It also provides attributes and audio processing methods for controlling muting, bypass, sample-rate, etc. which are inherited by subclasses.
 
 In addition to the framework and base-classes, the DSP layer also provides toolkit functionality with convenience functions such as denormals and dc-offset blocking, and a library of classes as extensions implementing a variety of unit generators.  The provided unit generators include basic trigonometry functions, filters (including butterworth), oscillators, noise generators, analysis, effects, etc.  These classes are organized and classified on several different levels.  First, every object is classified using tags when the object is registered with the Foundation at runtime.  Secondly, the classes are organized into dynamically loaded \emph{extensions} which share common interfaces and functionality.
 
@@ -378,18 +381,18 @@ User extensions may be created for any of layers built-upon the Jamoma Foundatio
 
 Additional layers have been implemented on top of the Jamoma Foundation, both in series and in parallel with the DSP layer.  
 
-The \textbf{Graphics Layer}\footnote{\url{http://github.com/tap/JamomaGraphics}}, based on Cairo\footnote{\url{http://cairographics.org}}, provides both a platform-independent, and a host-independent way to create 2D graphical user interfaces (GUI). It has been used for creating GUIs in Max/MSP and in AudioUnit plug-ins.
+The \textbf{Graphics Layer}\cite{web10}, based on Cairo\cite{web11}, provides both a platform-independent, and a host-independent way to create 2D graphical user interfaces (GUI). It has been used for creating GUIs in Max/MSP and in AudioUnit plug-ins.
 
-The \textbf{Multicore Audio Graph Layer}\footnote{\url{http://github.com/tap/JamomaMulticore}} combines unit generators from Jamoma DSP into audio processing topologies.  This differs from many of the initiatives reviewed in Section~\ref{sec:prior_art}, as they combined not only a means by which to create unit generators but also a method by which those objects are combined into a graphs.  In the Jamoma Platform we create a clear division between creating and using unit generators versus combining them into a graph.  This allows the unit generators to be combined in any way that seems desirable for a particular context.
+The \textbf{Multicore Audio Graph Layer}\cite{web12} combines unit generators from Jamoma DSP into audio processing topologies.  This differs from many of the initiatives reviewed in Section~\ref{sec:prior_art}, as they combined not only a means by which to create unit generators but also a method by which those objects are combined into a graphs.  In the Jamoma Platform we create a clear division between creating and using unit generators versus combining them into a graph.  This allows the unit generators to be combined in any way that seems desirable for a particular context.
 
-The \textbf{Modular Framework}\footnote{\url{http://github.com/tap/JamomaModular}} provides structure for the development and control of modules in the Max/MSP/Jitter environment.  It builds upon the Foundation, DSP, Graphics, and Multicore frameworks.
+The \textbf{Modular Framework}\cite{web13} provides structure for the development and control of modules in the Max/MSP/Jitter environment.  It builds upon the Foundation, DSP, Graphics, and Multicore frameworks.
 
 % (end)
 
 
 \subsection{Ruby Language Bindings} % (fold)
 
-As a dynamically-bound API, the Jamoma Foundation is a natural fit for control from the Ruby environment.  Language bindings for Jamoma in Ruby exist via the Jamoma Ruby project\footnote{\url{http://github.com/tap/JamomaRuby}}.  This enables use in a wide range of applications including live coding using \emph{irb}\footnote{\url{http://ruby-doc.org/docs/ProgrammingRuby/html/irb.html}} and integration with web applications using \emph{Ruby on Rails}\footnote{\url{http://rubyonrails.org}}.
+As a dynamically-bound API, the Jamoma Foundation is a natural fit for control from the Ruby environment.  Language bindings for Jamoma in Ruby exist via the Jamoma Ruby project\cite{web14}.  This enables use in a wide range of applications including live coding using \emph{irb} \cite{web15} and integration with web applications using \emph{Ruby on Rails} \cite{web16}.
 
 % (end)
 % (end)
@@ -409,7 +412,7 @@ The technical underpinnings of the Jamoma Foundation and DSP Library lend themse
 
 Given a Jamoma DSP unit generator, this object can be easily compiled for Cycling '74's Max/MSP environment.  The easiest way is to use the Jamoma DSP ``Class Wrapper'', which takes an existing class and creates bindings for the target environment. Following, is the complete code listing for an N-channel MSP external that wraps the Jamoma DSP limiter class.
 
-\begin{lstlisting}
+ \begin{lstlisting}
   #include "TTClassWrapperMax.h"
   int main(void)
   {
@@ -430,7 +433,7 @@ This object dynamically loads any of a variety of filter classes from the DSP Li
 
 Jamoma DSP includes a number of example projects that include VST and AudioUnit plug-ins.  AudioUnit plug-ins requiring only a generic interface may be created using a class wrapper similar to the one for creating Max/MSP externals.  
 
-The spatial sound rendering technique ViMiC (Virtual Microphone Control, \cite{CMJ08-VIMIC}) a virtual multi-microphone recording environment, was implemented using the Jamoma DSP, Foundation and Graphics frameworks and compiled as a AudioUnit PlugIn. In the GUI, developed with Jamoma Graphics, the setup of the virtual microphones and the sound sources can be controlled and manipulated. Using AudioCores custom interface secondary control features are accessible (see Figure \ref{fig:vimic}).           
+The spatial sound rendering technique ViMiC (Virtual Microphone Control, \cite{CMJ08-VIMIC}) a virtual multi-microphone recording environment, was implemented using the Jamoma DSP, Foundation and Graphics frameworks and compiled as a AudioUnit PlugIn. In the GUI, developed with Jamoma Graphics, the setup of the virtual microphones and the sound sources can be controlled and manipulated. Using AudioCores generic interface, also the less important control features are accessible (see Figure \ref{fig:vimic}).           
 
 
 \begin{figure}[htbp]
@@ -480,7 +483,7 @@ Jamoma DSP includes further example projects wrapping classes for PureData and S
 %   2. combining unit generators is simple - example: combining simple units into compound (e.g. DC Blocker: see Section 'Examples')
 %   3. wrapping for different environments is easy - this will be further improved in future using Jamoma Graphics
 
-The GNU LGPL license chosen for the Jamoma frameworks have enabled them to be used for open-source as well as commersial software development.  Electrotap's Tap.Tools\footnote{http://shop.electrotap.com/products/taptools} is a collection of externals for Max/MSP with an emphasis on audio effects processing.  They inherit multichannel audio support and 64-bit internal processing from the Jamoma DSP library.
+The GNU LGPL license chosen for the Jamoma frameworks have enabled them to be used for open-source as well as commersial software development.  Electrotap's Tap.Tools\cite{web17} is a collection of externals for Max/MSP with an emphasis on audio effects processing.  They inherit multichannel audio support and 64-bit internal processing from the Jamoma DSP library.
 
 Jamoma Modular \cite{Place:2006} is a framework providing a structured approach to development and control of modules in Max/MSP, licensed as GNU LGPL. Several 3rd party libraries of Jamoma Modules are currently in developmeent. The license used for Jamoma Modular allows such libraries to be made available on a commercial basis as well as open-sourced.
 
@@ -662,10 +665,23 @@ Dave Watson, Joshua Kit Clayton, Th\'eo Delahogue, Tristan Mathews
 \renewcommand{\refname}{Web Resources}
 \begin{thebibliography}{99}
 	\footnotesize
-\bibitem[A1]{web1} \url{http://softwareengineering.vazexqi.com/files/pattern.html}
-\bibitem[A2]{web2} \url{http://www.extremeprogramming.org/rules/unittests.html}
-\bibitem[A3]{web3} \url{http://www.gnustep.org} 
-
+\bibitem[A1]{web1}    \url{http://softwareengineering.vazexqi.com/files/pattern.html}
+\bibitem[A2]{web2}    \url{http://www.extremeprogramming.org/rules/unittests.html}
+\bibitem[A3]{web3}    \url{http://www.gnustep.org} 
+\bibitem[A4]{web4}    \url{http://github.com/mhroth/ZenGarden}  
+\bibitem[A5]{web5}    \url{http://rjdj.me} 
+\bibitem[A6]{web6}    \url{http://en.wikipedia.org/wiki/OSI_model}
+\bibitem[A7]{web7}    \url{http://github.com/tap/JamomaFoundation}     
+\bibitem[A8]{web8}    \url{http://developer.apple.com/cocoa}    
+\bibitem[A9]{web9} 	  \url{http://github.com/tap/JamomaDSP}
+\bibitem[A10]{web10}  \url{http://github.com/tap/JamomaGraphics} 
+\bibitem[A11]{web11}  \url{http://cairographics.org}
+\bibitem[A12]{web12}  \url{http://github.com/tap/JamomaMulticore}
+\bibitem[A13]{web13}  \url{http://github.com/tap/JamomaModular}
+\bibitem[A14]{web14}  \url{http://github.com/tap/JamomaRuby}
+\bibitem[A15]{web15}  \url{http://ruby-doc.org/docs/ProgrammingRuby/html/irb.html}
+\bibitem[A16]{web16}  \url{http://rubyonrails.org}   
+\bibitem[A17]{web17} \url{http://shop.electrotap.com/products/taptools}
 \end{thebibliography} 
 All quoted web resources were verified on \today.
 \end{document}
