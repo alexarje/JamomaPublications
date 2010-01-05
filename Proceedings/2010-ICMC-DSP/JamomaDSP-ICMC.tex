@@ -185,7 +185,7 @@ which facilitates the readability, debugging, maintainance and distrubution of c
 	\item expressive syntax, idioms, and conventions
 	\item adhere to the DRY (Don't Repeat Yourself) principle, which states that ``Every piece of knowledge must have a single, unambiguous, authoritative representation within a system''\cite{Hunt:1999}
 %	\item clear code % what do we mean by this?
-	\item convention over configuration\footnote{\url{http://softwareengineering.vazexqi.com/files/pattern.html}}
+	\item convention over configuration\cite{web1}\footnote{\url{http://softwareengineering.vazexqi.com/files/pattern.html}}
 	\item tag-based searching for class categorization and object instantiation
 	\item integrated unit testing and benchmarking\footnote{\url{http://www.extremeprogramming.org/rules/unittests.html}}
 \end{packed_item}%\end{itemize}
@@ -679,5 +679,13 @@ Dave Watson, Joshua Kit Clayton, Th\'eo Delahogue, Tristan Mathews
 
 \bibliographystyle{IEEEtranS}
 \bibliography{../../Shared/bibtex/Jamoma} % requires file template.bib
+\renewcommand{\refname}{Web Resources}
+\begin{thebibliography}{99}
+	\footnotesize
+\bibitem[A1]{web1} \url{http://softwareengineering.vazexqi.com/files/pattern.html}
+\bibitem[A2]{web2} \url{http://www.extremeprogramming.org/rules/unittests.html}
+\bibitem[A3]{web3} \url{http://www.gnustep.org} 
 
+\end{thebibliography} 
+All quoted web resources were verified on \today.
 \end{document}
