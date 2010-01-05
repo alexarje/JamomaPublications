@@ -160,22 +160,21 @@ Throughout the literature exists a confusing gaggle of terminology for classifyi
 
 The authors are involved in a number of divergent and parallel efforts requiring both a framework for creating unit generators and a library of ready-to-go unit generators.  These efforts include both open-source and closed-source commercial applications targeting multiple platforms and environments.  To meet the manifold demands of these endeavors the following list of requirements must be met regarding how said framework must perform and behave.\\
 
-% TODO: I think the following should be use bullet items as the list below.  Without them it looks unclear to me in the PDF. [tap] Trond agrees, currently it looks messy. If it is not to be a bulledet list at least the sentences will need to end with a dot.
+\begin{packed_item}%\begin{itemize}
+	\item \textbf{Licensing} allows for both open source and commercial use\\
+	\item \textbf{Cross-platform} compliant (Mac, Windows, Linux, Embedded Devices, Mobile Platforms)\\	
+	\item \textbf{64-bit} audio bit-depth\\
+	\item \textbf{Multichannel audio support}\\
+	\item \textbf{Reasonably efficient},i.e. frame-based audio processing\\
+	\item \textbf{User-extensible} (adding functionalities without recompiling core frameworks)\\
+	\item \textbf{Dynamically reconfigurable} classes at runtime (dynamic-binding)\\
+	\item \textbf{Adaptable} process method to varying input (frame sizes, channel configurations, etc.) on-the-fly\\
+	\item \textbf{Effortless use} of classes in different environments (Max/MSP, VST, AudioUnit, ChucK, Pd)\\
+%	\item be as thread-agnostic as possible (don't manage it, but take care of requisite protection, adaptable to various architectures)
+%	\item MVC-friendly (reconfigurable)
+\end{packed_item}%\end{itemize}
 
-\noindent\textbf{Licensing} allows for both open source and commercial use\\
-	\textbf{Cross-platform} compliant (Mac, Windows, Linux, Embedded Devices, Mobile Platforms)\\	
-	\textbf{64-bit} audio bit-depth\\
-	\textbf{Multichannel audio support}\\
-	\textbf{Reasonably efficient},i.e. frame-based audio processing\\
-	\textbf{User-extensible} (adding functionalities without recompiling core frameworks)\\
-	\textbf{Dynamically reconfigurable} classes at runtime (dynamic-binding)\\
-	\textbf{Adaptable} process method to varying input (frame sizes, channel configurations, etc.) on-the-fly\\
-	\textbf{Effortless use} of classes in different environments (Max/MSP, VST, AudioUnit, ChucK, Pd)\\
-%	\item be as thread-agnostic as possible (don't manage it, but take care of requisite protection, adaptable to various architectures) % new term: thread agnostic
-%	\item MVC-friendly (reconfigurable) % new term: mvc
-
-% TODO: Terms not defined: reconfigure classes, object decoration, process routine switching, frame-based audio processing, thread-agnostic, requisite protection,  MVC [tl]
-% TODO: maybe simplify list, remove MVC?  [tap]
+% NOTE: Terms not defined: reconfigure classes, object decoration, process routine switching, frame-based audio processing, thread-agnostic, requisite protection,  MVC [tl]
 
 \noindent Having met these technical requirements, the authors also deem an additional set of process requirements to be important.  These requirements are in adhering to contemporary philosophies for good coding practice, 
 which facilitates the readability, debugging, maintainance and distrubution of code. 
@@ -210,8 +209,13 @@ A myriad of existing libraries, toolkits, frameworks, and environments are avail
 
 An immediate winnowing of the field of contenders can be accomplished by discussing the choice of programming language.  There are popular and well structured DSP libraries for Java \cite{Guillemard:2005, Burk:1998} and Objective-C \cite{Jaffe:1989,Jaffe:1991}, for example, but these languages also carry restrictions and baggage.  Java is not installed on Windows systems by default and is not available in the context of many embedded devices.  Objective-C is available on Windows only through the clumsy and inadequate GnuStep\footnote{\url{http://www.gnustep.org/}} project\footnote{For example, one cannot natively compile using Microsoft's MSVC compiler.} and also is not available in the context of many embedded or mobile devices\footnote{The authors also look upon Apple's corporate control of the Objective-C language and runtime with some degree of skepticism, as compared to the open consortium that is mediating the C++ language's evolution}.  Interpreted languages such as Ruby and Python are quite powerful, but do not provide the required speed for real-time DSP performance in embedded environments and can also create portability problems in some cases. %TODO: is there any recent comparison of DSP speed between Java, Python and C ? [NP}  
 
-Another class of languages are domain-specific languages for audio signal processing.  These include SuperCollider\cite{McCartney:1996}, ChucK\cite{wang:2008}, and CSound.  For our purposes we will also consider the Max family (including MSP\cite{Zicarelli:1998} and PureData\cite{Puckette:1996}) to be domain-specific-languages\footnote{We acknowledge the heated debate as to whether these environments actually constitute languages and the dispute regarding whether the use of these environments should be considered programming.}.  These domain-specific languages do provide facilities both for creating and using Unit Generators, but often have portability limitations and very frequently have licensing limitations\footnote{For example, ChucK and SuperCollider are licensed as GPL and thus not available for commercial development, while Max/MSP is not available on embedded devices nor in plug-in host environments other than Ableton Live}.  These environments also frequently have a large footprint in that they are very resource demanding, while we desire a light-weight framework.
-% TODO: IMHO the footnote on whether Maxing is programming or not is not very interesting or relevant here, and could be left out. Similarly the Apple corporate control of Objective-C is not very interesting. If this principle really was important to us, we would look upon Max with a similar sceptisism, being owned by C'74.  [TL]
+Another class of languages are domain-specific languages for audio signal processing.  These include SuperCollider\cite{McCartney:1996}, ChucK\cite{wang:2008}, and CSound.  For our purposes we will also consider the Max family (including MSP\cite{Zicarelli:1998} and PureData\cite{Puckette:1996}) to be domain-specific-languages
+%\footnote{We acknowledge the heated debate as to whether these environments actually constitute languages and the dispute regarding whether the use of these environments should be considered programming.}
+.  
+These domain-specific languages do provide facilities both for creating and using Unit Generators, but often have portability limitations and very frequently have licensing limitations
+%\footnote{For example, ChucK and SuperCollider are licensed as GPL and thus not available for commercial development, while Max/MSP is not available on embedded devices nor in plug-in host environments other than Ableton Live}
+.  
+These environments also frequently have a large footprint in that they are very resource demanding, while we desire a light-weight framework.
 
 The C++ language and its compilers are ubiquitous across platforms.  Plug-ins and extensions for sundry environments and languages can be compiled using C and C++.  The C++ language is also capable of creating extremely high-performance code optimized for digital signal processing.
 
@@ -282,12 +286,13 @@ In the end we found no one framework to possess all of the requirements set fort
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{The Jamoma Platform} % (fold)
-alternative title: The Jamoma Structure, The Jamoma Universe, the Jamoma Context,  
-\subsection{A Layered Architecture of Frameworks}
+\section{Platform Architecture} % (fold)
+%\section{The Jamoma Platform}
+%alternative title: The Jamoma Structure, The Jamoma Universe, the Jamoma Context,  
 
+\subsection{A Layered Framework Structure}
 
-It is common to organize software frameworks into a number of layers from low level system services at the bottom towards high level abstraction at the top. Frameworks may build upon and extend frameworks below them in the hierarchy, but the lower frameworks have no knowledge of the higher frameworks. Divisions between the frameworks help to establish clarity as to what functionalities belong to which part of the system. 
+It is common to organize software frameworks into a number of layers from low level system services at the bottom towards high level abstraction at the top.  Frameworks may build upon and extend frameworks below them in the hierarchy, but the lower frameworks have no knowledge of the higher frameworks. Divisions between the frameworks help to establish clarity as to what functionalities belong to which part of the system. 
 
 Examples of such layered architectures are the Open Systems Interconnection network model (OSI) \footnote{\url{http://en.wikipedia.org/wiki/OSI_model}} for layered communications and computer network protocol design or the iPhone Software Architecture. A similar layered approach has been proposed by the authors for spatialization systems \cite{Peters:2009}. 
 
@@ -299,14 +304,10 @@ Examples of such layered architectures are the Open Systems Interconnection netw
 \label{fig:layers}
 \end{figure}
 
-Jamoma, originially conceived as a modular standard for structuring patchers in Max \cite{Place:2006}, has now evolved into a layered architecture of frameworks that provide essential %TODO: I think it's more than 'esential', should be 'extensive' or so [np]  
- infrastructure for creating computer music systems in general, not just for Max/MSP. This section presents each of the five frameworks which are entitled Jamoma Foundation, Jamoma DSP, Jamoma Multicore, Jamoma Graphics and Jamoma Modular (see Figure~\ref{fig:layers}).
-We will emphasis on the Jamoma Foundation and DSP layer to show how the requirements outlined in Section \ref{sec:Requirements} are achieved.    
+Jamoma, originally conceived as a modular standard for structuring patchers in Max \cite{Place:2006}, has now evolved into a layered architecture of frameworks providing comprehensive infrastructure for creating computer music systems in general, not just for Max/MSP.  This section presents each of the five frameworks currently comprising the Jamoma Platform: Jamoma Foundation, Jamoma DSP, Jamoma Multicore, Jamoma Graphics and Jamoma Modular (see Figure~\ref{fig:layers}).  We will emphasize the Foundation and DSP layers to illustrate how we meet the requirements outlined in Section \ref{sec:Requirements}.
+ 
 % TODO: be sure to emphasize the  polymorphic typing and dynamic binding throughout this section to tie in to the abstract etc...
   
-%The Jamoma Platform currently consists of five frameworks: Jamoma Foundation, Jamoma DSP, Jamoma Multicore, Jamoma Graphics and Jamoma Modular. This paper is focusing on the Jamoma Foundation and Jamoma DSP frameworks. 
-%Figure~\ref{fig:layers} illustrates the layers of the Jamoma Platform.  
-%Each colored shape is implemented as it's own framework. 
 It is possible to use only a subset of the provided frameworks according to the project's complexity. 
 Each framework within the Jamoma Platform shares a common structure.  A shared-library implementing base classes and core functionality exists at the core.  This functionality is then extended and enhanced by creating extensions.  An extension is a plug-in library that is dynamically loaded at runtime.  In this way the system can be expanded without re-compiling core components.
 
@@ -563,28 +564,7 @@ Real-world usage...
 
 \subsection{Spatialization}
 
-%TODO: CUT THIS:
-%Spatialization at the Encoding/Decoding and Authoring layers\cite{Peters:2009}.  In fact, through the development of the NodeLib we are now able to work also at the Scene Description Layer by communicating as SpatDIF\cite{Peters:2008spatdif}.
-
 One example that is ready for implementation in the Jamoma DSP library is DBAP\cite{Lossius:2009}.
-
-
-\subsection{AudioUnit Creation}
-
-In the summer of 2009 we combined the application domains of spatialization, graphical rendering, and AudioUnit creation to create a plug-in version of ViMiC\cite{Peters:2008b}.
-
-% TODO: Nils, do you have a a screenshot we could add here?  [tap]
-
-
-\subsection{External Object Generation for Max/MSP and PureData}
-
-Class wrappers...  What about SuperCollider?  I guess we should actually do it first before we claim that we can.
-
-Electrotap's Tap.Tools\footnote{http://electrotap.com/taptools}
-
-Cycling '74's Hipno\cite{Place:2005}
-
-Jamoma Modular Framework\cite{Place:2006}
 
 
 \subsection{Ruby and Ruby on Rails}
@@ -676,6 +656,8 @@ Dave Watson, Joshua Kit Clayton, Th\'eo Delahogue, Tristan Mathews
 % (end)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% TODO: Why are the headings for the reference sections inconsistent with the rest of the template headings? [tap]
 
 \bibliographystyle{IEEEtranS}
 \bibliography{../../Shared/bibtex/Jamoma} % requires file template.bib
