@@ -254,7 +254,7 @@ Dynamically-bound frameworks and runtimes, such as PureData, Objective-C, or Mar
 
 \subsection{64-bit Audio} % (fold)
 
-The higher resolution of 64-bit audio improves stability and fidelity in processes than might else way be vulnerable to numerical instability, such as filters at extreme settings and signal processing algorithms solving differential equations, as might be the case for physical modeling. If audio signals are used as wavetable lookup indexes, a 32-bit float signal with a 24-bit signed mantissa is able to address only 6'20" of audio with sample accuracy at 44.1 kHz and no more than 1'26" at 192 kHz. In a 64-bit audio chain this problem will be non-existing for all practical concerns. The computational overhead required for 64bit processing is counter-acted by the fact that 64bit processors are getting increasingly common.
+The higher resolution of 64-bit audio improves stability and fidelity in processes than might else way be vulnerable to numerical instability, such as filters at extreme settings and signal processing algorithms solving differential equations, as might be the case for physical modeling. If audio signals are used as wavetable lookup indexes, a 32-bit float signal with a 24-bit signed mantissa is able to address only 6'20" of audio with sample accuracy at 44.1 kHz and no more than 1'26" at 192 kHz. In a 64-bit audio chain this problem will be non-existing for all practical concerns. The computational overhead required for 64-bit processing is counter-acted by the fact that 64-bit processors are getting increasingly common.
 
 Having narrowed the field to libraries and toolkits with suitable (or potentially suitable) licensing and platform independence, and also built on a dynamically-bound architecture, we are left with only one package that is readily available: ZenGarden \cite{web4}%\footnote{\url{http://github.com/mhroth/ZenGarden}} 
   .  ZenGarden is a dynamically-bound cross-platform framework licensed under the LGPL.  PureData can be used as an authoring environment to define a graph of ZenGarden's unit generators, as was done for the popular RjDj iPhone app \cite{web5}.%\footnote{\url{http://rjdj.me/}}.
@@ -351,10 +351,9 @@ The Jamoma DSP Layer \cite{web9} augments the Foundation by extending \texttt{TT
 
 In addition to the framework and base-classes, the DSP layer also provides toolkit functionality with convenience functions such as denormals and dc-offset blocking, and a library of classes as extensions implementing a variety of unit generators.  The provided unit generators include basic trigonometry functions, filters (including butterworth), oscillators, noise generators, analysis, effects, etc.  These classes are organized and classified on several different levels.  First, every object is classified using tags when the object is registered with the Foundation at runtime.  Secondly, the classes are organized into dynamically loaded \emph{extensions} which share common interfaces and functionality.
 
-\subsubsection Extensions
+\subsubsection{Extensions}
 
 User extensions may be created for any of layers built-upon the Jamoma Foundation.  At this time, extensions are almost exclusively for the purpose of creating unit generator classes with Jamoma DSP.
-
 
 
 % TODO: instead of the above, discuss 
@@ -410,18 +409,19 @@ The technical underpinnings of the Jamoma Foundation and DSP Library lend themse
 
 \subsubsection{Max/MSP}
 
-Given a Jamoma DSP unit generator, this object can be easily compiled for Cycling '74's Max/MSP environment.  The easiest way is to use the Jamoma DSP ``Class Wrapper'', which takes an existing class and creates bindings for the target environment. Following, is the complete code listing for an N-channel MSP external that wraps the Jamoma DSP limiter class.
+Given a Jamoma DSP unit generator, this object can be easily compiled for Cycling '74's Max/MSP environment.  The easiest way is to use the Jamoma DSP ``Class Wrapper'', which takes an existing class and creates bindings for the target environment. Following is the complete code listing for an N-channel MSP external that wraps the Jamoma DSP limiter class.
 
- \begin{lstlisting}
+\begin{lstlisting}
   #include "TTClassWrapperMax.h"
   int main(void)
   {
     TTDSPInit();
     return wrapTTClassAsMaxClass(TT("limiter"), 
-                            "myMaxLimiter~", 
-                             NULL);
+            "myMaxLimiter~", NULL);
   }
-%\end{lstlisting}
+\end{lstlisting}
+
+% TODO: make the fixed-size type smaller throughout the paper [tap]
 
 \noindent In addition to simply wrapping existing classes for MSP, it is possible to use the Jamoma DSP objects in other ways.  One example is the \texttt{jcom.filter$\sim$} external provided with Jamoma DSP.  
 %TODO: instead of using jcom.filter example, why not using tt.filter example, to show the commercial application 
@@ -431,9 +431,9 @@ This object dynamically loads any of a variety of filter classes from the DSP Li
 
 \subsubsection{Plug-ins}
 
-Jamoma DSP includes a number of example projects that include VST and AudioUnit plug-ins.  AudioUnit plug-ins requiring only a generic interface may be created using a class wrapper similar to the one for creating Max/MSP externals.  
+Jamoma DSP provides a number of example projects that include VST and AudioUnit plug-ins.  AudioUnit plug-ins requiring only a generic interface may be created using a class wrapper similar to the one for creating Max/MSP externals.  
 
-The spatial sound rendering technique ViMiC (Virtual Microphone Control, \cite{CMJ08-VIMIC}) a virtual multi-microphone recording environment, was implemented using the Jamoma DSP, Foundation and Graphics frameworks and compiled as a AudioUnit PlugIn. In the GUI, developed with Jamoma Graphics, the setup of the virtual microphones and the sound sources can be controlled and manipulated. Using AudioCores generic interface, also the less important control features are accessible (see Figure \ref{fig:vimic}).           
+The spatial sound rendering technique ViMiC (Virtual Microphone Control) is a virtual multi-microphone recording environment \cite{CMJ08-VIMIC}.  ViMiC is implemented as an AudioUnit plug-in using the Jamoma DSP, Foundation and Graphics frameworks.  The virtual microphones and sound sources can be controlled and manipulated in a custom interface, developed with Jamoma Graphics.  Additional control features are accessible using the generic AudioUnit interface (see Figure \ref{fig:vimic}).
 
 
 \begin{figure}[htbp]
@@ -443,12 +443,10 @@ The spatial sound rendering technique ViMiC (Virtual Microphone Control, \cite{C
 \label{fig:vimic}
 \end{figure}
 
-%In the summer of 2009 Vimic was implemented as an AudioUnit plug-in, using elements of the Jamoma Platform.  The signal processing is handled using Jamoma DSP and a custom UI is realized by employing the Jamoma Graphics Library.  See the screenshot 
-
 
 \subsubsection{Ruby, IRB, Rails}
 
-Ruby Language Bindings make the entirety of the DSP library accessible in the Ruby environment.  Together with Jamoma Multicore, Ruby's interactive shell (irb) can be use for live-coding by creating objects and manipulating the graph of those objects in real-time.  The following code shows a much simpler irb session. This creates an instance of a lowpass filter and then passes some values one-at-a-time through the filter.
+Ruby Language Bindings make the entirety of the DSP library accessible in the Ruby environment.  Together with Jamoma Multicore, Ruby's interactive shell (irb) can be use for live-coding by creating objects and manipulating the graph of those objects in real-time.  The following code shows a very simple irb session creating an instance of a lowpass filter, passing values one at a time through the filter.
 
 \begin{lstlisting}
     $ irb
@@ -462,7 +460,9 @@ Ruby Language Bindings make the entirety of the DSP library accessible in the Ru
     => 0.25
     >> f.calculate(1.0)
     => 0.4375
-%\end{lstlisting}
+\end{lstlisting}
+
+% TODO: Rails here [tap]
 
 
 \subsubsection{Additional Environments}
@@ -482,6 +482,10 @@ Jamoma DSP includes further example projects wrapping classes for PureData and S
 %   1. writing unit generators is clear and straight-forward (e.g. gain, delay, \ldots)  -- thanks in part to convention over configuration, DRY,...
 %   2. combining unit generators is simple - example: combining simple units into compound (e.g. DC Blocker: see Section 'Examples')
 %   3. wrapping for different environments is easy - this will be further improved in future using Jamoma Graphics
+
+% TODO: condense licensing to 1 paragraph [tap]
+% important -- tap.tools inheriting stuff
+% important -- with future work we can try to avoid the problem of Hipno
 
 The GNU LGPL license chosen for the Jamoma frameworks have enabled them to be used for open-source as well as commersial software development.  Electrotap's Tap.Tools\cite{web17} is a collection of externals for Max/MSP with an emphasis on audio effects processing.  They inherit multichannel audio support and 64-bit internal processing from the Jamoma DSP library.
 
@@ -533,9 +537,7 @@ The now discontinued Hipno\cite{Place:2005} was a set of audio effects plug-ins 
     - Node Lib
     - Web Browser Support
     - more units, support for common and well-established audio processing methods -  is it possible to borrow code from other projects where license permits it?
-    - 
-    
-
+    - SSE
     
 % (end)
     
@@ -567,10 +569,6 @@ Real-world usage...
 
 One example that is ready for implementation in the Jamoma DSP library is DBAP\cite{Lossius:2009}.
 
-
-\subsection{Ruby and Ruby on Rails}
-
-Server-side web application framework.  :-)
 
 \subsection{Rapid Prototyping Environment}
 
@@ -630,8 +628,7 @@ As a means of addressing parts of the system via OSC.  Somewhat like what Marsya
 [12/10/09 7:59:32 PM] Tim Place: It could be possible to create an object which wraps an array of objects that process each channel individually
 
 [12/10/09 7:59:58 PM] Tim Place: I think that would address the filter problem you mention more generally
-
-
+% TODO: This reminds me of the patterns in Marsyas for implicit patching! [tap]
 
 % (end)
 
