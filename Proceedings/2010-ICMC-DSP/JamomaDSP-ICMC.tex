@@ -184,9 +184,9 @@ which facilitates the readability, debugging, maintenance and distribution of co
 	\item expressive syntax, idioms, and conventions
 	\item adhere to the DRY (Don't Repeat Yourself) principle, which states that ``Every piece of knowledge must have a single, unambiguous, authoritative representation within a system''\cite{Hunt:1999}
 %	\item clear code % what do we mean by this?
-	\item convention over configuration\cite{web1}%\footnote{\url{http://softwareengineering.vazexqi.com/files/pattern.html}}
+	\item convention over configuration\cite{web1}
 	\item tag-based searching for class categorization and object instantiation
-	\item integrated unit testing and benchmarking\cite{web2}%\footnote{\url{http://www.extremeprogramming.org/rules/unittests.html}}
+	\item integrated unit testing and benchmarking\cite{web2}
 \end{packed_item}%\end{itemize}
 
 % One list for efficiency to the computer
@@ -207,16 +207,15 @@ A myriad of existing libraries, toolkits, frameworks, and environments are avail
 
 \subsection{Choice of Language} % (fold)
 
-An immediate winnowing of the field of contenders can be accomplished by discussing the choice of programming language.  There are popular and well structured DSP libraries for Java \cite{Guillemard:2005, Burk:1998} and Objective-C \cite{Jaffe:1989,Jaffe:1991}, for example, but these languages also carry restrictions and baggage.  Java is not installed on Windows systems by default and is not available in the context of many embedded devices.  Objective-C is available on Windows only through the clumsy and inadequate GnuStep %\footnote{\url{http://www.gnustep.org/}}
-  project\footnote{For example, one cannot natively compile using Microsoft's MSVC compiler.} \cite{web3} and also is not available in the context of many embedded or mobile devices\footnote{The authors also look upon Apple's corporate control of the Objective-C language and runtime with some degree of skepticism, as compared to the open consortium that is mediating the C++ language's evolution}.  Interpreted languages such as Ruby and Python are quite powerful, but do not provide the required speed for real-time DSP performance in embedded environments and can also create portability problems in some cases. %TODO: is there any recent comparison of DSP speed between Java, Python and C ? [NP}  
+An immediate winnowing of the field of contenders can be accomplished by discussing the choice of programming language.  There are popular and well structured DSP libraries for Java \cite{Guillemard:2005, Burk:1998} and Objective-C \cite{Jaffe:1989,Jaffe:1991}, for example, but these languages also carry restrictions and baggage.  Java is not installed on Windows systems by default and is not available in the context of many embedded devices.  Objective-C is available on Windows only through the clumsy and inadequate GnuStep project\footnote{For example, one cannot natively compile using Microsoft's MSVC compiler.} \cite{web3} and also is not available in the context of many embedded or mobile devices
+%\footnote{The authors also look upon Apple's corporate control of the Objective-C language and runtime with some degree of skepticism, as compared to the open consortium that is mediating the C++ language's evolution}.  
+Interpreted languages such as Ruby and Python are quite powerful, but do not provide the required speed for real-time DSP performance in embedded environments and can also create portability problems in some cases. 
+%TODO: is there any recent comparison of DSP speed between Java, Python and C ? [NP}  
 
 Another class of languages are domain-specific languages for audio signal processing.  These include SuperCollider\cite{McCartney:1996}, ChucK\cite{wang:2008}, and CSound.  For our purposes we will also consider the Max family (including MSP\cite{Zicarelli:1998} and PureData\cite{Puckette:1996}) to be domain-specific-languages
 %\footnote{We acknowledge the heated debate as to whether these environments actually constitute languages and the dispute regarding whether the use of these environments should be considered programming.}
 .  
-These domain-specific languages do provide facilities both for creating and using Unit Generators, but often have portability limitations and very frequently have licensing limitations
-%\footnote{For example, ChucK and SuperCollider are licensed as GPL and thus not available for commercial development, while Max/MSP is not available on embedded devices nor in plug-in host environments other than Ableton Live}
-.  
-These environments also frequently have a large footprint in that they are very resource demanding, while we desire a light-weight framework.
+These domain-specific languages do provide facilities both for creating and using Unit Generators, but often have portability limitations and very frequently have licensing limitations\footnote{For example, ChucK and SuperCollider are licensed as GPL and thus not available for commercial development, while Max/MSP is not available on embedded devices nor in plug-in host environments other than Ableton Live}.  These environments also frequently have a large footprint in that they are very resource demanding, while we desire a light-weight framework.
 
 The C++ language and its compilers are ubiquitous across platforms.  Plug-ins and extensions for sundry environments and languages can be compiled using C and C++.  The C++ language is also capable of creating extremely high-performance code optimized for digital signal processing.
 
@@ -249,17 +248,14 @@ An interesting middle-of-the-road option is Kronos.  In fact, the problem domain
 
 Dynamically-bound frameworks and runtimes, such as PureData, Objective-C, or Marsyas, solve this problem by precompiling the unit generators and then directing messages to these objects at runtime.  Kronos takes an alternative approach where the graph of objects, indeed the unit generators themselves, are not precompiled at all but rather compiled `Just in Time' from a custom meta-language. This results in better performance from the code, while still maintaining much of the flexibility offered by a dynamically-bound runtime.  The performance results are compelling.  Unfortunately a just-in-time compilation still requires compilation every time you change the interconnections between objects, and the resulting domain-specific language may be limited to only the domain for which it is written.
 
+One interesting cross-platform, dynamically-bound, and liberally licensed architecture is ZenGarden\cite{web4}.  One feature of ZenGarden is the use of PureDatas an authoring environment to define a graph of ZenGarden's own unit generators, as was done for the popular RjDj iPhone app \cite{web5}.  Unfortunately, at the time of this writing, ZenGarden does not pass our next requirement: 64-bit audio fidelity.
+
 % (end)
 
 
 \subsection{64-bit Audio} % (fold)
 
-The higher resolution of 64-bit audio improves stability and fidelity in processes than might else way be vulnerable to numerical instability, such as filters at extreme settings and signal processing algorithms solving differential equations, as might be the case for physical modeling. If audio signals are used as wavetable lookup indexes, a 32-bit float signal with a 24-bit signed mantissa is able to address only 6'20" of audio with sample accuracy at 44.1 kHz and no more than 1'26" at 192 kHz. In a 64-bit audio chain this problem will be non-existing for all practical concerns. The computational overhead required for 64-bit processing is counter-acted by the fact that 64-bit processors are getting increasingly common.
-
-Having narrowed the field to libraries and toolkits with suitable (or potentially suitable) licensing and platform independence, and also built on a dynamically-bound architecture, we are left with only one package that is readily available: ZenGarden \cite{web4}%\footnote{\url{http://github.com/mhroth/ZenGarden}} 
-  .  ZenGarden is a dynamically-bound cross-platform framework licensed under the LGPL.  PureData can be used as an authoring environment to define a graph of ZenGarden's unit generators, as was done for the popular RjDj iPhone app \cite{web5}.%\footnote{\url{http://rjdj.me/}}.
-
-While ZenGarden has much to offer, it still lacks out-of-the-box support for 64-bit audio processing graphs and the kind of dynamic multichannel audio operation that is required.
+The higher resolution of 64-bit audio improves stability and fidelity in processes that are vulnerable to numerical instability.  This includes IIR filters at extreme settings and signal processing algorithms solving differential equations, as can be the case for physical modeling.  If audio signals are used as wavetable lookup indexes, a 32-bit float signal with a 24-bit signed mantissa is able to address only 6'20" of audio with sample accuracy at 44.1 kHz and no more than 1'26" at 192 kHz. In a 64-bit audio chain this problem will be nonexistent for all practical concerns. The computational overhead required for 64-bit processing is counteracted by the fact that 64-bit processors are becoming increasingly common.
 
 % (end)
 
@@ -294,7 +290,7 @@ In the end we found no one framework to possess all of the requirements set fort
 
 It is common to organize software frameworks into a number of layers from low level system services at the bottom towards high level abstraction at the top.  Frameworks may build upon and extend frameworks below them in the hierarchy, but the lower frameworks have no knowledge of the higher frameworks. Divisions between the frameworks help to establish clarity as to what functionalities belong to which part of the system. 
 
-Examples of such layered architectures are the Open Systems Interconnection network model (OSI) \cite{web6} %\footnote{\url{http://en.wikipedia.org/wiki/OSI_model}} 
+Examples of such layered architectures are the Open Systems Interconnection network model (OSI) \cite{web6} 
 for layered communications and computer network protocol design or the iPhone Software Architecture. A similar layered approach has been proposed by the authors for spatialization systems \cite{Peters:2009}. 
 
 
@@ -399,15 +395,13 @@ As a dynamically-bound API, the Jamoma Foundation is a natural fit for control f
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{In Practice} % (fold)
-
-\subsection{Applications}
+\section{Applications} % (fold)
 
 The technical underpinnings of the Jamoma Foundation and DSP Library lend themselves to a variety of applications.  The API provides a clear interface to both creating and using unit generators in the C++ language or Ruby.  Additional tools and facilities have been fabricated to make Jamoma DSP's unit generators readily available in several popular environments.
 
 % TODO: dynamic-binding - reflective - introspection are leveraged here, we need to make this obvious and explicit
 
-\subsubsection{Max/MSP}
+\subsection{Max/MSP}
 
 Given a Jamoma DSP unit generator, this object can be easily compiled for Cycling '74's Max/MSP environment.  The easiest way is to use the Jamoma DSP ``Class Wrapper'', which takes an existing class and creates bindings for the target environment. Following is the complete code listing for an N-channel MSP external that wraps the Jamoma DSP limiter class.
 
@@ -429,7 +423,7 @@ This object dynamically loads any of a variety of filter classes from the DSP Li
 %TODO: Tim, do you want to say anything about the internal tagging [np] 
 
 
-\subsubsection{Plug-ins}
+\subsection{Plug-ins}
 
 Jamoma DSP provides a number of example projects that include VST and AudioUnit plug-ins.  AudioUnit plug-ins requiring only a generic interface may be created using a class wrapper similar to the one for creating Max/MSP externals.  
 
@@ -444,7 +438,7 @@ The spatial sound rendering technique ViMiC (Virtual Microphone Control) is a vi
 \end{figure}
 
 
-\subsubsection{Ruby, IRB, Rails}
+\subsection{Ruby, IRB, Rails}
 
 Ruby Language Bindings make the entirety of the DSP library accessible in the Ruby environment.  Together with Jamoma Multicore, Ruby's interactive shell (irb) can be use for live-coding by creating objects and manipulating the graph of those objects in real-time.  The following code shows a very simple irb session creating an instance of a lowpass filter, passing values one at a time through the filter.
 
@@ -462,17 +456,19 @@ Ruby Language Bindings make the entirety of the DSP library accessible in the Ru
     => 0.4375
 \end{lstlisting}
 
-% TODO: Rails here [tap]
+Leveraging the popular Ruby on Rails web framework, Jamoma DSP classes are made available for a multitude of web applications.  The authors have begun employing one such Ruby on Rails application to graph related functions in real-time for comparison and algorithm analysis.
 
 
-\subsubsection{Additional Environments}
+\subsection{Additional Environments}
 
 Jamoma DSP includes further example projects wrapping classes for PureData and SuperCollider.
+
+% (end)
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Discussion}
+\section{Discussion} % (fold)
 
 % TODO: organize based on the terms in the abstract, and use this section to explain WHY these terms make this a good library.
 
@@ -545,6 +541,8 @@ The now discontinued Hipno\cite{Place:2005} was a set of audio effects plug-ins 
 %%%%%%%%% OLD STUFF FROM HERE ON
 
 
+To fully leverage the DSP library and Jamoma Foundation in a web-browser we need the ability to invoke the runtime on the client-side of the equation through a web browser plug-in similar to that done in the iARS Project\cite{Frauenberger:2003}.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -607,9 +605,6 @@ SynthesisLib
 
 Initial work on a scheduler for the DSP library was begun in 2007.  Competing priorities have left it unfinished...  More interesting models for scheduling, such as the the model implemented in ChucK provide impetus for further research into new approaches to this topic.
 
-
-\subsection{Web Browser Support}
-We have begun implementing support for server-side integration of the Jamoma Runtime via the Ruby language bindings and Ruby on Rails\footnote{http://rubyonrails.org}.  To fully leverage the DSP library and Jamoma Foundation in a web-browser we need the ability to invoke the runtime on the client-side of the equation through a web browser plug-in similar to that done in the iARS Project\cite{Frauenberger:2003}.
 
 
 \subsection{NodeLib}
