@@ -16,9 +16,9 @@
 
 \usepackage{listings}						% required for source code listings
 \lstset{language=c++}
-\lstset{basicstyle=\small\ttfamily}
+\lstset{basicstyle=\footnotesize\ttfamily}
 \lstset{commentstyle=\color{commentcolor}}
-\lstset{tabsize=2}
+\lstset{tabsize=2}  
 \lstset{gobble=2}							% eat the first tab in block listings
 \lstset{aboveskip=\bigskipamount}			% amount of space above a block listing
 \lstset{belowskip=\bigskipamount}			% ...
@@ -139,7 +139,7 @@ For the course of the paper, the usage of various computer science jargon and te
 
 \textbf{Polymorphism} is a means by which a programming language generalizes different types of functions or data using a common \emph{API}, or Application Programming Interface.  An example of a polymorphic data-type of the variety in which we are interested is a `var' in the Javascript language\cite{Flanagan:2002}.  That is to say a data type which may be any data type internally (including an object or array), the details of which are not necessary in order to use or pass the data type amongst functions.
 
-\textbf{Introspection} refers to the ability to determine the characteristics of an object at runtime.  This means that when handed a pointer in C++, we can take the pointer and query for an object's name, its type or \emph{class}, the messages that it understands, the attributes it possesses, etc.  By extension, \textbf{reflection} refers to the ability to then modify the behavior of an object at runtime\cite{Malenfant:1996}.  In practical terms this means adding messages, changing attributes, and extending existing instances of objects as the software is executing and without stopping the software to re-compile the code.
+\textbf{Introspection} refers to the ability to determine the characteristics of an object at runtime.  This means that when handed a pointer in C++, we can take the pointer and query for an object's name, its type or \emph{class}, the messages that it understands, the attributes it possesses, etc.  By extension, \textbf{reflection} refers to the ability to then modify the behaviour of an object at runtime\cite{Malenfant:1996}.  In practical terms this means adding messages, changing attributes, and extending existing instances of objects as the software is executing and without stopping the software to re-compile the code.
 
 Introspection and reflection are often implemented by making use of a \textbf{dynamic binding model}.  Programming languages including C++ and Java link function and method calls when a program is compiled, known as static binding.  A dynamically bound model does not link these functions at compile-time, but instead waits until runtime to resolve the address of a method being called.  When a dynamic binding model is in use, calling methods is referred to as `sending messages' to objects. Dynamic binding is the hallmark of languages like Smalltalk \cite{Krasner:1988}, Objective-C \cite{Cox:1986}, or Ruby.
 
@@ -154,21 +154,22 @@ An \textbf{environment} is a full-fledged system intended for use by an end-user
 
 
 \subsection{Requirements} \label{sec:Requirements}% (fold)
-
-The authors are involved in a number of divergent and parallel efforts requiring both a framework for creating unit generators and a library of ready-to-go unit generators.  These efforts include both open-source and closed-source commercial applications targeting multiple platforms and environments.  To meet the manifold demands of these endeavors the following list of requirements must be met regarding how said framework must perform and behave.
+%TODO: the following text partially repeats the list of requirements. Is that necessary?  [NP] - changed already 
+The authors are involved in multiple divergent and parallel efforts which requires both a framework for creating unit generators and a library of ready-to-go unit generators.  %These efforts include both open-source and closed-source commercial applications targeting multiple platforms and environments.  
+To meet the manifold demands of these efforts, we stipulated the following list of requirements.% by the audio processing framework. %regarding how said framework must perform and behave.
 
 % TODO: Nils, Trond and both agreed that we needed bullets here.  However, maybe there is a way to justify them further to the left?
-
+% NP: Rather than twaeking the template, we could try to be more precise with our requirements and make them all in one liner ? 
 \begin{packed_item}%\begin{itemize}
-  \item \textbf{Licensing} allows for both open source and commercial use
+  \item \textbf{Licensing} allows for open source and commercial use
 	\item \textbf{Cross-platform} compliant (Mac, Windows, Linux, Embedded Devices, Mobile Platforms)	
 	\item \textbf{64-bit} audio bit-depth
 	\item \textbf{Multichannel audio support}
-	\item \textbf{Reasonably efficient},i.e. frame-based audio processing
+	\item \textbf{Efficiency}, i.e. frame-based audio processing
 	\item \textbf{User-extensible} (adding functionalities without recompiling core frameworks)
-	\item \textbf{Dynamically reconfigurable} classes at runtime (dynamic-binding)
+	\item \textbf{Dynamically reconfigurable} classes at runtime %(dynamic-binding)
 	\item \textbf{Adaptable} process method to varying input (frame sizes, channel configurations, etc.) on-the-fly
-	\item \textbf{Effortless use} of classes in different environments (Max/MSP, VST, AudioUnit, ChucK, Pd)
+	\item \textbf{Effortless use} of classes in different environments (Max/MSP, VST, AudioUnit, ChucK, Pure Data)
 %	\item be as thread-agnostic as possible (don't manage it, but take care of requisite protection, adaptable to various architectures)
 %	\item MVC-friendly (reconfigurable)
 \end{packed_item}%\end{itemize}
@@ -419,9 +420,9 @@ This object dynamically loads any of a variety of filter classes from the DSP Li
 
 \subsection{Plug-ins}
 
-Jamoma DSP provides a number of example projects that include VST and AudioUnit plug-ins.  AudioUnit plug-ins requiring only a generic interface may be created using a class wrapper similar to the one for creating Max/MSP externals.  
+Jamoma DSP provides several example projects that include VST and AudioUnit plug-ins.  AudioUnit plug-ins requiring only a generic interface may be created using a class wrapper similar to the one for creating Max/MSP externals.  
 
-The spatial sound rendering technique ViMiC (Virtual Microphone Control) is a virtual multi-microphone recording environment \cite{CMJ08-VIMIC}.  ViMiC is implemented as an AudioUnit plug-in using the Jamoma DSP, Foundation and Graphics frameworks.  The virtual microphones and sound sources can be controlled and manipulated in a custom interface, developed with Jamoma Graphics.  Additional control features are accessible using the generic AudioUnit interface (see Figure \ref{fig:vimic}).
+The spatial sound rendering technique ViMiC (Virtual Microphone Control), a virtual multi-microphone recording environment \cite{CMJ08-VIMIC}, was implemented using the Jamoma Platform and compiled as an AudioUnit plug-in. The virtual microphones and sound sources can be controlled and manipulated in a custom interface, developed with Jamoma Graphics.  Additional control features are accessible using the generic AudioUnit interface (see Figure \ref{fig:vimic}).
 
 
 \begin{figure}[htbp]
@@ -432,11 +433,10 @@ The spatial sound rendering technique ViMiC (Virtual Microphone Control) is a vi
 \end{figure}
 
 
-\subsection{Ruby, IRB, Rails}
+\subsection{Ruby, irb, Rails}
 
 Ruby Language Bindings make the entirety of the DSP library accessible in the Ruby environment.  Together with Jamoma Multicore, Ruby's interactive shell (irb) can be use for live-coding by creating objects and manipulating the graph of those objects in real-time.  The following code shows a very simple irb session creating an instance of a lowpass filter, passing values one at a time through the filter.
 
-% TODO: Nils, how do we make these lstlisting blocks use a small font size? (there are two of these blocks)
 \begin{lstlisting}
     $ irb
     >> require 'TTRuby'
@@ -451,7 +451,7 @@ Ruby Language Bindings make the entirety of the DSP library accessible in the Ru
     => 0.4375
 \end{lstlisting}
 
-Leveraging the popular Ruby on Rails web framework, Jamoma DSP classes are made available for a multitude of web applications.  The authors have begun employing one such Ruby on Rails application to graph related functions in real-time for comparison and algorithm analysis.
+\noindent Leveraging the popular Ruby on Rails web framework, Jamoma DSP classes are made available for a multitude of web applications.  The authors have begun employing one such Ruby on Rails application to graph related functions in real-time for comparison and algorithm analysis.
 
 
 \subsection{Additional Environments}
