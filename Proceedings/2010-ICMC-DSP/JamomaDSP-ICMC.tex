@@ -274,7 +274,7 @@ In the end we found no one framework to possess all of the requirements set fort
 
 % (end)
 
-% (end) section:Prior Art
+% (end)
 
 
 
@@ -291,7 +291,6 @@ It is common to organize software frameworks into a number of layers from low le
 Examples of such layered architectures are the Open Systems Interconnection network model (OSI) \cite{web6} 
 for layered communications and computer network protocol design or the iPhone Software Architecture. A similar layered approach has been proposed by the authors for spatialization systems \cite{Peters:2009}. 
 
-
 \begin{figure}[htbp]
 \centerline{\framebox{
 	\includegraphics[width=0.9\columnwidth]{layers-alt}}}
@@ -305,7 +304,6 @@ Jamoma, originally conceived as a modular standard for structuring patchers in M
   
 It is possible to use only a subset of the provided frameworks according to the project's complexity. 
 Each framework within the Jamoma Platform shares a common structure.  A shared-library implementing base classes and core functionality exists at the core.  This functionality is then extended and enhanced by creating extensions.  An extension is a plug-in library that is dynamically loaded at runtime.  In this way the system can be expanded without re-compiling core components.
-
 
 
 \subsection{Foundation} % (fold)
@@ -375,7 +373,7 @@ The \textbf{Graphics Layer}\cite{web10}, based on Cairo\cite{web11}, provides bo
 
 The \textbf{Multicore Audio Graph Layer}\cite{web12} combines unit generators from Jamoma DSP into audio processing topologies.  This differs from many of the initiatives reviewed in Section~\ref{sec:prior_art}, as they combined not only a means by which to create unit generators but also a method by which those objects are combined into a graphs.  In the Jamoma Platform we create a clear division between creating and using unit generators versus combining them into a graph.  This allows the unit generators to be combined in any way that seems desirable for a particular context.
 
-The \textbf{Modular Framework}\cite{web13} provides structure for the development and control of modules in the Max/MSP/Jitter environment.  It builds upon the Foundation, DSP, Graphics, and Multicore frameworks.
+The \textbf{Modular Framework}\cite{web13} provides structure for the development and control of modules in the Max/MSP/Jitter environment\cite{Place:2006}.  It builds upon the Foundation, DSP, Graphics, and Multicore frameworks.
 
 % (end)
 
@@ -434,6 +432,7 @@ The spatial sound rendering technique ViMiC (Virtual Microphone Control) is a vi
 
 Ruby Language Bindings make the entirety of the DSP library accessible in the Ruby environment.  Together with Jamoma Multicore, Ruby's interactive shell (irb) can be use for live-coding by creating objects and manipulating the graph of those objects in real-time.  The following code shows a very simple irb session creating an instance of a lowpass filter, passing values one at a time through the filter.
 
+% TODO: Nils, how do we make these lstlisting blocks use a small font size? (there are two of these blocks)
 \begin{lstlisting}
     $ irb
     >> require 'TTRuby'
@@ -471,151 +470,58 @@ Jamoma DSP includes further example projects wrapping classes for PureData and S
 %   2. combining unit generators is simple - example: combining simple units into compound (e.g. DC Blocker: see Section 'Examples')
 %   3. wrapping for different environments is easy - this will be further improved in future using Jamoma Graphics
 
-% TODO: condense licensing to 1 paragraph [tap]
-% important -- tap.tools inheriting stuff
-% important -- with future work we can try to avoid the problem of Hipno
+The class wrapper demonstrated in Section ? illustrates part of the power of the Jamoma Foundation for use as a \emph{rapid prototyping environment}.  It leverages all of the features of dynamic binding to make a class available to many different environments on many platforms with a minimal amount of coding and effort required.  The code base is further strengthened because this architecture provides a practical application of the DRY principle for representing concepts in a single authoritative location.  We can combine objects together in the environment of our choice: Max, Pd, a DAW (using plug-ins), or a web-browser using Ruby on Rails.  Then we can move the code from one environment to another easily, or port it back to C++ with minimal effort.
 
-The GNU LGPL license chosen for the Jamoma frameworks have enabled them to be used for open-source as well as commersial software development.  Electrotap's Tap.Tools\cite{web17} is a collection of externals for Max/MSP with an emphasis on audio effects processing.  They inherit multichannel audio support and 64-bit internal processing from the Jamoma DSP library.
-
-Jamoma Modular \cite{Place:2006} is a framework providing a structured approach to development and control of modules in Max/MSP, licensed as GNU LGPL. Several 3rd party libraries of Jamoma Modules are currently in developmeent. The license used for Jamoma Modular allows such libraries to be made available on a commercial basis as well as open-sourced.
-
-The now discontinued Hipno\cite{Place:2005} was a set of audio effects plug-ins available as VST, RTAS and Audio Unit. Hipno plug-ins were developed in Max/MSP using Tap.tools and Jamoma DSP functionalities, and used the now dicontinued Cycling'74 Pluggo environment for plug-in wrapping. The cross-platform requirement detailed earlier has enabled Tap.tools, Hipno and Jamoma Modular to be developed for Mac OSX as well as Windows. One of the aims of Jamoma Graphics framework is to provide the structural framework for development of units with graphical user interfaces that can be wrapped as externals for environments such as Max, Pd and SuperCollider as well as being turned into plug-ins, independent of external wrapping environments such as the now dicontinued Pluggo.
-
-
-    Benefits:
-        % - available for open and commercial products - used for Jamoma Modular, Hipno, TapTools, ... - DONE
-        %- cross-platform - Jamoma available for Max and Windows - DONE
-        - "effortless to wrap" -  provide example of code for Max external, screenshots of external in Max, AudioUnit,...
-        - user-extensible - function lib, analysis lib, math lib, 
-        - reuse of code in different environments: (going beyond flext) but more pleasant
-        - dynamically reconfigurable objects without recompiling code or DSP graphs
-            - FM example
-            - Live coding (irb?)
-        - multichannel, adapt to varying input  - quote the not net written paper for DAFx
-        - 64-bit - higher fidelity, timing issues when counting samples, better use of modern processors
-        - thread-agnostic
-        - "code pleasant to work with"
-        - Introspection features of the Jamoma Foundation make it possible to query objects to automate the process of creating mappings and advanced control of the objects such as those cataloged in [18].
-        - Because we can put together objects in the environment of our choice: Max, Pd, a DAW if we use AudioUnits, and then even a web-browser using Ruby on Rails. Then we can move the code from one environment to another easily, or port it back to C++ with minimal effort.
-
-
-
-
-[TL]    - DBAP interesting example of what kind of units Jamoma DSP can cater for
-        - split personality operating at audio and control rate
-            - two units tied together at runtime
-                - audio matrix
-                - coefficients for matrix calculated at control rate
-        - a biquad filter is really the same ....
-            - but if values at control rate can cause interpolation to new value, the ramp lib could get involved and we could choose what curve to use for interpolation (e.g. glissandi in the pitch domain)
-
-
-    Downsides (if any):
-        -  dynamically binding is not as fast
-        - 
-    
-- Future work (no subsections -- the headers waste space)
-
-    - Graphics
-    - Multicore
-    - Server-side web application framework. :-)
-    - SuperCollider wrapper
-    - Scheduler - possibilities for sample-accurate scheduler?
-    - Processing arrays
-    - Node Lib
-    - Web Browser Support
-    - more units, support for common and well-established audio processing methods -  is it possible to borrow code from other projects where license permits it?
-    - SSE
-    
-% (end)
-    
-
-%%%%%%%%% OLD STUFF FROM HERE ON
-
-
-To fully leverage the DSP library and Jamoma Foundation in a web-browser we need the ability to invoke the runtime on the client-side of the equation through a web browser plug-in similar to that done in the iARS Project\cite{Frauenberger:2003}.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Examples} % (fold)
-
-4. FM that can be repatching the FM unit in real time (different algorithms), like DX7 or Ableton Operator  -- (perhaps this could a part of the discussion section?) -- I would guess more here than in the multicore, as it's an example of dynamic binding between units
-
-%TODO: Non-linear filters - limiting or saturation inside the filter as xn is cast to xn-1 and yn to yn-1 (switching the feedback-filter on the fly)
-
-% (end)
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Discussion / Applications} % (fold)
-
-Real-world usage...
-
-\subsection{Spatialization}
-
-One example that is ready for implementation in the Jamoma DSP library is DBAP\cite{Lossius:2009}.
-
-
-\subsection{Rapid Prototyping Environment}
-
-Because we can put together objects in the environment of our choice: Max, Pd, a DAW if we use AudioUnits, and then even a web-browser using Ruby on Rails.  Then we can move the code from one environment to another easily, or port it back to C++ with minimal effort.
-
-\subsection{Mapping}
+The Jamoma frameworks are all user-extensible through the creation of extension classes that are loaded and registered at runtime.  Future versions of Jamoma may provide additional means of defining extensions classes, including the ability to define extension classes in languages other than C++.
 
 Introspection features of the Jamoma Foundation make it possible to query objects to automate the process of creating mappings and advanced control of the objects such as those cataloged in \cite{Pendharkar:2006}.  
 
+A myriad of mundane, but critical, details for DSP classes are taken care of by the DSP framework.  This includes a 64-bit audio signal class that automatically adapts its channel configurations and vector-sizes based on input.  Multi-threaded environments seem to be the source of perpetual headaches, for developers.  Jamoma DSP provides a light-weight thread-protection where needed, but errs on the side of not getting in the way or causing performance problems.
 
+% TODO: We have not addressed the next 3 in this section.  Do we need to? [tap]
+%        - dynamically reconfigurable objects without recompiling code or DSP graphs
+%            - FM example
+%            - Live coding (irb?)
+
+% CHANGED: We're short on space, so I mentioned DBAP as a one-liner in the Future Work secton [tap]
+%[TL]    - DBAP interesting example of what kind of units Jamoma DSP can cater for
+%        - split personality operating at audio and control rate
+%            - two units tied together at runtime
+%                - audio matrix
+%                - coefficients for matrix calculated at control rate
+%        - a biquad filter is really the same ....
+%            - but if values at control rate can cause interpolation to new value, the ramp lib could get involved and we could choose what curve to use for interpolation (e.g. glissandi in the pitch domain)
+
+% NOTE: Tim thinks the next paragraph should be the last of the Discussion section
+
+The GNU LGPL license chosen for the Jamoma frameworks have enabled them to be used for open-source as well as commercial software development.  Electrotap's Tap.Tools\cite{web17} is a collection of externals for Max/MSP with an emphasis on audio effects processing.  They inherit multichannel audio support and 64-bit internal processing from the Jamoma DSP library.  Hipno\cite{Place:2005} is a set of audio effects plug-ins in the VST, RTAS and AudioUnit formats.  Hipno plug-ins were developed in Max/MSP with Tap.Tools and Jamoma DSP, using the now discontinued Cycling'74 Pluggo environment.  The cross-platform requirement detailed earlier has enabled Tap.tools, Hipno and Jamoma Modular to be developed for Mac OSX as well as Windows.  With the Jamoma Graphics library we wish to provide the structural framework for development of units with graphical user interfaces that can be wrapped as externals for environments such as Max, Pd and SuperCollider as well as being turned into plug-ins to replace now-obsolete infrastructure once provided by Pluggo.
+    
 % (end)
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Further Development} % (fold)
+\section{Future Work} % (fold)
 
+The class wrappers can be expanded to cover more environments, such as VST and SuperCollider, and CSound.
 
-\subsection{ClassWrappers}
+We need to do benchmarking, optimization, etc.  Work has already begun on SSE optimization, when available for the platform, in some classes.
 
-For more environments, such as VST and SuperCollider
+% more units, support for common and well-established audio processing methods -  is it possible to borrow code from other projects where license permits it?
+DSP Library expansion to include extensions for Spectral processing and Granular processing.  The EffectsLib can be expanded to cover standard effects including reverb, pitch-shifting, chorus, etc.  GeneratorLib can be expanded to cover a wider range of synthesis algorithms.  Of particular research interest are experimenting with applications of Non-linear filters - limiting or saturation inside the filter as xn is cast to xn-1 and yn to yn-1 (switching the feedback-filter on the fly).  Porting of DBAP to Jamoma DSP\cite{Lossius:2009}.
 
-\subsection{DSP Library Expansion}
+Initial work on a scheduler for the DSP library was begun in 2007.  Competing priorities have left it unfinished...  More interesting models for scheduling, such as the the model implemented in ChucK provide impetus for further research into new approaches to this topic.  We would like a sample-accurate scheduler like ChucK, but in a multi-threaded environment we will have a difficult time...
 
-Spectral processing \\
+% CHANGED: Perhaps we should forget about the NodeLib for now, seems like too much of a tangent [tap]
+% As a means of addressing parts of the system via OSC.  Somewhat like what Marsyas does.  An implementation of the ideas presented in\cite{Place:2008osc}.
 
-Granular processing   \\
+In addition to the ongoing development of Jamoma Multicore, which implements an explicitly constructed graph of unit generators, a number of implicit graph-like processing structures such as those in Marsyas are of interest. %TODO: need the correct Marsyas citation for this!
+In our current implementation it is possible to have a multichannel delay or filter class, for example.  However, the same coefficients are applied to each channel of the filter.  A paradigm in which each channel might possess distinct filter coefficients requires a grouping of filters such as an array that are treated as a unified entity in the graph.
 
-More effects (reverb, pitch-shifting, chorus) 
-
-
-Spectral(FFT) Processes\\
-
-SynthesisLib
-
-\subsection{Scheduler}
-
-Initial work on a scheduler for the DSP library was begun in 2007.  Competing priorities have left it unfinished...  More interesting models for scheduling, such as the the model implemented in ChucK provide impetus for further research into new approaches to this topic.
-
-
-
-\subsection{NodeLib}
-
-As a means of addressing parts of the system via OSC.  Somewhat like what Marsyas does.  An implementation of the ideas presented in\cite{Place:2008osc}.
-
-
-\subsection{Processing Arrays}
-
-[12/10/09 7:58:39 PM] Nils Peters: on the other hand, IMHO in most use cases you want to have separate control over the filter parameter of each channel
-
-[12/10/09 8:00:26 PM] Nils Peters: or the delay
-
-[12/10/09 8:00:41 PM] Nils Peters: You want to set different delays to your input channels
-
-[12/10/09 7:59:32 PM] Tim Place: It could be possible to create an object which wraps an array of objects that process each channel individually
-
-[12/10/09 7:59:58 PM] Tim Place: I think that would address the filter problem you mention more generally
-% TODO: This reminds me of the patterns in Marsyas for implicit patching! [tap]
+% CHANGED: Web Browser Support (client-side) --  This is a distraction and not really relevant yet... [tap]
 
 % (end)
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -623,12 +529,12 @@ As a means of addressing parts of the system via OSC.  Somewhat like what Marsya
 
 Jamoma Foundation and DSP provide a flexible, user-extendable, runtime environment for creating and using audio and digital signal processing objects.  Due to its advanced use of dynamic binding and message-passing paradigm, the building blocks can be reconfigured at runtime without requiring re-compilation, but with the unit generators themselves compiled as C++ and performing block-processing we retain the performance of a compiled language.
 
+Perhaps more important, but more difficult to quantify, we believe we've created a context in which we code is `pleasant to work with'.  As stated by Lerch, ``A well-defined API can also speed up the development process, since the implementation can focus more on the algorithmic aspects and less on implementation issues like API design.'' \cite{Lerch:2005}
 
-``A well-defined API can also speed up the development process, since the implementation can focus more on the algorithmic aspects and less on implementation issues like API design.'' \cite{Lerch:2005}
-
-The power of this runtime is demonstrated through the ability to compile objects for Max, Pd, AudioUnits, VST, etc.  The future includes Multicore.
+The power of this runtime is demonstrated through the ability to compile objects for Max, Pd, AudioUnits, VST, and Jamoma Multicore.
 
 % (end)
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -638,9 +544,21 @@ Dave Watson, Joshua Kit Clayton, Th\'eo Delahogue, Tristan Mathews
 
 % (end)
 
+
+
+%%%%%%%%% OLD STUFF FROM HERE ON
+
+% To fully leverage the DSP library and Jamoma Foundation in a web-browser we need the ability to invoke the runtime on the client-side of the equation through a web browser plug-in similar to that done in the iARS Project\cite{Frauenberger:2003}.
+
+% FM that can be repatching the FM unit in real time (different algorithms), like DX7 or Ableton Operator  -- (perhaps this could a part of the discussion section?) -- I would guess more here than in the multicore, as it's an example of dynamic binding between units
+
+
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% TODO: Why are the headings for the reference sections inconsistent with the rest of the template headings? [tap]
+% TODO: Nils -- Why are the headings for the reference sections inconsistent with the rest of the template headings? [tap]
 
 \bibliographystyle{IEEEtranS}
 \bibliography{../../Shared/bibtex/Jamoma} % requires file template.bib
