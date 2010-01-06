@@ -138,9 +138,9 @@ This library has been used in both open source and commercial software projects 
 
 For the course of the paper, the usage of various computer science jargon and terminology needs to be defined.  In \emph{object-oriented programming} functionality related to a set of data is treated as a unit.  These units, or objects, are created and then often passed using a reference or pointer to the memory in which the object's contents are stored.  These objects comprise \emph{methods} (functions) and \emph{attributes} (properties or data which represent part of an object's state).
 
-\textbf{Polymorphism} is a means by which a programming language generalizes different types of functions or data using a common \emph{API}, or Application Programming Interface.  An example of a polymorphic data-type of the variety in which we are interested is a `var' in the Javascript language\cite{Flanagan:2002}.  That is to say a data type which may be any data type internally (including an object or array), the details of which are not necessary in order to use or pass the data type amongst functions.
+\textbf{Polymorphism} is a means by which a programming language generalizes different types of functions or data using a common \emph{API}, or Application Programming Interface.  An example of a polymorphic data-type of the variety in which we are interested is a `var' in the Javascript language \cite{Flanagan:2002}.  That is to say a data type which may be any data type internally (including an object or array), the details of which are not necessary in order to use or pass the data type amongst functions.
 
-\textbf{Introspection} refers to the ability to determine the characteristics of an object at runtime.  This means that when handed a pointer in C++, we can take the pointer and query for an object's name, its type or \emph{class}, the messages that it understands, the attributes it possesses, etc.  By extension, \textbf{reflection} refers to the ability to then modify the behaviour of an object at runtime\cite{Malenfant:1996}.  In practical terms this means adding messages, changing attributes, and extending existing instances of objects as the software is executing and without stopping the software to re-compile the code.
+\textbf{Introspection} refers to the ability to determine the characteristics of an object at runtime.  This means that when handed a pointer in C++, we can take the pointer and query for an object's name, its type or \emph{class}, the messages that it understands, the attributes it possesses, etc.  By extension, \textbf{reflection} refers to the ability to then modify the behaviour of an object at runtime \cite{Malenfant:1996}.  In practical terms this means adding messages, changing attributes, and extending existing instances of objects as the software is executing and without stopping the software to re-compile the code.
 
 Introspection and reflection are often implemented by making use of a \textbf{dynamic binding model}.  Programming languages including C++ and Java link function and method calls when a program is compiled, known as static binding.  A dynamically bound model does not link these functions at compile-time, but instead waits until runtime to resolve the address of a method being called.  When a dynamic binding model is in use, calling methods is referred to as `sending messages' to objects. Dynamic binding is the hallmark of languages like Smalltalk \cite{Krasner:1988}, Objective-C \cite{Cox:1986}, or Ruby.
 
@@ -166,7 +166,7 @@ To meet the manifold demands of these efforts, we stipulated the following list 
 	\item \textbf{Cross-platform} compliant (Mac, Windows, Linux, Embedded Devices, Mobile Platforms)	
 	\item \textbf{64-bit} audio bit-depth
 	\item \textbf{Multichannel audio support}
-	\item \textbf{Efficiency}, i.e. frame-based audio processing
+	\item \textbf{Reasonably Efficient}, i.e. frame-based audio processing
 	\item \textbf{User-extensible} (adding functionalities without recompiling core frameworks)
 	\item \textbf{Dynamically reconfigurable} classes at runtime %(dynamic-binding)
 	\item \textbf{Adaptable} process method to varying input (frame sizes, channel configurations, etc.) on-the-fly
@@ -183,11 +183,11 @@ which facilitates the readability, debugging, maintenance and distribution of co
 
 \begin{packed_item}%\begin{itemize}
 	\item expressive syntax, idioms, and conventions
-	\item adhere to the DRY (Don't Repeat Yourself) principle, which states that ``Every piece of knowledge must have a single, unambiguous, authoritative representation within a system''\cite{Hunt:1999}
+	\item adhere to the DRY (Don't Repeat Yourself) principle, which states that ``Every piece of knowledge must have a single, unambiguous, authoritative representation within a system'' \cite{Hunt:1999}
 %	\item clear code % what do we mean by this?
-	\item convention over configuration\cite{web1}
+	\item convention over configuration \cite{web1}
 	\item tag-based searching for class categorization and object instantiation
-	\item integrated unit testing and benchmarking\cite{web2}
+	\item integrated unit testing and benchmarking \cite{web2}
 \end{packed_item}%\end{itemize}
 
 % One list for efficiency to the computer
@@ -213,7 +213,7 @@ An immediate winnowing of the field of contenders can be accomplished by discuss
 Interpreted languages such as Ruby and Python are quite powerful, but do not provide the required speed for real-time DSP performance in embedded environments and can also create portability problems in some cases. 
 %TODO: is there any recent comparison of DSP speed between Java, Python and C ? [NP}  
 
-Another class of languages are domain-specific languages for audio signal processing.  These include SuperCollider\cite{McCartney:1996}, ChucK\cite{wang:2008}, and CSound.  For our purposes we will also consider the Max family (including MSP\cite{Zicarelli:1998} and PureData\cite{Puckette:1996}) to be domain-specific-languages
+Another class of languages are domain-specific languages for audio signal processing.  These include SuperCollider \cite{McCartney:1996}, ChucK \cite{wang:2008}, and CSound.  For our purposes we will also consider the Max family (including MSP \cite{Zicarelli:1998} and PureData \cite{Puckette:1996}) to be domain-specific-languages
 %\footnote{We acknowledge the heated debate as to whether these environments actually constitute languages and the dispute regarding whether the use of these environments should be considered programming.}
 .  
 These domain-specific languages do provide facilities both for creating and using Unit Generators, but often have portability limitations and very frequently have licensing limitations\footnote{ChucK and SuperCollider are examples licensed as GPL and not available for commercial development, while Max/MSP is not available on embedded devices nor in plug-in host environments (besides Ableton Live)}.  These environments also frequently have a large footprint in that they are very resource demanding, while we desire a light-weight framework.
@@ -244,7 +244,7 @@ Due to these licensing restrictions, none of these packages are suitable for our
 
 \subsection{Dynamic Binding} % (fold)
 
-One of our core concerns is the requirement for dynamically reconfigurable classes at runtime.  For this, dynamic binding is of critical importance.  Dynamic binding is implemented to some degree in many of the aforementioned environments including Marsyas, Max/MSP, and the NeXT SoundKit for Objective-C.  However, due to our cross-platform and liberal licensing requirements they are not options.  Of the remaining DSP libraries and toolkits, the STK\cite{Cook:1999}, CMix \cite{Lansky:1990}, and TANGA \cite{Reiter:2007} are all statically-bound.  
+One of our core concerns is the requirement for dynamically reconfigurable classes at runtime.  For this, dynamic binding is of critical importance.  Dynamic binding is implemented to some degree in many of the aforementioned environments including Marsyas, Max/MSP, and the NeXT SoundKit for Objective-C.  However, due to our cross-platform and liberal licensing requirements they are not options.  Of the remaining DSP libraries and toolkits, the STK \cite{Cook:1999}, CMix \cite{Lansky:1990}, and TANGA \cite{Reiter:2007} are all statically-bound.  
 
 %NOTE: IMHO the second last sentence could be left out, as we have dismissed all the aforementioned libraries already, including Marsyas, Max/MSP and NeXT SoundKit [TL] -- I disagree, we need to make the point that they have dynamic-binding so that we aren't operating in a void for this issue [tap]
 
@@ -252,7 +252,7 @@ An interesting middle-of-the-road option is Kronos.  In fact, the problem domain
 
 Dynamically-bound frameworks and runtimes, such as PureData, Objective-C, or Marsyas, solve this problem by precompiling the unit generators and then directing messages to these objects at runtime.  Kronos takes an alternative approach where the graph of objects, indeed the unit generators themselves, are not precompiled at all but rather compiled `Just in Time' from a custom meta-language. This results in better performance from the code, while still maintaining much of the flexibility offered by a dynamically-bound runtime.  The performance results are compelling.  Unfortunately a just-in-time compilation still requires compilation every time you change the interconnections between objects, and the resulting domain-specific language may be limited to only the domain for which it is written.
 
-One interesting cross-platform, dynamically-bound, and liberally licensed architecture is ZenGarden\cite{web4}.  One feature of ZenGarden is the use of PureDatas an authoring environment to define a graph of ZenGarden's own unit generators, as was done for the popular RjDj iPhone app \cite{web5}.  Unfortunately, at the time of this writing, ZenGarden does not pass our next requirement: 64-bit audio fidelity.
+One interesting cross-platform, dynamically-bound, and liberally licensed architecture is ZenGarden \cite{web4}.  One feature of ZenGarden is the use of PureDatas an authoring environment to define a graph of ZenGarden's own unit generators, as was done for the popular RjDj iPhone app \cite{web5}.  Unfortunately, at the time of this writing, ZenGarden does not pass our next requirement: 64-bit audio fidelity.
 
 % (end)
 
@@ -266,7 +266,7 @@ The higher resolution of 64-bit audio improves stability and fidelity in process
 
 \subsection{Conclusion} % (fold)
 
-In the end we found no one framework to possess all of the requirements set forth in Section ?.  The de facto standard for audio DSP libraries, the STK, comes perilously close as of more recent revisions\cite{Scavone:2005}, and offers a rich and mature array of unit generators.  The STK is statically-bound.  While a problem for the applications we envision, it does yield potentially faster runtime execution.  We propose an alternative that will not replace the STK, but rather coexist with it as a part of the greater computer music ecology.
+In the end we found no one framework to possess all of the requirements set forth in Section ?.  The de facto standard for audio DSP libraries, the STK, comes perilously close as of more recent revisions \cite{Scavone:2005}, and offers a rich and mature array of unit generators.  The STK is statically-bound.  While a problem for the applications we envision, it does yield potentially faster runtime execution.  We propose an alternative that will not replace the STK, but rather coexist with it as a part of the greater computer music ecology.
 
 % Why in the world do we need another DSP framework?
 %
@@ -314,7 +314,7 @@ All frameworks within the Jamoma Platform share a common structure.  A shared-li
 
 \subsection{Foundation} % (fold)
 
-The Jamoma Foundation \cite{web7} is analogous to the Objective-C Foundation, which ``Defines the `nuts and bolts' classes for Objective-C programming''\cite{web8}.  The Jamoma Foundation defines base classes including the primary base class, \texttt{\small{TTObject}}.  Object life-cycle facilities include factories for creating, destroying, and referencing these classes.  A message-passing and attribute system inspired by Smalltalk and Objective-C is implemented to enable dynamically-bound object topologies.  
+The Jamoma Foundation \cite{web7} is analogous to the Objective-C Foundation, which ``Defines the `nuts and bolts' classes for Objective-C programming'' \cite{web8}.  The Jamoma Foundation defines base classes including the primary base class, \texttt{\small{TTObject}}.  Object life-cycle facilities include factories for creating, destroying, and referencing these classes.  A message-passing and attribute system inspired by Smalltalk and Objective-C is implemented to enable dynamically-bound object topologies.  
 
 The Jamoma Foundation classes are informed by many best-practices of software development.  Unit Testing is integrated directly into the class design.  There is also an emphasis on the use of design patterns \cite{Gamma:1995}.  In particular, all objects possess a built-in observer notification system.  
 
@@ -433,10 +433,11 @@ This object dynamically loads any of the filter classes from the DSP Library. A 
 
 Jamoma DSP provides several example projects that include VST and AudioUnit plug-ins.  AudioUnit plug-ins requiring only a generic interface may be created using a class wrapper similar to the one for creating Max/MSP externals.  
 
-The spatial sound rendering technique ViMiC (Virtual Microphone Control), a virtual multi-microphone recording environment \cite{CMJ08-VIMIC}, was implemented and compiled as a Max external as well as an AudioUnit plug-in. The virtual microphones and sound sources can be controlled and manipulated in a custom interface, developed with Jamoma Graphics.  Additional control features are accessible using the generic AudioUnit interface (see Fig.~\ref{fig:vimic}).
+The spatial sound rendering technique ViMiC (Virtual Microphone Control)is a virtual multi-microphone recording environment \cite{CMJ08-VIMIC}.  ViMiC is implemented and compiled as a Max external as well as an AudioUnit plug-in. The virtual microphones and sound sources can be controlled and manipulated in a custom interface developed using Jamoma Graphics.  Additional control features are accessible using the generic AudioUnit interface (see Fig.~\ref{fig:vimic}).
 
+% TODO: can we make this screenshot bigger?
 
-\begin{figure}[htbp]
+\begin{figure}[hb]
 \centerline{\framebox{
 	\includegraphics[width=0.9\columnwidth]{vimicAU.pdf}}}
 \caption{ViMiC AU custom (front) and generic UI (back).}
@@ -449,7 +450,7 @@ The spatial sound rendering technique ViMiC (Virtual Microphone Control), a virt
 Ruby Language Bindings make the entirety of the DSP library accessible in the Ruby environment.  Together with Jamoma Multicore, Ruby's interactive shell (irb) can be use for live-coding by creating objects and manipulating the graph of those objects in real-time.  The following code shows a very simple irb session creating an instance of a lowpass filter, passing values one at a time through the filter.
 
 \begin{lstlisting}
-    \% irb
+    # irb
     >> require 'TTRuby'
     JamomaFoundation -- Version 0.6
     JamomaDSP -- Version 0.6
@@ -478,7 +479,7 @@ Jamoma DSP includes further example projects wrapping classes for PureData and S
 
 % potential for rapid prototyping - and DRY stuff - % boring stuff taken care of -- clean code -DONE
 % expand wrappers to more environments - DONE
-% Add common audio processing stuff (spectral, granulation, +++) - non-linear filters would be cool - add support for additional spatialisation algoritms such as VBAP, ambisonics, DBAP\cite{Lossius:2009} to support ongoing development within Jamoma Modular (refs to Porto and DBAP)
+% Add common audio processing stuff (spectral, granulation, +++) - non-linear filters would be cool - add support for additional spatialisation algoritms such as VBAP, ambisonics, DBAP \cite{Lossius:2009} to support ongoing development within Jamoma Modular (refs to Porto and DBAP)
 % Scheduler - do we need to include this in the discussion? - DONE
 % user-extensible (at runtime) -- so it can be expanded even more - DONE
 
@@ -491,7 +492,7 @@ Jamoma DSP includes further example projects wrapping classes for PureData and S
 
 The class wrapper demonstrated in Section \ref{sec:classwrapper} illustrates the power of the Jamoma Foundation for use as a rapid prototyping environment.  It leverages all of the features of dynamic binding to make classes available to many different environments on many platforms with a minimal amount of coding and effort required.  We can combine objects together in the environment of our choice: Max, Pd, DAWs by means of plug-ins, or a web-browser using Ruby on Rails.  Then we can move the code from one environment to another easily, or port it back to C++ with minimal effort. In the future the class wrappers can be expanded to cover even more environments, including VST, SuperCollider, and CSound.
 
-The Jamoma frameworks are all user-extensible through the creation of extension classes that are loaded and registered at runtime.  We are continuing to add support for more audio processing algorithms in the Jamoma DSP, including spectral processing and granulation. We also plan to add support for additional spatialization algoritms such as VBAP \cite{Pulkki:1997vbap}, ambisonics \cite{Gerzon:1974surround, Poletti:2000holographic_sound} and DBAP \cite{Lossius:2009} to support ongoing development within Jamoma Modular \cite{Peters:2009}.
+The Jamoma frameworks are all user-extensible through the creation of extension classes that are loaded and registered at runtime.  We are continuing to add support for more audio processing algorithms in the Jamoma DSP, including spectral processing and granulation. We also plan to add support for additional spatialization algoritms such as VBAP \cite{Pulkki:1997vbap}, ambisonics \cite{Gerzon:1974surround, Poletti:2000holographic_sound} and DBAP \cite{Lossius:2009} to support ongoing development on spatialisation within Jamoma Modular \cite{Peters:2009}.
 
 % Initial work on a scheduler for the DSP library was begun in 2007.  Competing priorities have left it unfinished...  More interesting models for scheduling, such as the the model implemented in ChucK provide impetus for further research into new approaches to this topic.  We would like a sample-accurate scheduler like ChucK, but in a multi-threaded environment we will have a difficult time...
 
@@ -504,17 +505,15 @@ Introspection features of the Jamoma Foundation make it possible to query object
 % TODO DO we manage to phrase the following a bit more clearly?
 % Exploring implicit patching paradigms - also for dynamic rerouting between modules
 
-In addition to the ongoing development of Jamoma Multicore, which implements an explicitly constructed graph of unit generators, a number of implicit graph-like processing structures such as those in Marsyas are of interest.  \cite{Bray:2005}
+In addition to the ongoing development of Jamoma Multicore, which implements an explicitly constructed graph of unit generators, a number of implicit graph-like processing structures such as those in Marsyas are of interest \cite{Bray:2005}.
 In our current implementation it is possible to have a multichannel delay or filter class, for example.  However, the same coefficients are applied to each channel of the filter.  A paradigm in which each channel might possess distinct filter coefficients requires a grouping of filters such as an array that are treated as a unified entity in the graph.
 
 %   TODO: If space, this is the place to discuss this: combining unit generators is simple - example: combining simple units into compound (e.g. DC Blocker)
 
-The GNU LGPL license chosen for the Jamoma frameworks have enabled them to be used for open-source as well as commercial software development.  Electrotap's Tap.Tools\cite{web17} is a collection of externals for Max/MSP with an emphasis on audio effects processing.  Hipno\cite{Place:2005} is a set of audio effects plug-ins in the VST, RTAS and AudioUnit formats.  Hipno plug-ins were developed in Max/MSP with Tap.Tools and Jamoma DSP, using the now discontinued Cycling'74 Pluggo environment.  The cross-platform requirement detailed earlier has enabled Tap.Tools, Hipno and Jamoma Modular to be developed for Mac OSX as well as Windows. 
+% The GNU LGPL license chosen for the Jamoma frameworks have enabled them to be used for open-source as well as commercial software development.  Electrotap's Tap.Tools \cite{web17} is a collection of externals for Max/MSP with an emphasis on audio effects processing.  Hipno \cite{Place:2005} is a set of audio effects plug-ins in the VST, RTAS and AudioUnit formats.  Hipno plug-ins were developed in Max/MSP with Tap.Tools and Jamoma DSP, using the now discontinued Cycling'74 Pluggo environment.  The cross-platform requirement detailed earlier has enabled Tap.Tools, Hipno and Jamoma Modular to be developed for Mac OSX as well as Windows. 
 % With the Jamoma Graphics library we wish to provide the structural framework for development of units with graphical user interfaces that can be wrapped as externals for environments such as Max, Pd and SuperCollider as well as being turned into plug-ins to replace now-obsolete infrastructure once provided by Pluggo.
 
-
-
-The GNU LGPL license chosen for the Jamoma frameworks have enabled them to be used for open-source as well as commercial software development.  Electrotap's Tap.Tools\cite{web17} is a collection of externals for Max/MSP with an emphasis on audio effects processing.  Hipno\cite{Place:2005} was a set of audio effects plug-ins in the VST, RTAS and AudioUnit formats using the now discontinued Cycling'74 Pluggo environment.  Plug-in development continuing ideas from Hipno is underway replacing the dependency on proprietary frameworks with the Jamoma frameworks.
+The GNU LGPL license chosen for the Jamoma frameworks have enabled them to be used for open-source as well as commercial software development.  Electrotap's Tap.Tools \cite{web17} is a collection of externals for Max/MSP with an emphasis on audio effects processing.  Hipno \cite{Place:2005} was a set of audio effects plug-ins in the VST, RTAS and AudioUnit formats using the now discontinued Cycling'74 Pluggo environment.  Plug-in development continuing ideas from Hipno is underway replacing the dependency on proprietary frameworks with the Jamoma frameworks.
 
 
 % (end)
@@ -524,9 +523,9 @@ The GNU LGPL license chosen for the Jamoma frameworks have enabled them to be us
 
 \section{Summary} % (fold)
 
-Jamoma Foundation and DSP provide a flexible, user-extendable, runtime environment for creating and using audio and digital signal processing objects.  Due to its advanced use of dynamic binding and message-passing paradigm, the building blocks can be reconfigured at runtime without requiring re-compilation, but with the unit generators themselves compiled as C++ and performing block-processing we retain the performance of a compiled language.
+Jamoma Foundation and DSP provide a flexible, user-extendable, runtime environment for creating and using audio and digital signal processing objects.  Due to its advanced use of dynamic binding and message-passing paradigm, the building blocks can be reconfigured at runtime without requiring re-compilation.  The unit generators themselves are compiled as C++, and by performing block-processing we retain the performance characteristics of a compiled language.
 
-Perhaps more important, but more difficult to quantify, we believe we've created a context in which we code is `pleasant to work with'.  As stated by Lerch, ``A well-defined API can also speed up the development process, since the implementation can focus more on the algorithmic aspects and less on implementation issues like API design.'' \cite{Lerch:2005}
+Perhaps more important, but more difficult to quantify, we believe we've created a context in which code is `pleasant to work with'.  As stated by Lerch, ``A well-defined API can also speed up the development process, since the implementation can focus more on the algorithmic aspects and less on implementation issues like API design.'' \cite{Lerch:2005}
 
 The power of this runtime is demonstrated through the ability to compile objects for Max, Pd, AudioUnits, VST, and Jamoma Multicore.
 
@@ -545,7 +544,7 @@ The authors would like to thank Dave Watson, Th\'eo Delahogue, Tristan Mathews, 
 
 %%%%%%%%% OLD STUFF FROM HERE ON
 
-% To fully leverage the DSP library and Jamoma Foundation in a web-browser we need the ability to invoke the runtime on the client-side of the equation through a web browser plug-in similar to that done in the iARS Project\cite{Frauenberger:2003}.
+% To fully leverage the DSP library and Jamoma Foundation in a web-browser we need the ability to invoke the runtime on the client-side of the equation through a web browser plug-in similar to that done in the iARS Project \cite{Frauenberger:2003}.
 
 % FM that can be repatching the FM unit in real time (different algorithms), like DX7 or Ableton Operator  -- (perhaps this could a part of the discussion section?) -- I would guess more here than in the multicore, as it's an example of dynamic binding between units
 
