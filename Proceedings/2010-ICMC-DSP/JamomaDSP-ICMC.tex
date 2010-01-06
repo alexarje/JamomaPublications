@@ -375,14 +375,9 @@ In addition to the FilterLib and FunctionLib, the growing number of extensions f
 
 Additional layers have been created on top of the Jamoma Foundation, both in series and in parallel with the DSP layer.  
 
-The \textbf{Graphics Layer} \cite{web10}, based on Cairo \cite{web11}, provides a platform-independent, and a host-independent way to create 2D graphical user interfaces (GUI). It has already been used in Max/MSP and for AudioUnit plug-ins.\\
-%changed: I changed Multicore Audio Graph Layer to "Multicore Layer"
+The \textbf{Graphics Layer} \cite{web10}, based on Cairo \cite{web11}, provides a platform-independent, and a host-independent way to create 2D graphical user interfaces (GUI). It has already been used in Max/MSP and for AudioUnit plug-ins.
 
-The \textbf{Multicore Layer} \cite{web12} combines unit generators from Jamoma DSP into audio processing topologies.
-
-% TODO: Tim & Trond -- fix the structure of this next sentence, because it is really unclear
-This differs from many of the reviewed frameworks in Section~\ref{sec:prior_art}, as they combined not only a means by which to create unit generators but also a method by which those objects are combined into a graphs.  In the Jamoma Platform we create a clear division between creating and using unit generators versus combining them into a graph.  This allows the unit generators to be combined in any way that seems desirable for a particular context. %TODO: From reading the parapgraph I don't really understand what Multicore is doing... [NP] 
-
+The \textbf{Multicore Audio Graph Layer} \cite{web12} combines unit generators from Jamoma DSP into audio processing topologies.  Many of the initiatives reviewed in Section~\ref{sec:prior_art} conflate both a means to create unit generators and a method by which those objects are combined into a graphs.  In the Jamoma Platform we provide a clear division between creating and using unit generators versus combining them into a graph.  This allows the unit generators to be assembled in any way that seems desirable for a particular context.
 
 The \textbf{Modular Framework} \cite{web13}, the highest layer of the Jamoma Platform, provides a modular structure for developing  and controlling Max/MSP/Jitter patches \cite{Place:2006}. It builds upon the Foundation, DSP, Graphics, and Multicore frameworks.
 
