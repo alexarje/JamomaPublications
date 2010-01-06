@@ -399,7 +399,7 @@ The technical underpinnings of the Jamoma Foundation and DSP Library lend themse
 
 % TODO: dynamic-binding - reflective - introspection are leveraged here, we need to make this obvious and explicit
 
-\subsection{Max/MSP}
+\subsection{Max/MSP} \label{sec:classwrapper}
 
 Given a Jamoma DSP unit generator, this object can be easily compiled for Cycling '74's Max/MSP environment.  The easiest way is to use the Jamoma DSP ``Class Wrapper'', which takes an existing class and creates bindings for the target environment. Following is the complete code listing for an N-channel MSP external that wraps the Jamoma DSP limiter class.
 
@@ -474,7 +474,7 @@ Jamoma DSP includes further example projects wrapping classes for PureData and S
 %   2. combining unit generators is simple - example: combining simple units into compound (e.g. DC Blocker: see Section 'Examples')
 %   3. wrapping for different environments is easy - this will be further improved in future using Jamoma Graphics
 
-The class wrapper demonstrated in Section ? illustrates part of the power of the Jamoma Foundation for use as a \emph{rapid prototyping environment}.  It leverages all of the features of dynamic binding to make a class available to many different environments on many platforms with a minimal amount of coding and effort required.  The code base is further strengthened because this architecture provides a practical application of the DRY principle for representing concepts in a single authoritative location.  We can combine objects together in the environment of our choice: Max, Pd, a DAW (using plug-ins), or a web-browser using Ruby on Rails.  Then we can move the code from one environment to another easily, or port it back to C++ with minimal effort.
+The class wrapper demonstrated in Section \ref{sec:classwrapper} illustrates part of the power of the Jamoma Foundation for use as a \emph{rapid prototyping environment}.  It leverages all of the features of dynamic binding to make a class available to many different environments on many platforms with a minimal amount of coding and effort required.  The code base is further strengthened because this architecture provides a practical application of the DRY principle for representing concepts in a single authoritative location.  We can combine objects together in the environment of our choice: Max, Pd, a DAW (using plug-ins), or a web-browser using Ruby on Rails.  Then we can move the code from one environment to another easily, or port it back to C++ with minimal effort.
 
 The Jamoma frameworks are all user-extensible through the creation of extension classes that are loaded and registered at runtime.  Future versions of Jamoma may provide additional means of defining extensions classes, including the ability to define extension classes in languages other than C++.
 
@@ -505,7 +505,7 @@ The GNU LGPL license chosen for the Jamoma frameworks have enabled them to be us
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Future Work} % (fold)
+\section{Future Work} % (fold) 
 
 The class wrappers can be expanded to cover more environments, such as VST and SuperCollider, and CSound.
 
