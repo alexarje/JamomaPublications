@@ -257,14 +257,14 @@ One interesting cross-platform, dynamically-bound, and liberally licensed archit
 
 \subsection{64-bit Audio} % (fold)
 
-The higher resolution of 64-bit audio improves stability and fidelity in processes that are vulnerable to numerical instability.  This includes IIR filters at extreme settings and signal processing algorithms solving differential equations, as can be the case for physical modeling.  If audio signals are used as wavetable lookup indexes, a 32-bit float signal with a 24-bit signed mantissa is able to address only 6'20" of audio with sample accuracy at 44.1 kHz and no more than 1'26" at 192 kHz. In a 64-bit audio chain this problem will be nonexistent for all practical concerns. The computational overhead required for 64-bit processing is counteracted by the fact that 64-bit processors are becoming increasingly common.
+The higher resolution of 64-bit audio improves stability and fidelity in processes that are vulnerable to numerical instability.  This includes IIR filters at extreme settings and signal processing algorithms solving differential equations, as used in physical modeling.  If audio signals are used as wavetable lookup indices, a 32-bit float signal with a 24-bit signed mantissa is able to address only 6'20" with sample accuracy at 44.1 kHz and no more than 1'26" at 192 kHz. In a 64-bit audio chain this problem is nonexistent for all practical concerns. The computational overhead required for 64-bit processing is counteracted by increasingly commonplace 64-bit processors.
 
 % (end)
 
 
 \subsection{Conclusion} % (fold)
 
-In the end we found no one framework to possess all of the requirements set forth.  As the de facto standard for audio DSP libraries, the STK comes perilously close as of more recent revisions\cite{Scavone:2005}, and offers a rich and mature array of unit generators.  The STK is statically-bound.  While a problem for the kinds of applications we envision, this does yield potentially faster execution of the code.  We propose an alternative that will not replace the STK, but rather coexist with it as a part of the greater computer music ecology.
+In the end we found no one framework to possess all of the requirements set forth in Section ?.  The de facto standard for audio DSP libraries, the STK, comes perilously close as of more recent revisions\cite{Scavone:2005}, and offers a rich and mature array of unit generators.  The STK is statically-bound.  While a problem for the applications we envision, it does yield potentially faster runtime execution.  We propose an alternative that will not replace the STK, but rather coexist with it as a part of the greater computer music ecology.
 
 % Why in the world do we need another DSP framework?
 %
@@ -302,23 +302,23 @@ for layered communications and computer network protocol design or the iPhone So
 \label{fig:layers}
 \end{figure}
 
-Jamoma, originally conceived as a modular standard for structuring patchers in Max \cite{Place:2006}, has now evolved into a layered architecture of frameworks providing comprehensive infrastructure for creating computer music systems in general, not just for Max/MSP.  This section presents each of the five frameworks currently comprising the Jamoma Platform: Jamoma Foundation, Jamoma DSP, Jamoma Multicore, Jamoma Graphics and Jamoma Modular (see Figure~\ref{fig:layers}).  We will emphasize the Foundation and DSP layers to illustrate how we meet the requirements outlined in Section \ref{sec:Requirements}.
+Jamoma, originally conceived as a modular standard for structuring patchers in Max \cite{Place:2006}, has now evolved into a layered architecture of frameworks providing comprehensive infrastructure for creating computer music systems in general, not just for Max/MSP.  This section presents each of the five frameworks currently comprising the Jamoma Platform: Jamoma Foundation, Jamoma DSP, Jamoma Multicore, Jamoma Graphics and Jamoma Modular (see Figure~\ref{fig:layers}).  We will emphasize the Foundation and DSP layers to illustrate how we meet the requirements of Section \ref{sec:Requirements}.
  
 % TODO: be sure to emphasize the  polymorphic typing and dynamic binding throughout this section to tie in to the abstract etc...
   
-It is possible to use only a subset of the provided frameworks according to the project's complexity. 
-Each framework within the Jamoma Platform shares a common structure.  A shared-library implementing base classes and core functionality exists at the core.  This functionality is then extended and enhanced by creating extensions.  An extension is a plug-in library that is dynamically loaded at runtime.  In this way the system can be expanded without re-compiling core components.
+It is possible to use only a subset of the provided frameworks according to a project's complexity. 
+All frameworks within the Jamoma Platform share a common structure.  A shared-library implements base classes and core functionality.  This functionality is then augmented and enhanced by creating extensions.  An extension is a plug-in library dynamically loaded at runtime.  In this way the system can be expanded without recompiling core components.
 
 
 \subsection{Foundation} % (fold)
 
-The Jamoma Foundation \cite{web7} may be seen as analogous to the Objective-C Foundation, which ``Defines the `nuts and bolts' classes for Objective-C programming''\cite{web8}.  The Jamoma Foundation defines base classes, including our primary base class, \texttt{\small{TTObject}}.  Object life-cycle facilities include factories for creating, destroying, and referencing these classes.  A message-passing and attribute system inspired by Smalltalk and Objective-C is implemented to enable dynamically-bound object topologies.  
+The Jamoma Foundation \cite{web7} is analogous to the Objective-C Foundation, which ``Defines the `nuts and bolts' classes for Objective-C programming''\cite{web8}.  The Jamoma Foundation defines base classes including the primary base class, \texttt{\small{TTObject}}.  Object life-cycle facilities include factories for creating, destroying, and referencing these classes.  A message-passing and attribute system inspired by Smalltalk and Objective-C is implemented to enable dynamically-bound object topologies.  
 
-The Jamoma Foundation classes are informed by many best-practices of software development.  Unit Testing, for example, is integrated directly into the class design.  There is also an emphasis on the use of design patterns \cite{Gamma:1995}.  In particular, all objects possess a built-in observer notification system.  
+The Jamoma Foundation classes are informed by many best-practices of software development.  Unit Testing is integrated directly into the class design.  There is also an emphasis on the use of design patterns \cite{Gamma:1995}.  In particular, all objects possess a built-in observer notification system.  
 
-As much as possible, complexity, `glue code', and the mechanics of writing C++ are hidden from the programmer.  They may be accessed if necessary, however, by relying on a convention-over-configuration paradigm the clarity of the code is dramatically improved.  In the opinions of the authors' this makes the code not only less time consuming to create and maintain, but also more enjoyable.  This aim is also aided by emphasizing DRY principles throughout the Jamoma Platform.
+Complexity, `glue code', and the mechanics of writing esoteric C++ are hidden from the programmer as much as possible in adherence with a convention-over-configuration paradigm whereby the clarity of the code is dramatically improved.  This results in code that is not only less time consuming to create and maintain, but also more enjoyable.  This aim is further aided by emphasizing DRY principles throughout the Jamoma Platform.
 
-Functionality specific to audio or digital signal processing is not present in this particular framework.  In fact, the Jamoma Foundation can be used as a general framework and runtime as a dynamically-bound API layer on top of C++ for any purpose.  This is evident, for example, in the Jamoma Graphics Library.
+Functionality specific to audio or digital signal processing is not present in this particular framework.  The Jamoma Foundation is a general multipurpose framework and runtime used as a dynamically-bound API layer for C++.  This is evident, for example, in the Jamoma Graphics Library.
 
 \subsubsection{Messages and Attributes} % (fold)
 
