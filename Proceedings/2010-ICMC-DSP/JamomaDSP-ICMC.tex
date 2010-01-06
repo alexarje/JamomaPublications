@@ -143,33 +143,30 @@ For the course of the paper, the usage of various computer science jargon and te
 
 Introspection and reflection are often implemented by making use of a \textbf{dynamic binding model}.  Programming languages including C++ and Java link function and method calls when a program is compiled, known as static binding.  A dynamically bound model does not link these functions at compile-time, but instead waits until runtime to resolve the address of a method being called.  When a dynamic binding model is in use, calling methods is referred to as `sending messages' to objects. Dynamic binding is the hallmark of languages like Smalltalk \cite{Krasner:1988}, Objective-C \cite{Cox:1986}, or Ruby.
 
-Throughout the literature exists a confusing gaggle of terminology for classifying systems of objects.  These include \emph{framework}, \emph{library}, \emph{environment}, and \emph{toolkit}.  For the purposes of this paper, these will be defined as follows. 
-
-% TODO: I think the following should be re-written into a paragraph since it doesn't flow very well as is [tap]
-
-\noindent\textbf{Unit generator:} A class or object that implements a well-defined DSP task such as generating, analyzing, or processing audio data\\
-	\textbf{Library:} A collection of pre-built, ready-to-use, unit generators\\
-	\textbf{Toolkit:} A collection of functions, utilities, and helpers, possibly with an API, for creating unit generators\\
-	\textbf{Framework:} An architectural structure that underlies a system of unit generators.\\
-	\textbf{Runtime:} A daemon or library operating in real-time when a framework, toolkit, or unit generator is in use. A runtime's role is typically for dispatching messages, balancing processor loads, or otherwise running the background machinery such as in the Objective-C or Java runtime environments.\\ % Is the word "library" in this bulleted point used in the same way as in the first bulleted point of this list? For me reading this, it sounds as if the word is used with a more vague meaning here. [TL]
-	\textbf{Environment:} A full-fledged system intended for use by an end-user.  Examples include Max, SuperCollider, ChucK, DAW applications, and CSound.
+Throughout the literature exists a confusing gaggle of terminology for classifying systems of objects.  These include \emph{framework}, \emph{library}, \emph{environment}, and \emph{toolkit}.  For the purposes of this paper, these will be defined as follows.  
+A \textbf{unit generator} is a class or object that implements a well-defined DSP task such as generating, analyzing, or processing audio data.
+A \textbf{library} is a collection of pre-built and ready-to-use unit generators.
+A \textbf{toolkit} is a collection of functions, utilities and helpers, possibly with an API, for creating unit generators.
+A \textbf{framework} is an architectural structure that underlies a system of unit generators.
+A \textbf{runtime} is a daemon or framework operating in real-time when a framework, toolkit, or unit generator is in use. A runtime's role is typically for dispatching messages, balancing processor loads, or otherwise running the background machinery such as in the Objective-C or Java runtime environments.
+An \textbf{environment} is a full-fledged system intended for use by an end-user.  Examples include Max, SuperCollider, ChucK, DAW applications, and CSound.
 %(end)
 
 
 \subsection{Requirements} \label{sec:Requirements}% (fold)
 
-The authors are involved in a number of divergent and parallel efforts requiring both a framework for creating unit generators and a library of ready-to-go unit generators.  These efforts include both open-source and closed-source commercial applications targeting multiple platforms and environments.  To meet the manifold demands of these endeavors the following list of requirements must be met regarding how said framework must perform and behave.\\
+The authors are involved in a number of divergent and parallel efforts requiring both a framework for creating unit generators and a library of ready-to-go unit generators.  These efforts include both open-source and closed-source commercial applications targeting multiple platforms and environments.  To meet the manifold demands of these endeavors the following list of requirements must be met regarding how said framework must perform and behave.
 
 \begin{packed_item}%\begin{itemize}     TODO: if we want to use the list with bullet points, we shoudl get rid of the line breaks. I would like to avoid bulletpoints, because they et up a lot of space  
 	\item \textbf{Licensing} allows for both open source and commercial use
 	\item \textbf{Cross-platform} compliant (Mac, Windows, Linux, Embedded Devices, Mobile Platforms)	
 	\item \textbf{64-bit} audio bit-depth
-	\item \textbf{Multichannel audio support}\\
-	\item \textbf{Reasonably efficient},i.e. frame-based audio processing\\
-	\item \textbf{User-extensible} (adding functionalities without recompiling core frameworks)\\
-	\item \textbf{Dynamically reconfigurable} classes at runtime (dynamic-binding)\\
-	\item \textbf{Adaptable} process method to varying input (frame sizes, channel configurations, etc.) on-the-fly\\
-	\item \textbf{Effortless use} of classes in different environments (Max/MSP, VST, AudioUnit, ChucK, Pd)\\
+	\item \textbf{Multichannel audio support}
+	\item \textbf{Reasonably efficient},i.e. frame-based audio processing
+	\item \textbf{User-extensible} (adding functionalities without recompiling core frameworks)
+	\item \textbf{Dynamically reconfigurable} classes at runtime (dynamic-binding)
+	\item \textbf{Adaptable} process method to varying input (frame sizes, channel configurations, etc.) on-the-fly
+	\item \textbf{Effortless use} of classes in different environments (Max/MSP, VST, AudioUnit, ChucK, Pd)
 %	\item be as thread-agnostic as possible (don't manage it, but take care of requisite protection, adaptable to various architectures)
 %	\item MVC-friendly (reconfigurable)
 \end{packed_item}%\end{itemize}
@@ -265,8 +262,8 @@ The higher resolution of 64-bit audio improves stability and fidelity in process
 In the end we found no one framework to possess all of the requirements set forth.  As the de facto standard for audio DSP libraries, the STK comes perilously close as of more recent revisions\cite{Scavone:2005}, and offers a rich and mature array of unit generators.  The STK is statically-bound.  While a problem for the kinds of applications we envision, this does yield potentially faster execution of the code.  We propose an alternative that will not replace the STK, but rather coexist with it as a part of the greater computer music ecology.
 
 % Why in the world do we need another DSP framework?
-
-% TODO: Section 5 of Amatraian:2008 maybe provide the start of a way to categorize different frameworks.
+%
+% Section 5 of Amatraian:2008 maybe provide the start of a way to categorize different frameworks.
 % I'm not sure if it actually makes sense to distinguish between text and gui interfaces, given that the 
 % underlying data-flow basis is exactly the same (as argued in several of the Tzanetakis papers)  
 %
