@@ -347,25 +347,22 @@ In addition to the framework and base-classes, the DSP layer also provides toolk
 
 \subsubsection{Extensions}
 
-User extensions may be created for any of layers built-upon the Jamoma Foundation.  At this time, extensions are almost exclusively for the purpose of creating unit generator classes with Jamoma DSP.
+User extensions may be created for any of layers built-upon the Jamoma Foundation.  At this time, extensions are almost exclusively for the purpose of creating unit generator classes with Jamoma DSP. An extension may implement zero or more classes, which are registered with the Foundation when the extension is loaded.
 
+The extensions included with Jamoma DSP are organized into groups of classes that share a common interface.  For example, the \emph{FilterLib} implements more than two dozen audio filters including Butterworth and Linkwitz-Riley algorithms for various frequency responses.  All classes in the FilterLib use shared semantics for defining message and attribute names, such as `frequency', and can thus be easily substituted for one another.  Similarly, the \emph{FunctionLib} implements a number of algorithms designed for use gestural mapping scenarios.  
 
-% TODO: instead of the above, discuss 
-- how these are organized into extensions 
-    - common interface
-    - groups of classes are created by adding tags to the classes that identify their characteristics (probably need to talk about the registry in the Foundation section then?)
-    - discuss how some of the units might have more (and different) attributes from others (because of dynamic binding, it is okay to send messages to an object even if it doesn't understand them -- it won't crash, it will just ignore it). Another way of putting it: the linear function doesn't have parameters, but additional parameters can be specified for the exponential - and it can be queried for *what* extra attributes exists and their value
-- the various extensions in Jamoma DSP
-    - Analysis
-    - common interface for filters - FilterLib
-    - common interface for generators
-    - for functions - also used for mappings and ramps elsewhere
-    - EffectsLib
-    - for windowing functions
-- how to make additional extensions as neeeded or add units to existing extensions
-    - the extensibility of it 
-    - DRY means that this is faster to do, and the code cleaner to read
+While common attribute and message names are preferred, some unit generators will necessarily provide additional controls when compared to simpler or different classes.  When substituting one class for another, we leverage the dynamically-bound architecture because we can send messages to an object, even if it does not understand them.  In this case the messages are simply ignored.  With introspection features, all classes can be queries to find out what attributes they do possess, what ranges characterize those attributes, etc.  Objects can also be modified at runtime to add handling for messages not envisaged at compile time using reflective techniques, allowing them to be adapted for use in different contexts.
 
+In addition to the FilterLib and FunctionLib, the growing number of extensions for Jamoma DSP include the AnalysisLib, GeneratorLib, MathLib, EffectsLib, and WindowFunctionLib.
+
+%    - common interface for filters - FilterLib
+%    - common interface for generators
+%    - for functions - also used for mappings and ramps elsewhere
+%    - EffectsLib
+%    - for windowing functions
+%- how to make additional extensions as neeeded or add units to existing extensions
+%    - the extensibility of it 
+%    - DRY means that this is faster to do, and the code cleaner to read
 
 % (end)
 
