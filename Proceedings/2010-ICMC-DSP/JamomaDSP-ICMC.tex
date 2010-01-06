@@ -157,7 +157,7 @@ An \textbf{environment} is a full-fledged system intended for use by an end-user
 
 The authors are involved in a number of divergent and parallel efforts requiring both a framework for creating unit generators and a library of ready-to-go unit generators.  These efforts include both open-source and closed-source commercial applications targeting multiple platforms and environments.  To meet the manifold demands of these endeavors the following list of requirements must be met regarding how said framework must perform and behave.
 
-\begin{packed_item}%\begin{itemize}     TODO: if we want to use the list with bullet points, we shoudl get rid of the line breaks. I would like to avoid bulletpoints, because they et up a lot of space  
+\begin{packed_item}%\begin{itemize}
 	\item \textbf{Licensing} allows for both open source and commercial use
 	\item \textbf{Cross-platform} compliant (Mac, Windows, Linux, Embedded Devices, Mobile Platforms)	
 	\item \textbf{64-bit} audio bit-depth
@@ -239,7 +239,8 @@ Due to these licensing restrictions, none of these packages are suitable for our
 \subsection{Dynamic Binding} % (fold)
 
 One of our core concerns is the requirement for dynamically reconfigurable classes at runtime.  For this, dynamic binding is of critical importance.  Dynamic binding is implemented to some degree in many of the aforementioned environments including Marsyas, Max/MSP, and the NeXT SoundKit for Objective-C.  However, due to our cross-platform and liberal licensing requirements they are not options.  Of the remaining DSP libraries and toolkits, the STK\cite{Cook:1999}, CMix \cite{Lansky:1990}, and TANGA \cite{Reiter:2007} are all statically-bound.  
-%TODO: IMHO the second last sentence could be left out, as we have dismissed all the aforementioned libraries already, including Marsyas, Max/MSP and NeXT SoundKit [TL]
+
+%NOTE: IMHO the second last sentence could be left out, as we have dismissed all the aforementioned libraries already, including Marsyas, Max/MSP and NeXT SoundKit [TL] -- I disagree, we need to make the point that they have dynamic-binding so that we aren't operating in a void for this issue [tap]
 
 An interesting middle-of-the-road option is Kronos.  In fact, the problem domain of the Kronos system is the same as our problem domain: `` the musician may want to change the program during its execution. This was possible in the analog music studio, where swapping out patch cords often resulted in immediate gratification. In the digital world programs often have to be aborted, edited, re-compiled, linked and launched. The all-important musical hacking suffers from such a heavy compilation cycle, making a traditional programming language less desirable for real time artistic expression.'' \cite{Norilo:2009}
 
@@ -309,7 +310,7 @@ Each framework within the Jamoma Platform shares a common structure.  A shared-l
 
 \subsection{Foundation} % (fold)
 
-The Jamoma Foundation \cite{web7} may be seen as analogous to the Objective-C Foundation, which ``Defines the `nuts and bolts' classes for Objective-C programming''\cite{web8}.  The Jamoma Foundation defines base classes, including our primary base class, \texttt{TTObject}.  Object life-cycle facilities include factories for creating, destroying, and referencing these classes.  A message-passing and attribute system inspired by Smalltalk and Objective-C is implemented to enable dynamically-bound object topologies.  
+The Jamoma Foundation \cite{web7} may be seen as analogous to the Objective-C Foundation, which ``Defines the `nuts and bolts' classes for Objective-C programming''\cite{web8}.  The Jamoma Foundation defines base classes, including our primary base class, \texttt{\small{TTObject}}.  Object life-cycle facilities include factories for creating, destroying, and referencing these classes.  A message-passing and attribute system inspired by Smalltalk and Objective-C is implemented to enable dynamically-bound object topologies.  
 
 The Jamoma Foundation classes are informed by many best-practices of software development.  Unit Testing, for example, is integrated directly into the class design.  There is also an emphasis on the use of design patterns \cite{Gamma:1995}.  In particular, all objects possess a built-in observer notification system.  
 
@@ -328,11 +329,11 @@ Additionally, attributes may possess \emph{properties}.  Properties are implemen
 
 \subsubsection{Implementation}
 
-To actualize the notion of sending messages to objects, and by extensions setting attributes, the Jamoma Foundation relies upon two primary underpinnings.  First is a polymorphic data-type, \texttt{TTValue}, that enables us pass data to and from methods regardless of the kind of data actually contained while using a common interface.  %TODO: TTValue does some other cool things...
+To actualize the notion of sending messages to objects, and by extensions setting attributes, the Jamoma Foundation relies upon two primary underpinnings.  First is a polymorphic data-type, \texttt{\small{TTValue}}, that enables us pass data to and from methods regardless of the kind of data actually contained while using a common interface.  %TODO: TTValue does some other cool things...
 
-By using \texttt{TTValue} to represent any arbitrary data, we are able to abstract the function/method prototype for any message or attribute.  By doing so, we create system by which all communication to and from objects occurs using a singular interface.  Internally the messages and attributes of an object are managed a hash tables (for speed) of pointers.  Changing the contents of the hash table or the values of the pointers at runtime then reconfigures how messages are directed and handled while not requiring any recompiling or relinking of the code.
+By using \texttt{\small{TTValue}} to represent any arbitrary data, we are able to abstract the function/method prototype for any message or attribute.  By doing so, we create system by which all communication to and from objects occurs using a singular interface.  Internally the messages and attributes of an object are managed a hash tables (for speed) of pointers.  Changing the contents of the hash table or the values of the pointers at runtime then reconfigures how messages are directed and handled while not requiring any recompiling or relinking of the code.
 
-\texttt{TTObject} implements and observer pattern by maintaining linked-lists of other objects that wish to be notified of events.  The objects registered as observers are then sent messages from \texttt{TTObject}.  If the objects respond to the message sent then they can respond appriopriately.  If they do not respond to the message, then they will simply ignore it.  In this case no intervention is required by the user or programmer, and this situation is not considered an error.  In a statically-bound system this situation would likely lead to a compile-failure, thrown exceptions, crashes during operation, or worse.
+\texttt{\small{TTObject}} implements and observer pattern by maintaining linked-lists of other objects that wish to be notified of events.  The objects registered as observers are then sent messages from \texttt{\small{TTObject}}.  If the objects respond to the message sent then they can respond appriopriately.  If they do not respond to the message, then they will simply ignore it.  In this case no intervention is required by the user or programmer, and this situation is not considered an error.  In a statically-bound system this situation would likely lead to a compile-failure, thrown exceptions, crashes during operation, or worse.
 
 % (end)
 % (end)
@@ -340,9 +341,9 @@ By using \texttt{TTValue} to represent any arbitrary data, we are able to abstra
 
 \subsection{DSP Layer} % (fold)
 
-The Jamoma DSP Layer \cite{web9} augments the Foundation by extending \texttt{TTObject} to create a new \texttt{TTAudioObject} base class.  \texttt{TTAudioObject} provides the core functionality for processing multichannel, 64-bit, audio samples singly or in blocks while providing basic thread protection.  It also provides attributes and audio processing methods for controlling muting, bypass, sample-rate, etc. which are inherited by subclasses.
+The Jamoma DSP Layer \cite{web9} augments the Foundation by extending \texttt{\small{TTObject}} to create a new \texttt{\small{TTAudioObject}} base class.  \texttt{\small{TTAudioObject}} provides the core functionality for processing multichannel, 64-bit, audio samples singly or in blocks while providing basic thread protection.  It also provides attributes and audio processing methods for controlling muting, bypass, sample-rate, etc. which are inherited by subclasses.
 
-In addition to the framework and base-classes, the DSP layer also provides toolkit functionality with convenience functions such as denormals and dc-offset blocking, and a library of classes as extensions implementing a variety of unit generators.  The provided unit generators include basic trigonometry functions, filters (including butterworth), oscillators, noise generators, analysis, effects, etc.  These classes are organized and classified on several different levels.  First, every object is classified using tags when the object is registered with the Foundation at runtime.  Secondly, the classes are organized into dynamically loaded \emph{extensions} which share common interfaces and functionality.
+In addition to the framework and base-classes, the DSP layer also provides toolkit functionality with convenience functions such as denormals and dc-offset blocking, and a library of classes as extensions implementing a variety of unit generators.  The provided unit generators include basic trigonometry functions, filters (including butterworth), oscillators, noise generators, analysis, effects, etc.  These classes are organized and classified on several different levels.  First, every object is classified using tags when the object is registered with the Foundation at runtime.  The Foundation then manages this registry and its metadata for use by the factory methods for creating instances.  Secondly, the classes are organized into dynamically loaded \emph{extensions} which share common interfaces and functionality.
 
 \subsubsection{Extensions}
 
@@ -412,12 +413,9 @@ Given a Jamoma DSP unit generator, this object can be easily compiled for Cyclin
   }
 \end{lstlisting}
 
-% TODO: make the fixed-size type smaller throughout the paper [tap]
-
-\noindent In addition to simply wrapping existing classes for MSP, it is possible to use the Jamoma DSP objects in other ways.  One example is the \texttt{jcom.filter$\sim$} external provided with Jamoma DSP.  
-%TODO: instead of using jcom.filter example, why not using tt.filter example, to show the commercial application 
-This object dynamically loads any of a variety of filter classes from the DSP Library.  The classes are loaded and swapped on-the-fly, without requiring Max's DSP chain to be rebuilt.  The code for the \texttt{jcom.filter$\sim$} object searches the object registry for available filter classes to present a list of choices for the user.  This list will then be dynamically updated if new filters are added without requiring any code to be compiled or updated.   
-%TODO: Tim, do you want to say anything about the internal tagging [np] 
+\noindent In addition to simply wrapping existing classes for MSP, it is possible to use the Jamoma DSP objects in other ways.  One example is the \texttt{\small{jcom.filter$\sim$}} external provided with Jamoma DSP.  
+%NOTE: instead of using jcom.filter example, why not using tt.filter example, to show the commercial application [np] -- I think we should mention the items in the distro, and commercial applications are touched upon elsewhere [tap]
+This object dynamically loads any of a variety of filter classes from the DSP Library.  The classes are loaded and swapped on-the-fly, without requiring Max's DSP chain to be rebuilt.  The code for the \texttt{\small{jcom.filter$\sim$}} object searches the object registry for available filter classes to present a list of choices for the user.  This list will then be dynamically updated if new filters are added without requiring any code to be compiled or updated.   
 
 
 \subsection{Plug-ins}
@@ -546,8 +544,6 @@ To fully leverage the DSP library and Jamoma Foundation in a web-browser we need
 \section{Examples} % (fold)
 
 4. FM that can be repatching the FM unit in real time (different algorithms), like DX7 or Ableton Operator  -- (perhaps this could a part of the discussion section?) -- I would guess more here than in the multicore, as it's an example of dynamic binding between units
-
-%TODO: interpolation for TTWavetable
 
 %TODO: Non-linear filters - limiting or saturation inside the filter as xn is cast to xn-1 and yn to yn-1 (switching the feedback-filter on the fly)
 
