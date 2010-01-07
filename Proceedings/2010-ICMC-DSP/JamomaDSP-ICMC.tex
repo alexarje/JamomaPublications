@@ -30,7 +30,6 @@
 %==== set the title ====
 \def\papertitle{A Flexible and Dynamic C++ Framework and Library for Digital Audio Signal Processing}
 %\def\papertitle{}	%-- should be empty for the submission anyway!
-% TODO: alternative title: The Jamoma DSP Platform : A Flexible and Dynamic Framework for Audio Signal Processing in C++
 % 
 %==== 1st submission: author name and affiliation are empty for anonymous submission ====
 \def\paperauthorA{} 
@@ -119,32 +118,32 @@
 
 \begin{abstract}
 
-This paper presents an object-oriented, reflective, application programming interface for C++, with an emphasis on real-time signal processing. 
-The Jamoma Foundation and DSP Library provide a flexible framework and runtime environment, as well as an expanding collection of unit generators for synthesis, processing, and analysis.  It makes use of polymorphic typing, dynamic binding, and introspection to create a cross-platform environment pulling ideas from languages such as Smalltalk and Objective-C while remaining within the bounds of the portable and cross-platform C++ context. 
+This paper presents an object-oriented, reflective, application framework for C++, with an emphasis on real-time signal processing. 
+The Jamoma Foundation and DSP Library provide a runtime environment and an expanding collection of unit generators for synthesis, processing, and analysis.  It makes use of polymorphic typing, dynamic binding, and introspection to create a cross-platform API pulling ideas from languages such as Smalltalk and Objective-C while remaining within the bounds of the portable and cross-platform C++ context. 
 Over the past several years this library has been used in both open source and commercial software projects in the sound and music computing field.
 
 \end{abstract}
-% TODO: is it a framework or an API, as stated in the first sentence of the abstract ?
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Introduction} % (fold)
 \label{sec:introduction}
 
-``The SMC Roadmap identifies two broad research challenges: (1) To design better sound objects and environments and (2) To understand, model, and improve human interaction with sound and music.'' \cite{serra:2007}  The Jamoma Foundation and DSP Library directly addresses the first task as a means by which to address the second task.  Before discussing the approach and relative merits taken in the Jamoma project, we will first lay out some definitions and quickly review similar projects.
+``The SMC (Sound and Music Computing) Roadmap identifies two broad research challenges: (1) To design better sound objects and environments and (2) To understand, model, and improve human interaction with sound and music.'' \cite{serra:2007}  The Jamoma Foundation and DSP Library directly addresses the first task as a means by which to address the second task.  Before discussing the approach and relative merits of the Jamoma project, we will first lay out some definitions and quickly review similar projects.
 
 
 \subsection{Terminology} % (fold)
 
 For the course of the paper, the usage of various computer science jargon and terminology needs to be defined.  In \emph{object-oriented programming} functionality related to a set of data is treated as a unit.  These units, or objects, are created and then often passed using a reference or pointer to the memory in which the object's contents are stored.  These objects comprise \emph{methods} (functions) and \emph{attributes} (properties or data which represent part of an object's state).
 
-\textbf{Polymorphism} is a means by which a programming language generalizes different types of functions or data using a common \emph{API}, or Application Programming Interface.  An example of a polymorphic data-type of the variety in which we are interested is a `var' in the Javascript language \cite{Flanagan:2002}.  That is to say a data type which may be any data type internally (including an object or array), the details of which are not necessary in order to use or pass the data type amongst functions.
+\textbf{Polymorphism} is a means by which a programming language generalizes different types of functions or data using a common \emph{API}, or Application Programming Interface.  An example of a polymorphic data-type of the variety in which we are interested is a `var' in the Javascript language \cite{Flanagan:2002}.  That is to say that a variable may contain any data-type internally (including an object or array), the details of which are not necessary in order to use or pass the data type amongst functions.
 
-\textbf{Introspection} refers to the ability to determine the characteristics of an object at runtime.  This means that when handed a pointer in C++, we can take the pointer and query for an object's name, its type or \emph{class}, the messages that it understands, the attributes it possesses, etc.  By extension, \textbf{reflection} refers to the ability to then modify the behaviour of an object at runtime \cite{Malenfant:1996}.  In practical terms this means adding messages, changing attributes, and extending existing instances of objects as the software is executing and without stopping the software to re-compile the code.
+\textbf{Introspection} refers to the ability to determine the characteristics of an object at runtime.  This means that when handed a pointer in C++, we can take the pointer and query for an object's name, its type or \emph{class}, the messages that it understands, the attributes it possesses, etc.  By extension, \textbf{reflection} refers to the ability to then modify the behavior of an object at runtime \cite{Malenfant:1996}.  In practical terms this means adding messages, changing attributes, over-riding audio processing methods, and extending existing instances of objects as the software is executing and without stopping the software to re-compile the code.
 
-Introspection and reflection are often implemented by making use of a \textbf{dynamic binding model}.  Programming languages including C++ and Java link function and method calls when a program is compiled, known as static binding.  A dynamically bound model does not link these functions at compile-time, but instead waits until runtime to resolve the address of a method being called.  When a dynamic binding model is in use, calling methods is referred to as `sending messages' to objects. Dynamic binding is the hallmark of languages like Smalltalk \cite{Krasner:1988}, Objective-C \cite{Cox:1986}, or Ruby.
+Introspection and reflection are often implemented by making use of a \textbf{dynamic binding model}.  Programming languages such as C++ and Java link function and method calls when a program is compiled, which is known as static binding.  A dynamically bound model does not link these functions at compile-time, but instead waits until a method is called at runtime to resolve its address.  For this reason, we say we are `sending messages' to objects when using a dynamic binding model.  Dynamic binding is the hallmark of languages such as Smalltalk \cite{Krasner:1988}, Objective-C \cite{Cox:1986}, and Ruby.
 
-Throughout the literature exists a confusing gaggle of terminology for classifying systems of objects.  These include \emph{framework}, \emph{library}, \emph{environment}, and \emph{toolkit}.  For the purposes of this paper, these will be defined as follows.  
+A confusing gaggle of terminology exists for classifying systems of objects throughout the literature of the computer music field.  These include \emph{framework}, \emph{library}, \emph{environment}, and \emph{toolkit}.  For the purposes of this paper the following definitions will be used.  
 A \textbf{unit generator} is a class or object that implements a well-defined DSP task such as generating, analyzing, or processing audio data.
 A \textbf{library} is a collection of pre-built and ready-to-use unit generators.
 A \textbf{toolkit} is a collection of functions, utilities and helpers, possibly with an API, for creating unit generators.
@@ -155,30 +154,22 @@ An \textbf{environment} is a full-fledged system intended for use by an end-user
 
 
 \subsection{Requirements} \label{sec:Requirements}% (fold)
-%TODO: the following text partially repeats the list of requirements. Is that necessary?  [NP] - changed already 
-The authors are involved in multiple divergent and parallel efforts which requires both a framework for creating unit generators and a library of ready-to-go unit generators.  %These efforts include both open-source and closed-source commercial applications targeting multiple platforms and environments.  
-To meet the manifold demands of these efforts, we stipulated the following list of requirements.% by the audio processing framework. %regarding how said framework must perform and behave.
 
-% TODO: Nils, Trond and both agreed that we needed bullets here.  However, maybe there is a way to justify them further to the left?
-% NP: Rather than twaeking the template, we could try to be more precise with our requirements and make them all in one liner ? 
+The authors are involved in multiple divergent and parallel efforts which requires both a framework for creating unit generators and a library of ready-to-go unit generators.  These efforts include both open-source and closed-source commercial applications targeting multiple platforms and environments.  To meet the manifold demands of these efforts, we stipulate the following list of requirements regarding how the framework must perform and behave.
+
 \begin{packed_item}%\begin{itemize}
-  \item \textbf{Licensing} allows for open source and commercial use
-	\item \textbf{Cross-platform} compliant (Mac, Windows, Linux, Embedded Devices, Mobile Platforms)	
-	\item \textbf{64-bit} audio bit-depth
+  \item \textbf{Licensing} allowing open source and commercial use
+	\item \textbf{Cross-platform} compliant (e.g. Mac, Windows, Linux, Embedded Devices, Mobile Platforms)	
+	\item \textbf{64-bit} audio resolution
 	\item \textbf{Multichannel audio support}
-	\item \textbf{Reasonably Efficient}, i.e. frame-based audio processing
-	\item \textbf{User-extensible} (adding functionalities without recompiling core frameworks)
+	\item \textbf{Reasonably efficient}, i.e. frame-based audio processing, but no cryptic optimizations
+	\item \textbf{User-extensible}, adding functionalities without recompiling core frameworks
 	\item \textbf{Dynamically reconfigurable} classes at runtime %(dynamic-binding)
-	\item \textbf{Adaptable} process method to varying input (frame sizes, channel configurations, etc.) on-the-fly
+	\item \textbf{Adaptable} process method for varying input (frame sizes, channel configurations, etc.) on-the-fly
 	\item \textbf{Effortless use} of classes in different environments (Max/MSP, VST, AudioUnit, ChucK, Pure Data)
-%	\item be as thread-agnostic as possible (don't manage it, but take care of requisite protection, adaptable to various architectures)
-%	\item MVC-friendly (reconfigurable)
 \end{packed_item}%\end{itemize}
 
-% NOTE: Terms not defined: reconfigure classes, object decoration, process routine switching, frame-based audio processing, thread-agnostic, requisite protection,  MVC [tl]
-
-\noindent Having met these technical requirements, the authors also deem an additional set of process requirements to be important.  These requirements are in adhering to contemporary philosophies for good coding practice, 
-which facilitates the readability, debugging, maintenance and distribution of code. 
+\noindent Having met these technical requirements, the authors also deem an additional set of process requirements to be important.  These requirements adhere to contemporary philosophies for good coding practice, facilitating the readability, debugging, maintenance, and distribution of code. 
 %ensuring that it is pleasant to work with the code, to maintain it, to test it, and to distribute it.
 
 \begin{packed_item}%\begin{itemize}
@@ -208,15 +199,14 @@ A myriad of existing libraries, toolkits, frameworks, and environments are avail
 
 \subsection{Choice of Language} % (fold)
 
-An immediate winnowing of the field of contenders can be accomplished by discussing the choice of programming language.  There are popular and well structured DSP libraries for Java \cite{Guillemard:2005, Burk:1998} and Objective-C \cite{Jaffe:1989,Jaffe:1991}, for example, but these languages also carry restrictions and baggage.  Java is not installed on Windows systems by default and is not available in the context of many embedded devices.  Objective-C is available on Windows only through the clumsy and inadequate GnuStep project\footnote{E.g., one cannot natively compile using Microsoft's MSVC compiler.} \cite{web3} and also is not available in the context of many embedded or mobile devices
-%\footnote{The authors also look upon Apple's corporate control of the Objective-C language and runtime with some degree of skepticism, as compared to the open consortium that is mediating the C++ language's evolution}.  
-Interpreted languages such as Ruby and Python are quite powerful, but do not provide the required speed for real-time DSP performance in embedded environments and can also create portability problems in some cases. 
-%TODO: is there any recent comparison of DSP speed between Java, Python and C ? [NP}  
+An immediate winnowing of the field of contenders can be accomplished by discussing the choice of programming language.  There are popular and well structured DSP libraries for Java \cite{Guillemard:2005, Burk:1998} and Objective-C \cite{Jaffe:1989,Jaffe:1991}, for example, but these languages also carry restrictions and baggage.  Java is not installed on Windows systems by default and is not available in the context of many embedded devices.  Objective-C is available on Windows only through the clumsy and inadequate GnuStep project\footnote{E.g., one cannot natively compile using Microsoft's MSVC compiler.} \cite{web3} and also is not available in the context of many embedded or mobile devices.  Interpreted languages such as Ruby and Python are quite powerful, but do not provide the required speed for real-time DSP performance in embedded environments and also create portability problems. 
+
+% NOTE: is there any recent comparison of DSP speed between Java, Python and C ? [NP}  
 
 Another class of languages are domain-specific languages for audio signal processing.  These include SuperCollider \cite{McCartney:1996}, ChucK \cite{wang:2008}, and CSound.  For our purposes we will also consider the Max family (including MSP \cite{Zicarelli:1998} and PureData \cite{Puckette:1996}) to be domain-specific-languages
 %\footnote{We acknowledge the heated debate as to whether these environments actually constitute languages and the dispute regarding whether the use of these environments should be considered programming.}
 .  
-These domain-specific languages do provide facilities both for creating and using Unit Generators, but often have portability limitations and very frequently have licensing limitations\footnote{ChucK and SuperCollider are examples licensed as GPL and not available for commercial development, while Max/MSP is not available on embedded devices nor in plug-in host environments (besides Ableton Live)}.  These environments also frequently have a large footprint in that they are very resource demanding, while we desire a light-weight framework.
+These domain-specific languages do provide facilities both for creating and using Unit Generators, but often have portability limitations and very frequently have licensing limitations\footnote{ChucK and SuperCollider are examples licensed as GPL and not available for commercial development, while Max/MSP is not available on embedded devices nor in plug-in host environments (besides Ableton Live)}.  These environments also frequently have a large footprint in that they are very resource demanding, while we desire a light-weight framework with a minimum of dependencies.
 
 The C++ language and its compilers are ubiquitous across platforms.  Plug-ins and extensions for sundry environments and languages can be compiled using C and C++.  The C++ language is also capable of creating extremely high-performance code optimized for digital signal processing.
 
@@ -232,27 +222,26 @@ A related subject is the creation of audio plug-ins using existing APIs.  VST, R
 
 \subsection{Licensing} % (fold)
 
-As stated, the authors require a framework that can be used in both open-source and commercial applications.  This immediately rules out the use of any existing work licensed under the GNU GPL, which stipulates that all works using it are themselves licensed under the GNU GPL.  Among the options this rules out are SndObj \cite{Lazzarini:2001}, CLAM \cite{Amatraian:2008}, and Marsyas \cite{Tzanetakis:2008}.  Additionally, the CSL framework \cite{Pope:2003} requires licensing through the University of California, which is not agreeable to the open use we require.
+As stated, the authors require a framework that can be used in both open-source and commercial applications.  This immediately rules out the use of any existing work licensed under the GNU GPL, which stipulates that all works using it are themselves licensed under the GNU GPL.  Among the options this rules out are SndObj \cite{Lazzarini:2001}, CLAM \cite{Amatraian:2008}, and Marsyas \cite{Tzanetakis:2008}.  Additionally, the CSL framework \cite{Pope:2003} requires licensing through the University of California.%, which is not agreeable to the open use we require.
 
-Due to these licensing restrictions, none of these packages are suitable for our use
+Due to these licensing restrictions, none of the aforementioned packages are suitable for our use.
 %\footnote{The license for the STK is reasonably liberal.  At the time that the Jamoma DSP library was initially written, however, the license for the STK specified non-commercial use and thus using the STK was not an option for the authors.}
-.  They do, however, contain many valuable ideas that serve to inform our own work.
-% TODO: Will we be touching upon valuable ideas from these libraries later again?
+They do, however, contain many valuable ideas that serve to inform our own work.
 
 % (end)
 
 
 \subsection{Dynamic Binding} % (fold)
 
-One of our core concerns is the requirement for dynamically reconfigurable classes at runtime.  For this, dynamic binding is of critical importance.  Dynamic binding is implemented to some degree in many of the aforementioned environments including Marsyas, Max/MSP, and the NeXT SoundKit for Objective-C.  However, due to our cross-platform and liberal licensing requirements they are not options.  Of the remaining DSP libraries and toolkits, the STK \cite{Cook:1999}, CMix \cite{Lansky:1990}, and TANGA \cite{Reiter:2007} are all statically-bound.  
+One of our core concerns is the requirement for dynamically reconfigurable classes at runtime.  For this, dynamic binding is of critical importance.  Dynamic binding is implemented to some degree in many of the aforementioned environments including Marsyas, Max/MSP, and the NeXT SoundKit for Objective-C.  Due to our cross-platform and liberal licensing requirements, however, they are not options.  Of the remaining DSP libraries and toolkits, the STK \cite{Cook:1999}, CMix \cite{Lansky:1990}, and TANGA \cite{Reiter:2007} are all statically-bound.  
 
 %NOTE: IMHO the second last sentence could be left out, as we have dismissed all the aforementioned libraries already, including Marsyas, Max/MSP and NeXT SoundKit [TL] -- I disagree, we need to make the point that they have dynamic-binding so that we aren't operating in a void for this issue [tap]
 
 An interesting middle-of-the-road option is Kronos.  In fact, the problem domain of the Kronos system is the same as our problem domain: `` the musician may want to change the program during its execution. This was possible in the analog music studio, where swapping out patch cords often resulted in immediate gratification. In the digital world programs often have to be aborted, edited, re-compiled, linked and launched. The all-important musical hacking suffers from such a heavy compilation cycle, making a traditional programming language less desirable for real time artistic expression.'' \cite{Norilo:2009}
 
-Dynamically-bound frameworks and runtimes, such as PureData, Objective-C, or Marsyas, solve this problem by precompiling the unit generators and then directing messages to these objects at runtime.  Kronos takes an alternative approach where the graph of objects, indeed the unit generators themselves, are not precompiled at all but rather compiled `Just in Time' from a custom meta-language. This results in better performance from the code, while still maintaining much of the flexibility offered by a dynamically-bound runtime.  The performance results are compelling.  Unfortunately a just-in-time compilation still requires compilation every time you change the interconnections between objects, and the resulting domain-specific language may be limited to only the domain for which it is written.
+Dynamically-bound frameworks and runtimes, such as PureData, Objective-C, or Marsyas, solve this problem by precompiling the unit generators and then directing messages to these objects at runtime.  Kronos takes an alternative approach where the graph of objects, indeed the unit generators themselves, are not precompiled at all but rather compiled `Just in Time' from a custom meta-language. This results in better performance from the code, while still maintaining much of the flexibility offered by a dynamically-bound runtime.  The performance results are compelling.  Unfortunately, a just-in-time compilation still requires compilation every time you change the interconnections between objects, and the resulting domain-specific language may be limited to only the domain for which it is written.
 
-One interesting cross-platform, dynamically-bound, and liberally licensed architecture is ZenGarden \cite{web4}.  One feature of ZenGarden is the use of PureDatas an authoring environment to define a graph of ZenGarden's own unit generators, as was done for the popular RjDj iPhone app \cite{web5}.  Unfortunately, at the time of this writing, ZenGarden does not pass our next requirement: 64-bit audio fidelity.
+One interesting cross-platform, dynamically-bound, and liberally licensed architecture is ZenGarden \cite{web4}.  One feature of ZenGarden is the use of PureData as an authoring environment to define a graph of ZenGarden's own unit generators, as was done for the popular RjDj iPhone app \cite{web5}.  Unfortunately, at the time of this writing, ZenGarden does not pass our next requirement: 64-bit audio fidelity.
 
 % (end)
 
@@ -266,7 +255,7 @@ The higher resolution of 64-bit audio improves stability and fidelity in process
 
 \subsection{Conclusion} % (fold)
 
-In the end we found no one framework to possess all of the requirements set forth in Section ?.  The de facto standard for audio DSP libraries, the STK, comes perilously close as of more recent revisions \cite{Scavone:2005}, and offers a rich and mature array of unit generators.  The STK is statically-bound.  While a problem for the applications we envision, it does yield potentially faster runtime execution.  We propose an alternative that will not replace the STK, but rather coexist with it as a part of the greater computer music ecology.
+In the end we found no one framework to possess all of the requirements set forth in Section \ref{sec:Requirements}.  The de facto standard for audio DSP libraries, the STK, comes perilously close as of more recent revisions \cite{Scavone:2005}, and offers a rich and mature array of unit generators.  As a statically-bound toolkit, the STK may offer potentially faster runtime execution than a dynamically-bound framework such as the one we propose.  For a given application or problem domain the characteristics of each should be weighed, as there are clear justifications for both to coexist within the greater computer music ecology.
 
 % Why in the world do we need another DSP framework?
 %
@@ -292,7 +281,7 @@ In the end we found no one framework to possess all of the requirements set fort
 
 \subsection{A Layered Framework Structure}
 
-It is common to organize software frameworks into a number of layers from low level system services at the bottom towards high level abstraction at the top.  Frameworks may build upon and extend frameworks below them in the hierarchy, but the lower frameworks have no knowledge of the higher frameworks. Divisions between the frameworks help to establish clarity as to what functionalities belong to which part of the system. 
+It is common to organize software frameworks into a number of layers from low level system services at the bottom towards higher level abstraction at the top.  Frameworks may build upon and extend frameworks below them in the hierarchy, but the lower frameworks have no knowledge of the higher frameworks. Divisions between the frameworks help to establish clarity as to what functionalities belong to which part of the system. 
 
 Examples of such layered architectures are the Open Systems Interconnection network model (OSI) \cite{web6} 
 for layered communications and computer network protocol design or the iPhone Software Architecture. A similar layered approach has been proposed by the authors for spatialization systems \cite{Peters:2009}. 
@@ -320,24 +309,24 @@ The Jamoma Foundation classes are informed by many best-practices of software de
 
 Complexity, `glue code', and the mechanics of writing esoteric C++ are hidden from the programmer as much as possible in adherence with a convention-over-configuration paradigm whereby the clarity of the code is dramatically improved.  This results in code that is not only less time consuming to create and maintain, but also more enjoyable.  This aim is further aided by emphasizing DRY principles throughout the Jamoma Platform.
 
-Functionality specific to audio or digital signal processing is not present in this particular framework.  The Jamoma Foundation is a general multipurpose framework and runtime used as a dynamically-bound API layer for C++.  This is evident, for example, in the Jamoma Graphics Library.
+Functionality specific to audio or digital signal processing is not present in this particular framework.  The Jamoma Foundation is a general multipurpose framework and runtime used as a dynamically-bound API layer for C++.  The Jamoma Graphics Library exemplifies this.
 
 \subsubsection{Messages and Attributes} % (fold)
 
 As with other similar runtime systems, the Jamoma Foundation defines a symbol table for efficient message dispatch and lookup.  This symbol table is leveraged in the implementation of messages and attributes.  
 A \emph{message} is defined as a method of a class or instance that is then bound to a symbol.  Messages may optionally possess arguments for passing data to and from the object.
 
-An \emph{attribute} is defined as a data member of a class or instance, whose access is bound to symbol.  Typically, the setting or retrieving of the value then uses a built-in accessor method.  If needed, a custom setter or getter method can be defined to override the built-in mechanism.
+An \emph{attribute} is defined as a data member of a class or instance, whose access is bound to a symbol.  Typically, the setting or retrieving of the value then uses a built-in accessor method.  If needed, a custom setter or getter method can be defined to override the built-in mechanism.
 
-Additionally, attributes may possess \emph{properties}.  Properties are implemented as attributes of the attribute.  They include the ability define ranges for an attribute, the behavior of an attribute's value when the range is exceeded, etc.  The design of this system is consistent with the authors' previous proposals for more sophisticated control in parametric systems \cite{Place:2008params}.
+Additionally, attributes may possess \emph{properties}.  Properties are implemented as attributes of the attribute.  They include the ability to define ranges for an attribute, the behavior of an attribute's value when the range is exceeded, etc.  The design of this system is consistent with the authors' previous proposals for more sophisticated control in parametric systems \cite{Place:2008params}.
 
 \subsubsection{Implementation}
 
-To actualize the notion of sending messages to objects, and by extensions setting attributes, the Jamoma Foundation relies upon two primary underpinnings.  First is a polymorphic data-type, \texttt{\small{TTValue}}, that enables us pass data to and from methods regardless of the kind of data actually contained while using a common interface.  %TODO: TTValue does some other cool things...
+The Jamoma Foundation relies upon two primary cornerstones to actualize the notion of sending messages to objects and, by extension, setting attributes of objects.  The first is a polymorphic data-type, \texttt{\small{TTValue}}, that enables us to pass data to and from methods regardless of the kind of data actually contained, while using a common interface.  %TODO: TTValue does some other cool things...
 
-By using \texttt{\small{TTValue}} to represent any arbitrary data, we are able to abstract the function/method prototype for any message or attribute.  By doing so, we create system by which all communication to and from objects occurs using a singular interface.  Internally the messages and attributes of an object are managed a hash tables (for speed) of pointers.  Changing the contents of the hash table or the values of the pointers at runtime then reconfigures how messages are directed and handled while not requiring any recompiling or relinking of the code.
+Second, by using \texttt{\small{TTValue}} to represent any arbitrary data, we are able to abstract the function/method prototype for any message or attribute.  By doing so, we create a system by which all communication to and from objects occurs using a singular interface.  The messages and attributes of an object are managed internally by fast hash tables of pointers.  Changing the contents of the hash table or the values of the pointers at runtime then reconfigures how messages are directed and handled, while not requiring any recompiling or relinking of the code.
 
-\texttt{\small{TTObject}} implements and observer pattern by maintaining linked-lists of other objects that wish to be notified of events.  The objects registered as observers are then sent messages from \texttt{\small{TTObject}}.  If the objects respond to the message sent then they can respond appriopriately.  If they do not respond to the message, then they will simply ignore it.  In this case no intervention is required by the user or programmer, and this situation is not considered an error.  In a statically-bound system this situation would likely lead to a compile-failure, thrown exceptions, crashes during operation, or worse.
+\texttt{\small{TTObject}} implements an observer pattern by maintaining linked-lists of other objects that wish to be notified of events.  The objects registered as observers are then sent messages from \texttt{\small{TTObject}}.  If the objects respond to the message, then they can respond appropriately.  If they do not respond to the message, then they will simply ignore it.  In this case no intervention is required by the user or programmer, and this situation is not considered an error.  In a statically-bound system this situation would likely lead to a compile-failure, thrown exceptions, crashes during operation, or worse.
 
 % (end)
 % (end)
@@ -345,9 +334,9 @@ By using \texttt{\small{TTValue}} to represent any arbitrary data, we are able t
 
 \subsection{DSP Layer} % (fold)
 
-The Jamoma DSP Layer \cite{web9} augments the Foundation by extending \texttt{\small{TTObject}} to create a new \texttt{\small{TTAudioObject}} base class.  \texttt{\small{TTAudioObject}} provides the core functionality for processing multichannel, 64-bit, audio samples singly or in blocks while providing basic thread protection.  It also provides attributes and audio processing methods for controlling muting, bypass, sample-rate, etc. which are inherited by subclasses.
+The Jamoma DSP Layer \cite{web9} augments the Foundation by extending \texttt{\small{TTObject}} to create a new \texttt{\small{TTAudioObject}} base class.  \texttt{\small{TTAudioObject}} provides the core functionality for processing multichannel, 64-bit, audio samples singly or in blocks, while providing basic thread protection.  It also provides attributes and audio processing methods to control muting, bypass, sample-rate, and others that are inherited by subclasses.
 
-In addition to the framework and base-classes, the DSP layer also provides toolkit functionality with convenience functions such as denormals and dc-offset blocking, and a library of classes as extensions implementing a variety of unit generators.  The provided unit generators include basic trigonometry functions, filters (including butterworth), oscillators, noise generators, analysis, effects, etc.  These classes are organized and classified on several different levels.  First, every object is classified using tags when the object is registered with the Foundation at runtime.  The Foundation then manages this registry and its metadata for use by the factory methods for creating instances.  Secondly, the classes are organized into dynamically loaded \emph{extensions} which share common interfaces and functionality.
+In addition to the framework and base-classes, the DSP layer also provides toolkit functionality with convenience functions for filtering denormals and dc-offsets, and a library of classes as extensions implementing a variety of unit generators.  The provided unit generators include basic trigonometry functions, filters, oscillators, noise generators, analysis, effects, etc.  These classes are organized and classified on several different levels.  First, every object is classified using tags when the object is registered with the Foundation at runtime.  The Foundation then manages this registry and its metadata for use by the factory methods for creating instances.  Secondly, the classes are organized into dynamically loaded \emph{extensions} which share common interfaces and functionality.
 
 \subsubsection{Extensions}
 
@@ -393,20 +382,16 @@ As a dynamically-bound API, the Jamoma Foundation is a natural fit for control f
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\textbf{}
+
 \section{Applications} % (fold)
 
-% TODO: come back and look this next paragraph
-
 The technical underpinnings of the Jamoma Foundation and DSP Library lend themselves to a variety of applications. 
-Jamoma's API provides a clear interface for creating and using unit generators in the C++ language or Ruby.  Specialized tools, tailored to the requirements of a specific host environment, make Jamoma DSP's unit generators easily acessible.
-%Additional tools and facilities have been fabricated to make Jamoma DSP's unit generators readily available in several popular environments.
+Jamoma DSP's API provides a clear interface for creating and using unit generators in the C++ and Ruby languages.  Additional tools and facilities tailored to the requirements of various host environments make Jamoma DSP's unit generators readily accessible.
 
-% TODO: dynamic-binding - reflective - introspection are leveraged here, we need to make this obvious and explicit
 
 \subsection{Max/MSP} \label{sec:classwrapper}
-%Given a Jamoma DSP unit generator, this object can be easily compiled for Cycling '74's Max/MSP environment.
-The easiest way to create a Max/MSP external from a Jamoma DSP unit generator is by using the provided Jamoma DSP ``Class Wrapper'', which takes an existing class and creates bindings for the target environment. Following is the complete code listing for an N-channel MSP external that wraps the Jamoma DSP limiter class.
+
+The easiest way to create a Max/MSP external using a Jamoma DSP unit generator is by using the provided Jamoma DSP ``Class Wrapper''.   The class wrapper  takes an existing class and creates all of the required bindings and interfaces for the target environment.  Following is the complete code listing for an N-channel MSP external that wraps the Jamoma DSP lookahead-limiter class.
 
 \begin{lstlisting}
   #include "TTClassWrapperMax.h"
@@ -418,31 +403,28 @@ The easiest way to create a Max/MSP external from a Jamoma DSP unit generator is
   }
 \end{lstlisting}
 
-\noindent Besides simply wrapping existing classes, there are other ways to create Jamoma DSP externals. One example is the \emph{\small{jcom.filter$\sim$}} external provided with Jamoma DSP.  
-%NOTE: instead of using jcom.filter example, why not using tt.filter example, to show the commercial application [np] -- I think we should mention the items in the distro, and commercial applications are touched upon elsewhere [tap]
-This object dynamically loads any of the filter classes from the DSP Library. A filter is loaded and swapped on-the-fly, without requiring Max's DSP chain to be rebuilt.  The code for the \emph{\small{jcom.filter$\sim$}} external searches the object registry for available filter classes to present a list of choices for the user. This list will then be dynamically updated if new filters are added without the need to recompiled the external.   
-
+\noindent Besides simply wrapping existing classes there are other ways to create Jamoma DSP-based externals. One example is the \emph{\small{jcom.filter$\sim$}} external provided with Jamoma DSP.  This object dynamically loads any of the filter classes from the DSP Library. A filter is loaded and swapped on-the-fly without requiring Max's DSP chain to be rebuilt.  The code for the \emph{\small{jcom.filter$\sim$}} external searches the Foundation's object registry for available filter classes to present a list of choices for the user.  This list will then be dynamically updated if new filters are added, also without the need to recompiled the external.   
 
 
 \subsection{Plug-ins}
 
 Jamoma DSP provides several example projects that include VST and AudioUnit plug-ins.  AudioUnit plug-ins requiring only a generic interface may be created using a class wrapper similar to the one for creating Max/MSP externals.  
 
-The spatial sound rendering technique ViMiC (Virtual Microphone Control)is a virtual multi-microphone recording environment \cite{CMJ08-VIMIC}.  ViMiC is implemented and compiled as a Max external as well as an AudioUnit plug-in. The virtual microphones and sound sources can be controlled and manipulated in a custom interface developed using Jamoma Graphics.  Additional control features are accessible using the generic AudioUnit interface (see Fig.~\ref{fig:vimic}).
+The spatial sound rendering technique ViMiC (Virtual Microphone Control) is a virtual multi-microphone recording environment \cite{CMJ08-VIMIC}.  ViMiC is implemented and compiled as a Max external as well as an AudioUnit plug-in. The virtual microphones and sound sources can be controlled and manipulated in a custom interface developed using Jamoma Graphics.  Additional control features are accessible using the generic AudioUnit interface (see Fig.~\ref{fig:vimic}).
 
-% TODO: can we make this screenshot bigger?
+% TODO: Nils, can we make the custom UI part of the screenshot bigger?  It's really difficult to see anything right now...  [tap]
 
 \begin{figure}[hb]
 \centerline{\framebox{
-	\includegraphics[width=0.9\columnwidth]{vimicAU.pdf}}}
+	\includegraphics[width=0.99\columnwidth]{vimicAU.pdf}}}
 \caption{ViMiC AU custom (front) and generic UI (back).}
 \label{fig:vimic}
 \end{figure}
 
 
-\subsection{Ruby, irb, Rails}
+\subsection{Ruby, IRB, Rails}
 \lstset{language=Ruby,commentstyle=\color{black}} 
-Ruby Language Bindings make the entirety of the DSP library accessible in the Ruby environment.  Together with Jamoma Multicore, Ruby's interactive shell (irb) can be use for live-coding by creating objects and manipulating the graph of those objects in real-time.  The following code shows a very simple irb session creating an instance of a lowpass filter, passing values one at a time through the filter.
+Ruby Language Bindings make the entirety of the DSP library accessible in the Ruby environment.  Together with Jamoma Multicore, Ruby's interactive shell (irb) can be used for live-coding by creating objects and manipulating the graph of those objects in real-time.  The following code shows a very simple irb session creating an instance of a lowpass filter and interactively passing values one at a time through the filter.
 
 \begin{lstlisting}
     # irb
@@ -460,6 +442,8 @@ Ruby Language Bindings make the entirety of the DSP library accessible in the Ru
 
 \noindent Leveraging the popular Ruby on Rails web framework, Jamoma DSP classes are made available for a multitude of web applications.  The authors have begun employing one such Ruby on Rails application to graph related functions in real-time for comparison and algorithm analysis.
 
+% TODO: Tim -- screenshot of the rails app [tap]
+
 
 \subsection{Additional Environments}
 
@@ -472,44 +456,19 @@ Jamoma DSP includes further example projects wrapping classes for PureData and S
 
 \section{Discussion and Future Work} % (fold)
 
-% potential for rapid prototyping - and DRY stuff - % boring stuff taken care of -- clean code -DONE
-% expand wrappers to more environments - DONE
-% Add common audio processing stuff (spectral, granulation, +++) - non-linear filters would be cool - add support for additional spatialisation algoritms such as VBAP, ambisonics, DBAP \cite{Lossius:2009} to support ongoing development within Jamoma Modular (refs to Porto and DBAP)
-% Scheduler - do we need to include this in the discussion? - DONE
-% user-extensible (at runtime) -- so it can be expanded even more - DONE
-
-% queryable -- potential for mappings
-% Exploring implicit patching paradigms - also for dynamic rerouting between modules \cite{Bray:2005}
-
-% license works for us
-
-% benchmark and optimize --- out?
-
 The class wrapper demonstrated in Section \ref{sec:classwrapper} illustrates the power of the Jamoma Foundation for use as a rapid prototyping environment.  It leverages all of the features of dynamic binding to make classes available to many different environments on many platforms with a minimal amount of coding and effort required.  We can combine objects together in the environment of our choice: Max, Pd, DAWs by means of plug-ins, or a web-browser using Ruby on Rails.  Then we can move the code from one environment to another easily, or port it back to C++ with minimal effort. In the future the class wrappers can be expanded to cover even more environments, including VST, SuperCollider, and CSound.
 
 The Jamoma frameworks are all user-extensible through the creation of extension classes that are loaded and registered at runtime.  We are continuing to add support for more audio processing algorithms in the Jamoma DSP, including spectral processing and granulation. We also plan to add support for additional spatialization algoritms such as VBAP \cite{Pulkki:1997vbap}, ambisonics \cite{Gerzon:1974surround, Poletti:2000holographic_sound} and DBAP \cite{Lossius:2009} to support ongoing development on spatialisation within Jamoma Modular \cite{Peters:2009}.
 
 % Initial work on a scheduler for the DSP library was begun in 2007.  Competing priorities have left it unfinished...  More interesting models for scheduling, such as the the model implemented in ChucK provide impetus for further research into new approaches to this topic.  We would like a sample-accurate scheduler like ChucK, but in a multi-threaded environment we will have a difficult time...
 
-
-
 A myriad of mundane, but critical, details for DSP classes are taken care of by the DSP framework.  This includes a 64-bit audio signal class that automatically adapts its channel configurations and vector-sizes based on input.  Multi-threaded environments seem to be the source of perpetual headaches, for developers.  Jamoma DSP provides a light-weight thread-protection where needed, but errs on the side of not getting in the way or causing performance problems.  
 
 Introspection features of the Jamoma Foundation make it possible to query objects to automate the process of creating mappings and advanced control of the objects such as those cataloged in \cite{Pendharkar:2006}.
 
-% TODO DO we manage to phrase the following a bit more clearly?
-% Exploring implicit patching paradigms - also for dynamic rerouting between modules
-
-In addition to the ongoing development of Jamoma Multicore, which implements an explicitly constructed graph of unit generators, a number of implicit graph-like processing structures such as those in Marsyas are of interest \cite{Bray:2005}.
-In our current implementation it is possible to have a multichannel delay or filter class, for example.  However, the same coefficients are applied to each channel of the filter.  A paradigm in which each channel might possess distinct filter coefficients requires a grouping of filters such as an array that are treated as a unified entity in the graph.
-
-%   TODO: If space, this is the place to discuss this: combining unit generators is simple - example: combining simple units into compound (e.g. DC Blocker)
-
-% The GNU LGPL license chosen for the Jamoma frameworks have enabled them to be used for open-source as well as commercial software development.  Electrotap's Tap.Tools \cite{web17} is a collection of externals for Max/MSP with an emphasis on audio effects processing.  Hipno \cite{Place:2005} is a set of audio effects plug-ins in the VST, RTAS and AudioUnit formats.  Hipno plug-ins were developed in Max/MSP with Tap.Tools and Jamoma DSP, using the now discontinued Cycling'74 Pluggo environment.  The cross-platform requirement detailed earlier has enabled Tap.Tools, Hipno and Jamoma Modular to be developed for Mac OSX as well as Windows. 
-% With the Jamoma Graphics library we wish to provide the structural framework for development of units with graphical user interfaces that can be wrapped as externals for environments such as Max, Pd and SuperCollider as well as being turned into plug-ins to replace now-obsolete infrastructure once provided by Pluggo.
+A strength of the architecture of Jamoma DSP is the ease with which one can combine, connect, reconnect, and reconfigure unit generators on the fly.  This characteristic lends itself to exploring a variety of paradigms for connecting unit generators into processing graphs.  The initial development of Jamoma Multicore implements an explicitly constructed topology of unit generators using dynamic multichannel connections between nodes in the graph.  We have begun discussing alternative models that resemble the implicit patching pattern of Marsyas \cite{Bray:2005}.  In particular we have initiated a design for processing signals through a grouping of objects into an array.
 
 The GNU LGPL license chosen for the Jamoma frameworks have enabled them to be used for open-source as well as commercial software development.  Electrotap's Tap.Tools \cite{web17} is a collection of externals for Max/MSP with an emphasis on audio effects processing.  Hipno \cite{Place:2005} was a set of audio effects plug-ins in the VST, RTAS and AudioUnit formats using the now discontinued Cycling'74 Pluggo environment.  Plug-in development continuing ideas from Hipno is underway replacing the dependency on proprietary frameworks with the Jamoma frameworks.
-
 
 % (end)
 
@@ -531,7 +490,6 @@ The power of this runtime is demonstrated through the ability to compile objects
 
 \section{Acknowledgements} % (fold)
 
-% TODO: Form as a proper sentence.
 The authors would like to thank Dave Watson, Th\'eo Delahogue, Tristan Mathews, and Joshua Kit Clayton for their feedback and contributions to the development of Jamoma DSP.
 
 % (end)
@@ -551,7 +509,7 @@ The authors would like to thank Dave Watson, Th\'eo Delahogue, Tristan Mathews, 
 %        - a biquad filter is really the same ....
 %            - but if values at control rate can cause interpolation to new value, the ramp lib could get involved and we could choose what curve to use for interpolation (e.g. glissandi in the pitch domain)
 
-% TODO: Reconnecting things on the fly can be expanded into: 
+% Reconnecting things on the fly can be expanded into: 
 %        - dynamically reconfigurable objects without recompiling code or DSP graphs
 %            - FM example?  (maybe cut this one)
 %            - Live coding (irb?)
@@ -582,7 +540,7 @@ The authors would like to thank Dave Watson, Th\'eo Delahogue, Tristan Mathews, 
 \bibitem[A14]{web14}  \url{http://github.com/tap/JamomaRuby}
 \bibitem[A15]{web15}  \url{http://ruby-doc.org/docs/ProgrammingRuby/html/irb.html}
 \bibitem[A16]{web16}  \url{http://rubyonrails.org}   
-\bibitem[A17]{web17} \url{http://shop.electrotap.com/products/taptools}
+\bibitem[A17]{web17}	\url{http://electrotap.com/taptools}
 \end{thebibliography} 
 All quoted web resources were verified on \today.
 \end{document}
