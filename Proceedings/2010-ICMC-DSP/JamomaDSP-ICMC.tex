@@ -421,10 +421,13 @@ The spatial sound rendering technique ViMiC (Virtual Microphone Control) is a vi
 \label{fig:vimic}
 \end{figure}
 
+% TODO: Tim -- inconsistent capitalization of irb throughout, including the following section title
 
 \subsection{Ruby, IRB, Rails}
 \lstset{language=Ruby,commentstyle=\color{black}} 
 Ruby Language Bindings make the entirety of the DSP library accessible in the Ruby environment.  Together with Jamoma Multicore, Ruby's interactive shell (irb) can be used for live-coding by creating objects and manipulating the graph of those objects in real-time.  The following code shows a very simple irb session creating an instance of a lowpass filter and interactively passing values one at a time through the filter.
+
+% TODO: this breaks across paragraphs -- yuck
 
 \begin{lstlisting}
     # irb
@@ -465,6 +468,8 @@ The Jamoma frameworks are all user-extensible through the creation of extension 
 % Initial work on a scheduler for the DSP library was begun in 2007.  Competing priorities have left it unfinished...  More interesting models for scheduling, such as the the model implemented in ChucK provide impetus for further research into new approaches to this topic.  We would like a sample-accurate scheduler like ChucK, but in a multi-threaded environment we will have a difficult time...
 
 A myriad of mundane, but critical, details for DSP classes are taken care of by the DSP framework.  This includes a 64-bit audio signal class that automatically adapts its channel configurations and vector-sizes based on input.  For developers, multi-threaded environments are the source of many perpetual headaches.  Jamoma DSP applies a light-weight thread-protection model where needed, but avoids causing performance problems.  % and but errs on the side of not getting in the way and .
+
+% TODO: This next sentence doesn't seem right...
 
 Introspection features of the Jamoma Foundation make it possible to query objects to automate the process of creating mappings and advanced control of the objects such as those cataloged in \cite{Pendharkar:2006}.
 
