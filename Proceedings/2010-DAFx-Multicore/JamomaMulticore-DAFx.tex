@@ -1,4 +1,4 @@
-% Template LaTeX file for DAFx-08 papers
+% Template LaTeX file for DAFx-08 papers % (fold)
 %
 % To generate the correct references using BibTeX, run
 %     latex, bibtex, latex, latex
@@ -180,6 +180,8 @@
 }
 %-------------------------------------FOUR-AUTHOR HEADER ENDS------------------------------------------------------
 
+% (end)
+
 \begin{document}
 % more pdf-tex settings:
 \ifpdf % used graphic file format for pdflatex
@@ -191,12 +193,17 @@
 \maketitle
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 \begin{abstract}
 
 Jamoma Multicore is really cool.
 
 \end{abstract}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \section{Introduction} % (fold)
@@ -211,8 +218,85 @@ Jamoma Multicore is build upon the Jamoma Foundation and DSP Libraries \cite{Pla
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Design} % (fold)
+
+One example the demonstrates the need for dynamic vectorsizes is the gabor.psola.pat example from FTM. Also granular approaches may benefit (for example, implementing some of the ideas from Curtis Roads' engine).
+
+\subsection{Structure} % (fold)
+
+A graph has many objects.\\
+An object has many inlets.\\
+An inlet has many inputs.\\
+An input has many channels.\\
+
+% (end)
+
+Some important things to keep in mind:
+
+Priorities, how to we control the order of operations?
+
+Matrix mixer/router development, with particular thought about what happens when 5.1 audio is routed to stereo etc.
+
+Signals of varying data rate (for example as proposed by Pulkki), e.g. compressed signals or higher res signals
+
+Signals of steady data rate but varying vector/buffer size (as in FTM/Gabor)
+
+Dynamic number of channels (perhaps useful for FFT and spectral processing?)
+
+Would be ideal if we could have a wrapper for standard MSP external objects as Multicore objects. 
+Call the DSP method directly from this wrapper?
+Create our own internal DSP chain for it?
+start simple as with biquad~, meaning 1 in and 1 out...
+it seems like the easiest way out is to just use patcher scripting.
 
 
+
+% (end)
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Implementation} % (fold)
+
+Jamoma Multicore is a layer for wrapping DSP (TTBlue) objects to be used in processing graphs. The implementation of Multicore is not tied to any particular environment, though it is readily adapted to real-time graphical environments. One practical implementation of Jamoma Multicore is for Cycling '74's Max.
+
+
+\subsection{Building the Graph} % (fold)
+
+A Multicore graph consists of a collection of objects that are connected in such a way that they are able to perform digital signal processing tasks. Before such processing can occur, the connections of the graph must be established and the graph configured. This happens as a 3 step process:
+
+A 'reset' method is called on all Multicore objects in the graph. This tells all objects to forget any previous connections.
+
+A 'setup' method is called on all Multicore objects in the graph. This causes objects to establish connections to other objects in the graph (i.e. by passing a message to any object directly below themselves).
+
+An 'init' message is sent, initiated by any/all terminal Multicore objects in the graph and traversing up the graph as detailed below.
+
+A terminal object is one that can be used as the final destination and is responsible for driving the entire graph that is connected to it. When this object calls the init method on any objects that are connected to it, they in-turn call the init method on any objects connected to them, etc., until the init method calls have been propagated to all objects in the chain. This init call is responsible for allocating memory for buffers required for the signals, etc.
+
+% (end)
+
+
+\subsection{Processing the Graph} % (fold)
+
+Processing the DSP Graph
+
+First, a 'preprocess' method is propagated up the chain from the terminal object.
+
+Second, the audio is pulled from the object above it in the chain, again initiated by the terminal object.
+
+% (end)
+
+
+% (end)
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{DAFx Template Stuff}
 
@@ -238,14 +322,21 @@ example of a figure spanning two columns.
 \end{figure*} % [width=5in,bb= 36 253 574 500]
 
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \section{Conclusions}
 We rock.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Acknowledgments}
 Thanks!
 
-%\newpage
-%\nocite{*}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \bibliographystyle{IEEEbib}
 \bibliography{../../Shared/bibtex/Jamoma} % requires file template.bib
 
