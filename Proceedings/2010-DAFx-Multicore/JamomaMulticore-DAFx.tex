@@ -213,10 +213,103 @@ If you want to be cool, then you need to use Jamoma Multicore too...  We are abo
 
 Jamoma Multicore is build upon the Jamoma Foundation and DSP Libraries \cite{Place:2010}.
 
+should mention the license either here or in the abstract.
 
 % (end)
 
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Background} % (fold)
+
+% Audio Units / AUGraph in CoreAudio (pull method for graphs)
+% MSP/Pd/etc.
+
+% Multithreading
+% Grand Central Dispatch (GCD) is now open source
+
+
+The Max family includes both MSP\cite{Zicarelli:1998} and PureData\cite{Puckette:1996}.
+
+"The Max paradigm can be described as a way of combining pre-designed building blocks into configurations useful for real-time computer music performance."\cite{Puckette:2002_max_at_17}
+
+This description is more similar to Multicore than to DSP.  In fact, The Max environments also define APIs for creating unit generators and provide libraries of these unit generators (or "pre-designed building blocks").  The environments also define an API for message passing in much the same way that the Jamoma Foundation provides.
+
+Domain-Specific Text-Based Languages are similar to the Max Family except that they create networks of Unit Generators using a text interface.  I don't really want to talk about CSound.  Is that really neccesary?  Can I just mention CSound and SuperCollider together in one sentence?
+
+
+
+\subsubsection{SuperCollider} % (fold)
+
+Is there anything particularly pertinent here?\cite{McCartney:1996}
+
+SuperCollider combines the unit generators, the audio engine, and an object-oriented language with semantics similar to C and Smalltalk.  SuperCollider is incredibly powerful because of the language constructs and idioms that manipulate the unit generators.  The API for creating unit generators is similar to many other environments we have reviewed.
+
+% (end)
+
+\subsubsection{ChucK} % (fold)
+
+Probably a bit more here that is pertinent.  Ge Wang might balk at calling ChucK a domain-specific language, but that's what it really is.
+
+``the design of ChucK strives to “hide the mundane aspects of programming, and expose true control”''\cite{wang:2008}.
+
+Unfortunately, ChucK is not suitable for use by Jamoma due to the excessive restrictiveness of the GNU GPL, under which it is licensed.
+
+To it's own admission, execution speed is not the primary priority for ChucK.  As such it does not perform frame-based signal computation but computes at every sample.  This contributes to ChucK's strong timing model, but at the expense of slower number-crunching for audio.
+
+% NOTE: ChucK audio processing is driven by the sink on the graph, using a pull model as we do in Multicore 
+
+
+% TODO: Do we need to mention something about CMix and RTCMix?
+% (end)
+
+
+
+\subsubsection{TANGA} % (fold)
+
+TANGA provides and interesting environment because the audio engine is explicitly multi-threaded and thus multi-core capable\cite{Reiter:2007}.  However, it doesn't fit the bill because it is targeted at one context: MPEG-4 scene rendering.  We need something more general.  And it doesn't matter because we are thread-agnostic.
+
+TANGA does provide a message passing interface and a plug-in or extension API.
+
+
+
+ZenGarden will need a mention.
+
+
+\subsection{CLAM} % (fold)
+
+``CLAM stands for C++ Library for Audio and Music and it is a full-fledged software framework for research and application development in the audio and music domain with applicability also to the broader multimedia domain. It offers a conceptual model; algorithms for analyzing, synthesizing and transforming audio signals; and tools for handling audio and music streams and creating cross-platform applications.''
+
+``CLAM, a C++ software framework, that offers a complete development and research platform for the audio and music domain. It offers an abstract model for audio systems and includes a repository of processing algorithms and data types as well as all the necessary tools for audio and control input/output. The frame- work offers tools that enable the exploitation of all these features to easily build cross-platform applications or rapid prototypes for media processing algorithms and systems.'' 
+
+Like Jamoma DSP, it is cross-platform (Mac, Linux, and Windows) and uses automatic integrated building, testing, versioning systems, and generally subscribes to Agile Development practices\footnote{\url{http://en.wikipedia.org/wiki/Agile_software_development}}.  
+
+Full featured, but very complex.  It tries to be a framework, complete with visual editors, for building entire applications.
+
+A key feature of CLAM is it's so-called ``metamodel'', which is a programming layer for creating hierarchical graphs of objects to produce a signal processing chain.  Jamoma DSP does not define the way in which one must produce signal processing topographies.  Instead, the process of creating objects and connecting them are envisioned and implemented orthogonally and the graph is created using a separate framework known as Jamoma Multicore.  Thanks to this decoupling of Jamoma DSP and Jamoma Multicore you aren't ``boxed-in'' to any particular way of creating connections between objects.
+
+Jamoma DSP objects do this as well, via the "calculate" and "process" methods.  Also, like CLAM, all objects provide an interface for working on data and support "metaobject-like facilities such as reflection and serialization".
+
+Well, actually, nothing is synchronous or asynchonous in Jamoma DSP/Foundation.  We are synchronously-agnostic.  Multicore is cable of operating the lower-level DSP in a synchronous matter, as can MSP or Pd or AU etc...
+
+Similar to CLAM, Jamoma Foundation objects have life-cycle state management.  In Jamoma DSP an object can be flagged as valid and/or busy.  CLAM differentiates between "controls" which are attributes that can be changed at any time and "configurations" which require the object to not be busy ("running" in CLAM parlance).  Jamoma DSP does not make this distinction externally: both are simply considered "attributes" and the locking or other requirements are handled internally. 
+
+
+% TODO: We don't need all this text above, we just need to summarize it.  Something like this:
+
+Many environments such as CLAM \cite{Amatraian:2008} are designed as a monolithic system.  We have taken a more modular approach by creating a series of systems which may work together to provide a complete audio development and research platform.
+
+
+
+
+\subsection{SndObj} % (fold)
+
+The SndObj\cite{Lazzarini:2001} library provides a number of classes much like the STK.  It uses frame-based audio processing routines, as we desire.  One problem is that the frame size (or vector size in SndObj parlance) is an attribute of the object rather than an attribute of the signal being passed to the object.  This may appear to be a subtle difference, but the result is that the process routines cannot adapt to varying vector sizes on-the-fly, such as those produced in contexts such as IRCAM's Gabor \cite{Schnell:2005_Gabor}.
+
+
+
+% (end)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -291,6 +384,41 @@ Second, the audio is pulled from the object above it in the chain, again initiat
 
 % (end)
 
+
+% (end)
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Discussion and Future Work}
+
+\subsection{Multithreading} % (fold)
+
+Multithreading is a big deal.  
+
+- Integrated Analysis and Benchmarking -- perhaps reference the upchuck operator in ChucK?
+   -- This integrated analysis and benchmarking could also provide the basis by which an audio graph such as Jamoma Multicore is able to evaluate how to optimize the processes in the graph to make intelligent decisions on how to distribute the processing among threads or processors.
+
+% (End)
+
+\subsection{Implicit Patching} % (fold)
+
+Marsyas is a software framework for building efficient complex audio processing systems and applications \cite{Tzanetakis:2008}. "Audio processing systems are defined hierarchically through composition using implicit patching. Both the specification of the processing network and the control of it while data is flowing through can be performed at runtime without requiring recompilation."
+
+"It is based on a dataflow model of computa- tion in which any audio processing system is represented as a large network of interconnected basic audio process- ing units."  Just like Max/MSP, Pd, Chuck, etc.
+
+One difference to Max/MSP and Pd is that the signal network can be reconfigured dynamically without requiring a 'recompile' of the signal chain.  This is addressed through Jamoma Multicore -- Jamoma DSP is low level and is agnostic about how objects are combined into a network or topology.
+
+However, objects can be recombined and structured at runtime, offering the same kind of flexibility and "expressive power".
+
+\subsubsection{Implicit Patching}
+
+One thing that makes Marsyas special is its notion of "Implicit Patching".  In this paradigm unit generators are added to a collection and their interaction with the signal processing graph is determined according to a pattern such as 'series', 'fanout', etc. \cite{Bray:2005}.
+
+Currently Jamoma DSP (and Multicore) operate solely through an 'explicit' patching paradigm similar to most other frameworks.  "In explicit patching the user would first create the modules and then connect them by explicit patching statements."  Due to the flexibility of the dynamically bound objects, however, it is quite easy to see how the implementation of pattern-based collections might be defined.
 
 % (end)
 
