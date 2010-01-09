@@ -358,6 +358,12 @@ it seems like the easiest way out is to just use patcher scripting.
 
 Jamoma Multicore is a layer for wrapping DSP (TTBlue) objects to be used in processing graphs. The implementation of Multicore is not tied to any particular environment, though it is readily adapted to real-time graphical environments. One practical implementation of Jamoma Multicore is for Cycling '74's Max.
 
+The TTMulticoreObject wraps a TTDSP object such that it is possible to 
+build a dynamic graph of audio processing units.
+
+It is implemented as a TTObject so that it can receive dynamically bound messages, 
+incliding notifications from other objects.
+
 
 \subsection{Building the Graph} % (fold)
 
@@ -389,6 +395,61 @@ Second, the audio is pulled from the object above it in the chain, again initiat
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Application} % (fold)
+
+\subsection{Max/MSP} % (fold)
+
+Show it working in Max/MSP
+
+
+\subsubsection{Jamoma Modular} % (fold)
+
+Nils Says:
+There is a new modular branch to start working with the multicore 
+externals. The name of the branch is "0.6-multicore".
+
+So far, I mainly introduced in≈ and out≈ in a couple of modules. more to come.
+*jmod.sur.multi.in
+*jmod.sur.multi.out
+*jmod.sur.multi.input
+*jmod.sur.multi.aux
+*jmod.sur.meters
+*jmod.sur.output
+*jmod.sur.vbap
+*jmod.sur.dbap
+
+So you can start to connect your modules and see what's working and 
+what's not.
+If you are curious, just check out this branch and try it.
+in the git repository, go to Modules/Modular and do a
+
+git checkout 0.6-multicore
+% (end)
+% (end)
+
+
+\subsection{Ruby} % (fold)
+
+Here is what a simple \texttt{irb} session should look like:
+
+\begin{lstlisting}
+	require 'TTRuby'
+ 	dac = TTRuby.new("multicore", "output")
+ 	osc = TTRuby.new("multicore", "wavetable")
+
+	dac.connect(osc)
+	dac.start()
+	
+	osc.set("frequency", 220.0)
+\end{lstlisting}
+
+
+
+% (end)
+
+% (end)
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
