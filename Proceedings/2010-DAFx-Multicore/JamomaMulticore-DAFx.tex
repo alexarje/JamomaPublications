@@ -449,13 +449,14 @@ Here is what a simple \texttt{irb} session should look like:
 
 \begin{lstlisting}
 	require 'TTRuby'
- 	dac = TTRuby.new("multicore", "output")
- 	osc = TTRuby.new("multicore", "wavetable")
-
-	dac.connect(osc)
-	dac.start()
 	
-	osc.set("frequency", 220.0)
+ 	dac = TTAudio.new "multicore.output"
+ 	osc = TTAudio.new "wavetable"
+
+	dac.connect osc
+	dac.send "start"
+	
+	osc.set "frequency", 220.0
 \end{lstlisting}
 
 
