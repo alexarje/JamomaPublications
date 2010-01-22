@@ -470,14 +470,26 @@ Here is what a simple \texttt{irb} session should look like:
 
 \section{Discussion and Future Work}
 
+\subsection{Multiple Simultaneous Graphs} % (fold)
+
+By it's nature, a Multicore graph is defined as all objects connected together into a graph structure terminating at a terminal object that drives the graph.  There is no limitation on how many of these graphs may exist independently, and simultaneously, in any environment.  As these graphs are fully-independent of each other they may run at different rates, in different threads, and addressing different hardware.  The independent graphs may even run side-by-side with one running in real-time while another is operating out of real time.
+
+% TODO: we need an object like out≈ that drives a graph outside of real time to fill a buffer~ or jit.matrix
+% TODO: trond or nils -- do you have some interesting applications of the above?
+
+% (end)
+
+
 \subsection{Multithreading} % (fold)
 
-Multithreading is a big deal.  
+Multithreading is a big deal.  We can easily operate multiple graphs in their own threads as previously mentioned.  However, there are many opportunities for parallel processing within a single graph.
 
 - Integrated Analysis and Benchmarking -- perhaps reference the upchuck operator in ChucK?
    -- This integrated analysis and benchmarking could also provide the basis by which an audio graph such as Jamoma Multicore is able to evaluate how to optimize the processes in the graph to make intelligent decisions on how to distribute the processing among threads or processors.
 
-% (End)
+% (end)
+
+
 
 \subsection{Implicit Patching} % (fold)
 
