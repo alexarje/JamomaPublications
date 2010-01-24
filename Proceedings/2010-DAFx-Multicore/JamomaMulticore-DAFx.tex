@@ -209,7 +209,12 @@ Jamoma Multicore is really cool.
 \section{Introduction} % (fold)
 \label{sec:intro}
 
-If you want to be cool, then you need to use Jamoma Multicore too...  We are about to explain why.  
+Many frameworks, toolkits, and environments for real-time audio conflate the issues of creating unit generators with creating graph structures that process audio through those unit generators.  In the Jamoma Platform there is a clear separation of concerns: Jamoma Foundation provides low-level support, base classes, and communication systems; Jamoma DSP specializes the Foundation classes to provide a framework for creating a library of unit generators; Jamoma Multicore provides a method by which Jamoma DSP objects may be networked together in real-time. 
+
+(comparing to CLAM):
+
+By their nature, all classes inheriting from the Jamoma Foundation's base class, TTObject, support dynamically-bound asynchronous message passing (though not in a graph structure).  Jamoma Multicore, then, only needs to create a mechanism for synchronous graph calls.
+
 
 Jamoma Multicore is build upon the Jamoma Foundation and DSP Libraries \cite{Place:2010}.
 
@@ -289,6 +294,7 @@ TANGA does provide a message passing interface and a plug-in or extension API.
 
 ZenGarden will need a mention.
 
+% (end)
 
 \subsection{CLAM} % (fold)
 
@@ -314,11 +320,15 @@ Similar to CLAM, Jamoma Foundation objects have life-cycle state management.  In
 Many environments such as CLAM \cite{Amatraian:2008} are designed as a monolithic system.  We have taken a more modular approach by creating a series of systems which may work together to provide a complete audio development and research platform.
 
 
-
+% (end)
 
 \subsection{SndObj} % (fold)
 
 The SndObj\cite{Lazzarini:2001} library provides a number of classes much like the STK.  It uses frame-based audio processing routines, as we desire.  One problem is that the frame size (or vector size in SndObj parlance) is an attribute of the object rather than an attribute of the signal being passed to the object.  This may appear to be a subtle difference, but the result is that the process routines cannot adapt to varying vector sizes on-the-fly, such as those produced in contexts such as IRCAM's Gabor \cite{Schnell:2005_Gabor}.
+
+
+
+% (end)
 
 
 
@@ -401,6 +411,8 @@ First, a 'preprocess' method is propagated up the chain from the terminal object
 
 Second, the audio is pulled from the object above it in the chain, again initiated by the terminal object.
 
+Third, we could send a postprocess message, but we don't at the moment.
+
 % (end)
 
 
@@ -445,7 +457,15 @@ git checkout 0.6-multicore
 
 \subsection{Ruby} % (fold)
 
-Here is what a simple \texttt{irb} session should look like:
+Language bindings can be made for many different languages.  We have chosen Ruby.  Ruby allows lots of stuff.  
+
+\subsubsection{Live Coding} % (fold)
+
+One thing is Live Coding (cite OrgSound article) using irb.  That article has some great ideas and general discussion about Live Coding.  One topic is the use of general purpose languages such as Ruby vs. domain specific languages such as ChucK.  With our extensions of the Ruby environment we hope to bridge the best of both worlds.
+
+% TODO: Are there any published articles specifically about using irb for live coding performance?
+
+Here is what a simple \texttt{irb} session:
 
 \begin{lstlisting}
 	require 'TTRuby'
@@ -459,7 +479,7 @@ Here is what a simple \texttt{irb} session should look like:
 	osc.set "frequency", 220.0
 \end{lstlisting}
 
-
+% (end)
 
 % (end)
 
@@ -468,7 +488,7 @@ Here is what a simple \texttt{irb} session should look like:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Discussion and Future Work}
+\section{Discussion and Future Work} % (fold)
 
 \subsection{Multiple Simultaneous Graphs} % (fold)
 
@@ -509,7 +529,7 @@ Currently Jamoma DSP (and Multicore) operate solely through an 'explicit' patchi
 
 % (end)
 
-
+% (end)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
