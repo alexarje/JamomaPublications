@@ -90,7 +90,17 @@
 \usepackage{subfigure,color}
 \usepackage{euscript}
 \usepackage[latin1]{inputenc}
-\usepackage[T1]{fontenc}
+\usepackage[T1]{fontenc}    
+%% %%%% for source code listing %%%%%%%%%%%
+\usepackage{listings}						% required for source code listings
+\lstset{language=c++}
+\lstset{basicstyle=\footnotesize\ttfamily}
+\lstset{commentstyle=\color{commentcolor}}
+\lstset{tabsize=2}  
+\lstset{gobble=2}							% eat the first tab in block listings
+\lstset{aboveskip=\bigskipamount}			% amount of space above a block listing
+\lstset{belowskip=\bigskipamount}			% ...
+%%
 \setcounter{page}{1}
 \ninept
 
@@ -99,16 +109,15 @@
 % Delete if you cannot get PS fonts working on your system.
 
 % pdf-tex settings: detect automatically if run by latex or pdflatex
-\newif\ifpdf
-\ifx\pdfoutput\relax
-\else
-   \ifcase\pdfoutput
-      \pdffalse
-   \else
-      \pdftrue
-\fi
-
-\ifpdf % compiling with pdflatex
+%\newif\ifpdf
+%\ifx\pdfoutput\relax
+%\else
+%   \ifcase\pdfoutput
+%      \pdffalse
+%   \else
+%      \pdftrue
+%\fi
+%\ifpdf % compiling with pdflatex
   \usepackage[pdftex,
     pdftitle={\papertitle},
     pdfauthor={\paperauthorA, \paperauthorB, \paperauthorC, \paperauthorD},
@@ -119,16 +128,16 @@
   \pdfcompresslevel=9
   \usepackage[pdftex]{graphicx}
   \usepackage[figure,table]{hypcap}
-\else % compiling with latex
-  \usepackage[dvips]{epsfig,graphicx}
-  \usepackage[dvips,
-    colorlinks=false, % no color links
-    bookmarksnumbered, % use section numbers with bookmarks
-    pdfstartview=XYZ % start with zoom=100% instead of full screen
-  ]{hyperref}
-  % hyperrefs are active in the pdf file after conversion
-  \usepackage[figure,table]{hypcap}
-\fi
+%\else % compiling with latex
+%  \usepackage[dvips]{epsfig,graphicx}
+%  \usepackage[dvips,
+%    colorlinks=false, % no color links
+%    bookmarksnumbered, % use section numbers with bookmarks
+%    pdfstartview=XYZ % start with zoom=100% instead of full screen
+%  ]{hyperref}
+%  % hyperrefs are active in the pdf file after conversion
+%  \usepackage[figure,table]{hypcap}
+%\fi
 
 \title{\papertitle}
 
@@ -184,11 +193,11 @@
 
 \begin{document}
 % more pdf-tex settings:
-\ifpdf % used graphic file format for pdflatex
+%\ifpdf % used graphic file format for pdflatex
   \DeclareGraphicsExtensions{.png,.jpg,.pdf}
-\else  % used graphic file format for latex
-  \DeclareGraphicsExtensions{.eps}
-\fi
+%\else  % used graphic file format for latex
+%  \DeclareGraphicsExtensions{.eps}
+%\fi
 
 \maketitle
 
@@ -270,7 +279,7 @@ SuperCollider combines the unit generators, the audio engine, and an object-orie
 
 Probably a bit more here that is pertinent.  Ge Wang might balk at calling ChucK a domain-specific language, but that's what it really is.
 
-``the design of ChucK strives to “hide the mundane aspects of programming, and expose true control”''\cite{wang:2008}.
+``the design of ChucK strives to hide the mundane aspects of programming, and expose true control''\cite{wang:2008}.
 
 Unfortunately, ChucK is not suitable for use by Jamoma due to the excessive restrictiveness of the GNU GPL, under which it is licensed.
 
@@ -336,7 +345,21 @@ The SndObj\cite{Lazzarini:2001} library provides a number of classes much like t
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Design} % (fold)
+
+\section{The Layered Jamoma Architecture}
+Jamoma, originally conceived as a modular standard for structuring patchers in Max \cite{Place:2006}, has now evolved into a layered architecture of frameworks providing comprehensive infrastructure for creating computer music systems in general, not just for Max/MSP.  Five frameworks currently comprising the Jamoma Platform: Jamoma Foundation, Jamoma DSP, Jamoma Multicore, Jamoma Graphics and Jamoma Modular (see Figure~\ref{fig:layers}).  
+
+
+\begin{figure}[htbp]
+\centerline{\framebox{
+	\includegraphics[width=0.9\columnwidth]{../2010-ICMC-DSP/layers-alt}}}
+\caption{The Jamoma Platform as Layered Architecture.}
+\label{fig:layers}
+\end{figure}
+
+\ldots
+
+\section{Design of Jamoma Multicore}
 
 One example the demonstrates the need for dynamic vectorsizes is the gabor.psola.pat example from FTM. Also granular approaches may benefit (for example, implementing some of the ideas from Curtis Roads' engine).
 
@@ -433,17 +456,17 @@ Show it working in Max/MSP
 
 Nils Says:
 There is a new modular branch to start working with the multicore 
-externals. The name of the branch is "0.6-multicore".
+externals. The name of the branch is ``0.6-multicore''.
 
-So far, I mainly introduced in≈ and out≈ in a couple of modules. more to come.
-*jmod.sur.multi.in
-*jmod.sur.multi.out
-*jmod.sur.multi.input
-*jmod.sur.multi.aux
-*jmod.sur.meters
-*jmod.sur.output
-*jmod.sur.vbap
-*jmod.sur.dbap
+So far, I mainly introduced in= and out= in a couple of modules. more to come.
+jmod.sur.multi.in
+jmod.sur.multi.out
+jmod.sur.multi.input
+jmod.sur.multi.aux
+jmod.sur.meters
+jmod.sur.output
+jmod.sur.vbap
+jmod.sur.dbap
 
 So you can start to connect your modules and see what's working and 
 what's not.
@@ -502,7 +525,7 @@ By it's nature, a Multicore graph is defined as all objects connected together i
 
 \subsection{Multithreading} % (fold)
 
-Multithreading is a big deal.  We can easily operate multiple graphs in their own threads as previously mentioned.  However, there are many opportunities for parallel processing within a single graph.
+Multithreading is a big deal \cite{asanovic2008parallel}, \cite{multicoreICMC08}.  We can easily operate multiple graphs in their own threads as previously mentioned.  However, there are many opportunities for parallel processing within a single graph.
 
 - Integrated Analysis and Benchmarking -- perhaps reference the upchuck operator in ChucK?
    -- This integrated analysis and benchmarking could also provide the basis by which an audio graph such as Jamoma Multicore is able to evaluate how to optimize the processes in the graph to make intelligent decisions on how to distribute the processing among threads or processors.
@@ -532,34 +555,6 @@ Currently Jamoma DSP (and Multicore) operate solely through an 'explicit' patchi
 % (end)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{DAFx Template Stuff}
-
-\subsection{Figures}
-\label{ssec:figures}
-All figures should be centered on the column (or page, if the figure spans both columns).
-Figure captions (in italic) should follow each figure and have the format given in Figure \ref{fft_plot}.
-\begin{figure}[ht]
-\centerline{\includegraphics[scale=0.8]{fft_plot2}}
-\caption{\label{fft_plot}{\it Sinusoid in time and frequency domain.}}
-\end{figure}
-Vectorial figures are preferred. For example when using
-\texttt{Matlab}, export using either Postscript or PDF format. Also,
-in order to provide a better readability, figure text font size
-should be at list identical to footnote font size. To do so using
-\texttt{Matlab}, use the \texttt{subplot} command before plotting.
-If bitmap figures are used, please make sure that the resolution is
-enough for print quality. Fig. \ref{ftt_plot2} illustrates an
-example of a figure spanning two columns.
-\begin{figure*}[ht]
-\centerline{\includegraphics[width=5in,bb= 3 257 607 534]{TwoColumnSine2}} % The bounding box is set manually in this example. Useful for some .pdf figures.
-\caption{\label{ftt_plot2}{\it A figure spanning two columns, as mentioned in Sec. \ref{ssec:figures}. }}
-\end{figure*} % [width=5in,bb= 36 253 574 500]
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \section{Conclusions}
 We rock.
 
