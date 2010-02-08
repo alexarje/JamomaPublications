@@ -348,7 +348,7 @@ The SndObj\cite{Lazzarini:2001} library provides a number of classes much like t
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\section{The Layered Jamoma Architecture}
+\section{The Layered Jamoma Architecture} % (fold)
 Jamoma, originally conceived as a modular standard for structuring patchers in Max \cite{Place:2006}, has now evolved into a layered architecture of frameworks providing comprehensive infrastructure for creating computer music systems in general, not just for Max/MSP.  Five frameworks currently comprising the Jamoma Platform: Jamoma Foundation, Jamoma DSP, Jamoma Multicore, Jamoma Graphics and Jamoma Modular (see Figure~\ref{fig:layers}).  
 
 
@@ -434,7 +434,7 @@ Processing the DSP Graph
 
 First, a 'preprocess' method is propagated up the chain from the terminal object.
 
-Second, the audio is pulled from the object above it in the chain, again initiated by the terminal object.
+Second, the audio is pulled from the object above it in the chain by calling a 'process' method, again initiated by the terminal object.
 
 Third, we could send a postprocess message, but we don't at the moment.
 
@@ -507,6 +507,18 @@ Here is what a simple \texttt{irb} session:
 % (end)
 
 % (end)
+
+
+\subsection{Cross-Coding} %(fold)
+
+% TODO: should this go in the discussion section instead?
+
+Any node in a Jamoma Multicore graph is capable of producing a description of the graph from which it pulls audio.  This description, which is a tree structure representing the graph's topology, can then be exported to any of a number of formats.  These formats include Ruby source, C++ source, and the Max 5 JSON patcher format.
+
+As a consequence, it is possible from any supported environment to export a representation of the graph to any other supported environment.  e.g. Max -> C++, Ruby -> Max, C++ -> Ruby, Max->Ruby, etc.
+
+% (end)
+
 
 % (end)
 
