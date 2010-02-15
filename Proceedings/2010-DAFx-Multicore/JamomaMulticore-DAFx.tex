@@ -30,40 +30,15 @@
 % from conversation with Dave over coffee at Pre en Bulle in Albi
 % 20 June 2008
 % 
-% 
-% TTBlue is different from existing DSP libraries (such as Perry Cook's STK) in a number of ways:
-% * Dynamic environment which itself can be queried for available components (using the TTFactory registry)
-% * Dynamic binding, message passing architecture (reflective programming)
-% 
-% 
-% Different from other C++ libraries in that it provides reflective programming techniques.
-% Different from other languages with similar features in that it is implemented in C++ with good support for multiple platforms including embedded processor.
-%  IEC 61508
-%  Isograph
-% 
-% 
 % Allows for:
 % * programmatic creation of user interfaces
 % * adaptive wrappers for various plug-in architectures (VST, AU, Max/MSP, SuperCollider)
 % * dynamic, self-modifying networks of components 
 % 
-% 
-% 
-% 
-% Try to see what we can learn from:
-% * SuperCollider spawning thing for granular synthesis?
-%  
-% 
-% 
-% 
 % Dynamic re-configuration of the signal networks and control structures means that TTBlue can be run on a web server and the signal chain defined (or re-defined) in real time on a web client using a GUI (such as a web browser or iPhone) or SMS.
 % 
 % One application of this is an installation or sculptural art work where you could tweak the behavior by sending it SMS messages using a phone.
 
-
-% I would also like to develop a systematic approach for dealing with interpolation algorithms...
-% Some sort of an interpolation library in TTBlue
-% For example, this would allow us to apply the cubic interpolation everywhere without re-writing the code
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -207,7 +182,9 @@
 
 \begin{abstract}
 
-Jamoma Multicore is really cool.
+Jamoma Multicore is a framework for creating graph structures in which unit generators are connected together to process multichannel audio in real-time.  The main applications currently are processing of multichannel audio signals in Max/MSP and live audio coding in Ruby.  Jamoma Multicore forms part of the Jamoma layered architecture.
+
+% particular benefit when dealing with spatial audio
 
 \end{abstract}
 
@@ -218,7 +195,54 @@ Jamoma Multicore is really cool.
 \section{Introduction} % (fold)
 \label{sec:intro}
 
-Many frameworks, toolkits, and environments for real-time audio conflate the issues of creating unit generators with creating graph structures that process audio through those unit generators.  In the Jamoma Platform there is a clear separation of concerns: Jamoma Foundation provides low-level support, base classes, and communication systems; Jamoma DSP specializes the Foundation classes to provide a framework for creating a library of unit generators; Jamoma Multicore provides a method by which Jamoma DSP objects may be networked together in real-time. 
+Many frameworks, toolkits, and environments for real-time audio processing fuse the issues of creating unit generators with creating graph structures that process audio through those unit generators.  Within the Jamoma Platform there is a clear separation of concerns, structured according to a layered architecture of frameworks providing a comprehensive infrastructure for creating computer music systems \cite{Place:2010}. Five frameworks currently comprise the Jamoma Platform: Jamoma Foundation, Jamoma DSP, Jamoma Multicore, Jamoma Graphics and Jamoma Modular (see Figure~\ref{fig:layers}). Jamoma Foundation provides low-level support, base classes, and communication systems; Jamoma DSP specializes the Foundation classes to provide a framework for creating a library of unit generators; Jamoma Graphics provides screen graphics and Jamoma Modular provides a structured approach to development and control of modules in the graphical media environment Max \cite{Place:2006}. 
+
+Jamoma Multicore provides a method by which Jamoma DSP objects may be networked together in real-time. 
+
+\begin{figure}[htbp]
+\centerline{\framebox{
+	\includegraphics[width=0.9\columnwidth]{../2010-ICMC-DSP/layers-alt}}}
+\caption{The Jamoma Platform as Layered Architecture.}
+\label{fig:layers}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+- Presenting Jamoma layered model
+- presenting distinguishing between graph and units
+    - what is a graph and a unit?
+- license... (could be in the discussion)
+
+- requirements?
+    - be able to construct graphs
+    - multichannel as configurable 
+    - live coding (or introspection blah blah)
+  
+- ideal?
+    - multithreading where applicable
+    - pragmatic multithreading: real-time statistics for optimizing between different processors
+   
+- additional niceties:
+    - environment-agnostic (cross-coding -  ability to prototype and wrap as plug-ins)
+
+
+A  B
+\ /
+ C
+
+- application for Jamoma Multicore
+    - e.g. up/downmixing; encoding/decoding 
+
+
+n the Jamoma Platform there is a clear separation of concerns: Jamoma Foundation provides low-level support, base classes, and communication systems; Jamoma DSP specializes the Foundation classes to provide a framework for creating a library of unit generators; Jamoma Multicore provides a method by which Jamoma DSP objects may be networked together in real-time. 
 
 (comparing to CLAM):
 
@@ -234,13 +258,15 @@ should mention the license either here or in the abstract.
 %
 %	I'm most intrigued by this statement, and would be happy to hear more about it in your paper:
 %
-%		"Perhaps more important, but more difÔ¨Åcult to quantify,
-%		we believe we‚Äôve created a context in which code is ‚Äòpleas-
-%		ant to work with‚Äô."
+%		"Perhaps more important, but more difficult to quantify,
+%		we believe we have created a context in which code is ‚ pleas-
+%		ant to work with."
 %
 %		This seems to be an increasingly important criterion, especially if (as I believe) we're evolving to a much more porous and flexible continuum across data-flow, scripting, and compiled coding as different entry points for musicians, depending on what they need to do. 
 %
 %		A few other thoughts - maybe worth writing a bit more on SuperCollider, as it is much more flexible and elegant than Max/MSP/Pd in allowing new pieces of DSP to be eased in and out of a performance (compared to the rigid poly~ structure, on the one hand, or glitches whenever new DSP objects are created on the other). 
+
+% TODO: Trond and Nils need to do a bit checking out of SuperCollider, so that we are able to do a qualified discussion of it...
 
 % (end)
 
@@ -250,8 +276,17 @@ should mention the license either here or in the abstract.
 
 \section{Background} % (fold)
 
+% Who has a true multichannel environment?  anyone?
+% ZenGarden, importing the Pd patcher file format to create a graph (anything more to say that we didn't say in the DSP paper?) 
+% TODO: Discussing Max and Pd makes sense -- changing the number of channels is changing the code
+% TODO: SuperCollider - mention that it is possible to work on arrays of signals in SuperCollider, while this is not easy to do in Max?
+% TODO: Is there any other environment that we should acknowledge?
+% TODO: CSound?  
+% Max, Pd, SuperCollider, Csound, Bidule, AudioMulch, Reactor, Reason all have have units, but the units can only be used within the particular environment. The units have a proprietary format for unit generators, so there's no interchangability, and likewise the graph structure is proprietary. While SDKs are available for some of them, it's not for others. For some of these no SDK exists at all, they are totally proprietary. Ability to host Audio Units and VST extends it somewhat
+% Some interesting ones: Max4Live, Flext (for Pd and Max) -- the point is that flext is slightly more generic than just Max
+
+
 % Audio Units / AUGraph in CoreAudio (pull method for graphs)
-% MSP/Pd/etc.
 
 % Multithreading
 % Grand Central Dispatch (GCD) is now open source
@@ -263,7 +298,7 @@ The Max family includes both MSP\cite{Zicarelli:1998} and PureData\cite{Puckette
 
 This description is more similar to Multicore than to DSP.  In fact, The Max environments also define APIs for creating unit generators and provide libraries of these unit generators (or "pre-designed building blocks").  The environments also define an API for message passing in much the same way that the Jamoma Foundation provides.
 
-Domain-Specific Text-Based Languages are similar to the Max Family except that they create networks of Unit Generators using a text interface.  I don't really want to talk about CSound.  Is that really neccesary?  Can I just mention CSound and SuperCollider together in one sentence?
+Domain-Specific Text-Based Languages are similar to the Max Family except that they create networks of Unit Generators using a text interface.  I don't really want to talk about CSound.  Is that really necessary?  Can I just mention CSound and SuperCollider together in one sentence?
 
 
 
@@ -271,24 +306,19 @@ Domain-Specific Text-Based Languages are similar to the Max Family except that t
 
 Is there anything particularly pertinent here?\cite{McCartney:1996}
 
-% TODO: Maybe we should mention that it is possible to work on arrays of signals in SuperCollider, while this is not easy to do in Max?
-
 SuperCollider combines the unit generators, the audio engine, and an object-oriented language with semantics similar to C and Smalltalk.  SuperCollider is incredibly powerful because of the language constructs and idioms that manipulate the unit generators.  The API for creating unit generators is similar to many other environments we have reviewed.
 
 % (end)
 
 \subsubsection{ChucK} % (fold)
 
-Probably a bit more here that is pertinent.  Ge Wang might balk at calling ChucK a domain-specific language, but that's what it really is.
-
 ``the design of ChucK strives to hide the mundane aspects of programming, and expose true control''\cite{wang:2008}.
-
-Unfortunately, ChucK is not suitable for use by Jamoma due to the excessive restrictiveness of the GNU GPL, under which it is licensed.
 
 To it's own admission, execution speed is not the primary priority for ChucK.  As such it does not perform frame-based signal computation but computes at every sample.  This contributes to ChucK's strong timing model, but at the expense of slower number-crunching for audio.
 
 % NOTE: ChucK audio processing is driven by the sink on the graph, using a pull model as we do in Multicore 
 
+Chuck is not multi-threaded
 
 % TODO: Do we need to mention something about CMix and RTCMix?
 % (end)
@@ -348,20 +378,7 @@ The SndObj\cite{Lazzarini:2001} library provides a number of classes much like t
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\section{The Layered Jamoma Architecture} % (fold)
-Jamoma, originally conceived as a modular standard for structuring patchers in Max \cite{Place:2006}, has now evolved into a layered architecture of frameworks providing comprehensive infrastructure for creating computer music systems in general, not just for Max/MSP.  Five frameworks currently comprising the Jamoma Platform: Jamoma Foundation, Jamoma DSP, Jamoma Multicore, Jamoma Graphics and Jamoma Modular (see Figure~\ref{fig:layers}).  
-
-
-\begin{figure}[htbp]
-\centerline{\framebox{
-	\includegraphics[width=0.9\columnwidth]{../2010-ICMC-DSP/layers-alt}}}
-\caption{The Jamoma Platform as Layered Architecture.}
-\label{fig:layers}
-\end{figure}
-
-\ldots
-
-\section{Design of Jamoma Multicore}
+\section{Design and Implementation}
 
 One example the demonstrates the need for dynamic vectorsizes is the gabor.psola.pat example from FTM. Also granular approaches may benefit (for example, implementing some of the ideas from Curtis Roads' engine).
 
@@ -392,17 +409,6 @@ Create our own internal DSP chain for it?
 start simple as with biquad~, meaning 1 in and 1 out...
 it seems like the easiest way out is to just use patcher scripting.
 
-
-
-% (end)
-
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Implementation} % (fold)
 
 Jamoma Multicore is a layer for wrapping DSP (TTBlue) objects to be used in processing graphs. The implementation of Multicore is not tied to any particular environment, though it is readily adapted to real-time graphical environments. One practical implementation of Jamoma Multicore is for Cycling '74's Max.
 
@@ -452,9 +458,12 @@ Third, we could send a postprocess message, but we don't at the moment.
 \subsection{Max/MSP} % (fold)
 
 Show it working in Max/MSP
+% TODO: need a screenshot demonstrating multi-channel
 
 
 \subsubsection{Jamoma Modular} % (fold)
+
+% TODO: Tim fix jcom.unpack≈ object in subpatchers bug
 
 Nils Says:
 There is a new modular branch to start working with the multicore 
@@ -469,6 +478,8 @@ jmod.sur.meters
 jmod.sur.output
 jmod.sur.vbap
 jmod.sur.dbap
+
+% TODO: these last two require a matrix that operates on the channels within a signal, not on multiple signals
 
 So you can start to connect your modules and see what's working and 
 what's not.
@@ -542,6 +553,8 @@ By it's nature, a Multicore graph is defined as all objects connected together i
 A potential solution to this problem (as stated by Gino Robair): "Because in 15 years, I will still be using my hardware synths and effects, but I can guarantee that every bit of software I'm using today‚ along with its sessions, patches, and stored settings‚ will be inaccessible, either through lack of developer support, because the host computer has died, or because subsequent upgrades no longer open the files I created with today's version."
 
 That's also the Integra problem, right?
+
+% TODO: Also talk about the Jamoma Graph thing?
 
 
 % (end)
