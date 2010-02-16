@@ -259,7 +259,7 @@ should mention the license either here or in the abstract.
 %	I'm most intrigued by this statement, and would be happy to hear more about it in your paper:
 %
 %		"Perhaps more important, but more difficult to quantify,
-%		we believe we have created a context in which code is � pleas-
+%		we believe we have created a context in which code is ‚ pleas-
 %		ant to work with."
 %
 %		This seems to be an increasingly important criterion, especially if (as I believe) we're evolving to a much more porous and flexible continuum across data-flow, scripting, and compiled coding as different entry points for musicians, depending on what they need to do. 
@@ -447,6 +447,12 @@ Third, we could send a postprocess message, but we don't at the moment.
 % (end)
 
 
+\subsection{Graph Description} % (fold)
+
+Explain the graph description and how it can be used to generate a visual representation, or even source code, to express the graph's structure.
+
+% (end)
+
 % (end)
 
 
@@ -463,7 +469,7 @@ Show it working in Max/MSP
 
 \subsubsection{Jamoma Modular} % (fold)
 
-% TODO: Tim fix jcom.unpack� object in subpatchers bug
+% TODO: Tim fix jcom.unpack≈ object in subpatchers bug
 
 Nils Says:
 There is a new modular branch to start working with the multicore 
@@ -497,7 +503,7 @@ Language bindings can be made for many different languages.  We have chosen Ruby
 
 \subsubsection{Live Coding} % (fold)
 
-One thing is Live Coding (cite OrgSound article) using irb.  That article has some great ideas and general discussion about Live Coding.  One topic is the use of general purpose languages such as Ruby vs. domain specific languages such as ChucK.  With our extensions of the Ruby environment we hope to bridge the best of both worlds.
+One thing is Live Coding \cite{Collins:2003} using irb.  That article has some great ideas and general discussion about Live Coding.  One topic is the use of general purpose languages such as Ruby vs. domain specific languages such as ChucK.  With our extensions of the Ruby environment we hope to bridge the best of both worlds.
 
 % TODO: Are there any published articles specifically about using irb for live coding performance?
 
@@ -544,13 +550,13 @@ As a consequence, it is possible from any supported environment to export a repr
 
 By it's nature, a Multicore graph is defined as all objects connected together into a graph structure terminating at a terminal object that drives the graph.  There is no limitation on how many of these graphs may exist independently, and simultaneously, in any environment.  As these graphs are fully-independent of each other they may run at different rates, in different threads, and addressing different hardware.  The independent graphs may even run side-by-side with one running in real-time while another is operating out of real time.
 
-% TODO: we need an object like out≈ that drives a graph outside of real time to fill a buffer~ or jit.matrix
+% TODO: we need an object like out‚âà that drives a graph outside of real time to fill a buffer~ or jit.matrix
 % TODO: trond or nils -- do you have some interesting applications of the above?
 % TODO: If we are presenting a graph system, should we discuss the potential (if any) for expanding this from being a graph system for audio processing, to video processing or other kinds of time-tagged data, along the line of e.g. Max/Jitter, QuartzComposer or Octane?
 % TODO: Discuss the potential for work on spatialisation, and further work in this direction...
 
 
-A potential solution to this problem (as stated by Gino Robair): "Because in 15 years, I will still be using my hardware synths and effects, but I can guarantee that every bit of software I'm using today� along with its sessions, patches, and stored settings� will be inaccessible, either through lack of developer support, because the host computer has died, or because subsequent upgrades no longer open the files I created with today's version."
+A potential solution to this problem (as stated by Gino Robair): "Because in 15 years, I will still be using my hardware synths and effects, but I can guarantee that every bit of software I'm using today‚ along with its sessions, patches, and stored settings‚ will be inaccessible, either through lack of developer support, because the host computer has died, or because subsequent upgrades no longer open the files I created with today's version."
 
 That's also the Integra problem, right?
 
