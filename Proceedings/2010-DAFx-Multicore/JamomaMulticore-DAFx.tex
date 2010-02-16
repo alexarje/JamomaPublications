@@ -195,9 +195,7 @@ Jamoma Multicore is a framework for creating graph structures in which unit gene
 \section{Introduction} % (fold)
 \label{sec:intro}
 
-Many frameworks, toolkits, and environments for real-time audio processing fuse the issues of creating unit generators with creating graph structures that process audio through those unit generators.  Within the Jamoma Platform there is a clear separation of concerns, structured according to a layered architecture of frameworks providing a comprehensive infrastructure for creating computer music systems \cite{Place:2010}. Five frameworks currently comprise the Jamoma Platform: Jamoma Foundation, Jamoma DSP, Jamoma Multicore, Jamoma Graphics and Jamoma Modular (see Figure~\ref{fig:layers}). Jamoma Foundation provides low-level support, base classes, and communication systems; Jamoma DSP specializes the Foundation classes to provide a framework for creating a library of unit generators; Jamoma Graphics provides screen graphics and Jamoma Modular provides a structured approach to development and control of modules in the graphical media environment Max \cite{Place:2006}. 
-
-Jamoma Multicore provides a method by which Jamoma DSP objects may be networked together in real-time. 
+Many frameworks, toolkits, and environments for real-time audio processing fuse the issues of creating unit generators with creating graph structures that process audio through those unit generators.  Alternatively, the Jamoma Platform implements a clear separation of concerns, structured according to a layered architecture of frameworks providing a comprehensive infrastructure for creating computer music systems \cite{Place:2010}. Five frameworks currently comprise the Jamoma Platform: Jamoma Foundation, Jamoma Graphics, Jamoma Modular, Jamoma DSP, and Jamoma Multicore (see Figure~\ref{fig:layers}). Jamoma Foundation provides low-level support, base classes, and communication systems; Jamoma Graphics provides screen graphics; Jamoma Modular provides a structured approach to development and control of modules in the graphical media environment Max \cite{Place:2006} and Jamoma DSP specializes the Foundation classes to provide a framework for creating a library of unit generators. 
 
 \begin{figure}[htbp]
 \centerline{\framebox{
@@ -206,52 +204,36 @@ Jamoma Multicore provides a method by which Jamoma DSP objects may be networked 
 \label{fig:layers}
 \end{figure}
 
+Jamoma Multicore is an open source\footnote{Licensing is provided under the terms of the GNU LGPL} framework providing the ability to create and network Jamoma DSP objects into dynamic graph structures for audio processing. Jamoma Multicore differs from other software in several ways:
 
 
+%- presenting distinguishing between graph and units
+%    - what is a graph and a unit?
+%
+%- requirements?
+%    - be able to construct graphs
+%    - multichannel as configurable 
+%    - live coding (or introspection blah blah)
+%  
+%- ideal?
+%    - multithreading where applicable
+%    - pragmatic multithreading: real-time statistics for optimizing between different processors
+%   
+%- additional niceties:
+%    - environment-agnostic (cross-coding -  ability to prototype and wrap as plug-ins)
+%
+%
+%A  B
+%\ /
+% C
+%
+%- application for Jamoma Multicore
+%    - e.g. up/downmixing; encoding/decoding 
 
-
-
-
-
-
-
-
-- Presenting Jamoma layered model
-- presenting distinguishing between graph and units
-    - what is a graph and a unit?
-- license... (could be in the discussion)
-
-- requirements?
-    - be able to construct graphs
-    - multichannel as configurable 
-    - live coding (or introspection blah blah)
-  
-- ideal?
-    - multithreading where applicable
-    - pragmatic multithreading: real-time statistics for optimizing between different processors
-   
-- additional niceties:
-    - environment-agnostic (cross-coding -  ability to prototype and wrap as plug-ins)
-
-
-A  B
-\ /
- C
-
-- application for Jamoma Multicore
-    - e.g. up/downmixing; encoding/decoding 
-
-
-n the Jamoma Platform there is a clear separation of concerns: Jamoma Foundation provides low-level support, base classes, and communication systems; Jamoma DSP specializes the Foundation classes to provide a framework for creating a library of unit generators; Jamoma Multicore provides a method by which Jamoma DSP objects may be networked together in real-time. 
 
 (comparing to CLAM):
 
 By their nature, all classes inheriting from the Jamoma Foundation's base class, TTObject, support dynamically-bound asynchronous message passing (though not in a graph structure).  Jamoma Multicore, then, only needs to create a mechanism for synchronous graph calls.
-
-
-Jamoma Multicore is build upon the Jamoma Foundation and DSP Libraries \cite{Place:2010}.
-
-should mention the license either here or in the abstract.
 
 
 % TODO: Eric Lyon had the following comment about our DSP paper, which I think could be worked-in here as a way to tie the goals of Multicore into the bigger picture:
@@ -275,6 +257,8 @@ should mention the license either here or in the abstract.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Background} % (fold)
+
+% TODO: Tim is thinking that the 'requirements' could perhaps be discussed in this section rather than the introduction?
 
 % Who has a true multichannel environment?  anyone?
 % ZenGarden, importing the Pd patcher file format to create a graph (anything more to say that we didn't say in the DSP paper?) 
