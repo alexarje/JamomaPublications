@@ -437,6 +437,18 @@ Explain the graph description and how it can be used to generate a visual repres
 
 % (end)
 
+
+
+
+Sources manage a one-to-one connection between an inlet and an outlet.  Inlets may have zero or more sources.
+
+Inlets are active.  When asked for a vector of audio by the unit generator, they then each request audio from all of their sources (other objects' outlets).  In an inlet has multiple sources, those sources are summed.  When all of the inlets have performed this operation, then the unit generator proceeds to process the audio buffered in the inlets and fills the buffers in the outlets.
+
+The unit generator is an instance of a Jamoma DSP class that actually performs some signal processing operation on the audio that is managed by the inlets and outlets.
+
+Outlets are passive.  They serve
+only as storage for vectors of audio calculated by the unit generator.
+
 % (end)
 
 
