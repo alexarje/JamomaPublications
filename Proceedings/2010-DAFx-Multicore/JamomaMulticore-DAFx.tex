@@ -197,6 +197,8 @@ Jamoma Multicore is a framework for creating graph structures in which unit gene
 
 Many frameworks, toolkits, and environments for real-time audio processing fuse the issues of creating unit generators with creating graph structures that process audio through those unit generators.  Alternatively, the Jamoma Platform implements a clear separation of concerns, structured according to a layered architecture of frameworks providing a comprehensive infrastructure for creating computer music systems \cite{Place:2010}. Five frameworks currently comprise the Jamoma Platform: Jamoma Foundation, Jamoma Graphics, Jamoma Modular, Jamoma DSP, and Jamoma Multicore (see Figure~\ref{fig:layers}). Jamoma Foundation provides low-level support, base classes, and communication systems; Jamoma Graphics provides screen graphics; Jamoma Modular provides a structured approach to development and control of modules in the graphical media environment Max \cite{Place:2006} and Jamoma DSP specializes the Foundation classes to provide a framework for creating a library of unit generators. 
 
+Jamoma Multicore is an open source C++ framework providing the ability to create and network Jamoma DSP objects into dynamic graph structures for audio processing\footnote{Licensing is provided under the terms of the GNU LGPL}.  
+
 \begin{figure}[htbp]
 \centerline{\framebox{
 	\includegraphics[width=0.9\columnwidth]{../2010-ICMC-DSP/layers-alt}}}
@@ -204,8 +206,9 @@ Many frameworks, toolkits, and environments for real-time audio processing fuse 
 \label{fig:layers}
 \end{figure}
 
-Jamoma Multicore is an open source\footnote{Licensing is provided under the terms of the GNU LGPL} framework providing the ability to create and network Jamoma DSP objects into dynamic graph structures for audio processing. Jamoma Multicore differs from other software in several ways:
+In addition to the decoupling of the unit generators (Jamoma DSP) from the processing graph, Jamoma Multicore differs from other audio graph architectures in several important ways.  First, the connections between objects in the graphs are multi-channel connections; any given connection may carry N channels of audio.  Second, the content carried by the connections is dynamic; the number of channels, the size of the sample vectors, and the sample-rate of the audio can change during runtime operation.  Third, the type of graph used relies on a \emph{pull} pattern which is readily adapted to multi-threaded parallel calculations.
 
+An additional design difference between Jamoma Multicore and most other audio processing graph software is the use of a peer object model.  The peer object model abstracts the implementation and execution of the graph from any particular environment or platform.  This allows for implementations of Jamoma Multicore to be readily implemented for any number of environments.  To date the author's have created implementations for Max, PureData, Audio Units, and Ruby.
 
 %- presenting distinguishing between graph and units
 %    - what is a graph and a unit?
@@ -222,7 +225,6 @@ Jamoma Multicore is an open source\footnote{Licensing is provided under the term
 %- additional niceties:
 %    - environment-agnostic (cross-coding -  ability to prototype and wrap as plug-ins)
 %
-%
 %A  B
 %\ /
 % C
@@ -231,9 +233,9 @@ Jamoma Multicore is an open source\footnote{Licensing is provided under the term
 %    - e.g. up/downmixing; encoding/decoding 
 
 
-(comparing to CLAM):
-
-By their nature, all classes inheriting from the Jamoma Foundation's base class, TTObject, support dynamically-bound asynchronous message passing (though not in a graph structure).  Jamoma Multicore, then, only needs to create a mechanism for synchronous graph calls.
+%(comparing to CLAM):
+%
+%By their nature, all classes inheriting from the Jamoma Foundation's base class, TTObject, support dynamically-bound asynchronous message passing (though not in a graph structure).  Jamoma Multicore, then, only needs to create a mechanism for synchronous graph calls.
 
 
 % TODO: Eric Lyon had the following comment about our DSP paper, which I think could be worked-in here as a way to tie the goals of Multicore into the bigger picture:
@@ -258,43 +260,35 @@ By their nature, all classes inheriting from the Jamoma Foundation's base class,
 
 \section{Background} % (fold)
 
-% TODO: Tim is thinking that the 'requirements' could perhaps be discussed in this section rather than the introduction?
+\subsection{Audio Graph Structures} % (fold)
 
-% Who has a true multichannel environment?  anyone?
-% ZenGarden, importing the Pd patcher file format to create a graph (anything more to say that we didn't say in the DSP paper?) 
-% TODO: Discussing Max and Pd makes sense -- changing the number of channels is changing the code
-% TODO: SuperCollider - mention that it is possible to work on arrays of signals in SuperCollider, while this is not easy to do in Max?
-% TODO: Is there any other environment that we should acknowledge?
-% TODO: CSound?  
-% Max, Pd, SuperCollider, Csound, Bidule, AudioMulch, Reactor, Reason all have have units, but the units can only be used within the particular environment. The units have a proprietary format for unit generators, so there's no interchangability, and likewise the graph structure is proprietary. While SDKs are available for some of them, it's not for others. For some of these no SDK exists at all, they are totally proprietary. Ability to host Audio Units and VST extends it somewhat
-% Some interesting ones: Max4Live, Flext (for Pd and Max) -- the point is that flext is slightly more generic than just Max
+A graph structure is an abstract structure where paths are created between nodes.  The paths between these nodes then define the data-flow of the graph.  Graphs targetting audio processing possess some additional properties in order to acheive a balance of efficiency, flexibility, and real-time capability.
+
+synchronous vs. asynchronous
+
+% TODO: citation for CLAM / Amatraian
+
+Environments for processing typically need to address concerns in both synchronous and asynchronous contexts.  For example, MIDI, setting attributes from DAW automation, etc.  These are asynchronous.  The processing of audio however, needs to be synchronous.  Most environments, such as CLAM, deal with these two types of graphs as separate from each other.  We do that too.
+
+These synchonous calls then enforce or encourage \emph{frame processing}.  That is, processing blocks of samples at once rather than a single sample at a time.  This is also more efficient because it reduces function call overhead.
+
+% (end)
 
 
-% Audio Units / AUGraph in CoreAudio (pull method for graphs)
+\subsection{Push vs. Pull} % (fold)
 
-% Multithreading
-% Grand Central Dispatch (GCD) is now open source
+1. What is push vs. pull
 
+2. Examples of push : Max, Pd, ZenGarden, others? 
 
 The Max family includes both MSP\cite{Zicarelli:1998} and PureData\cite{Puckette:1996}.
 
 "The Max paradigm can be described as a way of combining pre-designed building blocks into configurations useful for real-time computer music performance."\cite{Puckette:2002_max_at_17}
 
-This description is more similar to Multicore than to DSP.  In fact, The Max environments also define APIs for creating unit generators and provide libraries of these unit generators (or "pre-designed building blocks").  The environments also define an API for message passing in much the same way that the Jamoma Foundation provides.
 
-Domain-Specific Text-Based Languages are similar to the Max Family except that they create networks of Unit Generators using a text interface.  I don't really want to talk about CSound.  Is that really necessary?  Can I just mention CSound and SuperCollider together in one sentence?
+3. Examples of pull: AUGraph and ChucK
 
-
-
-\subsubsection{SuperCollider} % (fold)
-
-Is there anything particularly pertinent here?\cite{McCartney:1996}
-
-SuperCollider combines the unit generators, the audio engine, and an object-oriented language with semantics similar to C and Smalltalk.  SuperCollider is incredibly powerful because of the language constructs and idioms that manipulate the unit generators.  The API for creating unit generators is similar to many other environments we have reviewed.
-
-% (end)
-
-\subsubsection{ChucK} % (fold)
+% Audio Units / AUGraph in CoreAudio (pull method for graphs)
 
 ``the design of ChucK strives to hide the mundane aspects of programming, and expose true control''\cite{wang:2008}.
 
@@ -308,54 +302,41 @@ Chuck is not multi-threaded
 % (end)
 
 
+\subsection{Multichannel Processing} % (fold)
 
-\subsubsection{TANGA} % (fold)
+Discussing Max and Pd makes sense -- changing the number of channels is changing the code
+
+SuperCollider - mention that it is possible to work on arrays of signals in SuperCollider, while this is not easy to do in Max?
+
+% Who else has a true multichannel environment?  anyone?
+
+% (end)
+
+
+\subsection{Decoupling Graph and Unit Generator} % (fold)
+
+We are able to create and use Jamoma DSP unit generators with a number of different graph structures.  Jamoma Multicore is one graph structure that a developer may choose to use\footnote{However unlikely, it is also theoretically possible to use Jamoma Multicore with an alternative unit generator library}.
+
+Jamoma DSP does not define the way in which one must produce signal processing topographies.  Instead, the process of creating objects and connecting them are envisioned and implemented orthogonally and the graph is created using a separate framework known as Jamoma Multicore.  Thanks to this decoupling of Jamoma DSP and Jamoma Multicore you aren't ``boxed-in'' to any particular way of creating connections between objects.
+
+Max, Pd, SuperCollider, Csound, Bidule, AudioMulch, Reactor, Reason all have have units, but the units can only be used within the particular environment. The units have a proprietary format for unit generators, so there's no interchangability, and likewise the graph structure is proprietary. While SDKs are available for some of them, it's not for others. For some of these no SDK exists at all, they are totally proprietary. Ability to host Audio Units and VST extends it somewhat
+
+% (end)
+
+
+\subsection{Multithreading} % (fold)
+
+Grand Central Dispatch (GCD) is now open source
+
+
 
 TANGA provides and interesting environment because the audio engine is explicitly multi-threaded and thus multi-core capable\cite{Reiter:2007}.  However, it doesn't fit the bill because it is targeted at one context: MPEG-4 scene rendering.  We need something more general.  And it doesn't matter because we are thread-agnostic.
 
-TANGA does provide a message passing interface and a plug-in or extension API.
-
-
-
-ZenGarden will need a mention.
-
-% (end)
-
-\subsection{CLAM} % (fold)
-
-``CLAM stands for C++ Library for Audio and Music and it is a full-fledged software framework for research and application development in the audio and music domain with applicability also to the broader multimedia domain. It offers a conceptual model; algorithms for analyzing, synthesizing and transforming audio signals; and tools for handling audio and music streams and creating cross-platform applications.''
-
-``CLAM, a C++ software framework, that offers a complete development and research platform for the audio and music domain. It offers an abstract model for audio systems and includes a repository of processing algorithms and data types as well as all the necessary tools for audio and control input/output. The frame- work offers tools that enable the exploitation of all these features to easily build cross-platform applications or rapid prototypes for media processing algorithms and systems.'' 
-
-Like Jamoma DSP, it is cross-platform (Mac, Linux, and Windows) and uses automatic integrated building, testing, versioning systems, and generally subscribes to Agile Development practices\footnote{\url{http://en.wikipedia.org/wiki/Agile_software_development}}.  
-
-Full featured, but very complex.  It tries to be a framework, complete with visual editors, for building entire applications.
-
-A key feature of CLAM is it's so-called ``metamodel'', which is a programming layer for creating hierarchical graphs of objects to produce a signal processing chain.  Jamoma DSP does not define the way in which one must produce signal processing topographies.  Instead, the process of creating objects and connecting them are envisioned and implemented orthogonally and the graph is created using a separate framework known as Jamoma Multicore.  Thanks to this decoupling of Jamoma DSP and Jamoma Multicore you aren't ``boxed-in'' to any particular way of creating connections between objects.
-
-Jamoma DSP objects do this as well, via the "calculate" and "process" methods.  Also, like CLAM, all objects provide an interface for working on data and support "metaobject-like facilities such as reflection and serialization".
-
-Well, actually, nothing is synchronous or asynchonous in Jamoma DSP/Foundation.  We are synchronously-agnostic.  Multicore is cable of operating the lower-level DSP in a synchronous matter, as can MSP or Pd or AU etc...
-
-Similar to CLAM, Jamoma Foundation objects have life-cycle state management.  In Jamoma DSP an object can be flagged as valid and/or busy.  CLAM differentiates between "controls" which are attributes that can be changed at any time and "configurations" which require the object to not be busy ("running" in CLAM parlance).  Jamoma DSP does not make this distinction externally: both are simply considered "attributes" and the locking or other requirements are handled internally. 
-
-
-% TODO: We don't need all this text above, we just need to summarize it.  Something like this:
-
-Many environments such as CLAM \cite{Amatraian:2008} are designed as a monolithic system.  We have taken a more modular approach by creating a series of systems which may work together to provide a complete audio development and research platform.
-
-
-% (end)
-
-\subsection{SndObj} % (fold)
-
-The SndObj\cite{Lazzarini:2001} library provides a number of classes much like the STK.  It uses frame-based audio processing routines, as we desire.  One problem is that the frame size (or vector size in SndObj parlance) is an attribute of the object rather than an attribute of the signal being passed to the object.  This may appear to be a subtle difference, but the result is that the process routines cannot adapt to varying vector sizes on-the-fly, such as those produced in contexts such as IRCAM's Gabor \cite{Schnell:2005_Gabor}.
-
-
-
 % (end)
 
 
+% TODO: Is there any other environment that we should acknowledge?
+% TODO: CSound?  
 
 % (end)
 
