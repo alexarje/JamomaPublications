@@ -218,16 +218,8 @@ An additional design difference between Jamoma Multicore and most other audio pr
 %    - multichannel as configurable 
 %    - live coding (or introspection blah blah)
 %  
-%- ideal?
-%    - multithreading where applicable
-%    - pragmatic multithreading: real-time statistics for optimizing between different processors
-%   
 %- additional niceties:
 %    - environment-agnostic (cross-coding -  ability to prototype and wrap as plug-ins)
-%
-%A  B
-%\ /
-% C
 %
 %- application for Jamoma Multicore
 %    - e.g. up/downmixing; encoding/decoding 
@@ -298,6 +290,8 @@ To it's own admission, execution speed is not the primary priority for ChucK.  A
 
 Chuck is not multi-threaded
 
+AUGraph does not allow ``fanning'' connections, where multiple outputs connect to single input, or a single output connects to multiple inputs.
+
 % TODO: Do we need to mention something about CMix and RTCMix?
 % (end)
 
@@ -326,11 +320,20 @@ Max, Pd, SuperCollider, Csound, Bidule, AudioMulch, Reactor, Reason all have hav
 
 \subsection{Multithreading} % (fold)
 
-Grand Central Dispatch (GCD) is now open source
+The structure of Jamoma Multicore is ideal for distributing processing of the graph amongst parallel threads.  In its current implementation it is already possible leverage multiple threads, and thus multiple processors, by running multiple graphs side-by-side in the same environment.  More powerful and dynamic opportunities arise when a graph itself is distributed to parallel threads.
+
+%    - multithreading where applicable
+%    - pragmatic multithreading: real-time statistics for optimizing between different processors
+%   
+%A  B
+%\ /
+% C
 
 
 
-TANGA provides and interesting environment because the audio engine is explicitly multi-threaded and thus multi-core capable\cite{Reiter:2007}.  However, it doesn't fit the bill because it is targeted at one context: MPEG-4 scene rendering.  We need something more general.  And it doesn't matter because we are thread-agnostic.
+% TODO: Grand Central Dispatch (GCD) is now open source, is this relevant?
+
+% TANGA provides and interesting environment because the audio engine is explicitly multi-threaded and thus multi-core capable\cite{Reiter:2007}.  However, it doesn't fit the bill because it is targeted at one context: MPEG-4 scene rendering.  We need something more general.  And it doesn't matter because we are thread-agnostic.
 
 % (end)
 
