@@ -244,6 +244,15 @@ Virtually all audio processing graph structures are implemented using a synchron
 
 synchronous vs. asynchronous
 
+% Wikipedia:
+% 
+% A synchronous circuit is a digital circuit in which the parts are synchronized by a clock signal.
+% In an ideal synchronous circuit, every change in the logical levels of its storage components is simultaneous. These transitions follow the level change of a special signal called the clock. Ideally, the input to each storage element has reached its final value before the next clock occurs, so the behaviour of the whole circuit can be predicted exactly. Practically, some delay is required for each logical operation, resulting in a maximum speed at which each synchronous system can run.
+% To make these circuits work correctly, a great deal of care is needed in the design of the Clock Distribution Networks. Static timing analysis is often used to determine the maximum safe operating speed.
+% 
+% An asynchronous circuit is a circuit in which the parts are largely autonomous. They are not governed by a clock circuit or global clock signal, but instead need only wait for the signals that indicate completion of instructions and operations. These signals are specified by simple data transfer protocols. This digital logic design is contrasted with a synchronous circuit which operates according to clock timing signals.
+
+
 % TODO: citation for CLAM / Amatraian
 
 Environments for processing typically need to address concerns in both synchronous and asynchronous contexts.  For example, MIDI, setting attributes from DAW automation, etc.  These are asynchronous.  The processing of audio however, needs to be synchronous.  Most environments, such as CLAM, deal with these two types of graphs as separate from each other.  We do that too.
