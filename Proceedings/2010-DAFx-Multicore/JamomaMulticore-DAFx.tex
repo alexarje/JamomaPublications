@@ -52,10 +52,9 @@
 %  !  !  !  !  !  !  !  !  !  !  !  ! user defined variables  !  !  !  !  !  !  !  !  !  !  !  !  !  !
 % Please use these commands to define title and author of the paper:
 \def\papertitle{The Jamoma Multicore Audio Graph Layer}
-\def\paperauthorA{Timothy Place?}
-\def\paperauthorB{Trond Lossius?}
-\def\paperauthorC{Nils Peters?}
-\def\paperauthorD{Anyone Else?}
+\def\paperauthorA{Timothy Place}
+\def\paperauthorB{Trond Lossius}
+\def\paperauthorC{Nils Peters}
 
 
 %------------------------------------------------------------------------------------------
@@ -134,10 +133,23 @@
 %-------------------------------------TWO-AUTHOR HEADER ENDS------------------------------------------------------
 
 %---------------THREE-AUTHOR HEADER STARTS (uncomment below if your paper has three authors)-----------------------
-%\threeaffiliations{\paperauthorA, \sthanks{This work was supported by the XYZ Foundation}}
-%{\href{
-%http://www.acoustics.hut.fi/dafx08/}{Dept. of Signal Processing and Acoustics,} \\ Helsinki University of Technology, TKK \\ Espoo, Finland\\
-%{\tt \href{mailto:dafx-08@acoustics.hut.fi}{dafx-08@acoustics.hut.fi}}
+\threeaffiliations{\paperauthorA, \sthanks{This work was supported by BEK, GMEA, and 74 Objects}}
+{\href{http://74objects.com}{74 Objects LLC,} \\ Kansas City, Missouri, USA\\
+{\tt \href{mailto:tim@74objects.com}{tim@74objects.com}}
+}
+{\paperauthorB,\sthanks{We are all kings here}}
+{\href{http://www.acoustics.hut.fi/dafx08/}{Reading Group, Dept.~of Reading Sciences} \\ Univ.~of Universe, Sun \\ {\tt \href{mailto:dafx-08@acoustics.hut.fi}{dafx-08@acoustics.hut.fi}}
+}
+{\paperauthorC,\sthanks{Is still sore from ice climbing}}
+{\href{http://www.acoustics.hut.fi/dafx08/}{Spinning Group, Dept.~of Turning Sciences} \\ Univ.~of Planets, Mars \\ {\tt \href{mailto:dafx-08@acoustics.hut.fi}{dafx-08@acoustics.hut.fi}}
+}
+%-------------------------------------THREE-AUTHOR HEADER ENDS------------------------------------------------------
+
+%----------------FOUR-AUTHOR HEADER STARTS (uncomment below if your paper has four authors)-----------------------
+%\fouraffiliations{
+%\paperauthorA, \sthanks{This work was supported by BEK and GMEA}}
+%{\href{http://74objects.com}{74 Objects LLC,} \\ Kansas City, Missouri, USA\\
+%{\tt \href{mailto:tim@74objects.com}{tim@74objects.com}}
 %}
 %{\paperauthorB,\sthanks{This guy is a very good fellow}}
 %{\href{http://www.acoustics.hut.fi/dafx08/}{Reading Group, Dept.~of Reading Sciences} \\ Univ.~of Universe, Sun \\ {\tt \href{mailto:dafx-08@acoustics.hut.fi}{dafx-08@acoustics.hut.fi}}
@@ -145,23 +157,9 @@
 %{\paperauthorC,\sthanks{She is a member of the Wheel Association}}
 %{\href{http://www.acoustics.hut.fi/dafx08/}{Spinning Group, Dept.~of Turning Sciences} \\ Univ.~of Planets, Mars \\ {\tt \href{mailto:dafx-08@acoustics.hut.fi}{dafx-08@acoustics.hut.fi}}
 %}
-%-------------------------------------THREE-AUTHOR HEADER ENDS------------------------------------------------------
-
-%----------------FOUR-AUTHOR HEADER STARTS (uncomment below if your paper has four authors)-----------------------
-\fouraffiliations{
-\paperauthorA, \sthanks{This work was supported by BEK and GMEA}}
-{\href{http://74objects.com}{74 Objects LLC,} \\ Kansas City, Missouri, USA\\
-{\tt \href{mailto:tim@74objects.com}{tim@74objects.com}}
-}
-{\paperauthorB,\sthanks{This guy is a very good fellow}}
-{\href{http://www.acoustics.hut.fi/dafx08/}{Reading Group, Dept.~of Reading Sciences} \\ Univ.~of Universe, Sun \\ {\tt \href{mailto:dafx-08@acoustics.hut.fi}{dafx-08@acoustics.hut.fi}}
-}
-{\paperauthorC,\sthanks{She is a member of the Wheel Association}}
-{\href{http://www.acoustics.hut.fi/dafx08/}{Spinning Group, Dept.~of Turning Sciences} \\ Univ.~of Planets, Mars \\ {\tt \href{mailto:dafx-08@acoustics.hut.fi}{dafx-08@acoustics.hut.fi}}
-}
-{\paperauthorD,\sthanks{Yes, senior}}
-{\href{http://www.acoustics.hut.fi/dafx08/}{Unknown Group, Dept.~of Volatile Sciences} \\ Univ.~of Nowhere, Somewhere \\ {\tt \href{mailto:dafx-08@acoustics.hut.fi}{dafx-08@acoustics.hut.fi}}
-}
+%{\paperauthorD,\sthanks{Yes, senior}}
+%{\href{http://www.acoustics.hut.fi/dafx08/}{Unknown Group, Dept.~of Volatile Sciences} \\ Univ.~of Nowhere, Somewhere \\ {\tt \href{mailto:dafx-08@acoustics.hut.fi}{dafx-08@acoustics.hut.fi}}
+%}
 %-------------------------------------FOUR-AUTHOR HEADER ENDS------------------------------------------------------
 
 % (end)
@@ -347,10 +345,10 @@ Since Jamoma Multicore is using a pull-based architecture, an object's \emph{out
 
 Unlike the outlets, the \emph{inlets} are active.  When asked for a vector of audio by the unit generator, they then each request audio from all of their sources (other objects' outlets).  In an inlet has multiple sources, those sources are summed.  When all of the inlets have performed this operation, then the unit generator proceeds to process the audio buffered in the inlets and fills the buffers in the outlets.  Sources manage a one-to-one connection between an inlet and an outlet; inlets may have zero or more sources.  This design can be summarized thusly:
 
-\	\	A graph has many objects.\\
-\	\	An object has many inlets.\\
-\	\	An inlet has many sources.\\
-\	\	A source has many channels.\\
+				A graph has many objects.\\
+\indent	An object has many inlets.\\
+\indent	An inlet has many sources.\\
+\indent	A source has many channels.\\
 
 
 % (end)
@@ -360,17 +358,7 @@ Unlike the outlets, the \emph{inlets} are active.  When asked for a vector of au
 
 A Multicore graph consists of a collection of objects that are connected in such a way that they are able to perform digital signal processing tasks.  All processing is driven by the object at the end of the processing chain.  This \emph{terminal object} is accesses the graph by pulling from the directly-connected nodes.  Those nodes in-turn call the relevant methods on any objects connected to them, etc., until the graph access has propagated to all objects in the chain.
 
-Before such processing can occur, the connections of the graph must be established and the graph readied for operation.  
-
-First, connections must be made.  This is done by passing a source object and an inlet number to a another object's \texttt{connect()} method.  
-
-Second, any objects connected need to be initialized by a call to their \texttt{init()} method.  This call will propagate up the tree, and so is typically only called once by the terminal object when the graph is started.  
-
-% TODO: But what about live coding?  This doesn't seem right.  
-% TODO And what does this init method actually do anyway?  In the Ruby examples we aren't sending it!
-
-At this point, we are now ready process audio with the graph.
-
+Before such processing can occur, the connections of the graph must be established and the graph readied for operation.  First, connections must be made.  This is done by passing a source object and an inlet number to a another object's \texttt{connect()} method.  Second, any objects connected need to be initialized by a call to their \texttt{init()} method.  This call will propagate up the tree, and so is typically only called once by the terminal object when the graph is started.  
 
 % In our Max implementation this happens as a 3 step process:
 %
@@ -379,7 +367,6 @@ At this point, we are now ready process audio with the graph.
 % A 'setup' method is called on all Multicore objects in the graph. This causes objects to establish connections to other objects in the graph (i.e. by passing a message to any object directly below themselves).
 % 
 % An 'init' message is sent, initiated by any/all terminal Multicore objects in the graph and traversing up the graph as detailed below.
-
 
 % (end)
 
@@ -397,7 +384,10 @@ With the objects in the graph prepared by the preprocess call, the audio can be 
 
 \subsection{Graph Description} % (fold)
 
-Given a Jamoma Multicore graph, the topology can also be traversed for purposes other than directly calculating audio.  Any node in a Jamoma Multicore graph can be asked for a description.  The returned \tttext{TTMulticoreDescription} object will then provide metadata about the entire graph as seen through that object's inlets.  There are many applications of this description, including visual representation of the graph, statistical analytsis, and cross-coding.
+Given a Jamoma Multicore graph, the topology can also be traversed for purposes other than directly calculating audio.  
+Any node in a Jamoma Multicore graph can be asked for a description.  The returned \texttt{TTMulticoreDescription} object will then provide 
+metadata about the entire graph as seen through that object's inlets.  
+There are many applications of this description, including visual representation of the graph, statistical analysis, and cross-coding.
 
 % (end)
 
