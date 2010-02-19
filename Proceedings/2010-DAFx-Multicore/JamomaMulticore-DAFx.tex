@@ -224,26 +224,6 @@ An additional design difference between Jamoma Multicore and most other audio pr
 %- application for Jamoma Multicore
 %    - e.g. up/downmixing; encoding/decoding 
 
-
-%(comparing to CLAM):
-%
-%By their nature, all classes inheriting from the Jamoma Foundation's base class, TTObject, support dynamically-bound asynchronous message passing (though not in a graph structure).  Jamoma Multicore, then, only needs to create a mechanism for synchronous graph calls.
-
-
-% TODO: Eric Lyon had the following comment about our DSP paper, which I think could be worked-in here as a way to tie the goals of Multicore into the bigger picture:
-%
-%	I'm most intrigued by this statement, and would be happy to hear more about it in your paper:
-%
-%		"Perhaps more important, but more difficult to quantify,
-%		we believe we have created a context in which code is ‚ pleas-
-%		ant to work with."
-%
-%		This seems to be an increasingly important criterion, especially if (as I believe) we're evolving to a much more porous and flexible continuum across data-flow, scripting, and compiled coding as different entry points for musicians, depending on what they need to do. 
-%
-%		A few other thoughts - maybe worth writing a bit more on SuperCollider, as it is much more flexible and elegant than Max/MSP/Pd in allowing new pieces of DSP to be eased in and out of a performance (compared to the rigid poly~ structure, on the one hand, or glitches whenever new DSP objects are created on the other). 
-
-% TODO: Trond and Nils need to do a bit checking out of SuperCollider, so that we are able to do a qualified discussion of it...
-
 % (end)
 
 
@@ -254,7 +234,12 @@ An additional design difference between Jamoma Multicore and most other audio pr
 
 \subsection{Audio Graph Structures} % (fold)
 
-A graph structure is an abstract structure where paths are created between nodes.  The paths between these nodes then define the data-flow of the graph.  Graphs targetting audio processing possess some additional properties in order to acheive a balance of efficiency, flexibility, and real-time capability.
+A graph structure is an abstract structure where paths are created between nodes.  The paths between these nodes then define the data-flow of the graph.  Graphs targeting audio processing employ several patterns and idioms to achieve a balance of efficiency, flexibility, and real-time capability.
+
+Virtually all audio processing graph structures are implemented using a synchronous call chain.  This simply means that the methods of the objects in the graph are called as part of a single sequence.
+
+% in a single tick
+% regularly, periodically, and atomically
 
 synchronous vs. asynchronous
 
@@ -275,7 +260,7 @@ These synchonous calls then enforce or encourage \emph{frame processing}.  That 
 
 The Max family includes both MSP\cite{Zicarelli:1998} and PureData\cite{Puckette:1996}.
 
-"The Max paradigm can be described as a way of combining pre-designed building blocks into configurations useful for real-time computer music performance."\cite{Puckette:2002_max_at_17}
+``The Max paradigm can be described as a way of combining pre-designed building blocks into configurations useful for real-time computer music performance.''\cite{Puckette:2002_max_at_17}
 
 
 3. Examples of pull: AUGraph and ChucK
@@ -292,17 +277,16 @@ Chuck is not multi-threaded
 
 AUGraph does not allow ``fanning'' connections, where multiple outputs connect to single input, or a single output connects to multiple inputs.
 
-% TODO: Do we need to mention something about CMix and RTCMix?
 % (end)
 
 
 \subsection{Multichannel Processing} % (fold)
-
-Discussing Max and Pd makes sense -- changing the number of channels is changing the code
+Discussing Max and Pd makes sense -- changing the number of channels is changing the code.
 
 SuperCollider - mention that it is possible to work on arrays of signals in SuperCollider, while this is not easy to do in Max?
 
-% Who else has a true multichannel environment?  anyone?
+% TODO: Trond and Nils need to do a bit checking out of SuperCollider, so that we are able to do a qualified discussion of it...
+% TODO: Who else has a true multichannel environment?  anyone?
 
 % (end)
 
@@ -367,6 +351,20 @@ An input has many channels.\\
 
 % (end)
 
+
+
+
+Sources manage a one-to-one connection between an inlet and an outlet.  Inlets may have zero or more sources.
+
+Inlets are active.  When asked for a vector of audio by the unit generator, they then each request audio from all of their sources (other objects' outlets).  In an inlet has multiple sources, those sources are summed.  When all of the inlets have performed this operation, then the unit generator proceeds to process the audio buffered in the inlets and fills the buffers in the outlets.
+
+The unit generator is an instance of a Jamoma DSP class that actually performs some signal processing operation on the audio that is managed by the inlets and outlets.
+
+Outlets are passive.  They serve
+only as storage for vectors of audio calculated by the unit generator.
+
+
+
 Some important things to keep in mind:
 
 Priorities, how to we control the order of operations?
@@ -430,16 +428,6 @@ Explain the graph description and how it can be used to generate a visual repres
 % (end)
 
 
-
-
-Sources manage a one-to-one connection between an inlet and an outlet.  Inlets may have zero or more sources.
-
-Inlets are active.  When asked for a vector of audio by the unit generator, they then each request audio from all of their sources (other objects' outlets).  In an inlet has multiple sources, those sources are summed.  When all of the inlets have performed this operation, then the unit generator proceeds to process the audio buffered in the inlets and fills the buffers in the outlets.
-
-The unit generator is an instance of a Jamoma DSP class that actually performs some signal processing operation on the audio that is managed by the inlets and outlets.
-
-Outlets are passive.  They serve
-only as storage for vectors of audio calculated by the unit generator.
 
 % (end)
 
@@ -595,6 +583,19 @@ Currently Jamoma DSP (and Multicore) operate solely through an 'explicit' patchi
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
 We rock.
+
+% Eric Lyon had the following comment about our DSP paper, which I think could be worked-in here as a way to tie the goals of Multicore into the bigger picture:
+%
+%	I'm most intrigued by this statement, and would be happy to hear more about it in your paper:
+%
+%		"Perhaps more important, but more difficult to quantify,
+%		we believe we have created a context in which code is ‚ pleas-
+%		ant to work with."
+%
+%		This seems to be an increasingly important criterion, especially if (as I believe) we're evolving to a much more porous and flexible continuum across data-flow, scripting, and compiled coding as different entry points for musicians, depending on what they need to do. 
+%
+%		A few other thoughts - maybe worth writing a bit more on SuperCollider, as it is much more flexible and elegant than Max/MSP/Pd in allowing new pieces of DSP to be eased in and out of a performance (compared to the rigid poly~ structure, on the one hand, or glitches whenever new DSP objects are created on the other). 
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
