@@ -94,7 +94,7 @@
 %\ifpdf % compiling with pdflatex
   \usepackage[pdftex,
     pdftitle={\papertitle},
-    pdfauthor={\paperauthorA, \paperauthorB, \paperauthorC, \paperauthorD},
+    pdfauthor={\paperauthorA, \paperauthorB, \paperauthorC},
     colorlinks=false, % links are activated as colror boxes instead of color text
     bookmarksnumbered, % use section numbers with bookmarks
     pdfstartview=XYZ % start with zoom=100% instead of full screen; especially useful if working with a big screen :-)
@@ -286,7 +286,23 @@ Discussing Max and Pd makes sense -- changing the number of channels is changing
 
 SuperCollider - mention that it is possible to work on arrays of signals in SuperCollider, while this is not easy to do in Max?
 
-% TODO: Trond and Nils need to do a bit checking out of SuperCollider, so that we are able to do a qualified discussion of it...
+% TODO: Trond and Nils need to do a bit checking out of SuperCollider, so that we are able to do a qualified discussion of it...     
+
+NP: my research into multichannel capabilities with SC\\
+seems to be simple\\     
+a) making a 3 channel  Sine Oscillator 
+
+\begin{lstlisting}
+{ Out.ar( 0, [ SinOsc.ar, SinOsc.ar, SinOsc.ar ] ) }.play;
+\end{lstlisting}
+b) making a 24 channel sine wave oscillator in SC:
+\begin{lstlisting}
+{ Out.ar( 0, SinOsc.ar.dup(24) ) }.play;
+\end{lstlisting}  
+
+for more complex multichannel handling by a system called Multichannel Expansion, see \url{http://danielnouri.org/docs/SuperColliderHelp/Other%20Topics/MultiChannel.html}
+
+
 % TODO: Who else has a true multichannel environment?  anyone?
 
 % (end)
