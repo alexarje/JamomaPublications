@@ -330,16 +330,11 @@ The structure of Jamoma Multicore is ideal for distributing processing of the gr
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\section{Design and Implementation}
-
-One example the demonstrates the need for dynamic vectorsizes is the gabor.psola.pat example from FTM. Also granular approaches may benefit (for example, implementing some of the ideas from Curtis Roads' engine).
+\section{Design and Implementation} % (fold)
 
 \subsection{Structure} % (fold)
 
-A graph has many objects.\\
-An object has many inlets.\\
-An inlet has many inputs.\\
-An input has many channels.\\
+Jamoma Multicore is a framework \footnote{We use the term framework in a generic sense, as a dynamically linked library together with supporting source and an API.} implementing a synchronous multichannel audio processing graph driven using a pull methodology.  This is accomplished through the creation of a node class for the graph, \emph{TTMulticoreObject}, which wraps a unit generator with other supporting objects.  \emph{TTMulticoreObject} then manages these instances and the information neccessary to pull samples from its sources.  Figure \ref{fig:anatomy} shows the classes and how they are related.
 
 \begin{figure}[htbp]
 \centerline{\framebox{
@@ -348,85 +343,63 @@ An input has many channels.\\
 \label{fig:anatomy}
 \end{figure}
 
+Since Jamoma Multicore is using a pull-based architecture, an object's \emph{outlets} are passive.  They are simply buffers storing the output calculated by the wrapped unit generator.  The unit generator is simply an instance of a Jamoma DSP class, specified as an argument when the \texttt{TTMulticoreObject} is instantiated.  This unit generator is responsible for actually calculating the audio to be stored by the outlet buffers.
+
+Unlike the outlets, the \emph{inlets} are active.  When asked for a vector of audio by the unit generator, they then each request audio from all of their sources (other objects' outlets).  In an inlet has multiple sources, those sources are summed.  When all of the inlets have performed this operation, then the unit generator proceeds to process the audio buffered in the inlets and fills the buffers in the outlets.  Sources manage a one-to-one connection between an inlet and an outlet; inlets may have zero or more sources.  This design can be summarized thusly:
+
+\	\	A graph has many objects.\\
+\	\	An object has many inlets.\\
+\	\	An inlet has many sources.\\
+\	\	A source has many channels.\\
+
 
 % (end)
 
 
-
-
-Sources manage a one-to-one connection between an inlet and an outlet.  Inlets may have zero or more sources.
-
-Inlets are active.  When asked for a vector of audio by the unit generator, they then each request audio from all of their sources (other objects' outlets).  In an inlet has multiple sources, those sources are summed.  When all of the inlets have performed this operation, then the unit generator proceeds to process the audio buffered in the inlets and fills the buffers in the outlets.
-
-The unit generator is an instance of a Jamoma DSP class that actually performs some signal processing operation on the audio that is managed by the inlets and outlets.
-
-Outlets are passive.  They serve
-only as storage for vectors of audio calculated by the unit generator.
-
-
-
-Some important things to keep in mind:
-
-Priorities, how to we control the order of operations?
-
-Matrix mixer/router development, with particular thought about what happens when 5.1 audio is routed to stereo etc.
-
-Signals of varying data rate (for example as proposed by Pulkki), e.g. compressed signals or higher res signals
-
-Signals of steady data rate but varying vector/buffer size (as in FTM/Gabor)
-
-Dynamic number of channels (perhaps useful for FFT and spectral processing?)
-
-Would be ideal if we could have a wrapper for standard MSP external objects as Multicore objects. 
-Call the DSP method directly from this wrapper?
-Create our own internal DSP chain for it?
-start simple as with biquad~, meaning 1 in and 1 out...
-it seems like the easiest way out is to just use patcher scripting.
-
-
-Jamoma Multicore is a layer for wrapping DSP (TTBlue) objects to be used in processing graphs. The implementation of Multicore is not tied to any particular environment, though it is readily adapted to real-time graphical environments. One practical implementation of Jamoma Multicore is for Cycling '74's Max.
-
-The TTMulticoreObject wraps a TTDSP object such that it is possible to 
-build a dynamic graph of audio processing units.
-
-It is implemented as a TTObject so that it can receive dynamically bound messages, 
-incliding notifications from other objects.
-
-
 \subsection{Building the Graph} % (fold)
 
-A Multicore graph consists of a collection of objects that are connected in such a way that they are able to perform digital signal processing tasks. Before such processing can occur, the connections of the graph must be established and the graph configured. This happens as a 3 step process:
+A Multicore graph consists of a collection of objects that are connected in such a way that they are able to perform digital signal processing tasks.  All processing is driven by the object at the end of the processing chain.  This \emph{terminal object} is accesses the graph by pulling from the directly-connected nodes.  Those nodes in-turn call the relevant methods on any objects connected to them, etc., until the graph access has propagated to all objects in the chain.
 
-A 'reset' method is called on all Multicore objects in the graph. This tells all objects to forget any previous connections.
+Before such processing can occur, the connections of the graph must be established and the graph readied for operation.  
 
-A 'setup' method is called on all Multicore objects in the graph. This causes objects to establish connections to other objects in the graph (i.e. by passing a message to any object directly below themselves).
+First, connections must be made.  This is done by passing a source object and an inlet number to a another object's \texttt{connect()} method.  
 
-An 'init' message is sent, initiated by any/all terminal Multicore objects in the graph and traversing up the graph as detailed below.
+Second, any objects connected need to be initialized by a call to their \texttt{init()} method.  This call will propagate up the tree, and so is typically only called once by the terminal object when the graph is started.  
 
-A terminal object is one that can be used as the final destination and is responsible for driving the entire graph that is connected to it. When this object calls the init method on any objects that are connected to it, they in-turn call the init method on any objects connected to them, etc., until the init method calls have been propagated to all objects in the chain. This init call is responsible for allocating memory for buffers required for the signals, etc.
+% TODO: But what about live coding?  This doesn't seem right.  
+% TODO And what does this init method actually do anyway?  In the Ruby examples we aren't sending it!
+
+At this point, we are now ready process audio with the graph.
+
+
+% In our Max implementation this happens as a 3 step process:
+%
+% A 'reset' method is called on all Multicore objects in the graph. This tells all objects to forget any previous connections.
+% 
+% A 'setup' method is called on all Multicore objects in the graph. This causes objects to establish connections to other objects in the graph (i.e. by passing a message to any object directly below themselves).
+% 
+% An 'init' message is sent, initiated by any/all terminal Multicore objects in the graph and traversing up the graph as detailed below.
+
 
 % (end)
 
 
 \subsection{Processing the Graph} % (fold)
 
-Processing the DSP Graph
+Processing the graph is a two step process.  First, a `preprocess' method is propagated up the chain from the terminal object.  This zeroes buffers and sets flags that indicate each object's processing state.  It is of no consequence if an object receives multiple preprocess calls, such as would happen if there are multiple terminal nodes.
 
-First, a 'preprocess' method is propagated up the chain from the terminal object.
+With the objects in the graph prepared by the preprocess call, the audio can be pulled from the graph by the terminal object calling the `process' method on each of its sources.
 
-Second, the audio is pulled from the object above it in the chain by calling a 'process' method, again initiated by the terminal object.
-
-Third, we could send a postprocess message, but we don't at the moment.
+% Third, we could send a postprocess message, but we don't at the moment.
 
 % (end)
 
 
 \subsection{Graph Description} % (fold)
 
-Explain the graph description and how it can be used to generate a visual representation, or even source code, to express the graph's structure.
+Given a Jamoma Multicore graph, the topology can also be traversed for purposes other than directly calculating audio.  Any node in a Jamoma Multicore graph can be asked for a description.  The returned \tttext{TTMulticoreDescription} object will then provide metadata about the entire graph as seen through that object's inlets.  There are many applications of this description, including visual representation of the graph, statistical analytsis, and cross-coding.
 
 % (end)
-
 
 
 % (end)
@@ -441,6 +414,8 @@ Explain the graph description and how it can be used to generate a visual repres
 
 Show it working in Max/MSP
 % TODO: need a screenshot demonstrating multi-channel
+
+One example the demonstrates the need for dynamic vectorsizes is the gabor.psola.pat example from FTM. Also granular approaches may benefit (for example, implementing some of the ideas from Curtis Roads' engine).
 
 
 \subsubsection{Jamoma Modular} % (fold)
@@ -469,6 +444,22 @@ If you are curious, just check out this branch and try it.
 in the git repository, go to Modules/Modular and do a
 
 git checkout 0.6-multicore
+
+% Some important things to keep in mind:
+% - Priorities, how to we control the order of operations?    We don't at the moment (which is like Pd, but unlike Max)
+% - Matrix mixer/router development, with particular thought about what happens when 5.1 audio is routed to stereo etc.
+% - Signals of varying data rate (for example as proposed by Pulkki), e.g. compressed signals or higher res signals
+% - Signals of steady data rate but varying vector/buffer size (as in FTM/Gabor)
+
+Dynamic number of channels (perhaps useful for FFT and spectral processing?)
+
+% Would be ideal if we could have a wrapper for standard MSP external objects as Multicore objects. 
+% Call the DSP method directly from this wrapper?
+% Create our own internal DSP chain for it?
+% start simple as with biquad~, meaning 1 in and 1 out...
+% it seems like the easiest way out is to just use patcher scripting.
+
+
 % (end)
 % (end)
 
@@ -530,7 +521,7 @@ By it's nature, a Multicore graph is defined as all objects connected together i
 % TODO: trond or nils -- do you have some interesting applications of the above?
 % TODO: If we are presenting a graph system, should we discuss the potential (if any) for expanding this from being a graph system for audio processing, to video processing or other kinds of time-tagged data, along the line of e.g. Max/Jitter, QuartzComposer or Octane?
 % TODO: Discuss the potential for work on spatialisation, and further work in this direction...
-
+% TODO: Non-PCM streams?  The need for audio signal metadata?
 
 A potential solution to this problem (as stated by Gino Robair):
 ``Because in 15 years, I will still be using my hardware synths and effects,
