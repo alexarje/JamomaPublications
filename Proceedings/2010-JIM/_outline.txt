@@ -3,6 +3,39 @@ Key words (to define)
 - platform
 - art-based research
 
+TOC draft
+
+1 Jamoma philosophy, aims, goals
+
+1.1 general stuff
+
+1.1.1 background
+
+5 years old project, Tim
+
+1.1.2 team
+1.1.3 (institution) support
+ 
+1.2 Art-based / art-oriented research
+1.2.1 definition
+
+J. as tool for creation
+J. as prototype plateform
+
+underline bidirectional relationship : tools offered to artists ALSO tools modeled based on artists feedback, needs, etc.
+
+1.2.2 community, collaborations
+
+Virage, gesture analysis researches, etc.
+
+//** or maybe 1. definition and bidirectional relationship, 2. art projects, 3. research **//
+
+
+2. Past, present and coming developments
+
+3. How this expands Jamoma possibilities for future
+
+
 
 Focus
 
