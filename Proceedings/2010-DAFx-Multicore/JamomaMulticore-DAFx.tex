@@ -364,11 +364,14 @@ For processing to occur, the connections of the graph must be established and th
 
 % In our Max implementation this happens as a 3 step process:
 %
-% A 'reset' method is called on all Multicore objects in the graph. This tells all objects to forget any previous connections.
+% (1) A 'reset' method is called on all Multicore objects in the graph. This tells all objects to forget any previous connections.
 % 
-% A 'setup' method is called on all Multicore objects in the graph. This causes objects to establish connections to other objects in the graph (i.e. by passing a message to any object directly below themselves).
+% (2) A 'setup' method is called on all Multicore objects in the graph. This causes objects to establish connections to other objects in the graph (i.e. by passing a message to any object directly below themselves).
 % 
-% An 'init' message is sent, initiated by any/all terminal Multicore objects in the graph and traversing up the graph as detailed below.
+% (3) An 'init' message is sent, initiated by any/all terminal Multicore objects in the graph and traversing up the graph as detailed below.
+
+% TODO: This system could be expanded for live coding preventing the need to recompile the audio graph. I have expanded my ideas about how this might be done here: 
+% http://redmine.jamoma.org/wiki/multicore/Enabling_live_coding
 
 % (end)
 
