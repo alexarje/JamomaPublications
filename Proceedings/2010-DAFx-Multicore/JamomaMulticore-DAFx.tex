@@ -360,7 +360,7 @@ Figure \ref{fig:anatomy} shows the classes and how they are related. In the figu
 
 \subsection{Building the Graph} % (fold)
 
-For processing to occur, the connections of the graph must be established and the graph readied for operation.  This is done by first passing a source object and an inlet number to another object's \texttt{connect()} method.  Then, any connected objects need to be initialized by a call to their \texttt{init()} method, serving e.g. to provide information on sample rate and signal vector size to signal generators.  This call will propagate up the tree from each terminal object, and is typically only called when the graph is started.
+For processing to occur, the connections of the graph must be established and the graph readied for operation.  This is done by first passing a source object and the outlet and inlet number of the connection to the downstream object's \texttt{connect()} method.  Then, any connected objects need to be initialized by a call to their \texttt{init()} method, serving e.g. to provide information on sample rate and signal vector size to signal generators.  This call will propagate up the tree from each terminal object, and is typically only called when the graph is started.
 
 % In our Max implementation this happens as a 3 step process:
 %
