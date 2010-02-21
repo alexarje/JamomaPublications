@@ -67,6 +67,10 @@
 \usepackage[T1]{fontenc}    
 %% %%%% for source code listing %%%%%%%%%%%
 \usepackage{listings}						% required for source code listings
+
+% Enables multi-line comments:
+\usepackage{verbatim} 
+
 \lstset{language=c++}
 \lstset{basicstyle=\footnotesize\ttfamily}
 \lstset{commentstyle=\color{commentcolor}}
@@ -294,7 +298,8 @@ Discussing Max and Pd makes sense -- changing the number of channels is changing
 
 SuperCollider - mention that it is possible to work on arrays of signals in SuperCollider, while this is not easy to do in Max?
 
-% TODO: Trond and Nils need to do a bit checking out of SuperCollider, so that we are able to do a qualified discussion of it...     
+% TODO: Trond and Nils need to do a bit checking out of SuperCollider, so that we are able to do a qualified discussion of it...
+% Here's a resource on spatialisation in Pd: http://grh.mur.at/misc/PdSpatialization.tar.gz
 
 NP: my research into multichannel capabilities with SC\\
 seems to be simple\\     
@@ -563,7 +568,24 @@ The structure of Jamoma Multicore is ideal for distributing processing of the gr
 
 
 % TODO: Is there any other environment that we should acknowledge?
-% TODO: CSound?  
+% TODO: CSound? - Yes, the ZAK - system:
+
+\begin{comment} % (fold)
+Csound have multichannel arrays through the Zak Patch System:
+
+From the Csound Manual:
+
+The zak opcodes are used to create a system for i-rate, k-rate or a-rate patching. The zak system can be thought of as a global array of variables. These opcodes are useful for performing flexible patching or routing from one instrument to another. The system is similar to a patching matrix on a mixing console or to a modulation matrix on a synthesizer. It is also useful whenever an array of variables is required. 
+
+The zak system is initialized by the zakinit opcode, which is usually placed just after the other global initializations: sr, kr, ksmps, nchnls. The zakinit opcode defines two areas of memory, one area for i- and k-rate patching, and the other area for a-rate patching. The zakinit opcode may only be called once. Once the zak space is initialized, other zak opcodes can be used to read from, and write to the zak memory space, as well as perform various other tasks. 
+
+Zak channels count from 0, so if you define 1 channel, the only valid channel is channel 0. 
+
+\end{comment} % (end)
+
+One advantage of the Zak system over global variables is that communication between instruments may be reconfigured in the score without requiring changes to the orchestra \cite{Mikelson:2000}
+
+ 
 
 
 
