@@ -296,11 +296,12 @@ AUGraph does not allow ``fanning'' connections, where multiple outputs connect t
 
 \subsection{Multichannel Processing} % (fold)
 
-In many patching environments for real-time audio processing, such as Max, Pd, Bidule and AudioMulch, adio objects are connected using mono signals. For multichannel spatial processing the patch has to be tailored to the number of sources and speakers. If such programs are considered programming environments and the patch the program, a change in the number of sources or speakers requires a rewrite of the program, not just a change to one or more configuration parameters.
+In many patching environments for real-time audio processing, such as Max, Pd, Bidule and AudioMulch, audio objects are connected using mono signals. For multichannel spatial processing the patch has to be tailored to the number of sources and speakers. If such programs are considered programming environments and the patch the program, a change in the number of sources or speakers requires a rewrite of the program, not just a change to one or more configuration parameters.
 
-% Here's a resource on spatialisation in Pd: http://grh.mur.at/misc/PdSpatialization.tar.gz
+% Here's a resource on spatialisation in Pd:
+% http://grh.mur.at/misc/PdSpatialization.tar.gz
 
-In Csound multichannel audio graphing is extended through the introduction of the Zak Patch System, useful for performing flexible patching or routing from one instrument to another. One advantage of the Zak system over global variables is that communication between instruments may be reconfigured in the score without requiring changes to the orchestra \cite{Mikelson:2000}. One example is the \texttt{vbapz} opcode for multichannel vector-base amplitude panning, using a ZAK array for output.
+In Csound multichannel audio graphing is extended somewhat through the introduction of the Zak Patch System, enabling flexible patching or routing from one instrument to another. One advantage of the Zak system over global variables is that communication between instruments may be reconfigured in the score without requiring changes to the orchestra \cite{Mikelson:2000}. One example is the \texttt{vbapz} opcode for multichannel vector-base amplitude panning, using a ZAK array for output.
 
 \begin{comment} % (fold)
 
@@ -315,12 +316,9 @@ Zak channels count from 0, so if you define 1 channel, the only valid channel is
 \end{comment} % (end)
 
 
-
-
 SuperCollider - mention that it is possible to work on arrays of signals in SuperCollider, while this is not easy to do in Max?
 
 % TODO: Trond and Nils need to do a bit checking out of SuperCollider, so that we are able to do a qualified discussion of it...
-
 
 NP: my research into multichannel capabilities with SC\\
 seems to be simple\\     
@@ -336,6 +334,90 @@ b) making a 24 channel sine wave oscillator in SC:
 
 for more complex multichannel handling by a system called Multichannel Expansion, see \url{http://danielnouri.org/docs/SuperColliderHelp/Other%20Topics/MultiChannel.html}
 
+% Trond investigationg SuperCollider:
+
+\begin{comment} % (fold)
+
+% Example 1: Read stereo sound file, apply filter to both channels, and output:
+
+(
+b = Buffer.read(s, "/Users/lossius/Music/AIFF/VT Mandela_lyd/Lange/klokkerhav.aif");
+{ 	var sig, rho, theta, b1, b2;	theta = MouseX.kr(0.2pi, pi);	rho = MouseY.kr(0.6, 0.99);	b1 = 2.0 * rho * cos(theta);	b2 = rho.squared.neg;	sig = PlayBuf.ar(2, b, BufRateScale.kr(b), doneAction:2);	
+	// This is elegant, both channels are filtered with same coefficients:	SOS.ar(sig, 1.0, 0.0, 0.0, b1, b2)}.play
+)
+
+
+% Example 2: Pink noise => ambisonic encoding => encoded signal is filtered => ambisonic decoding => out
+
+% ******************************************
+% Ambisonics: 1 source, 4 speakers
+% ******************************************
+
+({	var ambi, a, rho, theta, b1, b2;	
+	// Mouse stuff controlling filter
+	theta = MouseX.kr(0.2pi, pi);
+	rho = MouseY.kr(0.6, 0.99);
+	b1 = 2.0 * rho * cos(theta);
+	b2 = rho.squared.neg;
+	
+	// sources	p = PinkNoise.ar;
+		// B-format encode	ambi = PanB2.ar(p, MouseX.kr(-1,1), 0.1); 
+
+	// Now we do some weird filtering, with same coefficients for each of the encoded channels:
+	ambi = SOS.ar(ambi, 1.0, 0.0, 0.0, b1, b2);
+		// B-format decode to quad	a = DecodeB2.ar(4, ambi[0], ambi[1], ambi[2]);	
+	// reorder to my speaker arrangement: Lf Rf Lr Rr	a.at([0,1,3,2])}.play;)
+
+
+% ******************************************
+% Ambisonics: 2 source, 4 speakers
+% ******************************************
+
+(
+{
+	var ambi, a;
+	
+	// sources
+	p = [PinkNoise.ar, WhiteNoise.ar];
+	
+	// Now we do peak notch filtering. Coefficients from Max, but b1 and b2 have their signs swapped in SuperCollider
+	// 1.006468 -1.992072 0.986487 -1.992072 0.992955
+	// 1.030371 -1.932701 0.928888 -1.932701 0.959259
+	p = SOS.ar(p, [1.006468, 1.030371], [-1.992072, -1.932701], [0.986487, 0.928888], [1.992072, 1.932701], [-0.992955, -0.959259], 0.1);
+	
+	// B-format encode
+	ambi = PanB2.ar(p, [MouseX.kr(-1,1), 1-MouseX.kr(-1,1)], [0.6, 0.1]); 
+	
+	// B-format decode to quad
+	a = DecodeB2.ar(4, ambi[0][0]+ambi[1][0], ambi[0][1]+ambi[1][1], ambi[0][2]+ambi[1][2]);
+	
+	// reorder to my speaker arrangement: Lf Rf Lr Rr
+	//a.at([0,1,3,2])
+}.play;
+)
+
+
+\end {comment} % (end)
+
+% Investigate ChucK:
+
+\begin{comment} % (fold)
+
+Examples of arrays here, although I'm not sure yet if this at all relates to audio multichannel signals:
+http://chuck.cs.princeton.edu/doc/examples/
+
+
+
+Multichannel example:
+https://ccrma.stanford.edu/~jchrsmt/Compose/Chuck/enginedrone.ck
+
+Jeff Smith (2007) toolkit for building multi-channel sound in chuck. Examples included:
+https://ccrma.stanford.edu/~jchrsmt/Compose/Chuck/nchannel4.ck
+https://ccrma.stanford.edu/~jchrsmt/Compose/Chuck/nchannel8.ck
+https://ccrma.stanford.edu/~jchrsmt/Compose/Chuck/nchannel16.ck
+https://ccrma.stanford.edu/~jchrsmt/Compose/Chuck/nchannel18.ck
+
+\end{comment} % (end)
 
 % TODO: Who else has a true multichannel environment?  anyone?
 
