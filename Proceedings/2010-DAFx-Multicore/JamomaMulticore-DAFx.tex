@@ -345,7 +345,7 @@ Jamoma Multicore is a framework \footnote{We use the term framework in a generic
 \label{fig:anatomy}
 \end{figure}
 
-Figure \ref{fig:anatomy} shows the classes and how they are related. In the figure an object is connected to three upstream objects, and to two downstream objects, with all connections being multichannel.  A connection between objects can be considered to be a many-to-many association; each outlet can be connected to many inlets, and each inlet can be connected to many outlets. The architecture of \texttt{TTMulticoreObject} is layered: the Multicore object itself only knows about its inlets; the inlets only know about their sources (joins); the sources know about what object and from which outlet they are connected. In the figure this is illustrated by the object having four inlets. Two sources are connected to the first inlet, two to the second, and so on. In short:
+Figure \ref{fig:anatomy} shows the classes and how they are related. In the figure an object is connected to three upstream objects, and to two downstream objects, with all connections being multichannel.  A connection between objects can be considered to be a many-to-many association; each outlet can be connected to many inlets, and each inlet can be connected to many outlets. The architecture of \texttt{TTMulticoreObject} is layered: the Multicore object itself only knows about its inlets; the inlets only know about their sources (joins); the sources know about what object and from which outlet they are connected. In the figure this is illustrated by the object having four inlets. Two sources $s0$ and $s1$ are connected to the first inlet $in0$, two to the second, and so on. In short:
 
 				A graph has many objects.\\
 \indent	An object has many inlets.\\
@@ -379,14 +379,14 @@ All processing is driven by the object at the end of the processing chain accord
 
 Since Jamoma Multicore is using a pull-based architecture, an object's \emph{outlets} are passive.  They are simply buffers storing the output calculated by the wrapped unit generator.  The unit generator is simply an instance of a Jamoma DSP class, specified as an argument when the \texttt{TTMulticoreObject} is instantiated.  This unit generator is responsible for actually calculating the audio to be stored by the outlet buffers.
 
-% TODO: Maybe discuss figure 2 a little further at some point so that trond don't get it all wrong again...
-% TODO: in the following, the 'sources' are not clearly the same as the orange circles in the graphic
-
 Unlike the outlets, the \emph{inlets} are active.  When asked for a vector of audio by the unit generator, they then each request audio from all of their sources (other objects' outlets).  If an inlet has multiple sources, those sources are summed.  When all of the inlets have performed this operation, then the unit generator proceeds to process the audio buffered in the inlets and fills the buffers in the outlets.  Sources manage a one-to-one connection between an inlet and an outlet; inlets may have zero or more sources.  This design can be summarized thusly:
 
 With the objects in the graph prepared by the preprocess call, the audio can be pulled from the graph by the terminal object calling the `process' method on each of its sources.
 
-% Third, we could send a postprocess message, but we don't at the moment.
+% TODO: We need to discuss what we do in the case that one inlet have several sources with differing numbers of channels 
+
+% Third, we could send a post-process message, but we don't at the moment.
+% But what would the purpose of it be? What would this be able to do that could not just as easily be done as part of the next "preprocess" step? The only thing I can imagine currently that this would be useful for, would be to schedule asynchronous events. On second thought that might actually be useful, e.g. for updating GUI objects showing signal levels etc., or for banging control-rate events based on monitoring and analyis of audio signals... [TL]
 
 % (end)
 
