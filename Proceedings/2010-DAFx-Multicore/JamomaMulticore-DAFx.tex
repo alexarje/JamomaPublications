@@ -253,7 +253,7 @@ A graph structure is an abstract structure where paths are created between nodes
  The paths between these nodes then define the data-flow of the graph.  Graphs targeting audio processing employ several patterns and idioms to achieve a balance of efficiency, flexibility, and real-time capability.
 
 Environments for processing typically need to address concerns in both synchronous and asynchronous contexts.  Asynchronous communication is required, for example, by MIDI and for driving attributes from DAW automation.  Conversely, realtime processing of audio streams must be handled synchronously.  Most environments, such as CLAM  \cite{Amatraian:2007}, deal with these two types of graphs as separate from each other.  In the Jamoma Platform this is also the case, where Jamoma Multicore comprises the synchronous audio graph concerns.
-% TODO: Is the synchronous/asynchronous a tad to specific here and we are rather thinking in terms of audio rate and control rate? In Csound e.g. we are talking k-rate and a-rate. k-rate is processed at a lower sample rate than a-rate, but to the best of my knowledge is still synced to the audio processing.
+% TODO: Is the synchronous/asynchronous a tad to specific here and we are rather thinking in terms of audio rate and control rate? In Csound e.g. we are talking k-rate and a-rate. k-rate is processed at a lower sample rate than a-rate, but to the best of my knowledge is still synced to the audio processing. - TL
 
 % TODO: The following paragraph seems like it is really starting to veer off into implementation and not just background -- tap
 % TODO: maybe we can just cut the block processing part entirely -- does it _really_ matter for the purposes of section 3? -- tap
@@ -295,12 +295,32 @@ AUGraph does not allow ``fanning'' connections, where multiple outputs connect t
 
 
 \subsection{Multichannel Processing} % (fold)
-Discussing Max and Pd makes sense -- changing the number of channels is changing the code.
+
+In many patching environments for real-time audio processing, such as Max, Pd, Bidule and AudioMulch, adio objects are connected using mono signals. For multichannel spatial processing the patch has to be tailored to the number of sources and speakers. If such programs are considered programming environments and the patch the program, a change in the number of sources or speakers requires a rewrite of the program, not just a change to one or more configuration parameters.
+
+% Here's a resource on spatialisation in Pd: http://grh.mur.at/misc/PdSpatialization.tar.gz
+
+In Csound multichannel audio graphing is extended through the introduction of the Zak Patch System, useful for performing flexible patching or routing from one instrument to another. One advantage of the Zak system over global variables is that communication between instruments may be reconfigured in the score without requiring changes to the orchestra \cite{Mikelson:2000}. One example is the \texttt{vbapz} opcode for multichannel vector-base amplitude panning, using a ZAK array for output.
+
+\begin{comment} % (fold)
+
+From the Csound Manual:
+
+The zak opcodes are used to create a system for i-rate, k-rate or a-rate patching. The zak system can be thought of as a global array of variables. These opcodes are useful for performing flexible patching or routing from one instrument to another. The system is similar to a patching matrix on a mixing console or to a modulation matrix on a synthesizer. It is also useful whenever an array of variables is required. 
+
+The zak system is initialized by the zakinit opcode, which is usually placed just after the other global initializations: sr, kr, ksmps, nchnls. The zakinit opcode defines two areas of memory, one area for i- and k-rate patching, and the other area for a-rate patching. The zakinit opcode may only be called once. Once the zak space is initialized, other zak opcodes can be used to read from, and write to the zak memory space, as well as perform various other tasks. 
+
+Zak channels count from 0, so if you define 1 channel, the only valid channel is channel 0. 
+
+\end{comment} % (end)
+
+
+
 
 SuperCollider - mention that it is possible to work on arrays of signals in SuperCollider, while this is not easy to do in Max?
 
 % TODO: Trond and Nils need to do a bit checking out of SuperCollider, so that we are able to do a qualified discussion of it...
-% Here's a resource on spatialisation in Pd: http://grh.mur.at/misc/PdSpatialization.tar.gz
+
 
 NP: my research into multichannel capabilities with SC\\
 seems to be simple\\     
@@ -329,6 +349,8 @@ We are able to create and use Jamoma DSP unit generators with a number of differ
 Jamoma DSP does not define the way in which one must produce signal processing topographies.  Instead, the process of creating objects and connecting them are envisioned and implemented orthogonally and the graph is created using a separate framework known as Jamoma Multicore.  Thanks to this decoupling of Jamoma DSP and Jamoma Multicore you aren't ``boxed-in'' to any particular way of creating connections between objects.
 
 Max, Pd, SuperCollider, Csound, Bidule, AudioMulch, Reactor, Reason all have have units, but the units can only be used within the particular environment. The units have a proprietary format for unit generators, so there's no interchangability, and likewise the graph structure is proprietary. While SDKs are available for some of them, it's not for others. For some of these no SDK exists at all, they are totally proprietary. Ability to host Audio Units and VST extends it somewhat
+
+% TODO: Also mention flext, enabling shared code between Max and Pd. Does it still work with Max 5? - TL
 
 % (end)
 
@@ -569,22 +591,6 @@ The structure of Jamoma Multicore is ideal for distributing processing of the gr
 
 
 % TODO: Is there any other environment that we should acknowledge?
-% TODO: CSound? - Yes, the ZAK - system:
-
-\begin{comment} % (fold)
-Csound have multichannel arrays through the Zak Patch System:
-
-From the Csound Manual:
-
-The zak opcodes are used to create a system for i-rate, k-rate or a-rate patching. The zak system can be thought of as a global array of variables. These opcodes are useful for performing flexible patching or routing from one instrument to another. The system is similar to a patching matrix on a mixing console or to a modulation matrix on a synthesizer. It is also useful whenever an array of variables is required. 
-
-The zak system is initialized by the zakinit opcode, which is usually placed just after the other global initializations: sr, kr, ksmps, nchnls. The zakinit opcode defines two areas of memory, one area for i- and k-rate patching, and the other area for a-rate patching. The zakinit opcode may only be called once. Once the zak space is initialized, other zak opcodes can be used to read from, and write to the zak memory space, as well as perform various other tasks. 
-
-Zak channels count from 0, so if you define 1 channel, the only valid channel is channel 0. 
-
-\end{comment} % (end)
-
-One advantage of the Zak system over global variables is that communication between instruments may be reconfigured in the score without requiring changes to the orchestra \cite{Mikelson:2000}
 
  
 
