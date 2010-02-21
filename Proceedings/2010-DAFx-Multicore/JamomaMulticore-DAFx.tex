@@ -253,6 +253,7 @@ A graph structure is an abstract structure where paths are created between nodes
  The paths between these nodes then define the data-flow of the graph.  Graphs targeting audio processing employ several patterns and idioms to achieve a balance of efficiency, flexibility, and real-time capability.
 
 Environments for processing typically need to address concerns in both synchronous and asynchronous contexts.  Asynchronous communication is required, for example, by MIDI and for driving attributes from DAW automation.  Conversely, realtime processing of audio streams must be handled synchronously.  Most environments, such as CLAM  \cite{Amatraian:2007}, deal with these two types of graphs as separate from each other.  In the Jamoma Platform this is also the case, where Jamoma Multicore comprises the synchronous audio graph concerns.
+% TODO: Is the synchronous/asynchronous a tad to specific here and we are rather thinking in terms of audio rate and control rate? In Csound e.g. we are talking k-rate and a-rate. k-rate is processed at a lower sample rate than a-rate, but to the best of my knowledge is still synced to the audio processing.
 
 % TODO: The following paragraph seems like it is really starting to veer off into implementation and not just background -- tap
 % TODO: maybe we can just cut the block processing part entirely -- does it _really_ matter for the purposes of section 3? -- tap
