@@ -3,6 +3,7 @@ Key words (to define)
 - platform
 - art-based research
 
+------------------
 TOC draft
 
 1 Jamoma philosophy, aims, goals
@@ -32,9 +33,36 @@ Virage, gesture analysis researches, etc.
 
 
 2. Past, present and coming developments
+2.1 background: Max based project
+2.1.1 Modular 0.5
+
+update Max 5, new additions, documentation
+
+although Modular remains (probably for most users?) the most visible part, lot of dev happened
+
+2.2 architecture
+2.2.1 mini timeline or something
+
+pure Max -> externals -> framework //** Is that correct ? **//
+
+2.2.2 Jamoma current architecture
 
 3. How this expands Jamoma possibilities for future
+3.1 "reversed organisation of Jamoma"
 
+I mean, to schematize how I see/understand it, Modular is now more an exmaple of what is possible with Jamoma rather than the origin of developments, if that makes sense.
+
+3.2 multiplateforme
+
+3.2.1 for Max, AudioUnit, PD, etc.
+3.2.2 "interoperability"
+
+example export of audio graph ?
+
+3.?.?...
+
+Conclusion
+------------------
 
 
 Focus
