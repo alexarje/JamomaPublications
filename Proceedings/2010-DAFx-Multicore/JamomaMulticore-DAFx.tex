@@ -614,15 +614,12 @@ Similar to the implementation of Jamoma Multicore for Max, there is also a Jamom
 As mentioned, Jamoma Multicore is ideally suited for use in many different environments.  This includes not only graphical environments, but textual environments as well.  The authors have created an implementation of Jamoma Multicore for the Ruby language environment.  Ruby is offers a wealth of application areas include web development using Ruby On Rails\footnote{http://rubyonrails.org} and Live Coding\cite{Collins:2003} using \emph{irb}.  The following listing demonstrates a simple \emph{irb} session:
 
 \begin{lstlisting}
-	require 'TTRuby'
-	
- 	dac = TTAudio.new "multicore.output"
- 	osc = TTAudio.new "wavetable"
-
-	dac.connect osc
-	dac.send "start"
-	
-	osc.set "frequency", 220.0
+  require 'TTRuby'
+  dac = TTAudio.new "multicore.output"
+  osc = TTAudio.new "wavetable"
+  dac.connect osc
+  dac.send "start"
+  osc.set "frequency", 220.0
 \end{lstlisting}
 
 By using Jamoma Multicore in the Ruby environment for Live Coding users are able to access all of the benefits of using a popular, general purpose language while at the same time gaining access to many of the benefits of a domain specific language for musical performance such as ChucK
