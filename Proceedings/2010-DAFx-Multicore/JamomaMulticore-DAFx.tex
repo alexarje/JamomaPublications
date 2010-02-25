@@ -606,15 +606,7 @@ Similar to the implementation of Jamoma Multicore for Max, there is also a Jamom
 
 \subsection{Ruby} % (fold)
 
-Language bindings can be made for many different languages.  We have chosen Ruby.  Ruby allows lots of stuff.  
-
-\subsubsection{Live Coding} % (fold)
-
-One thing is Live Coding \cite{Collins:2003} using irb.  That article has some great ideas and general discussion about Live Coding.  One topic is the use of general purpose languages such as Ruby vs. domain specific languages such as ChucK.  With our extensions of the Ruby environment we hope to bridge the best of both worlds.
-
-% TODO: Are there any published articles specifically about using irb for live coding performance?
-
-Here is what a simple \texttt{irb} session:
+As mentioned, Jamoma Multicore is ideally suited for use in many different environments.  This includes not only graphical environments, but textual environments as well.  The authors have created an implementation of Jamoma Multicore for the Ruby language environment.  Ruby is offers a wealth of application areas include web development using Ruby On Rails\footnote{http://rubyonrails.org} and Live Coding\cite{Collins:2003} using \emph{irb}.  The following listing demonstrates a simple \emph{irb} session:
 
 \begin{lstlisting}
 	require 'TTRuby'
@@ -628,6 +620,10 @@ Here is what a simple \texttt{irb} session:
 	osc.set "frequency", 220.0
 \end{lstlisting}
 
+By using Jamoma Multicore in the Ruby environment for Live Coding users are able to access all of the benefits of using a popular, general purpose language while at the same time gaining access to many of the benefits of a domain specific language for musical performance such as ChucK
+
+% TODO: Are there any published articles specifically about using irb for live coding performance?
+
 % (end)
 
 % (end)
@@ -635,13 +631,9 @@ Here is what a simple \texttt{irb} session:
 
 \subsection{Cross-Coding} %(fold)
 
-% TODO: should this go in the discussion section instead?
+Using the capabilities of a graph to produce a description of itself, we are able port code across environments in a variety of formats.  For example, we have implemented functions that export a graph created in Max to a Ruby source file.  Likewise we can export from a Ruby source file to Pd and from a Pd canvas to C++ code.  
 
-Code generation and prototyping...
-
-Any node in a Jamoma Multicore graph is capable of producing a description of the graph from which it pulls audio.  This description, which is a tree structure representing the graph's topology, can then be exported to any of a number of formats.  These formats include Ruby source, C++ source, and the Max 5 JSON patcher format.
-
-As a consequence, it is possible from any supported environment to export a representation of the graph to any other supported environment.  e.g. Max -> C++, Ruby -> Max, C++ -> Ruby, Max->Ruby, etc.
+The ability to export code/patcher/canvas/document from any supported environment to any other supported environment offers great flexibility, not only for code generation and prototyping, but for freedom in sharing work across platforms and with colleagues.  The currently supported export formats are: Max 5 patcher, C++ source code, Ruby source code, PureData.
 
 % (end)
 
