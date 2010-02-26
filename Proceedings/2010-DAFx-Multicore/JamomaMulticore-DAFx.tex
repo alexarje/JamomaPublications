@@ -144,8 +144,8 @@
 {\paperauthorB}
 {\href{http://www.bek.no/}{BEK - Bergen Center for Electronic Arts} \\ {\tt \href{mailto:trond.lossius@bek.no}{trond.lossius@bek.no}}
 }
-{\paperauthorC,\sthanks{Is still sore from ice climbing}}
-{\href{http://www.acoustics.hut.fi/dafx08/}{Spinning Group, Dept.~of Turning Sciences} \\ Univ.~of Planets, Mars \\ {\tt \href{mailto:dafx-08@acoustics.hut.fi}{dafx-08@acoustics.hut.fi}}
+{\paperauthorC}%,\sthanks{Is still sore from ice climbing}
+{\href{http://www.acoustics.hut.fi/dafx08/}{McGill University} \\ CIRMMT - Centre for Interdisciplinary Research in Music Media and Technology\\McGill University, Montreal, CA\\{\tt \href{mailto:nils.peters@mcgill.ca}{nils.peters@mcgill.ca}}
 }
 %-------------------------------------THREE-AUTHOR HEADER ENDS------------------------------------------------------
 
@@ -568,12 +568,24 @@ There are many applications of this description, including visual representation
 Show it working in Max/MSP
 % TODO: need a screenshot demonstrating multi-channel
 
-One example the demonstrates the need for dynamic vectorsizes is the gabor.psola.pat example from FTM. Also granular approaches may benefit (for example, implementing some of the ideas from Curtis Roads' engine).
+
+\begin{figure}[htbp]
+\centerline{\framebox{
+	\includegraphics[width=0.9\columnwidth]{jalg-sur-vbap-sans-multicore}}}
+\caption{Max patcher without multicore}
+\label{fig:max-after}
+\end{figure}
+
+
+\begin{figure}[htbp]
+\centerline{\framebox{
+	\includegraphics[width=0.9\columnwidth]{jalg-sur-vbap-avec-multicore}}}
+\caption{Max patcher with Multicore}
+\label{fig:max-before}
+\end{figure}
 
 
 \subsubsection{Jamoma Modular} % (fold)
-
-% TODO: Tim fix jcom.unpack≈ object in subpatchers bug
 
 Nils Says:
 There is a new modular branch to start working with the multicore 
@@ -638,7 +650,7 @@ Similar to the implementation of Jamoma Multicore for Max, there is also a Jamom
 
 \subsection{Ruby} % (fold)
 
-As mentioned, Jamoma Multicore is ideally suited for use in many different environments.  This includes not only graphical environments, but textual environments as well.  The authors have created an implementation of Jamoma Multicore for the Ruby language environment.  Ruby is offers a wealth of application areas include web development using Ruby On Rails\footnote{http://rubyonrails.org} and Live Coding\cite{Collins:2003} using \emph{irb}.  The following listing demonstrates a simple \emph{irb} session:
+As mentioned, Jamoma Multicore is ideally suited for use in many different environments. This includes not only graphical environments, but textual environments as well.  The authors have created an implementation of Jamoma Multicore for the Ruby language environment.  Ruby is offers a wealth of application areas include web development using Ruby On Rails\footnote{http://rubyonrails.org} and Live Coding\cite{Collins:2003} using \emph{irb}.  The following listing demonstrates a simple \emph{irb} session:
 
 \begin{lstlisting}
   require 'TTRuby'
@@ -730,6 +742,53 @@ Currently all connections in a Jamoma Multicore graph are managed manually.  We 
 %"It is based on a dataflow model of computa- tion in which any audio processing system is represented as a large network of interconnected basic audio process- ing units."  Just like Max/MSP, Pd, Chuck, etc.
 
 % (end)
+
+\subsection{Dynamic vector sizes} % (fold)
+
+One example the demonstrates the need for dynamic vectorsizes is the gabor.psola.pat example from FTM. Also granular approaches may benefit (for example, implementing some of the ideas from Curtis Roads' engine).
+
+% (end)
+
+Brainstorming for discussion:
+
+
+- multicore in Max/Jamoma makes life so much easier....
+    - dynamic patching without breaking audio
+    - easier/faster to create easier/faster to maintain -- changing the number of channels does *not* require a change to the program
+    - much less code 
+    - flexibility moving between mono, stereo and 5.1, don't have to make 3 different versions of the same mopule (DRY)
+    - generalised modules for spatial audio that work with any source and speaker configuration
+    - ability to export to other environments (C++, Pd, Ruby)
+    - Integra is striving somehow for a similar cross-coding....
+
+- ability to work individually on the audio channels is currently limited (e.g. to apply a different filter to each channel of a signal)
+- how do we dynamically change the number of channels on the fly within one mulichannel signal? use a jcom.matrix=, jcom.split=, add a jcom.duplicate= ? 
+- can multicore cabels contain additional meta-information (attributes, dictionaries....)
+- encoded audio? (AAC, mp3-surround, DIRAC) , or ... does multicore only works with PCM audio ? -- we need to be able to specify stream-format metadata (also for 7.1 vs 8-channel)
+- how we do upmixing/downmixing of channels ? 
+- benefit of live coding paradigm:
+    - performance patch: be able to create and delete subpatches on the fly depending on what's required for different parts of the performance
+    - alternative way of freeing up CPU to the mute~ or poly~ approach in MSP
+    - will it be easier to make polyphonic synths (one obejct can make several instances internally, and then get them all onto the same multicable)
+    - spatialization - currently prototyped:
+        - VBAP: matrix= so no scripting, 
+            numSource -> numInputs
+            numSpeakers -> numOutputs
+        - todo: ramping
+        - future: making spatialisation objects will contain an instance of the matrix= object
+        - this way we have access to spatialisation in all environments
+            (and some of them are available only in some of the environments)
+        - even more into future: matrixmixer (mighty mixer): creates one instance for each inlet to outlet coupling
+                                    check out the IEM CUBEmixer  http://ambisonics.iem.at/xchange/products/cubemixer
+        - also into future: same for ViMiC combining matrix=, delays, etc.
+        - we have a prototype implementation in Nils' object (userLib->Vimic->jmod.sur.sourceControl.maxhelp)
+        - ideal environment for spectral processing (changing signals into the native FFT size)
+    - polyphonic synthesis: voices are represented as dynamically changing channels in a portion of the graph, which are mixed at the end using a matrix=
+    - similar for granulation.... (creating/destroying grains on-the-fly, dynamic vector sizes)
+        - Trond making things difficult: Would we somehow need to ID-tag each channel, so that a filter downstream from a saw generator recognize which channel it is dealing with
+
+
+
 
 % (end)
 
