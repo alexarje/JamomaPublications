@@ -314,6 +314,33 @@ By comparison, SuperCollider has an elegant way of representing multiple channel
 \ }.play
 \end{lstlisting}
 
+% TODO: Below is an excerpt from the Csound multichannel example provided by ¯yvind Brandsegg:
+% TODO: Change tabs to spaces for better text rendering in paper
+
+\begin{lstlisting}
+**************************************************
+; multichannel filter, event handler
+	instr 2
+	iNumC	= p4	; number of channels
+	iCF		= p5		; filter cutoff
+	ichnNum	= 0		; init the channel number
+makeEvent:
+	ichnNum	= ichnNum + 1
+	event_i	"i", 3, 0, p3, ichnNum, iCF
+	if ichnNum < iNumC igoto makeEvent
+	endin
+
+; multichannel filter, audio processing
+	instr 3	
+	instance	= p4
+	iCF			= p5
+	Sname		sprintf	"Signal_%i", instance		
+	a1			chnget	Sname
+	a1			butterlp a1, iCF
+				chnset	a1, Sname
+	endin
+;***************************************************
+\end{lstlisting}  
 
 
 \begin{comment} % (fold)
@@ -728,7 +755,7 @@ We rock.
 
 \section{Acknowledgments}
 
-The authors wish to thank the University of Oslo for hosting the workshop during which the initial architecture of Jamoma Multicore was designed. Initial development was supported by The Municipality of Bergen.  We additionally thank Pascal Baltazar and everyone at GMEA for hosting a spatialization workshop during which the design of Jamoma Multicore was reviewed and heavily revised.
+The authors wish to thank the University of Oslo for hosting the workshop during which the initial architecture of Jamoma Multicore was designed. Initial development was supported by The Municipality of Bergen.  We additionally thank Pascal Baltazar and everyone at GMEA for hosting a spatialization workshop during which the design of Jamoma Multicore was reviewed and heavily revised, and \O yvind Brandsegg and Jeff Carey for providing valuable insight into processing of multichannel signals in Csound and SuperCollider respectively.
 
 % TODO: Add that Jeff Carey was helpful in getting SuperCollider arrays sorted out?
 
