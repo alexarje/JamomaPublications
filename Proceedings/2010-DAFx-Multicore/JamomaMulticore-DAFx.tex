@@ -70,7 +70,6 @@
 
 % Enables multi-line comments:
 \usepackage{verbatim} 
-
 \lstset{language=c++}
 \lstset{basicstyle=\footnotesize\ttfamily}
 \lstset{commentstyle=\color{commentcolor}}
@@ -142,10 +141,10 @@
 {\tt \href{mailto:tim@74objects.com}{tim@74objects.com}}
 }
 {\paperauthorB}
-{\href{http://www.bek.no/}{BEK - Bergen Center for Electronic Arts} \\ {\tt \href{mailto:trond.lossius@bek.no}{trond.lossius@bek.no}}
+{\href{http://www.bek.no/}{BEK - Bergen Center for Electronic Arts} \\ Bergen, Norway\\ {\tt \href{mailto:trond.lossius@bek.no}{trond.lossius@bek.no}}
 }
 {\paperauthorC}%,\sthanks{Is still sore from ice climbing}
-{\href{http://www.acoustics.hut.fi/dafx08/}{McGill University} \\ CIRMMT - Centre for Interdisciplinary Research in Music Media and Technology\\McGill University, Montreal, CA\\{\tt \href{mailto:nils.peters@mcgill.ca}{nils.peters@mcgill.ca}}
+{\href{http://www.music.mcgill.ca/musictech/}{McGill University, CIRMMT} \\ Montreal, Quebec, Canada\\{\tt \href{mailto:nils.peters@mcgill.ca}{nils.peters@mcgill.ca}}     %CIRMMT - Centre for Interdisciplinary Research in Music Media and Technology\\
 }
 %-------------------------------------THREE-AUTHOR HEADER ENDS------------------------------------------------------
 
@@ -204,7 +203,7 @@ Many frameworks, toolkits, and environments for real-time audio processing fuse 
 
 \begin{figure}[htbp]
 \centerline{\framebox{
-	\includegraphics[width=0.9\columnwidth]{../2010-ICMC-DSP/layers-alt}}}
+	\includegraphics[width=0.95\columnwidth]{../2010-ICMC-DSP/layers-alt}}}
 \caption{The Jamoma Platform as Layered Architecture.}
 \label{fig:layers}
 \end{figure}
@@ -569,46 +568,43 @@ Show it working in Max/MSP
 % TODO: need a screenshot demonstrating multi-channel
 
 
-\begin{figure}[htbp]
-\centerline{\framebox{
-	\includegraphics[width=0.9\columnwidth]{jalg-sur-vbap-sans-multicore}}}
-\caption{Max patcher without multicore}
-\label{fig:max-after}
-\end{figure}
+%\begin{figure}[htbp]
+%\centerline{\framebox{
+%	\includegraphics[width=0.9\columnwidth]{jalg-sur-vbap-sans-multicore}}}
+%\caption{Max patcher without multicore}
+%\label{fig:max-before}
+%\end{figure}
 
 
-\begin{figure}[htbp]
-\centerline{\framebox{
-	\includegraphics[width=0.9\columnwidth]{jalg-sur-vbap-avec-multicore}}}
-\caption{Max patcher with Multicore}
-\label{fig:max-before}
-\end{figure}
+%\begin{figure}[htbp]
+%\centerline{\framebox{
+%	\includegraphics[width=0.9\columnwidth]{jalg-sur-vbap-avec-multicore}}}
+%\caption{Max patcher with Multicore}
+%\label{fig:max-after}
+%\end{figure}
 
+\begin{figure*}[!t]
+\centering
+\subfigure[Without Multicore, using MSP audio signals for 16 inputs and 12 loudspeakers] 
+{\framebox{\includegraphics[height=0.24\textheight]{jalg-sur-vbap-before.png}}} \hspace{0.7cm}
+\subfigure[With Multicore]
+{\framebox{\includegraphics[height=0.24\textheight]{jalg-sur-vbap-after.png}}}
+\caption{The Jamoma signal processing Max patch for Vector Based Amplitude Panning (VBAP)}
+\label{fig:max-before-after}
+\end{figure*}
 
 \subsubsection{Jamoma Modular} % (fold)
+A strong component of the Jamoma Modular framework is the provision of ready-to-use building blocks for sound spatialization \cite{Peters:2009}.
+To pass multichannel signals between these modules, Jamoma has been using a simple patching hack that wraps multiple MSP signals into a multichannel cable. Within each module, this multichannel connection was then unwrapped in order that audio signals could be processed. 
+Figure \ref{fig:max-before-after}(a) shows the signal processing patch of the Jamoma module for spatializing incomming sounds using Vector Base Amplitude Panning (VBAP) \cite{Pulkki:1997vbap}. According to the user-defined number of incoming (to be spatialized) sounds and number of loudspeakers, the internal mixing matrix and its connections were dynamically scripted which can create certain stress on Max for time critical situations. Furthermore a change in the DSP structure requires a rebuild of the DSP chain.   
 
-Nils Says:
-There is a new modular branch to start working with the multicore 
-externals. The name of the branch is ``0.6-multicore''.
+Jamoma Multicore externals are currently subsequently introduced into Jamoma Modular to simplify and the spatialization modules and make them more robust because scripting can be entirely avoided. Figure \ref{fig:max-before-after}(b) shows a new version of the patch from Figure \ref{fig:max-before-after}(a), employing the new Jamoma Multicore Audio Graph. The new object jcom.matrix$\approx$ performs mixing operations between the audio streams of the incoming multicable and outputs the audio feeds for each loudspeaker. 
 
-So far, I mainly introduced in= and out= in a couple of modules. more to come.
-jmod.sur.multi.in
-jmod.sur.multi.out
-jmod.sur.multi.input
-jmod.sur.multi.aux
-jmod.sur.meters
-jmod.sur.output
-jmod.sur.vbap
-jmod.sur.dbap
+\vspace{1cm}
+       
+
 
 % TODO: these last two require a matrix that operates on the channels within a signal, not on multiple signals
-
-So you can start to connect your modules and see what's working and 
-what's not.
-If you are curious, just check out this branch and try it.
-in the git repository, go to Modules/Modular and do a
-
-git checkout 0.6-multicore
 
 % Some important things to keep in mind:
 % - Priorities, how to we control the order of operations?    We don't at the moment (which is like Pd, but unlike Max)
@@ -630,18 +626,18 @@ Dynamic number of channels (perhaps useful for FFT and spectral processing?)
 One difference to Max/MSP and Pd is that the signal network can be reconfigured dynamically without requiring a 'recompile' of the signal chain.  This is addressed through Jamoma Multicore -- Jamoma DSP is low level and is agnostic about how objects are combined into a network or topology.
 
 However, objects can be recombined and structured at runtime, offering the same kind of flexibility and "expressive power".
-
+% TODO: Where shall these two sentences go? to the Max section or PD section? [NP] 
 % (end)
 
 
-\subsection{PureData} % (fold)
+\subsection{PureData (PD)} % (fold)
 
-Similar to the implementation of Jamoma Multicore for Max, there is also a Jamoma Multicore implementation for Pd. Figure \ref{fig:pd} demonstrates the use of Jamoma Multicore in Pd for passing 4 channels through a chain for processing, taking advantage of the multichannel patch cord connections.
+Jamoma Multicore was also implemented for Pure Data which is essentially similar to Jamoma Multicore for Max/MSP. The most obvious difference between Multicore for Pure Data and Max may be the slightly different external names, having '=' instead of '$\approx$' appended as an indicator for multichannel signal streams. Figure \ref{fig:pd} demonstrates the use of Jamoma Multicore in PD for passing 4 channels through a chain for processing, taking advantage of the multichannel patch cord connections.  
 
 \begin{figure}[htbp]
 \centerline{\framebox{
-	\includegraphics[width=0.9\columnwidth]{multicore-pd}}}
-\caption{Simple Pd document processing 4 channels with Jamoma Multicore}
+	\includegraphics[width=0.7\columnwidth]{multicore-pd}}}
+\caption{Simple PD document processing 4 channels with Jamoma Multicore}
 \label{fig:pd}
 \end{figure}
 
