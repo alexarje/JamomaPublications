@@ -148,23 +148,6 @@
 }
 %-------------------------------------THREE-AUTHOR HEADER ENDS------------------------------------------------------
 
-%----------------FOUR-AUTHOR HEADER STARTS (uncomment below if your paper has four authors)-----------------------
-%\fouraffiliations{
-%\paperauthorA, \sthanks{This work was supported by BEK and GMEA}}
-%{\href{http://74objects.com}{74 Objects LLC,} \\ Kansas City, Missouri, USA\\
-%{\tt \href{mailto:tim@74objects.com}{tim@74objects.com}}
-%}
-%{\paperauthorB,\sthanks{This guy is a very good fellow}}
-%{\href{http://www.acoustics.hut.fi/dafx08/}{Reading Group, Dept.~of Reading Sciences} \\ Univ.~of Universe, Sun \\ {\tt \href{mailto:dafx-08@acoustics.hut.fi}{dafx-08@acoustics.hut.fi}}
-%}
-%{\paperauthorC,\sthanks{She is a member of the Wheel Association}}
-%{\href{http://www.acoustics.hut.fi/dafx08/}{Spinning Group, Dept.~of Turning Sciences} \\ Univ.~of Planets, Mars \\ {\tt \href{mailto:dafx-08@acoustics.hut.fi}{dafx-08@acoustics.hut.fi}}
-%}
-%{\paperauthorD,\sthanks{Yes, senior}}
-%{\href{http://www.acoustics.hut.fi/dafx08/}{Unknown Group, Dept.~of Volatile Sciences} \\ Univ.~of Nowhere, Somewhere \\ {\tt \href{mailto:dafx-08@acoustics.hut.fi}{dafx-08@acoustics.hut.fi}}
-%}
-%-------------------------------------FOUR-AUTHOR HEADER ENDS------------------------------------------------------
-
 % (end)
 
 \begin{document}
@@ -190,6 +173,10 @@ Jamoma Multicore is a framework for creating graph structures in which unit gene
 
 % particular benefit when dealing with spatial audio
 % especially with a massive number of audio channels (Higher Order Ambisonics, WFS, microphone arrays for beamforming)
+% TODO: we talk about current applications.... this irritates me somehow - what else could one do with it? 
+% Can't we do Live audio coding with Jamoma Multicore in Max now too?
+
+
 \end{abstract}
 
 
@@ -199,7 +186,8 @@ Jamoma Multicore is a framework for creating graph structures in which unit gene
 \section{Introduction} % (fold)
 \label{sec:intro}
 
-Many frameworks, toolkits, and environments for real-time audio processing fuse the issues of creating unit generators with creating graph structures that process audio through those unit generators.  Alternatively, the Jamoma Platform implements a clear separation of concerns, structured in a layered architecture of several frameworks \cite{Place:2010}. Five frameworks currently comprise the Jamoma Platform, providing a comprehensive infrastructure for creating computer music systems. These frameworks are: Jamoma Foundation, Jamoma Graphics, Jamoma Modular, Jamoma DSP, and Jamoma Multicore (see Figure~\ref{fig:layers}). Jamoma Foundation provides low-level support, base classes, and communication systems; Jamoma Graphics provides screen graphics; Jamoma Modular provides a structured approach to development and control of modules in the graphical media environment Max \cite{Place:2006} and Jamoma DSP specializes the Foundation classes to provide a framework for creating a library of unit generators. Jamoma Multicore, the focus of in this paper, is an open source C++ framework providing the ability to create and network Jamoma DSP objects into dynamic graph structures for audio processing\footnote{Licensing is provided under the terms of the GNU LGPL}.  
+Many frameworks, toolkits, and environments for real-time audio processing fuse the issues of creating unit generators with creating graph structures that process audio through those unit generators.  Alternatively, the Jamoma Platform implements a clear separation of concerns, structured in a layered architecture of several frameworks. Five frameworks currently comprise the Jamoma Platform, providing a comprehensive infrastructure for creating computer music systems. These frameworks are: Jamoma Foundation, Jamoma DSP, Jamoma Multicore, Jamoma Graphics, and Jamoma Modular (Figure~\ref{fig:layers}). Jamoma Foundation provides low-level support, base classes, and communication systems; Jamoma DSP \cite{Place:2010} specializes the Foundation classes to provide a framework for creating a library of unit generators. Jamoma Multicore, the focus of in this paper, is an open source C++ framework to create and network Jamoma DSP objects into dynamic graph structures for audio processing\footnote{Licensing is provided under the terms of the GNU LGPL}. 
+Jamoma Graphics is used for creating cross-platform graphical user interfaces. An finally, Jamoma Modular, a structured approach to development and control of modules in the real-time media environment Max/MSP \cite{Place:2006}.  
 
 \begin{figure}[htbp]
 \centerline{\framebox{
@@ -208,6 +196,8 @@ Many frameworks, toolkits, and environments for real-time audio processing fuse 
 \label{fig:layers}
 \end{figure}
 
+
+\subsubsection{Requierements}
 % Nils is suggesting that we don't launch in here to say what is different about our stuff, but rather say what we are trying to accomplish [tap]
 % Stronger to be able to state what we want -- just a matter of re-phrasing the following.
 
@@ -215,7 +205,7 @@ In addition to the decoupling of the unit generators (Jamoma DSP) from the proce
 % NP: my suggestion: we should do this section similar to the intro of the DSP paper 1. state our requirements 2. background review 3. explain our solution
  First, the connections between objects in the graphs are multi-channel connections; any given connection may carry N channels of audio.  Second, the content carried by the connections is dynamic; the number of channels, the size of the sample vectors, and the sample-rate of the audio can change during runtime operation.  Third, the type of graph used relies on a \emph{pull} pattern which is readily adapted to multi-threaded parallel calculations.
 
-An additional design difference between Jamoma Multicore and most other audio processing graph software is the use of a peer object model.  The peer object model abstracts the implementation and execution of the graph from any particular environment or platform.  This allows for implementations of Jamoma Multicore to be readily implemented for any number of environments.  To date the authors have created implementations for Max, PureData, Audio Units, and Ruby.
+An additional design difference between Jamoma Multicore and most other audio processing graph software is the use of a peer object model.  The peer object model abstracts the implementation and execution of the graph from any particular environment or platform.  This allows for Jamoma Multicore to be readily implemented for any number of environments.  To date the authors have created implementations for Max, PureData, Audio Units, and Ruby.
 % NP: the term peer object model is unclear to me -- maybe the whole peer-object thing should go into the background
 
 % TODO For list of requirements:  Decoupling Graph and Unit Generator
@@ -277,7 +267,7 @@ Alternatively, audio processing may be driven from the bottom of the chain from 
 
 \subsection{Multichannel Processing} % (fold)
 
-In many patching environments for real-time audio processing, such as Max, Pd, Bidule and AudioMulch, audio objects are connected using mono signals. For multichannel spatial processing the patch has to be tailored to the number of sources and speakers. If such programs are considered programming environments and the patch the program, a change in the number of sources or speakers requires a rewrite of the program, not just a change to one or more configuration parameters.
+In many for real-time audio patching environments, such as Max/MSP, PD, Bidule or AudioMulch, audio objects are connected using mono signals. For multichannel spatial processing the patch has to be tailored to the number of sources and speakers. If such programs are considered programming environments and the patch the program, a change in the number of sources or speakers requires a rewrite of the program, not just a change to one or more configuration parameters.
 
 % TODO: do we need citations for Max, Pd, Bidule, and AudioMulch?
 
@@ -300,19 +290,7 @@ Zak channels count from 0, so if you define 1 channel, the only valid channel is
 
 \end{comment} 
 
-
-By comparison, SuperCollider has an elegant way of representing multiple channels of audio as arrays. When an array of audio signals is given as input to a unit generator it causes multichannel expansion: multiple copies of the unit generator create an array of unit generators, each processing a different signal from the array of inputs. In the following example a stereo signal containing white and pink noise is filtered:
-
-\begin{lstlisting}
-\ {
-		\\ Create stereo signal as array:
-		p = [WhiteNoise.ar, PinkNoise.ar];
-		
-		\\ Biquad filter applied to array of channels:
-		SOS.ar(p, 1, -1.992, 0.986, 1.992, -0.993, 0.1);
-\ }.play
-\end{lstlisting}
-
+% CHANGED: moved to the end of the Csound section instead of after the SuperCollider section -- it was looking like it was all one example [tap]
 % TODO: Below is an excerpt from the Csound multichannel example provided by ¯yvind Brandsegg:
 % TODO: Change tabs to spaces for better text rendering in paper
 
@@ -340,6 +318,20 @@ makeEvent:
 	endin
 ;***************************************************
 \end{lstlisting}  
+
+
+By comparison, SuperCollider has an elegant way of representing multiple channels of audio as arrays. When an array of audio signals is given as input to a unit generator it causes multichannel expansion: multiple copies of the unit generator create an array of unit generators, each processing a different signal from the array of inputs. In the following example a stereo signal containing white and pink noise is filtered:
+
+\begin{lstlisting}
+\ {
+		\\ Create stereo signal as array:
+		p = [WhiteNoise.ar, PinkNoise.ar];
+		
+		\\ Biquad filter applied to array of channels:
+		SOS.ar(p, 1, -1.992, 0.986, 1.992, -0.993, 0.1);
+\ }.play
+\end{lstlisting}
+
 
 
 \begin{comment} % (fold)
@@ -477,7 +469,7 @@ https://ccrma.stanford.edu/~jchrsmt/Compose/Chuck/nchannel18.ck
 
 Jamoma DSP does not define the way in which one must produce signal processing topographies.  Instead, the process of creating objects and connecting them are envisioned and implemented orthogonally and the graph is created using a separate framework known as Jamoma Multicore.  Thanks to this decoupling of Jamoma DSP and Jamoma Multicore we are able to create and use Jamoma DSP unit generators with a number of different graph structures.  Jamoma Multicore is one graph structure that a developer may choose to use\footnote{However unlikely, it is also theoretically possible to use Jamoma Multicore with an alternative unit generator library}.
 
-Max, Pd, SuperCollider, Csound, Bidule, AudioMulch, Reaktor, Reason all have have units, but the units can only be used within the particular environment. The units have a proprietary format for unit generators, so there's no interchangeability, and likewise the graph structure is proprietary. While SDKs are available for some of them, for others no SDK exists at all and they are proprietary. Ability to host Audio Units and VST extends these environments, but with limitations.
+Max, PD, SuperCollider, Csound, Bidule, AudioMulch, Reaktor, Reason all have have units, but the units can only be used within the particular environment. The units have a proprietary format for unit generators, so there's no interchangeability, and likewise the graph structure is proprietary. While SDKs are available for some of them, for others no SDK exists at all and they are proprietary. Ability to host Audio Units and VST extends these environments, but with limitations.
 
 % TODO: Also mention flext, enabling shared code between Max and Pd. Does it still work with Max 5? - TL
 % 			I don't think flext is worth mentioning - TAP
@@ -783,7 +775,7 @@ Brainstorming for discussion:
     - similar for granulation.... (creating/destroying grains on-the-fly, dynamic vector sizes)
         - Trond making things difficult: Would we somehow need to ID-tag each channel, so that a filter downstream from a saw generator recognize which channel it is dealing with
 
-
+wouldn't Multicore (on its own) greatly simplify non-realtime processing, provided that we had audio objects for anything needed so that we could totally avoid MSP, and also had a way of controlling the Max clock?
 
 
 % (end)
