@@ -186,8 +186,7 @@ Jamoma Multicore is a framework for creating graph structures in which unit gene
 \section{Introduction} % (fold)
 \label{sec:intro}
 
-Many frameworks, toolkits, and environments for real-time audio processing fuse the issues of creating unit generators with creating graph structures that process audio through those unit generators.  Alternatively, the Jamoma Platform implements a clear separation of concerns, structured in a layered architecture of several frameworks. Five frameworks currently comprise the Jamoma Platform, providing a comprehensive infrastructure for creating computer music systems. These frameworks are: Jamoma Foundation, Jamoma DSP, Jamoma Multicore, Jamoma Graphics, and Jamoma Modular (Figure~\ref{fig:layers}). Jamoma Foundation provides low-level support, base classes, and communication systems; Jamoma DSP \cite{Place:2010} specializes the Foundation classes to provide a framework for creating a library of unit generators. Jamoma Multicore, the focus of in this paper, is an open source C++ framework to create and network Jamoma DSP objects into dynamic graph structures for audio processing\footnote{Licensing is provided under the terms of the GNU LGPL}. 
-Jamoma Graphics is used for creating cross-platform graphical user interfaces. An finally, Jamoma Modular, a structured approach to development and control of modules in the real-time media environment Max/MSP \cite{Place:2006}.  
+Many frameworks, toolkits, and environments for real-time audio processing fuse the issues of creating unit generators with creating graph structures that process audio through those unit generators.  Alternatively, the Jamoma Platform implements a clear separation of concerns, structured in a layered architecture of several frameworks \cite{Place:2010}. Five frameworks currently comprise the Jamoma Platform, providing a comprehensive infrastructure for creating computer music systems. These frameworks are: Jamoma Foundation, Jamoma Graphics, Jamoma Modular, Jamoma DSP, and Jamoma Multicore (see Figure~\ref{fig:layers}). Jamoma Foundation provides low-level support, base classes, and communication systems; Jamoma Graphics provides screen graphics; Jamoma Modular provides a structured approach to development and control of modules in the graphical media environment Max \cite{Place:2006} and Jamoma DSP specializes the Foundation classes to provide a framework for creating a library of unit generators. Jamoma Multicore, the focus of in this paper, is an open source C++ framework providing the ability to create and network Jamoma DSP objects into dynamic graph structures for audio processing\footnote{Licensing is provided under the terms of the GNU LGPL}.  
 
 \begin{figure}[htbp]
 \centerline{\framebox{
@@ -274,9 +273,34 @@ In many for real-time audio patching environments, such as Max/MSP, PD, Bidule o
 % Here's a resource on spatialisation in Pd:
 % http://grh.mur.at/misc/PdSpatialization.tar.gz
 
-In Csound multichannel audio graphing is extended somewhat through the introduction of the Zak Patch System, enabling flexible patching or routing from one instrument to another. One advantage of the Zak system over global variables is that communication between instruments may be reconfigured in the score without requiring changes to the orchestra \cite{Mikelson:2000}. One example is the \texttt{vbapz} opcode for multichannel vector-base amplitude panning, using a ZAK array for output.
+In Csound multichannel audio graphing is extended somewhat through the introduction of the Zak Patch System and the "chn" set of opcodes. Zak enables flexible routing from one instrument to another as instruments may be reconfigured in the score without requiring changes to the orchestra \cite{Mikelson:2000} and is used e.g. by the \texttt{vbapz} opcode for multichannel vector-base amplitude panning. The "chn" opcodes allow for accessing a global string-indexed software bus enabling communicating between a host application and the Csound engine, but can also be used for dynamic routing within Csound itself \cite{Yi:2006}. Below is an example of  a simple multichannel filter implementation using named software busses to iterate through the channels:
 
-% TODO: In the above paragraph we are introducing a new concept: global variables -- where does this come from, and what does it have to do with anything?
+% Note: This example was provided by ¯yvind Brandsegg. The code have proper spacing when typeset.
+% TODO: I'm currently checking with ¿yvind to ensure that the example manage to take care of xm1, xm2, ym1 and ym2 for each channel from one vector to the next. [TL]
+
+\begin{lstlisting}
+; multichannel filter, event handler 
+    instr 2 
+    iNumC    = p4      ; number of channels 
+    iCF      = p5      ; filter cutoff 
+    ichnNum  = 0       ; init the channel number 
+; makeEvent:
+    ichnNum  = ichnNum + 1
+    event_i  "i", 3, 0, p3, ichnNum, iCF
+    if ichnNum < iNumC igoto makeEvent
+    endin
+
+; multichannel filter, audio processing
+    instr 3    
+    instance = p4
+    iCF      = p5
+    Sname    sprintf   "Signal_%i", instance        
+    a1       chnget    Sname
+    a1       butterlp  a1, iCF
+             chnset    a1, Sname
+    endin
+\end{lstlisting}  
+
 
 \begin{comment}
 
@@ -290,37 +314,8 @@ Zak channels count from 0, so if you define 1 channel, the only valid channel is
 
 \end{comment} 
 
-% CHANGED: moved to the end of the Csound section instead of after the SuperCollider section -- it was looking like it was all one example [tap]
-% TODO: Below is an excerpt from the Csound multichannel example provided by ¯yvind Brandsegg:
-% TODO: Change tabs to spaces for better text rendering in paper
 
-\begin{lstlisting}
-**************************************************
-; multichannel filter, event handler
-	instr 2
-	iNumC	= p4	; number of channels
-	iCF		= p5		; filter cutoff
-	ichnNum	= 0		; init the channel number
-makeEvent:
-	ichnNum	= ichnNum + 1
-	event_i	"i", 3, 0, p3, ichnNum, iCF
-	if ichnNum < iNumC igoto makeEvent
-	endin
-
-; multichannel filter, audio processing
-	instr 3	
-	instance	= p4
-	iCF			= p5
-	Sname		sprintf	"Signal_%i", instance		
-	a1			chnget	Sname
-	a1			butterlp a1, iCF
-				chnset	a1, Sname
-	endin
-;***************************************************
-\end{lstlisting}  
-
-
-By comparison, SuperCollider has an elegant way of representing multiple channels of audio as arrays. When an array of audio signals is given as input to a unit generator it causes multichannel expansion: multiple copies of the unit generator create an array of unit generators, each processing a different signal from the array of inputs. In the following example a stereo signal containing white and pink noise is filtered:
+SuperCollider has an elegant way of representing multiple channels of audio as arrays. When an array of audio signals is given as input to a unit generator it causes multichannel expansion: multiple copies of the unit generator create an array of unit generators, each processing a different signal from the array of inputs. In the following example a stereo signal containing white and pink noise is filtered:
 
 \begin{lstlisting}
 \ {
@@ -331,7 +326,6 @@ By comparison, SuperCollider has an elegant way of representing multiple channel
 		SOS.ar(p, 1, -1.992, 0.986, 1.992, -0.993, 0.1);
 \ }.play
 \end{lstlisting}
-
 
 
 \begin{comment} % (fold)
@@ -469,7 +463,7 @@ https://ccrma.stanford.edu/~jchrsmt/Compose/Chuck/nchannel18.ck
 
 Jamoma DSP does not define the way in which one must produce signal processing topographies.  Instead, the process of creating objects and connecting them are envisioned and implemented orthogonally and the graph is created using a separate framework known as Jamoma Multicore.  Thanks to this decoupling of Jamoma DSP and Jamoma Multicore we are able to create and use Jamoma DSP unit generators with a number of different graph structures.  Jamoma Multicore is one graph structure that a developer may choose to use\footnote{However unlikely, it is also theoretically possible to use Jamoma Multicore with an alternative unit generator library}.
 
-Max, PD, SuperCollider, Csound, Bidule, AudioMulch, Reaktor, Reason all have have units, but the units can only be used within the particular environment. The units have a proprietary format for unit generators, so there's no interchangeability, and likewise the graph structure is proprietary. While SDKs are available for some of them, for others no SDK exists at all and they are proprietary. Ability to host Audio Units and VST extends these environments, but with limitations.
+Max, Pd, SuperCollider, Csound, Bidule, AudioMulch, Reaktor, Reason all have have units, but the units can only be used within the particular environment. The units have a proprietary format for unit generators, so there's no interchangeability, and likewise the graph structure is proprietary. While SDKs are available for some of them, for others no SDK exists at all and they are proprietary. Ability to host Audio Units and VST extends these environments, but with limitations.
 
 % TODO: Also mention flext, enabling shared code between Max and Pd. Does it still work with Max 5? - TL
 % 			I don't think flext is worth mentioning - TAP
