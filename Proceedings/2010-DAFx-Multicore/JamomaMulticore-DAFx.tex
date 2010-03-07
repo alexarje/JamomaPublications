@@ -169,7 +169,9 @@
 
 \begin{abstract}
 
-Jamoma Multicore is a framework for creating graph structures in which unit generators are connected together to process multichannel audio in real-time.  The main applications currently are processing of multichannel audio signals in Max/MSP and PureData as well as live audio coding in Ruby.  Jamoma Multicore forms part of the Jamoma layered architecture.
+Jamoma Multicore is a framework for creating graph structures in which unit generators are connected together to process multichannel audio in real-time.  
+The main applications currently are processing of multichannel audio signals in Max/MSP and PureData as well as live audio coding in Ruby.  
+Jamoma Multicore forms part of the Jamoma layered architecture.
 
 % particular benefit when dealing with spatial audio
 % especially with a massive number of audio channels (Higher Order Ambisonics, WFS, microphone arrays for beamforming)
@@ -186,7 +188,12 @@ Jamoma Multicore is a framework for creating graph structures in which unit gene
 \section{Introduction} % (fold)
 \label{sec:intro}
 
-Many frameworks, toolkits, and environments for real-time audio processing fuse the issues of creating unit generators with creating graph structures that process audio through those unit generators.  Alternatively, the Jamoma Platform implements a clear separation of concerns, structured in a layered architecture of several frameworks \cite{Place:2010}. Five frameworks currently comprise the Jamoma Platform, providing a comprehensive infrastructure for creating computer music systems. These frameworks are: Jamoma Foundation, Jamoma Graphics, Jamoma Modular, Jamoma DSP, and Jamoma Multicore (see Figure~\ref{fig:layers}). Jamoma Foundation provides low-level support, base classes, and communication systems; Jamoma Graphics provides screen graphics; Jamoma Modular provides a structured approach to development and control of modules in the graphical media environment Max \cite{Place:2006} and Jamoma DSP specializes the Foundation classes to provide a framework for creating a library of unit generators. Jamoma Multicore, the focus of in this paper, is an open source C++ framework providing the ability to create and network Jamoma DSP objects into dynamic graph structures for audio processing\footnote{Licensing is provided under the terms of the GNU LGPL}.  
+Many frameworks, toolkits, and environments for real-time audio processing fuse the issues of creating unit generators with creating graph structures that process audio through those unit generators.  
+Alternatively, the Jamoma Platform implements a clear separation of concerns, structured in a layered architecture of several frameworks \cite{Place:2010}.
+ Five frameworks currently comprise the Jamoma Platform, providing a comprehensive infrastructure for creating computer music systems. 
+ These frameworks are: Jamoma Foundation, Jamoma Graphics, Jamoma Modular, Jamoma DSP, and Jamoma Multicore (see Figure~\ref{fig:layers}). 
+ Jamoma Foundation provides low-level support, base classes, and communication systems; Jamoma Graphics provides screen graphics; Jamoma Modular provides a structured approach to development and control of modules in the graphical media environment Max \cite{Place:2006} and Jamoma DSP specializes the Foundation classes to provide a framework for creating a library of unit generators. 
+ Jamoma Multicore, the focus of in this paper, is an open source C++ framework providing the ability to create and network Jamoma DSP objects into dynamic graph structures for audio processing\footnote{Licensing is provided under the terms of the GNU LGPL}.  
 
 \begin{figure}[htbp]
 \centerline{\framebox{
@@ -202,9 +209,14 @@ Many frameworks, toolkits, and environments for real-time audio processing fuse 
 
 In addition to the decoupling of the unit generators (Jamoma DSP) from the processing graph, Jamoma Multicore differs from other audio graph architectures in several important ways. %NP: do we need this prev. sentence? isn't that clear ? 
 % NP: my suggestion: we should do this section similar to the intro of the DSP paper 1. state our requirements 2. background review 3. explain our solution
- First, the connections between objects in the graphs are multi-channel connections; any given connection may carry N channels of audio.  Second, the content carried by the connections is dynamic; the number of channels, the size of the sample vectors, and the sample-rate of the audio can change during runtime operation.  Third, the type of graph used relies on a \emph{pull} pattern which is readily adapted to multi-threaded parallel calculations.
+ First, the connections between objects in the graphs are multi-channel connections; any given connection may carry N channels of audio.  
+Second, the content carried by the connections is dynamic; the number of channels, the size of the sample vectors, and the sample-rate of the audio can change during runtime operation.  
+Third, the type of graph used relies on a \emph{pull} pattern which is readily adapted to multi-threaded parallel calculations.
 
-An additional design difference between Jamoma Multicore and most other audio processing graph software is the use of a peer object model.  The peer object model abstracts the implementation and execution of the graph from any particular environment or platform.  This allows for Jamoma Multicore to be readily implemented for any number of environments.  To date the authors have created implementations for Max, PureData, Audio Units, and Ruby.
+An additional design difference between Jamoma Multicore and most other audio processing graph software is the use of a peer object model.  
+The peer object model abstracts the implementation and execution of the graph from any particular environment or platform.  
+This allows for Jamoma Multicore to be readily implemented for any number of environments.  
+To date the authors have created implementations for Max, PureData, Audio Units, and Ruby.
 % NP: the term peer object model is unclear to me -- maybe the whole peer-object thing should go into the background
 
 % TODO For list of requirements:  Decoupling Graph and Unit Generator
@@ -238,15 +250,22 @@ An additional design difference between Jamoma Multicore and most other audio pr
 \subsection{Audio Graph Structures} % (fold)
 
 A graph structure is an abstract structure where paths are created between nodes. %NP: what is a node?
- The paths between these nodes then define the data-flow of the graph.  Graphs targeting audio processing employ several patterns and idioms to achieve a balance of efficiency, flexibility, and real-time capability.
+The paths between these nodes then define the data-flow of the graph.  
+Graphs targeting audio processing employ several patterns and idioms to achieve a balance of efficiency, flexibility, and real-time capability.
 
-Environments for processing typically need to address concerns in both synchronous and asynchronous contexts.  Asynchronous communication is required, for example, by MIDI and for driving attributes from DAW automation.  Conversely, realtime processing of audio streams must be handled synchronously.  Most environments, such as CLAM  \cite{Amatraian:2007}, deal with these two types of graphs as separate from each other.  In the Jamoma Platform this is also the case, where Jamoma Multicore comprises the synchronous audio graph concerns.
+Environments for processing typically need to address concerns in both synchronous and asynchronous contexts.  
+Asynchronous communication is required, for example, by MIDI and for driving attributes from DAW automation.  
+Conversely, realtime processing of audio streams must be handled synchronously.  
+Most environments, such as CLAM  \cite{Amatraian:2007}, deal with these two types of graphs as separate from each other.  
+In the Jamoma Platform this is also the case, where Jamoma Multicore comprises the synchronous audio graph concerns.
 % TODO: Is the synchronous/asynchronous a tad to specific here and we are rather thinking in terms of audio rate and control rate? In Csound e.g. we are talking k-rate and a-rate. k-rate is processed at a lower sample rate than a-rate, but to the best of my knowledge is still synced to the audio processing. - TL
 
 % TODO: The following paragraph seems like it is really starting to veer off into implementation and not just background -- tap
 % TODO: maybe we can just cut the block processing part entirely -- does it _really_ matter for the purposes of section 3? -- tap
 
-These synchronous calls encourage or enforce the notion of \emph{frame processing}.  Jamoma Multicore processes blocks of samples at once rather than a single sample at a time.  These blocks of samples are passed using the Jamoma DSP class for audio signals, which bundles vectors of audio for multiple channels together with an interface for accessing the signal data and metadata.
+These synchronous calls encourage or enforce the notion of \emph{frame processing}.  
+Jamoma Multicore processes blocks of samples at once rather than a single sample at a time.  
+These blocks of samples are passed using the Jamoma DSP class for audio signals, which bundles vectors of audio for multiple channels together with an interface for accessing the signal data and metadata.
 
 % This might be conflicting with how Gabor is able to work on vectors of dynamically changing size, e.g. for Yin analysis or whatever it is called...
 
@@ -255,9 +274,13 @@ These synchronous calls encourage or enforce the notion of \emph{frame processin
 
 \subsection{Push vs. Pull} % (fold)
 
-When visualizing a graph for DSP processing, it is common to represent the flow of audio from top to bottom or left to right.  Under the hood, the processing is often implemented in this top-to-bottom flow as well.  Audio at the top of the graph `pushes' down through each subsequent object in the chain until it reaches the bottom.
+When visualizing a graph for DSP processing, it is common to represent the flow of audio from top to bottom or left to right.  
+Under the hood, the processing is often implemented in this top-to-bottom flow as well.  
+Audio at the top of the graph `pushes' down through each subsequent object in the chain until it reaches the bottom.
 
-Alternatively, audio processing may be driven from the bottom of the chain from a `terminal object' or `sink'.  This `pull' method for processing and audio graph is used by several environment's including Apple's AUGraph and ChucK \cite{wang:2008}.  AUGraph and ChucK are subject to certain limitations however: AUGraph does not permit ``fanning'' connections (many inlets connected to one outlet and vice-versa) while ChucK is not multithreaded.
+Alternatively, audio processing may be driven from the bottom of the chain from a `terminal object' or `sink'.  
+This `pull' method for processing and audio graph is used by several environment's including Apple's AUGraph and ChucK \cite{wang:2008}. 
+AUGraph and ChucK are subject to certain limitations however: AUGraph does not permit ``fanning'' connections (many inlets connected to one outlet and vice-versa) while ChucK is not multithreaded.
 
 % TODO: do we need to cite a source or add a footnote for the AUGraph documentation about this fanning thing?
 
@@ -266,14 +289,19 @@ Alternatively, audio processing may be driven from the bottom of the chain from 
 
 \subsection{Multichannel Processing} % (fold)
 
-In many for real-time audio patching environments, such as Max/MSP, PD, Bidule or AudioMulch, audio objects are connected using mono signals. For multichannel spatial processing the patch has to be tailored to the number of sources and speakers. If such programs are considered programming environments and the patch the program, a change in the number of sources or speakers requires a rewrite of the program, not just a change to one or more configuration parameters.
+In many for real-time audio patching environments, such as Max/MSP, PD, Bidule or AudioMulch, audio objects are connected using mono signals. 
+For multichannel spatial processing the patch has to be tailored to the number of sources and speakers. 
+If such programs are considered programming environments and the patch the program, a change in the number of sources or speakers requires a rewrite of the program, not just a change to one or more configuration parameters.
 
 % TODO: do we need citations for Max, Pd, Bidule, and AudioMulch?
 
 % Here's a resource on spatialisation in Pd:
 % http://grh.mur.at/misc/PdSpatialization.tar.gz
 
-In Csound multichannel audio graphing is extended somewhat through the introduction of the Zak Patch System and the "chn" set of opcodes. Zak enables flexible routing from one instrument to another as instruments may be reconfigured in the score without requiring changes to the orchestra \cite{Mikelson:2000} and is used e.g. by the \texttt{vbapz} opcode for multichannel vector-base amplitude panning. The "chn" opcodes allow for accessing a global string-indexed software bus enabling communicating between a host application and the Csound engine, but can also be used for dynamic routing within Csound itself \cite{Yi:2006}. Below is an example of  a simple multichannel filter implementation using named software busses to iterate through the channels:
+In Csound multichannel audio graphing is extended somewhat through the introduction of the Zak Patch System and the "chn" set of opcodes.
+Zak enables flexible routing from one instrument to another as instruments may be reconfigured in the score without requiring changes to the orchestra \cite{Mikelson:2000} and is used e.g. by the \texttt{vbapz} opcode for multichannel vector-base amplitude panning.
+The "chn" opcodes allow for accessing a global string-indexed software bus enabling communicating between a host application and the Csound engine, but can also be used for dynamic routing within Csound itself \cite{Yi:2006}.
+Below is an example of  a simple multichannel filter implementation using named software busses to iterate through the channels:
 
 % Note: This example was provided by ¯yvind Brandsegg. The code have proper spacing when typeset.
 % TODO: I'm currently checking with ¿yvind to ensure that the example manage to take care of xm1, xm2, ym1 and ym2 for each channel from one vector to the next. [TL]
@@ -306,16 +334,25 @@ In Csound multichannel audio graphing is extended somewhat through the introduct
 
 From the Csound Manual:
 
-The zak opcodes are used to create a system for i-rate, k-rate or a-rate patching. The zak system can be thought of as a global array of variables. These opcodes are useful for performing flexible patching or routing from one instrument to another. The system is similar to a patching matrix on a mixing console or to a modulation matrix on a synthesizer. It is also useful whenever an array of variables is required. 
+The zak opcodes are used to create a system for i-rate, k-rate or a-rate patching. 
+The zak system can be thought of as a global array of variables. 
+These opcodes are useful for performing flexible patching or routing from one instrument to another. 
+The system is similar to a patching matrix on a mixing console or to a modulation matrix on a synthesizer. 
+It is also useful whenever an array of variables is required. 
 
-The zak system is initialized by the zakinit opcode, which is usually placed just after the other global initializations: sr, kr, ksmps, nchnls. The zakinit opcode defines two areas of memory, one area for i- and k-rate patching, and the other area for a-rate patching. The zakinit opcode may only be called once. Once the zak space is initialized, other zak opcodes can be used to read from, and write to the zak memory space, as well as perform various other tasks. 
+The zak system is initialized by the zakinit opcode, which is usually placed just after the other global initializations: sr, kr, ksmps, nchnls. 
+The zakinit opcode defines two areas of memory, one area for i- and k-rate patching, and the other area for a-rate patching. 
+The zakinit opcode may only be called once. 
+Once the zak space is initialized, other zak opcodes can be used to read from, and write to the zak memory space, as well as perform various other tasks. 
 
 Zak channels count from 0, so if you define 1 channel, the only valid channel is channel 0. 
 
 \end{comment} 
 
 
-SuperCollider has an elegant way of representing multiple channels of audio as arrays. When an array of audio signals is given as input to a unit generator it causes multichannel expansion: multiple copies of the unit generator create an array of unit generators, each processing a different signal from the array of inputs. In the following example a stereo signal containing white and pink noise is filtered:
+SuperCollider has an elegant way of representing multiple channels of audio as arrays. 
+When an array of audio signals is given as input to a unit generator it causes multichannel expansion: multiple copies of the unit generator create an array of unit generators, each processing a different signal from the array of inputs. 
+In the following example a stereo signal containing white and pink noise is filtered:
 
 \begin{lstlisting}
 \ {
@@ -461,9 +498,15 @@ https://ccrma.stanford.edu/~jchrsmt/Compose/Chuck/nchannel18.ck
 
 \subsection{Decoupling Graph and Unit Generator} % (fold)
 
-Jamoma DSP does not define the way in which one must produce signal processing topographies.  Instead, the process of creating objects and connecting them are envisioned and implemented orthogonally and the graph is created using a separate framework known as Jamoma Multicore.  Thanks to this decoupling of Jamoma DSP and Jamoma Multicore we are able to create and use Jamoma DSP unit generators with a number of different graph structures.  Jamoma Multicore is one graph structure that a developer may choose to use\footnote{However unlikely, it is also theoretically possible to use Jamoma Multicore with an alternative unit generator library}.
+Jamoma DSP does not define the way in which one must produce signal processing topographies.  
+Instead, the process of creating objects and connecting them are envisioned and implemented orthogonally and the graph is created using a separate framework known as Jamoma Multicore.  
+Thanks to this decoupling of Jamoma DSP and Jamoma Multicore we are able to create and use Jamoma DSP unit generators with a number of different graph structures.  
+Jamoma Multicore is one graph structure that a developer may choose to use\footnote{However unlikely, it is also theoretically possible to use Jamoma Multicore with an alternative unit generator library}.
 
-Max, Pd, SuperCollider, Csound, Bidule, AudioMulch, Reaktor, Reason all have have units, but the units can only be used within the particular environment. The units have a proprietary format for unit generators, so there's no interchangeability, and likewise the graph structure is proprietary. While SDKs are available for some of them, for others no SDK exists at all and they are proprietary. Ability to host Audio Units and VST extends these environments, but with limitations.
+Max, Pd, SuperCollider, Csound, Bidule, AudioMulch, Reaktor, Reason all have have units, but the units can only be used within the particular environment. 
+The units have a proprietary format for unit generators, so there's no interchangeability, and likewise the graph structure is proprietary. 
+While SDKs are available for some of them, for others no SDK exists at all and they are proprietary. 
+Ability to host Audio Units and VST extends these environments, but with limitations.
 
 % TODO: Also mention flext, enabling shared code between Max and Pd. Does it still work with Max 5? - TL
 % 			I don't think flext is worth mentioning - TAP
@@ -479,7 +522,9 @@ Max, Pd, SuperCollider, Csound, Bidule, AudioMulch, Reaktor, Reason all have hav
 
 \subsection{Structure} % (fold)
 
-Jamoma Multicore is a framework \footnote{We use the term framework in a generic sense, as a dynamically linked library together with supporting source and an API.} implementing a synchronous multichannel audio processing graph driven using a pull methodology.  This is accomplished through the creation of a node class for the graph, \texttt{TTMulticoreObject}, which wraps a unit generator with other supporting objects.  \texttt{TTMulticoreObject} then manages these instances and the information necessary to pull samples from its sources.
+Jamoma Multicore is a framework \footnote{We use the term framework in a generic sense, as a dynamically linked library together with supporting source and an API.} implementing a synchronous multichannel audio processing graph driven using a pull methodology.  
+This is accomplished through the creation of a node class for the graph, \texttt{TTMulticoreObject}, which wraps a unit generator with other supporting objects.  
+\texttt{TTMulticoreObject} then manages these instances and the information necessary to pull samples from its sources.
 
 % TODO: in the figure we should label the white box with the rounded corners as TTMulticoreObject -- TAP
 
@@ -490,9 +535,15 @@ Jamoma Multicore is a framework \footnote{We use the term framework in a generic
 \label{fig:anatomy}
 \end{figure}
 
-Figure \ref{fig:anatomy} shows these classes and how they are related. In the figure an object is connected to three upstream objects, and to two downstream objects, with all connections being multichannel.  A connection between objects can be considered to be a many-to-many association; each outlet can be connected to many inlets, and each inlet can be connected to many outlets. The source objects represented by $s0$, $s1$, etc. can then be considered as join tables representing each connection in the many-to-many relationship individually.
+Figure \ref{fig:anatomy} shows these classes and how they are related. 
+In the figure an object is connected to three upstream objects, and to two downstream objects, with all connections being multichannel. 
+A connection between objects can be considered to be a many-to-many association; each outlet can be connected to many inlets, and each inlet can be connected to many outlets. 
+The source objects represented by $s0$, $s1$, etc. can then be considered as join tables representing each connection in the many-to-many relationship individually.
 
-The architecture of \texttt{TTMulticoreObject} is layered: the Multicore object itself only knows about its inlets; the inlets only know about their sources (joins); the sources know about what object and from which outlet they are connected. In the figure this is illustrated by the object having four inlets. Two multichannel sources $s0$ and $s1$ are connected to the first inlet $in0$, two to the second, and so on. In short:
+The architecture of \texttt{TTMulticoreObject} is layered: the Multicore object itself only knows about its inlets; the inlets only know about their sources (joins); the sources know about what object and from which outlet they are connected. 
+In the figure this is illustrated by the object having four inlets. 
+Two multichannel sources $s0$ and $s1$ are connected to the first inlet $in0$, two to the second, and so on. 
+In short:
 
 				A graph has many objects.\\
 \indent	An object has many inlets.\\
@@ -507,18 +558,33 @@ The architecture of \texttt{TTMulticoreObject} is layered: the Multicore object 
 
 \subsection{Building the Graph} % (fold)
 
-For processing to occur, the connections of the graph must be established and the graph readied for operation.  This is done by first passing a source object and the outlet and inlet number of the connection to the downstream object's \texttt{connect()} method.  Similarly, connections may be cut by passing the same information to the downstream object's \texttt{drop()} method.  Connections may be created or cut at any time before, after, or during the graph being processed.  There is no global signal chain compilation; the graph may dynamically change over the course of a performance.
+For processing to occur, the connections of the graph must be established and the graph readied for operation.  
+This is done by first passing a source object and the outlet and inlet number of the connection to the downstream object's \texttt{connect()} method.  
+Similarly, connections may be cut by passing the same information to the downstream object's \texttt{drop()} method.  
+Connections may be created or cut at any time before, after, or during the graph being processed.  
+There is no global signal chain compilation; the graph may dynamically change over the course of a performance.
 
 % (end)
 
 
 \subsection{Processing the Graph} % (fold)
 
-All processing is driven by the object at the end of the processing chain according to a two step process.  First, a `preprocess' method is propagated up the chain from the terminal object.  This zeroes buffers and sets flags that indicate each object's processing state.  It is of no consequence if an object receives multiple preprocess calls, such as would happen if there are multiple terminal nodes.
+All processing is driven by the object at the end of the processing chain according to a two step process.  
+First, a `preprocess' method is propagated up the chain from the terminal object.  
+This zeroes buffers and sets flags that indicate each object's processing state.  
+It is of no consequence if an object receives multiple preprocess calls, such as would happen if there are multiple terminal nodes.
 
-Since Jamoma Multicore is using a pull-based architecture, an object's \emph{outlets} are passive.  They are simply buffers storing the output calculated by the wrapped unit generator.  The unit generator is simply an instance of a Jamoma DSP class, specified as an argument when the \texttt{TTMulticoreObject} is instantiated.  This unit generator is responsible for actually calculating the audio to be stored by the outlet buffers.
+Since Jamoma Multicore is using a pull-based architecture, an object's \emph{outlets} are passive.  
+They are simply buffers storing the output calculated by the wrapped unit generator.  
+The unit generator is simply an instance of a Jamoma DSP class, specified as an argument when the \texttt{TTMulticoreObject} is instantiated. 
+This unit generator is responsible for actually calculating the audio to be stored by the outlet buffers.
 
-Unlike the outlets, the \emph{inlets} are active.  When asked for a vector of audio by the unit generator, they then each request audio from all of their sources (other objects' outlets).  If an inlet has multiple sources, those sources are summed.  When all of the inlets have performed this operation, then the unit generator proceeds to process the audio buffered in the inlets and fills the buffers in the outlets.  Sources manage a one-to-one connection between an inlet and an outlet; inlets may have zero or more sources.  To summarize:
+Unlike the outlets, the \emph{inlets} are active.  
+When asked for a vector of audio by the unit generator, they then each request audio from all of their sources (other objects' outlets).  
+If an inlet has multiple sources, those sources are summed.  
+When all of the inlets have performed this operation, then the unit generator proceeds to process the audio buffered in the inlets and fills the buffers in the outlets.  
+Sources manage a one-to-one connection between an inlet and an outlet; inlets may have zero or more sources.  
+To summarize:
 
 With the objects in the graph prepared by the \texttt{preprocess()} call, the audio can be pulled from the graph by a terminal object using the \texttt{process()} call on each of its sources.
 
@@ -533,8 +599,7 @@ With the objects in the graph prepared by the \texttt{preprocess()} call, the au
 \subsection{Graph Description} % (fold)
 
 Given a Jamoma Multicore graph, the topology can also be traversed for purposes other than directly calculating audio.  
-Any node in a Jamoma Multicore graph can be queried to create a description.  The returned \texttt{TTMulticoreDescription} object will then provide 
-metadata about the entire graph as seen through that object's inlets.  
+Any node in a Jamoma Multicore graph can be queried to create a description.  The returned \texttt{TTMulticoreDescription} object will then provide metadata about the entire graph as seen through that object's inlets.  
 There are many applications of this description, including visual representation of the graph, statistical analysis, and cross-coding.
 
 % (end)
@@ -582,9 +647,13 @@ Show it working in Max/MSP
 \subsubsection{Jamoma Modular} % (fold)
 A strong component of the Jamoma Modular framework is the provision of ready-to-use building blocks for sound spatialization \cite{Peters:2009}.
 To pass multichannel signals between these modules, Jamoma has been using a simple patching hack that wraps multiple MSP signals into a multichannel cable. Within each module, this multichannel connection was then unwrapped in order that audio signals could be processed. 
-Figure \ref{fig:max-before-after}(a) shows the signal processing patch of the Jamoma module for spatializing incomming sounds using Vector Base Amplitude Panning (VBAP) \cite{Pulkki:1997vbap}. According to the user-defined number of incoming (to be spatialized) sounds and number of loudspeakers, the internal mixing matrix and its connections were dynamically scripted which can create certain stress on Max for time critical situations. Furthermore a change in the DSP structure requires a rebuild of the DSP chain.   
+Figure \ref{fig:max-before-after}(a) shows the signal processing patch of the Jamoma module for spatializing incomming sounds using Vector Base Amplitude Panning (VBAP) \cite{Pulkki:1997vbap}. 
+According to the user-defined number of incoming (to be spatialized) sounds and number of loudspeakers, the internal mixing matrix and its connections were dynamically scripted which can create certain stress on Max for time critical situations. 
+Furthermore a change in the DSP structure requires a rebuild of the DSP chain.   
 
-Jamoma Multicore externals are currently subsequently introduced into Jamoma Modular to simplify and the spatialization modules and make them more robust because scripting can be entirely avoided. Figure \ref{fig:max-before-after}(b) shows a new version of the patch from Figure \ref{fig:max-before-after}(a), employing the new Jamoma Multicore Audio Graph. The new object jcom.matrix$\approx$ performs mixing operations between the audio streams of the incoming multicable and outputs the audio feeds for each loudspeaker. 
+Jamoma Multicore externals are currently subsequently introduced into Jamoma Modular to simplify and the spatialization modules and make them more robust because scripting can be entirely avoided. 
+Figure \ref{fig:max-before-after}(b) shows a new version of the patch from Figure \ref{fig:max-before-after}(a), employing the new Jamoma Multicore Audio Graph. 
+The new object jcom.matrix$\approx$ performs mixing operations between the audio streams of the incoming multicable and outputs the audio feeds for each loudspeaker. 
 
 \vspace{1cm}
        
@@ -609,7 +678,8 @@ Dynamic number of channels (perhaps useful for FFT and spectral processing?)
 
 % (end)
 
-One difference to Max/MSP and Pd is that the signal network can be reconfigured dynamically without requiring a 'recompile' of the signal chain.  This is addressed through Jamoma Multicore -- Jamoma DSP is low level and is agnostic about how objects are combined into a network or topology.
+One difference to Max/MSP and Pd is that the signal network can be reconfigured dynamically without requiring a 'recompile' of the signal chain.  
+This is addressed through Jamoma Multicore -- Jamoma DSP is low level and is agnostic about how objects are combined into a network or topology.
 
 However, objects can be recombined and structured at runtime, offering the same kind of flexibility and "expressive power".
 % TODO: Where shall these two sentences go? to the Max section or PD section? [NP] 
@@ -618,7 +688,9 @@ However, objects can be recombined and structured at runtime, offering the same 
 
 \subsection{PureData (PD)} % (fold)
 
-Jamoma Multicore was also implemented for Pure Data which is essentially similar to Jamoma Multicore for Max/MSP. The most obvious difference between Multicore for Pure Data and Max may be the slightly different external names, having '=' instead of '$\approx$' appended as an indicator for multichannel signal streams. Figure \ref{fig:pd} demonstrates the use of Jamoma Multicore in PD for passing 4 channels through a chain for processing, taking advantage of the multichannel patch cord connections.  
+Jamoma Multicore was also implemented for Pure Data which is essentially similar to Jamoma Multicore for Max/MSP. 
+The most obvious difference between Multicore for Pure Data and Max may be the slightly different external names, having '=' instead of '$\approx$' appended as an indicator for multichannel signal streams. 
+Figure \ref{fig:pd} demonstrates the use of Jamoma Multicore in PD for passing 4 channels through a chain for processing, taking advantage of the multichannel patch cord connections.  
 
 \begin{figure}[htbp]
 \centerline{\framebox{
@@ -632,7 +704,11 @@ Jamoma Multicore was also implemented for Pure Data which is essentially similar
 
 \subsection{Ruby} % (fold)
 
-As mentioned, Jamoma Multicore is ideally suited for use in many different environments. This includes not only graphical environments, but textual environments as well.  The authors have created an implementation of Jamoma Multicore for the Ruby language environment.  Ruby is offers a wealth of application areas include web development using Ruby On Rails\footnote{http://rubyonrails.org} and Live Coding\cite{Collins:2003} using \emph{irb}.  The following listing demonstrates a simple \emph{irb} session:
+As mentioned, Jamoma Multicore is ideally suited for use in many different environments. 
+This includes not only graphical environments, but textual environments as well.  
+The authors have created an implementation of Jamoma Multicore for the Ruby language environment.  
+Ruby is offers a wealth of application areas include web development using Ruby On Rails\footnote{http://rubyonrails.org} and Live Coding\cite{Collins:2003} using \emph{irb}.  
+The following listing demonstrates a simple \emph{irb} session:
 
 \begin{lstlisting}
   require 'TTRuby'
@@ -652,9 +728,12 @@ By using Jamoma Multicore in the Ruby environment for Live Coding users are able
 
 \subsection{Cross-Coding} %(fold)
 
-Using the capabilities of a graph to produce a description of itself, we are able port code across environments in a variety of formats.  For example, we have implemented functions that export a graph created in Max to a Ruby source file.  Likewise we can export from a Ruby source file to Pd and from a Pd canvas to C++ code.  
+Using the capabilities of a graph to produce a description of itself, we are able port code across environments in a variety of formats.  
+For example, we have implemented functions that export a graph created in Max to a Ruby source file.  
+Likewise we can export from a Ruby source file to Pd and from a Pd canvas to C++ code.  
 
-The ability to export code/patcher/canvas/document from any supported environment to any other supported environment offers great flexibility, not only for code generation and prototyping, but for freedom in sharing work across platforms and with colleagues.  The currently supported export formats are: Max 5 patcher, C++ source code, Ruby source code, PureData.
+The ability to export code/patcher/canvas/document from any supported environment to any other supported environment offers great flexibility, not only for code generation and prototyping, but for freedom in sharing work across platforms and with colleagues.  
+The currently supported export formats are: Max 5 patcher, C++ source code, Ruby source code, PureData.
 
 % (end)
 
@@ -676,16 +755,22 @@ The ability to export code/patcher/canvas/document from any supported environmen
 
 \subsection{Multiple Simultaneous Graphs} % (fold)
 
-By it's nature, a Multicore graph is defined as all objects connected together into a graph structure terminating at a terminal object that drives the graph.  There is no limitation on how many of these graphs may exist independently, and simultaneously, in any environment.  As these graphs are fully-independent of each other they may run at different rates, in different threads, and addressing different hardware.  The independent graphs may even run side-by-side with one running in real-time while another is operating out of real time.
+By it's nature, a Multicore graph is defined as all objects connected together into a graph structure terminating at a terminal object that drives the graph.  
+There is no limitation on how many of these graphs may exist independently, and simultaneously, in any environment.  
+As these graphs are fully-independent of each other they may run at different rates, in different threads, and addressing different hardware.  The independent graphs may even run side-by-side with one running in real-time while another is operating out of real time.
 
 % (end)
 
 
 \subsection{Multithreading} % (fold)
 
-The structure of Jamoma Multicore is ideal for distributing processing of the graph amongst parallel threads.  Currently it is already possible run separate graphs on separate threads.  More powerful and dynamic opportunities arise when a graph itself is distributed to parallel threads.  
+The structure of Jamoma Multicore is ideal for distributing processing of the graph amongst parallel threads.  
+Currently it is already possible run separate graphs on separate threads.  
+More powerful and dynamic opportunities arise when a graph itself is distributed to parallel threads.  
 
-The authors are continuing to explore ways by which integrated analysis and benchmarking can be made a part of nodes on the graph.  The data generated by this instrumentation can then drive thread-spawning decisions in real-time, particularly where bifurcations of the graph are present.  We hope that this intelligent and adaptive multithreading will be able to maximize performance on multi-processor hardware.
+The authors are continuing to explore ways by which integrated analysis and benchmarking can be made a part of nodes on the graph.  
+The data generated by this instrumentation can then drive thread-spawning decisions in real-time, particularly where bifurcations of the graph are present.  
+We hope that this intelligent and adaptive multithreading will be able to maximize performance on multi-processor hardware.
 
 %    - multithreading where applicable
 %    - pragmatic multithreading: real-time statistics for optimizing between different processors
@@ -715,7 +800,9 @@ The authors are continuing to explore ways by which integrated analysis and benc
 
 \subsection{Implicit Patching} % (fold)
 
-Currently all connections in a Jamoma Multicore graph are managed manually.  We have begun investigating means connecting many objects according to patterns rather than explicitly creating and destroying each individual connection.  The ``implicit patching'' paradigm of Marsyas provides an example of the power of operating on collections of objects \cite{Bray:2005}.
+Currently all connections in a Jamoma Multicore graph are managed manually.  
+We have begun investigating means connecting many objects according to patterns rather than explicitly creating and destroying each individual connection.  
+The ``implicit patching'' paradigm of Marsyas provides an example of the power of operating on collections of objects \cite{Bray:2005}.
 
 % unit generators are added to a collection and their interaction with the signal processing graph is determined according to a pattern such as 'series', 'fanout', etc. \cite{Bray:2005}.
 
@@ -727,7 +814,8 @@ Currently all connections in a Jamoma Multicore graph are managed manually.  We 
 
 \subsection{Dynamic vector sizes} % (fold)
 
-One example the demonstrates the need for dynamic vectorsizes is the gabor.psola.pat example from FTM. Also granular approaches may benefit (for example, implementing some of the ideas from Curtis Roads' engine).
+One example the demonstrates the need for dynamic vectorsizes is the gabor.psola.pat example from FTM. 
+Also granular approaches may benefit (for example, implementing some of the ideas from Curtis Roads' engine).
 
 % (end)
 
@@ -796,7 +884,9 @@ We rock.
 
 \section{Acknowledgments}
 
-The authors wish to thank the University of Oslo for hosting the workshop during which the initial architecture of Jamoma Multicore was designed. Initial development was supported by The Municipality of Bergen.  We additionally thank Pascal Baltazar and everyone at GMEA for hosting a spatialization workshop during which the design of Jamoma Multicore was reviewed and heavily revised, and \O yvind Brandsegg and Jeff Carey for providing valuable insight into processing of multichannel signals in Csound and SuperCollider respectively.
+The authors wish to thank the University of Oslo for hosting the workshop during which the initial architecture of Jamoma Multicore was designed. 
+Initial development was supported by The Municipality of Bergen.  
+We additionally thank Pascal Baltazar and everyone at GMEA for hosting a spatialization workshop during which the design of Jamoma Multicore was reviewed and heavily revised, and \O yvind Brandsegg and Jeff Carey for providing valuable insight into processing of multichannel signals in Csound and SuperCollider respectively.
 
 % TODO: Add that Jeff Carey was helpful in getting SuperCollider arrays sorted out?
 
