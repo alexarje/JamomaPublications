@@ -303,8 +303,8 @@ Zak enables flexible routing from one instrument to another as instruments may b
 The "chn" opcodes allow for accessing a global string-indexed software bus enabling communicating between a host application and the Csound engine, but can also be used for dynamic routing within Csound itself \cite{Yi:2006}.
 Below is an example of  a simple multichannel filter implementation using named software busses to iterate through the channels:
 
-% Note: This example was provided by �yvind Brandsegg. The code have proper spacing when typeset.
-% TODO: I'm currently checking with �yvind to ensure that the example manage to take care of xm1, xm2, ym1 and ym2 for each channel from one vector to the next. [TL]
+% Note: This example was provided by Øyvind Brandsegg. The code have proper spacing when typeset.
+% TODO: I'm currently checking with øyvind to ensure that the example manage to take care of xm1, xm2, ym1 and ym2 for each channel from one vector to the next. [TL]
 
 \begin{lstlisting}
 ; multichannel filter, event handler 
@@ -551,7 +551,7 @@ In short:
 \indent	A source has many channels.\\
 
 % From Rails book:
-% Within the database, many-to-many associations are implemented using an intermediate join table. This contains foreign key pairs linking the two target tables. Active Record assumes that this join table’s name is the concatenation of the two target table names in alphabetical order. In our example, we joined the table categories to the table products, so Active Record will look for a join table named categories_products.
+% Within the database, many-to-many associations are implemented using an intermediate join table. This contains foreign key pairs linking the two target tables. Active Record assumes that this join table‚Äôs name is the concatenation of the two target table names in alphabetical order. In our example, we joined the table categories to the table products, so Active Record will look for a join table named categories_products.
 
 % (end)
 
@@ -719,9 +719,18 @@ The following listing demonstrates a simple \emph{irb} session:
   osc.set "frequency", 220.0
 \end{lstlisting}
 
-By using Jamoma Multicore in the Ruby environment for Live Coding users are able to access all of the benefits of using a popular, general purpose language while at the same time gaining access to many of the benefits of a domain specific language for musical performance such as ChucK
+By using Jamoma Multicore in the Ruby environment for Live Coding users are able to access all of the benefits of using a popular, general purpose language while at the same time gaining access to many of the benefits of a domain specific language for musical performance such as ChucK.
 
 % TODO: Are there any published articles specifically about using irb for live coding performance?
+
+All features of Jamoma Multicore can be accessed in real time through a web browser using Ruby on Rails.  Through the use of AJAX, interactive widgets can populate a dynamic interface in a web-browser for real time control of parameters, as in the screenshot below.
+
+\begin{figure}[htbp]
+\centerline{\framebox{
+	\includegraphics[width=0.7\columnwidth]{multicore-rails}}}
+\caption{Jamoma Multicore graph operating in a Ruby on Rails application through a web browser}
+\label{fig:rails}
+\end{figure}
 
 % (end)
 
@@ -745,7 +754,7 @@ The currently supported export formats are: Max 5 patcher, C++ source code, Ruby
 
 \section{Discussion and Future Work} % (fold)
 
-% TODO: we need an object like out‚âà that drives a graph outside of real time to fill a buffer~ or jit.matrix
+% TODO: we need an object like out‚Äö√¢√† that drives a graph outside of real time to fill a buffer~ or jit.matrix
 % TODO: trond or nils -- do you have some interesting applications of the above?
 % TODO: If we are presenting a graph system, should we discuss the potential (if any) for expanding this from being a graph system for audio processing, to video processing or other kinds of time-tagged data, along the line of e.g. Max/Jitter, QuartzComposer or Octane?
 % TODO: Discuss the potential for work on spatialisation, and further work in this direction...
@@ -871,7 +880,7 @@ We rock.
 %	I'm most intrigued by this statement, and would be happy to hear more about it in your paper:
 %
 %		"Perhaps more important, but more difficult to quantify,
-%		we believe we have created a context in which code is ‚ pleas-
+%		we believe we have created a context in which code is ‚Äö pleas-
 %		ant to work with."
 %
 %		This seems to be an increasingly important criterion, especially if (as I believe) we're evolving to a much more porous and flexible continuum across data-flow, scripting, and compiled coding as different entry points for musicians, depending on what they need to do. 
