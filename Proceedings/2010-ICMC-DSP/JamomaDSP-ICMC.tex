@@ -141,7 +141,7 @@ For the course of the paper, the usage of various computer science jargon and te
 
 \textbf{Introspection} refers to the ability to determine the characteristics of an object at runtime.  This means that when handed a pointer in C++, we can take the pointer and query for an object's name, its type or \emph{class}, the messages that it understands, the attributes it possesses, etc.  By extension, \textbf{reflection} refers to the ability to then modify the behavior of an object at runtime \cite{Malenfant:1996}.  In practical terms this means adding messages, changing attributes, over-riding audio processing methods, and extending existing instances of objects as the software is executing and without stopping the software to re-compile the code.
 
-Introspection and reflection are often implemented by making use of a \textbf{dynamic binding model}.  Programming languages such as C++ and Java link function and method calls when a program is compiled, which is known as static binding.  A dynamically bound model does not link these functions at compile-time, but instead waits until a method is called at runtime to resolve its address.  For this reason, we say we are `sending messages' to objects when using a dynamic binding model.  Dynamic binding is the hallmark of languages such as Smalltalk \cite{Krasner:1988}, Objective-C \cite{Cox:1986}, and Ruby.
+Introspection and reflection are often implemented by making use of a \textbf{dynamic binding model}.  Programming languages such as C++ and Java link function and method calls when a program is compiled, which is known as static binding.  A dynamically bound model does not link these functions at compile-time, but instead waits until a method is called at runtime to resolve its address.  For this reason, we say we are `sending messages' to objects when using a dynamic binding model.  Dynamic binding is the hallmark of Smalltalk \cite{Krasner:1988}, Objective-C \cite{Cox:1986}, and Ruby.
 
 A confusing gaggle of terminology exists for classifying systems of objects throughout the literature of the computer music field.  These include \emph{framework}, \emph{library}, \emph{environment}, and \emph{toolkit}.  For the purposes of this paper the following definitions will be used.  
 A \textbf{unit generator} is a class or object that implements a well-defined DSP task such as generating, analyzing, or processing audio data.
@@ -208,7 +208,7 @@ Another class of languages are domain-specific languages for audio signal proces
 .  
 These domain-specific languages do provide facilities both for creating and using Unit Generators, but often have portability limitations and very frequently have licensing limitations\footnote{ChucK and SuperCollider are examples licensed as GPL and not available for commercial development, while Max/MSP is not available on embedded devices nor in plug-in host environments (besides Ableton Live)}.  These environments also frequently have a large footprint in that they are very resource demanding, while we desire a light-weight framework with a minimum of dependencies.
 
-The C++ language and its compilers are ubiquitous across platforms.  Plug-ins and extensions for sundry environments and languages can be compiled using C and C++.  The C++ language is also capable of creating extremely high-performance code optimized for digital signal processing.
+The C++ language and its compilers are ubiquitous across platforms and capable of creating extremely high-performance code optimized for digital signal processing. Plug-ins and extensions for sundry environments and languages can be compiled using C and C++. 
 
 % (end)
 
@@ -281,8 +281,7 @@ In the end we found no one framework to possess all of the requirements set fort
 
 \subsection{A Layered Framework Structure}
 
-It is common to organize software frameworks into a number of layers from low level system services at the bottom towards higher level abstraction at the top.  Frameworks may build upon and extend frameworks below them in the hierarchy, but the lower frameworks have no knowledge of the higher frameworks. Divisions between the frameworks help to establish clarity as to what functionalities belong to which part of the system. 
-
+It is common to organize software frameworks into a number of layers from low level system services at the bottom towards higher level abstraction at the top.  Frameworks may build upon and extend frameworks below them in the hierarchy, but the lower frameworks have no knowledge of the higher frameworks. Divisions between the frameworks help to establish clarity as to what functionalities belong to which part of the system.  
 Examples of such layered architectures are the Open Systems Interconnection network model (OSI) \cite{web6} 
 for layered communications and computer network protocol design or the iPhone Software Architecture. A similar layered approach has been proposed by the authors for spatialization systems \cite{Peters:2009}. 
 
@@ -459,7 +458,7 @@ Jamoma DSP includes further example projects wrapping classes for PureData and S
 
 \section{Discussion and Future Work} % (fold)
 
-The class wrapper demonstrated in Section \ref{sec:classwrapper} illustrates the power of the Jamoma Foundation for use as a rapid prototyping environment.  It leverages all of the features of dynamic binding to make classes available to many different environments on many platforms with a minimal amount of coding and effort required.  We can combine objects together in the environment of our choice: Max, Pd, DAWs by means of plug-ins, or a web-browser using Ruby on Rails.  This allows for easily moving code from one environment to another.  In the future the class wrappers can be expanded to cover even more environments, including VST, SuperCollider, and CSound.
+The class wrapper demonstrated in Section \ref{sec:classwrapper} illustrates the power of the Jamoma Foundation for use as a rapid prototyping environment.  It leverages all of the features of dynamic binding to make classes available to many different environments on many platforms with a minimal amount of coding and effort required.  We can combine objects together in the environment of our choice: Max, Pd, DAWs by means of plug-ins, or a web-browser using Ruby on Rails.  This allows for easy code transfer between environments.  In the future the class wrappers can be expanded to cover even more environments, including VST, SuperCollider, and CSound.
 
 % What we left out in the above paragraph is that we can combine objects in these environments to find something desireable and then back-port what we find into C++.
 
@@ -486,7 +485,7 @@ The GNU LGPL license chosen for the Jamoma frameworks have enabled them to be us
 
 Jamoma Foundation and DSP provide a flexible, user-extendable, runtime environment for creating and using audio and digital signal processing objects.  Due to its advanced use of dynamic binding and message-passing paradigm, the building blocks can be reconfigured at runtime without requiring re-compilation.  The unit generators themselves are compiled as C++, and by performing block-processing we retain the performance characteristics of a compiled language.
 
-Perhaps more important, but more difficult to quantify, we believe we've created a context in which code is `pleasant to work with'.  As stated by Lerch, ``A well-defined API can also speed up the development process, since the implementation can focus more on the algorithmic aspects and less on implementation issues like API design.'' \cite{Lerch:2005}
+Perhaps more important, but more difficult to quantify, we believe we have created a context in which code is `pleasant to work with'.  As stated in \cite{Lerch:2005}, ``A well-defined API can also speed up the development process, since the implementation can focus more on the algorithmic aspects and less on implementation issues like API design.'' 
 
 The power of this runtime is demonstrated through the ability to compile objects for Max, Pd, AudioUnits, VST, and Jamoma Multicore.
 
@@ -497,7 +496,7 @@ The power of this runtime is demonstrated through the ability to compile objects
 
 \section{Acknowledgements} % (fold)
 
-The authors would like to thank Dave Watson, Th\'eo Delahogue, Tristan Mathews, and Joshua Kit Clayton for their feedback and contributions to the development of Jamoma DSP.
+We would like to thank Dave Watson, Th\'eo de la Hogue, Tristan Matthews, and Joshua Kit Clayton for their feedback and contributions to the development of Jamoma DSP.
 
 % (end)
 
