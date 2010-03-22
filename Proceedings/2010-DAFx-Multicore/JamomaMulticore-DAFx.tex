@@ -76,7 +76,13 @@
 \lstset{tabsize=2}  
 \lstset{gobble=2}							% eat the first tab in block listings
 \lstset{aboveskip=\bigskipamount}			% amount of space above a block listing
-\lstset{belowskip=\bigskipamount}			% ...
+\lstset{belowskip=\bigskipamount}			% ... 
+\newenvironment{packed_item}{
+\begin{itemize}
+  \setlength{\itemsep}{1pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}
+}{\end{itemize}}
 %%
 \setcounter{page}{1}
 \ninept
@@ -203,17 +209,30 @@ Alternatively, the Jamoma Platform implements a clear separation of concerns, st
 \end{figure}
 
 
-\subsubsection{Requierements}
+\subsubsection{Requirements}
 % Nils is suggesting that we don't launch in here to say what is different about our stuff, but rather say what we are trying to accomplish [tap]
 % Stronger to be able to state what we want -- just a matter of re-phrasing the following.
+\begin{packed_item}
 
-In addition to the decoupling of the unit generators (Jamoma DSP) from the processing graph, Jamoma Multicore differs from other audio graph architectures in several important ways. %NP: do we need this prev. sentence? isn't that clear ? 
+\item{Multichannel audio streams within one audio graph connection}
+\item{Allowing different sample-rates and vector sizes simultaneously}  
+\item{Live coding and dynamic modification of an audio graph at runtime}    
+\item{Sending information about the channel's audio content as meta data}  
+\item{Cross-platform}
+\item{Exporting the Audio Graph to different Programming Languages}
+\item{Allowing for multi-threaded parallel audio processing}
+
+   
+\end{packed_item}	
+
+% In addition to the decoupling of the unit generators (Jamoma DSP) from the processing graph, Jamoma Multicore differs from other audio graph architectures in several important ways. %NP: do we need this prev. sentence? isn't that clear ? 
 % NP: my suggestion: we should do this section similar to the intro of the DSP paper 1. state our requirements 2. background review 3. explain our solution
- First, the connections between objects in the graphs are multi-channel connections; any given connection may carry N channels of audio.  
-Second, the content carried by the connections is dynamic; the number of channels, the size of the sample vectors, and the sample-rate of the audio can change during runtime operation.  
-Third, the type of graph used relies on a \emph{pull} pattern which is readily adapted to multi-threaded parallel calculations.
+%% First, the connections between objects in the graphs are multi-channel connections; any given connection may carry N channels of audio.  
+%%Second, the content carried by the connections is dynamic; the number of channels, the size of the sample vectors, and the sample-rate of the audio can change during runtime operation.  
+%Third, the type of graph used relies on a \emph{pull} pattern which is readily adapted to multi-threaded parallel calculations.
 
-An additional design difference between Jamoma Multicore and most other audio processing graph software is the use of a peer object model.  
+In order to meet the stated requirements, the Jamoma audio graph layer relies on a \emph{pull} pattern (see Section XYZ TODO: ) and is designed to be independent from the host environment's DSP scheduler as much as possible.
+An additional design decision is the use of a ``peer object model".  
 The peer object model abstracts the implementation and execution of the graph from any particular environment or platform.  
 This allows for Jamoma Multicore to be readily implemented for any number of environments.  
 To date the authors have created implementations for Max, PureData, Audio Units, and Ruby.
@@ -640,14 +659,14 @@ Show it working in Max/MSP
 {\framebox{\includegraphics[height=0.24\textheight]{jalg-sur-vbap-before.png}}} \hspace{0.7cm}
 \subfigure[With Multicore]
 {\framebox{\includegraphics[height=0.24\textheight]{jalg-sur-vbap-after.png}}}
-\caption{The Jamoma signal processing Max patch for Vector Based Amplitude Panning (VBAP)}
+\caption{The Jamoma signal processing Max patch for Vector Base Amplitude Panning (VBAP)}
 \label{fig:max-before-after}
 \end{figure*}
 
 \subsubsection{Jamoma Modular} % (fold)
 A strong component of the Jamoma Modular framework is the provision of ready-to-use building blocks for sound spatialization \cite{Peters:2009}.
 To pass multichannel signals between these modules, Jamoma has been using a simple patching hack that wraps multiple MSP signals into a multichannel cable. Within each module, this multichannel connection was then unwrapped in order that audio signals could be processed. 
-Figure \ref{fig:max-before-after}(a) shows the signal processing patch of the Jamoma module for spatializing incomming sounds using Vector Base Amplitude Panning (VBAP) \cite{Pulkki:1997vbap}. 
+Figure \ref{fig:max-before-after}(a) shows the signal processing patch of the Jamoma module for spatializing incoming sounds using Vector Base Amplitude Panning (VBAP) \cite{Pulkki:1997vbap}. 
 According to the user-defined number of incoming (to be spatialized) sounds and number of loudspeakers, the internal mixing matrix and its connections were dynamically scripted which can create certain stress on Max for time critical situations. 
 Furthermore a change in the DSP structure requires a rebuild of the DSP chain.   
 
