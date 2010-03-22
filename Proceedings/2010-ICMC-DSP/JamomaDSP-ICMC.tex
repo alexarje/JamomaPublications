@@ -215,7 +215,7 @@ The C++ language and its compilers are ubiquitous across platforms and capable o
 
 \subsection{Plug-in APIs} % (fold)
 
-A related subject is the creation of audio plug-ins using existing APIs.  VST, RTAS, LADSSPA/DSSI, and AudioUnits are all APIs for creating UnitGenerators in C/C++.  None of these technologies, however, meet our requirements.  None are actually libraries, though there is a standard set of the non-cross-platform AudioUnit plug-ins provided by Apple.
+A related subject is the creation of audio plug-ins using existing APIs.  VST, RTAS, LADSPA/DSSI, and AudioUnits are all APIs for creating UnitGenerators in C/C++.  None of these technologies, however, meet our requirements.  None are actually libraries, though there is a standard set of the non-cross-platform AudioUnit plug-ins provided by Apple.
 
 % (end)
 
@@ -462,7 +462,7 @@ The class wrapper demonstrated in Section \ref{sec:classwrapper} illustrates the
 
 % What we left out in the above paragraph is that we can combine objects in these environments to find something desireable and then back-port what we find into C++.
 
-The Jamoma frameworks are all user-extensible through the creation of extension classes that are loaded and registered at runtime.  We are continuing to add support for more audio processing algorithms in the Jamoma DSP, including spectral processing and granulation. We also plan to add support for additional spatialization algoritms such as VBAP \cite{Pulkki:1997vbap}, ambisonics \cite{Gerzon:1974surround, Poletti:2000holographic_sound} and DBAP \cite{Lossius:2009} to support ongoing development on spatialisation within Jamoma Modular \cite{Peters:2009}.
+The Jamoma frameworks are all user-extensible through the creation of extension classes that are loaded and registered at runtime.  We are continuing to add support for more audio processing algorithms in the Jamoma DSP, including spectral processing and granulation. We also plan to add support for additional spatialization algorithms such as VBAP \cite{Pulkki:1997vbap}, Ambisonics \cite{Gerzon:1974surround, Poletti:2000holographic_sound} and DBAP \cite{Lossius:2009} to support ongoing development on spatialization within Jamoma Modular \cite{Peters:2009}.
 
 % Initial work on a scheduler for the DSP library was begun in 2007.  Competing priorities have left it unfinished...  More interesting models for scheduling, such as the the model implemented in ChucK provide impetus for further research into new approaches to this topic.  We would like a sample-accurate scheduler like ChucK, but in a multi-threaded environment we will have a difficult time...
 
