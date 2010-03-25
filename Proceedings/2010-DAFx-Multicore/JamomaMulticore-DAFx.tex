@@ -637,26 +637,29 @@ There are many applications of this description, including visual representation
 
 \subsection{Max/MSP} % (fold)
 
-Show it working in Max/MSP
+A number of Max externals for multi-channel audio processing in Max have been developed using the Jamoma Multicore and DSP frameworks. 
+The multichannel signals are represented using ordinary patch chords in the Max environment. 
+Interfacing between MSP and Multicore is facilitated by the externals jcom.pack$\approx$ and jcom.unpack$\approx$, packing and unpacking multiple MSP audio signals onto and off a multichannel signal. 
+jcom.adc$\approx$ and jcom.dac$\approx$ offers additional possibilities for direct audio input and output using PortAudio \cite{Bencina:2003}. 
+A number of multi-channel audio generators for noise and common waveforms are available.
+Two or more multi-channel signals might be intertwined into one joint multi-channel signal and separated again using jcom.join$\approx$ and jcom.split$\approx$.
+The sample rate and vector size used for Multicore processing as well as the number of channels in a multi-channel signal can be inspected using jcom.info$\approx$.
+The various units available in the Jamoma DSP filter and audio effects libraries can readily be wrapped into Multicore externals for Max.
+jcom.fft$\approx$ and jcom.window$\approx$ offers additional possibilities for spectral processing of multi-channel signals.
+% TODO: Are further details required, e.g. on how to deal with complex signals (complex = complex numbers)?
+
+
 
 Trond brainstorming:
 
-- interfacing with MSP: jcom.pack$\approx$ and jcom.unpack$\approx$
-
-- splice and slice: jcom.join$\approx$, jcom.split$\approx$
-
-- audio in/out using PortAudio: jcom.adc$\approx$  and jcom.dac$\approx$ (do we need reference for PortAudio?)
-
-- audio generators: jcom.noise$\approx$, jcom.phasor$\approx$, jcom.wavetable$\approx$
-
-- multichannel audioFX: jcom.op$\approx$, jcom.dcblocker$\approx$, jcom.degrade$\approx$, jcom.delay$\approx$, jcom.filter$\approx$, jcom.limiter$\approx$, jcom.overdrive$\approx$, jcom.pulsesub$\approx$
-
-- spectral: jcom.fft$\approx$, jcom.window$\approx$
-
+% DONE - interfacing with MSP: jcom.pack$\approx$ and jcom.unpack$\approx$
+% DONE - splice and slice: jcom.join$\approx$, jcom.split$\approx$
+% DONE - audio in/out using PortAudio: jcom.adc$\approx$  and jcom.dac$\approx$ (do we need reference for PortAudio?)
+% DONE - audio generators: jcom.noise$\approx$, jcom.phasor$\approx$, jcom.wavetable$\approx$
+% - multichannel audioFX: jcom.op$\approx$, jcom.dcblocker$\approx$, jcom.degrade$\approx$, jcom.delay$\approx$, jcom.filter$\approx$, jcom.limiter$\approx$, jcom.overdrive$\approx$, jcom.pulsesub$\approx$
+% - spectral: jcom.fft$\approx$, jcom.window$\approx$
 - gain, mixing and matrix-based spatilisation: jcom.gain$\approx$, jcom.matrix$\approx$, jcom.matrixmixer$\approx$,  
-
-- info: jcom.info$\approx$
-
+% - info: jcom.info$\approx$
 
 % TODO: need a screenshot demonstrating multi-channel
 
