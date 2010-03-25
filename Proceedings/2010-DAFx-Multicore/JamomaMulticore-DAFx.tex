@@ -231,7 +231,7 @@ Alternatively, the Jamoma Platform implements a clear separation of concerns, st
 %%Second, the content carried by the connections is dynamic; the number of channels, the size of the sample vectors, and the sample-rate of the audio can change during runtime operation.  
 %Third, the type of graph used relies on a \emph{pull} pattern which is readily adapted to multi-threaded parallel calculations.
 
-In order to meet the stated requirements, the Jamoma audio graph layer relies on a \emph{pull} pattern (see Section XYZ TODO: ) and is designed to be independent from the host environment's DSP scheduler as much as possible.
+In order to meet the stated requirements, the Jamoma audio graph layer relies on a \emph{pull} pattern (see section~\ref{sec:pull}) and is designed to be independent from the host environment's DSP scheduler as much as possible.
 An additional design decision is the use of a ``peer object model".  
 The peer object model abstracts the implementation and execution of the graph from any particular environment or platform.  
 This allows for Jamoma Multicore to be readily implemented for any number of environments.  
@@ -291,7 +291,7 @@ These blocks of samples are passed using the Jamoma DSP class for audio signals,
 % (end)
 
 
-\subsection{Push vs. Pull} % (fold)
+\subsection{Push vs. Pull} \label{sec:pull} % (fold)
 
 When visualizing a graph for DSP processing, it is common to represent the flow of audio from top to bottom or left to right.  
 Under the hood, the processing is often implemented in this top-to-bottom flow as well.  
