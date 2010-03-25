@@ -317,13 +317,12 @@ If such programs are considered programming environments and the patch the progr
 % Here's a resource on spatialisation in Pd:
 % http://grh.mur.at/misc/PdSpatialization.tar.gz
 
-In Csound multichannel audio graphing is extended somewhat through the introduction of the Zak Patch System and the "chn" set of opcodes.
-Zak enables flexible routing from one instrument to another as instruments may be reconfigured in the score without requiring changes to the orchestra \cite{Mikelson:2000} and is used e.g. by the \texttt{vbapz} opcode for multichannel vector-base amplitude panning.
-The "chn" opcodes allow for accessing a global string-indexed software bus enabling communicating between a host application and the Csound engine, but can also be used for dynamic routing within Csound itself \cite{Yi:2006}.
+In Csound multichannel audio graphing is extended somewhat through the introduction of the ``chn'' set of opcodes.
+% Zak enables flexible routing from one instrument to another as instruments may be reconfigured in the score without requiring changes to the orchestra \cite{Mikelson:2000} and is used e.g. by the \texttt{vbapz} opcode for multichannel vector-base amplitude panning.
+The ``chn'' opcodes allow for accessing a global string-indexed software bus enabling communicating between a host application and the Csound engine, but can also be used for dynamic routing within Csound itself \cite{Yi:2006}.
 Below is an example of  a simple multichannel filter implementation using named software busses to iterate through the channels:
 
 % Note: This example was provided by Øyvind Brandsegg. The code have proper spacing when typeset.
-% TODO: I'm currently checking with øyvind to ensure that the example manage to take care of xm1, xm2, ym1 and ym2 for each channel from one vector to the next. [TL]
 
 \begin{lstlisting}
 ; multichannel filter, event handler 
