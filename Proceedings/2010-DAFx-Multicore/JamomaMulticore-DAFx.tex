@@ -682,9 +682,9 @@ Trond brainstorming:
 \begin{figure*}[!t]
 \centering
 \subfigure[Without Multicore, using MSP audio signals for 16 inputs and 12 loudspeakers] 
-{\framebox{\includegraphics[height=0.24\textheight]{jalg-sur-vbap-before.png}}} \hspace{0.7cm}
+{\framebox{\includegraphics[height=0.28\textheight]{jalg-sur-vbap-before.png}}} \hspace{0.7cm}
 \subfigure[With Multicore]
-{\framebox{\includegraphics[height=0.24\textheight]{jalg-sur-vbap-after.png}}}
+{\framebox{\includegraphics[height=0.28\textheight]{jalg-sur-vbap-after.png}}}
 \caption{The Jamoma signal processing Max patch for Vector Base Amplitude Panning (VBAP)}
 \label{fig:max-before-after}
 \end{figure*}
@@ -693,7 +693,7 @@ Trond brainstorming:
 A strong component of the Jamoma Modular framework is the provision of ready-to-use building blocks for sound spatialization \cite{Peters:2009}.
 To pass multichannel signals between these modules, Jamoma has been using a simple patching hack that wraps multiple MSP signals into a multichannel cable. Within each module, this multichannel connection was then unwrapped in order that audio signals could be processed. 
 Figure \ref{fig:max-before-after}(a) shows the signal processing patch of the Jamoma module for spatializing incoming sounds using Vector Base Amplitude Panning (VBAP) \cite{Pulkki:1997vbap}. 
-According to the user-defined number of incoming (to be spatialized) sounds and number of loudspeakers, the internal mixing matrix and its connections were dynamically scripted which can create certain stress on Max for time critical situations. 
+According to the user-defined number of incoming (to be spatialized) sounds and number of outgoing audio feeds (number of loudspeakers), the internal mixing matrix and its connections were dynamically scripted which can create certain stress on Max for time critical situations.   
 Furthermore a change in the DSP structure requires a rebuild of the DSP chain.   
 
 Jamoma Multicore externals are currently subsequently introduced into Jamoma Modular to simplify and the spatialization modules and make them more robust because scripting can be entirely avoided. 
@@ -739,8 +739,8 @@ Figure \ref{fig:pd} demonstrates the use of Jamoma Multicore in PD for passing 4
 
 \begin{figure}[htbp]
 \centerline{\framebox{
-	\includegraphics[width=0.7\columnwidth]{multicore-pd}}}
-\caption{Simple PD document processing 4 channels with Jamoma Multicore}
+	\includegraphics[width=0.9\columnwidth]{multicore-pd}}}
+\caption{PD patch, processing 4 channels with Jamoma Multicore}
 \label{fig:pd}
 \end{figure}
 
@@ -942,8 +942,7 @@ The authors wish to thank the University of Oslo for hosting the workshop during
 Initial development was supported by The Municipality of Bergen.  
 We additionally thank Pascal Baltazar and everyone at GMEA for hosting a spatialization workshop during which the design of Jamoma Multicore was reviewed and heavily revised, and \O yvind Brandsegg and Jeff Carey for providing valuable insight into processing of multichannel signals in Csound and SuperCollider respectively.
 
-% TODO: Add that Jeff Carey was helpful in getting SuperCollider arrays sorted out?
-
+% TODO: IOhannes Zm\"olnig for PD support 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
