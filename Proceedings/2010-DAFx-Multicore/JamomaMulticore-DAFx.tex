@@ -674,7 +674,7 @@ jcom.fft$\approx$ and jcom.window$\approx$ offers additional possibilities for s
 Several objects are available for level control and mixing. 
 jcom.gain$\approx$ can be used to control gain level for multichannel signals, while jcom.matrix$\approx$ offers $M \times N$ matrix-based mixing of the $M$ channels of the incomming signal onto the $N$ channels of the resulting signal. This can e.g. be used for various amplitude-based spatialisation algorithms such as VBAP \cite{Pulkki:1997vbap}, DBAP \cite{lossius:2009} and ambisonics \cite{Schacher:2006ambi_max}.
 Finally jcom.matrixmixer$\approx$ offers possibility of mixing $M$ incomming multichannel signals onto $N$ returned multichannel signal.
-This combined mixer/router is still rudimentary, and for the time being assumes all incoming and returned signal to have the samme number of channels.
+This combined mixer/router is still rudimentary, and for the time being assumes all incoming and returned signal to have the same number of channels.
 
 % TODO: Finish of this section by referencing \ref{fig:max-before-after}, how it illustrates MSP to Multicore bridging, matrix, FX and output using PortAudio. Also comment on how much simpler it is to reconfigure the number of speakers: We now only need to change attribute values in jcom.matrix≈ and jcom.dbap, instead of having to do repatching.
 
