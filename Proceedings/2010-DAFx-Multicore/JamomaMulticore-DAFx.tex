@@ -658,17 +658,16 @@ Interfacing between MSP and Multicore is facilitated by the externals jcom.pack$
 jcom.adc$\approx$ and jcom.dac$\approx$ offers additional possibilities for direct audio input and output using PortAudio \cite{Bencina:2003}. 
 Two or more multi-channel signals might be intertwined into one joint multi-channel signal and separated again using jcom.join$\approx$ and jcom.split$\approx$.
 The sample rate and vector size used for Multicore processing as well as the number of channels in a multi-channel signal can be inspected using jcom.info$\approx$.
+
 A number of multi-channel audio generators for e.g. noise and common waveforms are available, and this set of generators can easily be extended.
 The various units available in the Jamoma DSP filter and audio effects libraries can readily be wrapped into Multicore externals for Max.
 jcom.fft$\approx$ and jcom.window$\approx$ offers additional possibilities for spectral processing of multi-channel signals.
 % TODO: Are further details required, e.g. on how to deal with complex signals (complex = complex numbers)?
+Several objects are available for level control and mixing. 
+jcom.gain$\approx$ can be used to control gain level for multichannel signals, while jcom.matrix$\approx$ offers $M \times N$ matrix-based mixing of the $M$ channels of the incomming signal onto the $N$ channels of the resulting signal. This can e.g. be used for various amplitude-based spatialisation algorithms such as VBAP \cite{Pulkki:1997vbap}, DBAP \cite{lossius:2009} and ambisonics \cite{Schacher:2006ambi_max}.
+Finally jcom.matrixmixer$\approx$ offers possibility of mixing $M$ incomming multichannel signals onto $N$ returned multichannel signal.
+This combined mixer/router is still rudimentary, and for the time being assumes all incoming and returned signal to have the samme number of channels.
 
-
-
-Trond brainstorming:
-
-- gain, mixing and matrix-based spatilisation: jcom.gain$\approx$, jcom.matrix$\approx$, jcom.matrixmixer$\approx$,  
-% - info: jcom.info$\approx$
 
 % TODO: need a screenshot demonstrating multi-channel
 
