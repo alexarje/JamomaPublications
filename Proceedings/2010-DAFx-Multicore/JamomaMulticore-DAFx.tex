@@ -652,8 +652,8 @@ There are many applications of this description, including visual representation
 
 % TODO: seems like the names of the Max objects should stylized somehow?  texttt or bold face or italic ???
 
-A number of Max externals for multi-channel audio processing in Max have been developed using the Jamoma Multicore and DSP frameworks. 
-The multi-channel signals are represented using ordinary patch chords in the Max environment. 
+A number of externals for multi-channel audio processing in Max/MSP have been developed using the Jamoma Multicore and DSP frameworks. 
+The Max environment represents the multi-channel signals as ordinary patch chords. 
 Interfacing between MSP and Multicore is facilitated by the externals jcom.pack$\approx$ and jcom.unpack$\approx$, packing and unpacking multiple MSP audio signals onto and off a multi-channel signal. 
 jcom.adc$\approx$ and jcom.dac$\approx$ offers additional possibilities for direct audio input and output using PortAudio \cite{Bencina:2003}. 
 Two or more multi-channel signals might be intertwined into one joint multi-channel signal and separated again using jcom.join$\approx$ and jcom.split$\approx$.
