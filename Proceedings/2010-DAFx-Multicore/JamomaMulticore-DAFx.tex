@@ -641,7 +641,8 @@ A number of Max externals for multi-channel audio processing in Max have been de
 The multi-channel signals are represented using ordinary patch chords in the Max environment. 
 Interfacing between MSP and Multicore is facilitated by the externals jcom.pack$\approx$ and jcom.unpack$\approx$, packing and unpacking multiple MSP audio signals onto and off a multi-channel signal. 
 jcom.adc$\approx$ and jcom.dac$\approx$ offers additional possibilities for direct audio input and output using PortAudio \cite{Bencina:2003}. 
-A number of multi-channel audio generators for noise and common waveforms are available.
+A number of multi-channel audio generators for e.g. noise and common waveforms are available.
+This set of generators can easily be extended.
 Two or more multi-channel signals might be intertwined into one joint multi-channel signal and separated again using jcom.join$\approx$ and jcom.split$\approx$.
 The sample rate and vector size used for Multicore processing as well as the number of channels in a multi-channel signal can be inspected using jcom.info$\approx$.
 The various units available in the Jamoma DSP filter and audio effects libraries can readily be wrapped into Multicore externals for Max.
