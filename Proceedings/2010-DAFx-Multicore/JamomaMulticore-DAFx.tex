@@ -15,7 +15,7 @@
 % (with the distiller) or if compiled with pdflatex.
 %
 % 20060205: added package 'hypcap' to correct hyperlinks to figures and tables
-%                      use of \papertitle and \paperauthorA, etc for same title in PDF and Metadata
+%                      use of \papertitle and \paperauthorA, etc for same title in PdF and Metadata
 %
 % 1) Please compile using latex or pdflatex.
 % 2) If using pdflatex, you need your figures in a file format other than eps! e.g. png or jpg is working
@@ -88,7 +88,7 @@
 \ninept
 
 \usepackage{times}
-% Saves a lot of ouptut space in PDF... after conversion with the distiller
+% Saves a lot of ouptut space in PdF... after conversion with the distiller
 % Delete if you cannot get PS fonts working on your system.
 
 % pdf-tex settings: detect automatically if run by latex or pdflatex
@@ -198,7 +198,7 @@ Jamoma Multicore forms part of the Jamoma layered architecture.
 
 \section{Introduction} % (fold)
 \label{sec:intro}
-
+TODO: I feel that we don't really say WHY we develop this framework. We develop this because .......... 
 % TODO: Do we need to mention the Jamoma Graph environment as well and update the figure below?
 
 Many frameworks, toolkits, and environments for real-time audio processing fuse the issues of creating unit generators with creating graph structures that process audio through those unit generators.  
@@ -219,6 +219,7 @@ Alternatively, the Jamoma Platform implements a clear separation of concerns, st
 
 
 \subsubsection{Requirements}
+According to the outlined main applications and the functionalities provided by the co-existing Jamoma frameworks (Figure \ref{fig:layers}), the Jamoma Multicore Audio Graph Layer has the following requierements: 
 % Nils is suggesting that we don't launch in here to say what is different about our stuff, but rather say what we are trying to accomplish [tap]
 % Stronger to be able to state what we want -- just a matter of re-phrasing the following.
 
@@ -320,7 +321,7 @@ AUGraph and ChucK are subject to certain limitations however: AUGraph does not p
 
 \subsection{Multichannel Processing} % (fold)
 
-In many real-time audio patching environments, such as Max/MSP, PD, Bidule or AudioMulch, audio objects are connected using mono signals. 
+In many real-time audio patching environments, such as Max/MSP, Pd, Bidule or AudioMulch, audio objects are connected using mono signals. 
 For multichannel spatial processing the patch has to be tailored to the number of sources and speakers. 
 If such programs are considered programming environments and the patch the program, a change in the number of sources or speakers requires a rewrite of the program, not just a change to one or more configuration parameters.
 
@@ -735,20 +736,20 @@ One difference to Max/MSP and Pd is that the signal network can be reconfigured 
 This is addressed through Jamoma Multicore -- Jamoma DSP is low level and is agnostic about how objects are combined into a network or topology.
 
 However, objects can be recombined and structured at runtime, offering the same kind of flexibility and "expressive power".
-% TODO: Where shall these two sentences go? to the Max section or PD section? [NP] 
+% TODO: Where shall these two sentences go? to the Max section or Pd section? [NP] 
 % (end)
 
 
-\subsection{PureData (PD)} % (fold)
+\subsection{PureData (Pd)} % (fold)
 
 Jamoma Multicore was also implemented for Pure Data which is essentially similar to Jamoma Multicore for Max/MSP. 
 The most obvious difference between Multicore for Pure Data and Max may be the slightly different external names, having '=' instead of '$\approx$' appended as an indicator for multichannel signal streams. 
-Figure \ref{fig:pd} demonstrates the use of Jamoma Multicore in PD for passing 4 channels through a chain for processing, taking advantage of the multichannel patch cord connections.  
+Figure \ref{fig:pd} demonstrates the use of Jamoma Multicore in Pd for passing 4 channels through a chain for processing, taking advantage of the multichannel patch cord connections.  
 
 \begin{figure}[htbp]
 \centerline{\framebox{
 	\includegraphics[width=0.9\columnwidth]{multicore-pd}}}
-\caption{PD patch, processing 4 channels with Jamoma Multicore}
+\caption{Pd patch, processing 4 channels with Jamoma Multicore}
 \label{fig:pd}
 \end{figure}
 
@@ -881,6 +882,11 @@ Also granular approaches may benefit (for example, implementing some of the idea
 
 % (end)
 
+\subsection{Efficiency}
+not very optimized right now, due to the early state of the project\\
+
+making a comparison between MSP and multicore
+
 Brainstorming for discussion:
 
 
@@ -950,7 +956,7 @@ The authors wish to thank the University of Oslo for hosting the workshop during
 Initial development was supported by The Municipality of Bergen.  
 We additionally thank Pascal Baltazar and everyone at GMEA for hosting a spatialization workshop during which the design of Jamoma Multicore was reviewed and heavily revised, and \O yvind Brandsegg and Jeff Carey for providing valuable insight into processing of multichannel signals in Csound and SuperCollider respectively.
 
-% TODO: IOhannes Zm\"olnig for PD support 
+% TODO: IOhannes Zm\"olnig for Pd support 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
