@@ -650,9 +650,17 @@ There are many applications of this description, including visual representation
 
 \subsection{Max/MSP} % (fold)
 
-% TODO: seems like the names of the Max objects should stylized somehow?  texttt or bold face or italic ???
+\begin{figure*}[!t]
+\centering
+\subfigure[Without Multicore, using MSP audio signals for 3 inputs and 16 loudspeakers] 
+{\framebox{\includegraphics[height=0.225\textheight]{MaxBefore.png}}} \hspace{0.4cm}
+\subfigure[With Multicore]
+{\framebox{\includegraphics[height=0.225\textheight]{MaxAfter.png}}}
+\caption{The Jamoma signal processing Max patch for Distance Based Amplitude Panning (DBAP)}
+\label{fig:max-before-after}
+\end{figure*}
 
-A number of externals for multi-channel audio processing in Max/MSP have been developed using the Jamoma Multicore and DSP frameworks. 
+A number of externals for multi-channel audio processing in Max have been developed using the Jamoma Multicore and DSP frameworks. 
 The Max environment represents the multi-channel signals as ordinary patch chords. 
 Interfacing between MSP and Multicore is facilitated by the externals jcom.pack$\approx$ and jcom.unpack$\approx$, packing and unpacking multiple MSP audio signals onto and off a multi-channel signal. 
 jcom.adc$\approx$ and jcom.dac$\approx$ offers additional possibilities for direct audio input and output using PortAudio \cite{Bencina:2003}. 
@@ -668,34 +676,17 @@ jcom.gain$\approx$ can be used to control gain level for multichannel signals, w
 Finally jcom.matrixmixer$\approx$ offers possibility of mixing $M$ incomming multichannel signals onto $N$ returned multichannel signal.
 This combined mixer/router is still rudimentary, and for the time being assumes all incoming and returned signal to have the samme number of channels.
 
+% TODO: Finish of this section by referencing \ref{fig:max-before-after}, how it illustrates MSP to Multicore bridging, matrix, FX and output using PortAudio. Also comment on how much simpler it is to reconfigure the number of speakers: We now only need to change attribute values in jcom.matrix≈ and jcom.dbap, instead of having to do repatching.
 
-% TODO: need a screenshot demonstrating multi-channel
-
-
-%\begin{figure}[htbp]
-%\centerline{\framebox{
-%	\includegraphics[width=0.9\columnwidth]{jalg-sur-vbap-sans-multicore}}}
-%\caption{Max patcher without multicore}
-%\label{fig:max-before}
-%\end{figure}
-
-
-%\begin{figure}[htbp]
-%\centerline{\framebox{
-%	\includegraphics[width=0.9\columnwidth]{jalg-sur-vbap-avec-multicore}}}
-%\caption{Max patcher with Multicore}
-%\label{fig:max-after}
-%\end{figure}
-
-\begin{figure*}[!t]
-\centering
-\subfigure[Without Multicore, using MSP audio signals for 16 inputs and 12 loudspeakers] 
-{\framebox{\includegraphics[height=0.28\textheight]{jalg-sur-vbap-before.png}}} \hspace{0.7cm}
-\subfigure[With Multicore]
-{\framebox{\includegraphics[height=0.28\textheight]{jalg-sur-vbap-after.png}}}
-\caption{The Jamoma signal processing Max patch for Vector Base Amplitude Panning (VBAP)}
-\label{fig:max-before-after}
-\end{figure*}
+%\begin{figure*}[!t]
+%\centering
+%\subfigure[Without Multicore, using MSP audio signals for 16 inputs and 12 loudspeakers] 
+%{\framebox{\includegraphics[height=0.28\textheight]{jalg-sur-vbap-before.png}}} \hspace{0.7cm}
+%\subfigure[With Multicore]
+%{\framebox{\includegraphics[height=0.28\textheight]{jalg-sur-vbap-after.png}}}
+%\caption{The Jamoma signal processing Max patch for Vector Base Amplitude Panning (VBAP)}
+%\label{fig:max-before-after}
+%\end{figure*}
 
 \subsubsection{Jamoma Modular} % (fold)
 A strong component of the Jamoma Modular framework is the provision of ready-to-use building blocks for sound spatialization \cite{Peters:2009}.
