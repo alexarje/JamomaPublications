@@ -832,7 +832,7 @@ In the following we will discuss Multicore in relation to development and mainte
 
 % (end)
 
-\subsubsection{Patch development efficiency} % (fold)
+\subsubsection{Audio graph patching} % (fold)
 
 - multicore in Max/Jamoma makes life so much easier....
 - easier/faster to create easier/faster to maintain -- changing the number of channels does *not* require a change to the program
@@ -889,6 +889,8 @@ We hope that this intelligent and adaptive multithreading will be able to maximi
 % \ /
 %  C
 
+% TANGA provides and interesting environment because the audio engine is explicitly multi-threaded and thus multi-core capable\cite{Reiter:2007}.  However, it doesn't fit the bill because it is targeted at one context: MPEG-4 scene rendering.  We need something more general.  And it doesn't matter because we are thread-agnostic.
+
 % (end)
 % (end)
 
@@ -932,7 +934,7 @@ The ``implicit patching'' paradigm of Marsyas provides an example of the power o
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Mighty Mixer} % (fold)
+\subsection{Improving support for work on spatial audio} % (fold)
 
 - ability to work individually on the audio channels is currently limited (e.g. to apply a different filter to each channel of a signal)
 - how do we dynamically change the number of channels on the fly within one mulichannel signal? use a jcom.matrix=, jcom.split=, add a jcom.duplicate= ? 
@@ -988,9 +990,6 @@ We rock.
 % TODO: Also talk about the Jamoma Graph thing?
 
 % TODO: Grand Central Dispatch (GCD) is now open source, is this relevant?
-
-% TANGA provides and interesting environment because the audio engine is explicitly multi-threaded and thus multi-core capable\cite{Reiter:2007}.  However, it doesn't fit the bill because it is targeted at one context: MPEG-4 scene rendering.  We need something more general.  And it doesn't matter because we are thread-agnostic.
-
 
 % unit generators are added to a collection and their interaction with the signal processing graph is determined according to a pattern such as 'series', 'fanout', etc. \cite{Bray:2005}.
 
