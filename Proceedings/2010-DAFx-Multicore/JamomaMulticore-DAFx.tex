@@ -804,48 +804,48 @@ In the following we will discuss Multicore in relation to development and mainte
 
 \subsubsection{Code design}
 
-
-
 - maintabability
 - documented code
 - code efficiency
 - testing
 
-
 \subsubsection{Patch development efficiency}
 
+- multicore in Max/Jamoma makes life so much easier....
+- easier/faster to create easier/faster to maintain -- changing the number of channels does *not* require a change to the program
+- much less code
+- flexibility moving between mono, stereo and 5.1, don't have to make 3 different versions of the same mopule (DRY)
+- generalised modules for spatial audio that work with any source and speaker configuration
+- ability to export to other environments (C++, Pd, Ruby)
+- Integra is striving somehow for a similar cross-coding....
+
 \subsubsection{Performance}
+
+CPU concerns:
+
+- not very optimized right now, due to the early state of the project
+
+Other performance concerns:
+
+- performance is a question of CPU use, but also how it performs in other senses....
+- dynamic patching without breaking audio
+- benefit of live coding paradigm:
+    - performance patch: be able to create and delete subpatches on the fly depending on what's required for different parts of the performance
+    - alternative way of freeing up CPU to the mute~ or poly~ approach in MSP
+    - will it be easier to make polyphonic synths (one obejct can make several instances internally, and then get them all onto the same multicable)
+    - polyphonic synthesis: voices are represented as dynamically changing channels in a portion of the graph, which are mixed at the end using a matrix=. Sort of similar to what Csound do: Creatind and destroying instrument instances as needed rather than having a fixed number of voices (the way poly~ have)
+
 
 \subsubsection{Multithreading}
 
 
 ------- Notes to start off from
 
-not very optimized right now, due to the early state of the project\\
-
-making a comparison between MSP and multicore
-
-Brainstorming for discussion:
-
-
-- multicore in Max/Jamoma makes life so much easier....
-    - dynamic patching without breaking audio
-    - easier/faster to create easier/faster to maintain -- changing the number of channels does *not* require a change to the program
-    - much less code 
-    - flexibility moving between mono, stereo and 5.1, don't have to make 3 different versions of the same mopule (DRY)
-    - generalised modules for spatial audio that work with any source and speaker configuration
-    - ability to export to other environments (C++, Pd, Ruby)
-    - Integra is striving somehow for a similar cross-coding....
-
 - ability to work individually on the audio channels is currently limited (e.g. to apply a different filter to each channel of a signal)
 - how do we dynamically change the number of channels on the fly within one mulichannel signal? use a jcom.matrix=, jcom.split=, add a jcom.duplicate= ? 
 - can multicore cabels contain additional meta-information (attributes, dictionaries....)
 - encoded audio? (AAC, mp3-surround, DIRAC) , or ... does multicore only works with PCM audio ? -- we need to be able to specify stream-format metadata (also for 7.1 vs 8-channel)
 - how we do upmixing/downmixing of channels ? 
-- benefit of live coding paradigm:
-    - performance patch: be able to create and delete subpatches on the fly depending on what's required for different parts of the performance
-    - alternative way of freeing up CPU to the mute~ or poly~ approach in MSP
-    - will it be easier to make polyphonic synths (one obejct can make several instances internally, and then get them all onto the same multicable)
     - spatialization - currently prototyped:
         - VBAP: matrix= so no scripting, 
             numSource -> numInputs
@@ -859,7 +859,7 @@ Brainstorming for discussion:
         - also into future: same for ViMiC combining matrix=, delays, etc.
         - we have a prototype implementation in Nils' object (userLib->Vimic->jmod.sur.sourceControl.maxhelp)
         - ideal environment for spectral processing (changing signals into the native FFT size)
-    - polyphonic synthesis: voices are represented as dynamically changing channels in a portion of the graph, which are mixed at the end using a matrix=
+
     - similar for granulation.... (creating/destroying grains on-the-fly, dynamic vector sizes)
         - Trond making things difficult: Would we somehow need to ID-tag each channel, so that a filter downstream from a saw generator recognize which channel it is dealing with
 
