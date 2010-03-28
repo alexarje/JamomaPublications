@@ -870,37 +870,9 @@ Other performance concerns:
 
 \subsubsection{Multithreading} % (fold)
 
-
-------- Notes to start off from
-
-- ability to work individually on the audio channels is currently limited (e.g. to apply a different filter to each channel of a signal)
-- how do we dynamically change the number of channels on the fly within one mulichannel signal? use a jcom.matrix=, jcom.split=, add a jcom.duplicate= ? 
-- can multicore cabels contain additional meta-information (attributes, dictionaries....)
-- encoded audio? (AAC, mp3-surround, DIRAC) , or ... does multicore only works with PCM audio ? -- we need to be able to specify stream-format metadata (also for 7.1 vs 8-channel)
-- how we do upmixing/downmixing of channels ? 
-    - spatialization - currently prototyped:
-        - VBAP: matrix= so no scripting, 
-            numSource -> numInputs
-            numSpeakers -> numOutputs
-        - todo: ramping
-        - future: making spatialisation objects will contain an instance of the matrix= object
-        - this way we have access to spatialisation in all environments
-            (and some of them are available only in some of the environments)
-        - even more into future: matrixmixer (mighty mixer): creates one instance for each inlet to outlet coupling
-                                    check out the IEM CUBEmixer  http://ambisonics.iem.at/xchange/products/cubemixer
-        - also into future: same for ViMiC combining matrix=, delays, etc.
-        - we have a prototype implementation in Nils' object (userLib->Vimic->jmod.sur.sourceControl.maxhelp)
-        - ideal environment for spectral processing (changing signals into the native FFT size)
-
-    - similar for granulation.... (creating/destroying grains on-the-fly, dynamic vector sizes)
-        - Trond making things difficult: Would we somehow need to ID-tag each channel, so that a filter downstream from a saw generator recognize which channel it is dealing with
-
 wouldn't Multicore (on its own) greatly simplify non-realtime processing, provided that we had audio objects for anything needed so that we could totally avoid MSP, and also had a way of controlling the Max clock?
 
 % Multithreading is a big deal \cite{asanovic2008parallel}, \cite{multicoreICMC08}.  We can easily operate multiple graphs in their own threads as previously mentioned.  However, there are many opportunities for parallel processing within a single graph.
-
------
-
 
 The structure of Jamoma Multicore is ideal for distributing processing of the graph amongst parallel threads.  
 Currently it is already possible run separate graphs on separate threads.  
@@ -935,6 +907,10 @@ As these graphs are fully-independent of each other they may run at different ra
 One example the demonstrates the need for dynamic vectorsizes is the gabor.psola.pat example from FTM. 
 Also granular approaches may benefit (for example, implementing some of the ideas from Curtis Roads' engine).
 
+- ideal environment for spectral processing (changing signals into the native FFT size)
+- similar for granulation.... (creating/destroying grains on-the-fly, dynamic vector sizes)
+- Trond making things difficult: Would we somehow need to ID-tag each channel, so that a filter downstream from a saw generator recognize which channel it is dealing with
+
 % (end)
 
 \subsubsection{Implicit Patching} % (fold)
@@ -947,6 +923,9 @@ The ``implicit patching'' paradigm of Marsyas provides an example of the power o
 
 % (end)
 
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 \section{Future work} % (fold)
@@ -955,8 +934,41 @@ The ``implicit patching'' paradigm of Marsyas provides an example of the power o
 
 \subsection{Mighty Mixer} % (fold)
 
+- ability to work individually on the audio channels is currently limited (e.g. to apply a different filter to each channel of a signal)
+- how do we dynamically change the number of channels on the fly within one mulichannel signal? use a jcom.matrix=, jcom.split=, add a jcom.duplicate= ? 
+- can multicore cabels contain additional meta-information (attributes, dictionaries....)
+- encoded audio? (AAC, mp3-surround, DIRAC) , or ... does multicore only works with PCM audio ? -- we need to be able to specify stream-format metadata (also for 7.1 vs 8-channel)
+- how we do upmixing/downmixing of channels ? 
+    - spatialization - currently prototyped:
+        - VBAP: matrix= so no scripting, 
+            numSource -> numInputs
+            numSpeakers -> numOutputs
+        - todo: ramping
+        - future: making spatialisation objects will contain an instance of the matrix= object
+        - this way we have access to spatialisation in all environments
+            (and some of them are available only in some of the environments)
+        - even more into future: matrixmixer (mighty mixer): creates one instance for each inlet to outlet coupling
+                                    check out the IEM CUBEmixer  http://ambisonics.iem.at/xchange/products/cubemixer
+        - also into future: same for ViMiC combining matrix=, delays, etc.
+        - we have a prototype implementation in Nils' object (userLib->Vimic->jmod.sur.sourceControl.maxhelp)
+
 % (end)
 % (end)
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\section{Conclusions} % (fold)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+We rock.
+
+% (end)
+
+
 
 
 % CHANGED Trond's attempt at outlining ends here  -------------------------------------
@@ -987,19 +999,6 @@ The ``implicit patching'' paradigm of Marsyas provides an example of the power o
 %"It is based on a dataflow model of computation in which any audio processing system is represented as a large network of interconnected basic audio process- ing units."  Just like Max/MSP, Pd, Chuck, etc.
 
 % TODO: Is there any other environment that we should acknowledge?
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-\section{Conclusions} % (fold)
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-We rock.
-
-% (end)
 
 
 
