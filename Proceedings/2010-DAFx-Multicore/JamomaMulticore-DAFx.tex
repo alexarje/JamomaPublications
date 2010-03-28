@@ -175,10 +175,14 @@
 % TODO: Nils, do you know how to make the footnotes not have the annoying colored boxes around the numbers?
 % NP: this is a features from the hyperref package. They don't show up when you print it, so I don't really care about them
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 \begin{abstract}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Jamoma Multicore is a framework for creating graph structures in which unit generators are connected together to process multichannel audio in real-time.  
 The main applications currently are processing of multichannel audio signals in Max/MSP and PureData as well as live audio coding in Ruby.  
@@ -189,14 +193,17 @@ Jamoma Multicore forms part of the Jamoma layered architecture.
 % TODO: we talk about current applications.... this irritates me somehow - what else could one do with it? 
 % Can't we do Live audio coding with Jamoma Multicore in Max now too?
 
-
 \end{abstract}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 \section{Introduction} % (fold)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \label{sec:intro}
 TODO: I feel that we don't really say WHY we develop this framework. We develop this because .......... 
 % TODO: Do we need to mention the Jamoma Graph environment as well and update the figure below?
@@ -271,12 +278,15 @@ To date the authors have created implementations for Max, PureData, Audio Units,
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 \section{Background} % (fold)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 % TODO: _really_ stress multichannel throughout
-
 % TODO: begin with the historical background -- the difficulty of patching multichannel/ambisonic object networks in MSP, etc. etc. etc.
 
 \subsection{Audio Graph Structures} % (fold)
@@ -550,10 +560,14 @@ Ability to host Audio Units and VST may extend these environments, but with limi
 
 % (end)
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 \section{Design and Implementation} % (fold)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Structure} % (fold)
 
@@ -639,14 +653,16 @@ There are many applications of this description, including visual representation
 
 % (end)
 
-
 % (end)
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 \section{Application} % (fold)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Max/MSP} % (fold)
 
@@ -785,16 +801,16 @@ The currently supported export formats are: Max 5 patcher, C++ source code, Ruby
 % TODO: Discuss, either here or later on, the future potential for prototyping in Max, and turn into C++ code for e.g. VST and AudioUnit plugins.
 
 % (end)
-
-
 % (end)
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 \section{Discussion} % (fold)
-
-% CHANGED: Trond trying to create a general outline for this part
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Efficiency}
 
@@ -926,7 +942,14 @@ Currently all connections in a Jamoma Multicore graph are managed manually.
 We have begun investigating means connecting many objects according to patterns rather than explicitly creating and destroying each individual connection.  
 The ``implicit patching'' paradigm of Marsyas provides an example of the power of operating on collections of objects \cite{Bray:2005}.
 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 \section{Future work}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Mighty Mixer}
 
