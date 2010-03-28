@@ -180,7 +180,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-\begin{abstract}
+\begin{abstract} % (fold)
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -193,7 +193,7 @@ Jamoma Multicore forms part of the Jamoma layered architecture.
 % TODO: we talk about current applications.... this irritates me somehow - what else could one do with it? 
 % Can't we do Live audio coding with Jamoma Multicore in Max now too?
 
-\end{abstract}
+\end{abstract} % (end)
 
 
 
@@ -241,8 +241,7 @@ According to the outlined main applications and the functionalities provided by 
 \item{Cross-platform}
 \item{Exporting the Audio Graph to different Programming Languages}
 \item{Allowing for multi-threaded parallel audio processing}
-
-   
+ 
 \end{packed_item}	
 
 % In addition to the decoupling of the unit generators (Jamoma DSP) from the processing graph, Jamoma Multicore differs from other audio graph architectures in several important ways. %NP: do we need this prev. sentence? isn't that clear ? 
@@ -336,11 +335,11 @@ For multichannel spatial processing the patch has to be tailored to the number o
 If such programs are considered programming environments and the patch the program, a change in the number of sources or speakers requires a rewrite of the program, not just a change to one or more configuration parameters.
 
 % TODO: do we need citations for Max, Pd, Bidule, and AudioMulch?
-
 % Here's a resource on spatialisation in Pd:
 % http://grh.mur.at/misc/PdSpatialization.tar.gz
+% (end)
 
-\subsubsection{CSound}
+\subsubsection{CSound} % (fold)
 
 In Csound multichannel audio graphing is extended somewhat through the introduction of the ``chn'' set of opcodes.
 % Zak enables flexible routing from one instrument to another as instruments may be reconfigured in the score without requiring changes to the orchestra \cite{Mikelson:2000} and is used e.g. by the \texttt{vbapz} opcode for multichannel vector-base amplitude panning.
@@ -392,8 +391,9 @@ Zak channels count from 0, so if you define 1 channel, the only valid channel is
 
 \end{comment} 
 
+% (end)
 
-\subsubsection{SuperCollider}
+\subsubsection{SuperCollider} % (fold)
 
 SuperCollider has an elegant way of representing multiple channels of audio as arrays. 
 When an array of audio signals is given as input to a unit generator it causes multichannel expansion: multiple copies of the unit generator create an array of unit generators, each processing a different signal from the array of inputs. 
@@ -410,7 +410,8 @@ In the following example a stereo signal containing white and pink noise is filt
 \end{lstlisting}
 
 
-\begin{comment} % (fold)
+\begin{comment}
+	
 NP: my research into multichannel capabilities with SC\\
 seems to be simple\\     
 a) making a 3 channel  Sine Oscillator 
@@ -424,8 +425,8 @@ b) making a 24 channel sine wave oscillator in SC:
 \end{lstlisting}  
 
 for more complex multichannel handling by a system called Multichannel Expansion, see \url{http://danielnouri.org/docs/SuperColliderHelp/Other%20Topics/MultiChannel.html}
+
 \end{comment} 
-% (end)
 
 % Trond investigationg SuperCollider:
 
@@ -450,8 +451,6 @@ b = Buffer.read(s, "/Users/lossius/Music/AIFF/VT Mandela_lyd/Lange/klokkerhav.ai
 
 }.play
 )
-
-
 % Example 2: Pink noise => ambisonic encoding => encoded signal is filtered => ambisonic decoding => out
 
 % ******************************************
@@ -733,8 +732,8 @@ As the Multicore signal network can be reconfigured dynamically without requirin
 % One difference to Max/MSP and Pd is that the signal network can be reconfigured dynamically without requiring a 'recompile' of the signal chain.  
 % This is addressed through Jamoma Multicore -- Jamoma DSP is low level and is agnostic about how objects are combined into a network or topology.
 
-
-
+% (end)
+% (end)
 
 \subsection{PureData (Pd)} % (fold)
 
