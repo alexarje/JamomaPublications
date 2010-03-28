@@ -809,6 +809,17 @@ In the following we will discuss Multicore in relation to development and mainte
 - code efficiency
 - testing
 
+% Eric Lyon had the following comment about our DSP paper, which I think could be worked-in here as a way to tie the goals of Multicore into the bigger picture:
+%
+%	I'm most intrigued by this statement, and would be happy to hear more about it in your paper:
+%
+%		"Perhaps more important, but more difficult to quantify,
+%		we believe we have created a context in which code is ‚Äö pleas-
+%		ant to work with."
+%
+%		This seems to be an increasingly important criterion, especially if (as I believe) we're evolving to a much more porous and flexible continuum across data-flow, scripting, and compiled coding as different entry points for musicians, depending on what they need to do. 
+
+
 \subsubsection{Patch development efficiency}
 
 - multicore in Max/Jamoma makes life so much easier....
@@ -825,6 +836,9 @@ CPU concerns:
 
 - not very optimized right now, due to the early state of the project
 
+%- Integrated Analysis and Benchmarking -- perhaps reference the upchuck operator in ChucK?
+ %  -- This integrated analysis and benchmarking could also provide the basis by which an audio graph such as Jamoma Multicore is able to evaluate how to optimize the processes in the graph to make intelligent decisions on how to distribute the processing among threads or processors.
+ 
 Other performance concerns:
 
 - performance is a question of CPU use, but also how it performs in other senses....
@@ -834,6 +848,9 @@ Other performance concerns:
     - alternative way of freeing up CPU to the mute~ or poly~ approach in MSP
     - will it be easier to make polyphonic synths (one obejct can make several instances internally, and then get them all onto the same multicable)
     - polyphonic synthesis: voices are represented as dynamically changing channels in a portion of the graph, which are mixed at the end using a matrix=. Sort of similar to what Csound do: Creatind and destroying instrument instances as needed rather than having a fixed number of voices (the way poly~ have)
+
+%
+%		A few other thoughts - maybe worth writing a bit more on SuperCollider, as it is much more flexible and elegant than Max/MSP/Pd in allowing new pieces of DSP to be eased in and out of a performance (compared to the rigid poly~ structure, on the one hand, or glitches whenever new DSP objects are created on the other). 
 
 
 \subsubsection{Multithreading}
@@ -864,6 +881,8 @@ Other performance concerns:
         - Trond making things difficult: Would we somehow need to ID-tag each channel, so that a filter downstream from a saw generator recognize which channel it is dealing with
 
 wouldn't Multicore (on its own) greatly simplify non-realtime processing, provided that we had audio objects for anything needed so that we could totally avoid MSP, and also had a way of controlling the Max clock?
+
+% Multithreading is a big deal \cite{asanovic2008parallel}, \cite{multicoreICMC08}.  We can easily operate multiple graphs in their own threads as previously mentioned.  However, there are many opportunities for parallel processing within a single graph.
 
 -----
 
@@ -901,14 +920,32 @@ One example the demonstrates the need for dynamic vectorsizes is the gabor.psola
 Also granular approaches may benefit (for example, implementing some of the ideas from Curtis Roads' engine).
 
 
+\subsubsection{Implicit Patching}
+
+Currently all connections in a Jamoma Multicore graph are managed manually.  
+We have begun investigating means connecting many objects according to patterns rather than explicitly creating and destroying each individual connection.  
+The ``implicit patching'' paradigm of Marsyas provides an example of the power of operating on collections of objects \cite{Bray:2005}.
+
 \section{Future work}
 
 \subsection{Mighty Mixer}
 
 
 
-% CHANGED Trond's attempt at outlining ends here -------------------------------------
+% CHANGED Trond's attempt at outlining ends here  -------------------------------------
 
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% The below seems to be leftovers and snippets from the section reviewing other solutions, as well as odds and sods:
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % TODO: we need an object like out‚Äö√¢√† that drives a graph outside of real time to fill a buffer~ or jit.matrix
 % TODO: trond or nils -- do you have some interesting applications of the above?
@@ -917,32 +954,10 @@ Also granular approaches may benefit (for example, implementing some of the idea
 % TODO: Non-PCM streams?  The need for audio signal metadata?
 % TODO: Also talk about the Jamoma Graph thing?
 
-
-
-
 % TODO: Grand Central Dispatch (GCD) is now open source, is this relevant?
 
 % TANGA provides and interesting environment because the audio engine is explicitly multi-threaded and thus multi-core capable\cite{Reiter:2007}.  However, it doesn't fit the bill because it is targeted at one context: MPEG-4 scene rendering.  We need something more general.  And it doesn't matter because we are thread-agnostic.
 
-% (end)
-
-
-% TODO: Is there any other environment that we should acknowledge?
-
-
-% Multithreading is a big deal \cite{asanovic2008parallel}, \cite{multicoreICMC08}.  We can easily operate multiple graphs in their own threads as previously mentioned.  However, there are many opportunities for parallel processing within a single graph.
-
-%- Integrated Analysis and Benchmarking -- perhaps reference the upchuck operator in ChucK?
- %  -- This integrated analysis and benchmarking could also provide the basis by which an audio graph such as Jamoma Multicore is able to evaluate how to optimize the processes in the graph to make intelligent decisions on how to distribute the processing among threads or processors.
-
-% (end)
-
-
-\subsection{Implicit Patching} % (fold)
-
-Currently all connections in a Jamoma Multicore graph are managed manually.  
-We have begun investigating means connecting many objects according to patterns rather than explicitly creating and destroying each individual connection.  
-The ``implicit patching'' paradigm of Marsyas provides an example of the power of operating on collections of objects \cite{Bray:2005}.
 
 % unit generators are added to a collection and their interaction with the signal processing graph is determined according to a pattern such as 'series', 'fanout', etc. \cite{Bray:2005}.
 
@@ -950,8 +965,7 @@ The ``implicit patching'' paradigm of Marsyas provides an example of the power o
 
 %"It is based on a dataflow model of computation in which any audio processing system is represented as a large network of interconnected basic audio process- ing units."  Just like Max/MSP, Pd, Chuck, etc.
 
-% (end)
-
+% TODO: Is there any other environment that we should acknowledge?
 
 
 
@@ -959,19 +973,6 @@ The ``implicit patching'' paradigm of Marsyas provides an example of the power o
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
 We rock.
-
-% Eric Lyon had the following comment about our DSP paper, which I think could be worked-in here as a way to tie the goals of Multicore into the bigger picture:
-%
-%	I'm most intrigued by this statement, and would be happy to hear more about it in your paper:
-%
-%		"Perhaps more important, but more difficult to quantify,
-%		we believe we have created a context in which code is ‚Äö pleas-
-%		ant to work with."
-%
-%		This seems to be an increasingly important criterion, especially if (as I believe) we're evolving to a much more porous and flexible continuum across data-flow, scripting, and compiled coding as different entry points for musicians, depending on what they need to do. 
-%
-%		A few other thoughts - maybe worth writing a bit more on SuperCollider, as it is much more flexible and elegant than Max/MSP/Pd in allowing new pieces of DSP to be eased in and out of a performance (compared to the rigid poly~ structure, on the one hand, or glitches whenever new DSP objects are created on the other). 
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
