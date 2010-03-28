@@ -807,13 +807,13 @@ The currently supported export formats are: Max 5 patcher, C++ source code, Ruby
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Efficiency}
+\subsection{Efficiency} % (fold)
 
 Audio processing is often demanding on the CPU, and the question of performance is an important one when introducing a new audio graph system.
 But questions concerning efficiency and performance should address more than just the audio signal processing, looking into all aspects and processes related to the use and development of the framework.
 In the following we will discuss Multicore in relation to development and maintenance of the source code itself, development of audio graphs (e.g. patching in Max) and audio processing performance.
 
-\subsubsection{Code design}
+\subsubsection{Code design} % (fold)
 
 - maintabability
 - documented code
@@ -830,8 +830,9 @@ In the following we will discuss Multicore in relation to development and mainte
 %
 %		This seems to be an increasingly important criterion, especially if (as I believe) we're evolving to a much more porous and flexible continuum across data-flow, scripting, and compiled coding as different entry points for musicians, depending on what they need to do. 
 
+% (end)
 
-\subsubsection{Patch development efficiency}
+\subsubsection{Patch development efficiency} % (fold)
 
 - multicore in Max/Jamoma makes life so much easier....
 - easier/faster to create easier/faster to maintain -- changing the number of channels does *not* require a change to the program
@@ -841,7 +842,9 @@ In the following we will discuss Multicore in relation to development and mainte
 - ability to export to other environments (C++, Pd, Ruby)
 - Integra is striving somehow for a similar cross-coding....
 
-\subsubsection{Performance}
+% (end)
+
+\subsubsection{Performance} %(fold)
 
 CPU concerns:
 
@@ -863,8 +866,9 @@ Other performance concerns:
 %
 %		A few other thoughts - maybe worth writing a bit more on SuperCollider, as it is much more flexible and elegant than Max/MSP/Pd in allowing new pieces of DSP to be eased in and out of a performance (compared to the rigid poly~ structure, on the one hand, or glitches whenever new DSP objects are created on the other). 
 
+% (end)
 
-\subsubsection{Multithreading}
+\subsubsection{Multithreading} % (fold)
 
 
 ------- Notes to start off from
@@ -913,32 +917,35 @@ We hope that this intelligent and adaptive multithreading will be able to maximi
 % \ /
 %  C
 
+% (end)
+% (end)
 
+\subsection{Flexible audio graph management} % (fold)
 
-
-\subsection{Flexible audio graph management}
-
-\subsubsection{Multiple Simultaneus Graphs}
+\subsubsection{Multiple Simultaneus Graphs} % (fold)
 
 By it's nature, a Multicore graph is defined as all objects connected together into a graph structure terminating at a terminal object that drives the graph.  
 There is no limitation on how many of these graphs may exist independently, and simultaneously, in any environment.  
 As these graphs are fully-independent of each other they may run at different rates, in different threads, and addressing different hardware.  The independent graphs may even run side-by-side with one running in real-time while another is operating out of real time.
 
+% (end)
 
-\subsubsection{Dynamic vector size}
+\subsubsection{Dynamic vector size} % (fold)
 
 One example the demonstrates the need for dynamic vectorsizes is the gabor.psola.pat example from FTM. 
 Also granular approaches may benefit (for example, implementing some of the ideas from Curtis Roads' engine).
 
+% (end)
 
-\subsubsection{Implicit Patching}
+\subsubsection{Implicit Patching} % (fold)
 
 Currently all connections in a Jamoma Multicore graph are managed manually.  
 We have begun investigating means connecting many objects according to patterns rather than explicitly creating and destroying each individual connection.  
 The ``implicit patching'' paradigm of Marsyas provides an example of the power of operating on collections of objects \cite{Bray:2005}.
 
+% (end)
 
-
+% (end)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
