@@ -691,44 +691,34 @@ This combined mixer/router is still rudimentary, and for the time being assumes 
 
 \subsubsection{Jamoma Modular} % (fold)
 A strong component of the Jamoma Modular framework is the provision of ready-to-use building blocks for sound spatialization \cite{Peters:2009}.
-To pass multichannel signals between these modules, Jamoma has been using a simple patching hack that wraps multiple MSP signals into a multichannel cable. Within each module, this multichannel connection was then unwrapped in order that audio signals could be processed. 
-Figure \ref{fig:max-before-after}(a) shows the signal processing patch of the Jamoma module for spatializing incoming sounds using Vector Base Amplitude Panning (VBAP) \cite{Pulkki:1997vbap}. 
-According to the user-defined number of incoming (to be spatialized) sounds and number of outgoing audio feeds (number of loudspeakers), the internal mixing matrix and its connections were dynamically scripted which can create certain stress on Max for time critical situations.   
-Furthermore a change in the DSP structure requires a rebuild of the DSP chain.   
+To pass multichannel signals between these modules, Jamoma up until now has been using a simple patching hack that wraps multiple MSP signals into a multichannel cable. Within each module, this multichannel connection was then unwrapped in order that audio signals could be processed. 
+One of several disadvantages of this solution was that whenever the number of sources or speakers was changed, MSP objects and connections had to be destroyed and created.
+As Jamoma modules for spatialisation aims at being flexible, enabling the user to define the number of incoming (to be spatialized) sounds and number of outgoing audio feeds (number of loudspeakers), creating and deletion of MSP objects and connections was done using scripting.
+This could create certain stress on Max for time critical situations, and was not experienced to be sufficiently reliable for real-world performance situations.
+Furthermore a change in the DSP structure also required a rebuild of the DSP chain.
 
-Jamoma Multicore externals are currently subsequently introduced into Jamoma Modular to simplify the spatialization modules and make them more robust because scripting can be entirely avoided. 
-Figure \ref{fig:max-before-after}(b) shows a new version of the patch from Figure \ref{fig:max-before-after}(a), employing the new Jamoma Multicore Audio Graph. 
-The new object jcom.matrix$\approx$ performs mixing operations between the audio streams of the incoming multicable and outputs the audio feeds for each loudspeaker. 
+The previous scripting and patching hack approach is currently being substituted for Jamoma Multicore externals to simplify the spatialization modules and make them more robust.
+Figure \ref{fig:max-before-after}b indicates how the number of sources and speakers can be changed simply by updating attribute values for a few select Multicore externals, thus eliminating the need for scripting in Jamoma Modules.
+As the Multicore signal network can be reconfigured dynamically without requiring a 'recompile' of the signal chain, this kind of changes can be done on the fly while audio is running
 
-\vspace{1cm}
-       
-
-
-% TODO: these last two require a matrix that operates on the channels within a signal, not on multiple signals
+% CHANGED: I think we most of the following more or less covered now, but it should be breviews. I see some that fit better in a future work section.
 
 % Some important things to keep in mind:
 % - Priorities, how to we control the order of operations?    We don't at the moment (which is like Pd, but unlike Max)
 % - Matrix mixer/router development, with particular thought about what happens when 5.1 audio is routed to stereo etc.
 % - Signals of varying data rate (for example as proposed by Pulkki), e.g. compressed signals or higher res signals
 % - Signals of steady data rate but varying vector/buffer size (as in FTM/Gabor)
-
-Dynamic number of channels (perhaps useful for FFT and spectral processing?)
-
+% Dynamic number of channels (perhaps useful for FFT and spectral processing?)
 % Would be ideal if we could have a wrapper for standard MSP external objects as Multicore objects. 
 % Call the DSP method directly from this wrapper?
 % Create our own internal DSP chain for it?
 % start simple as with biquad~, meaning 1 in and 1 out...
 % it seems like the easiest way out is to just use patcher scripting.
 
+% One difference to Max/MSP and Pd is that the signal network can be reconfigured dynamically without requiring a 'recompile' of the signal chain.  
+% This is addressed through Jamoma Multicore -- Jamoma DSP is low level and is agnostic about how objects are combined into a network or topology.
 
-% (end)
 
-One difference to Max/MSP and Pd is that the signal network can be reconfigured dynamically without requiring a 'recompile' of the signal chain.  
-This is addressed through Jamoma Multicore -- Jamoma DSP is low level and is agnostic about how objects are combined into a network or topology.
-
-However, objects can be recombined and structured at runtime, offering the same kind of flexibility and "expressive power".
-% TODO: Where shall these two sentences go? to the Max section or Pd section? [NP] 
-% (end)
 
 
 \subsection{PureData (Pd)} % (fold)
