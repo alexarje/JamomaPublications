@@ -170,7 +170,7 @@
 %\fi
 
 \maketitle
-
+\sloppy
 
 % TODO: Nils, do you know how to make the footnotes not have the annoying colored boxes around the numbers?
 % NP: this is a features from the hyperref package. They don't show up when you print it, so I don't really care about them
@@ -292,7 +292,7 @@ The paths between these nodes then define the data-flow of the graph.
 Graphs targeting audio processing employ several patterns and idioms to achieve a balance of efficiency, flexibility, and real-time capability.
 
 Environments for real-time processing typically need to address concerns in both synchronous and asynchronous contexts.  
-Asynchronous communication is required, for example, by MIDI and for driving attributes from DAW automation.  
+Asynchronous communication is required, for example, by MIDI and for driving attributes from audio sequencer automations.  
 Conversely, realtime processing of audio streams must be handled synchronously.  
 Most environments, such as CLAM  \cite{Amatraian:2007}, deal with these two types of graphs as separate from each other.  
 In the Jamoma Platform this is also the case, where Jamoma Multicore comprises the synchronous audio graph concerns.
@@ -543,7 +543,7 @@ Instead, the process of creating objects and connecting them are envisioned and 
 Thanks to this decoupling of Jamoma DSP and Jamoma Multicore we are able to create and use Jamoma DSP unit generators with a number of different graph structures.  
 Jamoma Multicore is one graph structure that a developer may choose to use\footnote{However unlikely, it is also theoretically possible to use Jamoma Multicore with an alternative unit generator library}.
 
-Max, Pd, SuperCollider, Csound, Bidule, AudioMulch, Reaktor, Reason all have have unit generators, but the unit generators can only be used within the particular environment. 
+Max/MSP, Pd, SuperCollider, Csound, Bidule, AudioMulch, Reaktor, Reason all have have unit generators, but the unit generators can only be used within the particular environment. 
 The unit generators have a proprietary format and thus no interchangeability.  Likewise, the graph structure is proprietary. 
 While SDKs are available for some of these environments, for others no SDK exists and the systems are closed. 
 Ability to host Audio Units and VST may extend these environments, but with limitations.
@@ -585,12 +585,12 @@ The architecture of \texttt{TTMulticoreObject} is layered: the Multicore object 
 In the figure this is illustrated by the object having four inlets. 
 Two multichannel sources $s0$ and $s1$ are connected to the first inlet $in0$, two to the second, and so on. 
 In short:
-
-				A graph has many objects.\\
-\indent	An object has many inlets.\\
-\indent	An inlet has many sources.\\
-\indent	A source has many channels.\\
-
+\begin{tabbing}
+\hspace{2.6cm}\=A graph has many objects.\\
+	\>An object has many inlets.\\
+	\>An inlet has many sources.\\
+	\>A source has many channels.
+\end{tabbing}
 % From Rails book:
 % Within the database, many-to-many associations are implemented using an intermediate join table. This contains foreign key pairs linking the two target tables. Active Record assumes that this join table‚Äö√Ñ√¥s name is the concatenation of the two target table names in alphabetical order. In our example, we joined the table categories to the table products, so Active Record will look for a join table named categories_products.
 
@@ -668,7 +668,7 @@ There are many applications of this description, including visual representation
 \label{fig:max-before-after}
 \end{figure*}
 
-A number of externals for multi-channel audio processing in Max have been developed combining the Jamoma Multicore and DSP frameworks. 
+A number of externals for multi-channel audio processing in Max have been developed combining the Jamoma's Multicore and DSP framework. 
 The Max environment represents the multi-channel signals as ordinary patch chords. 
 Interfacing between MSP and Multicore is facilitated by the externals jcom.pack$\approx$ and jcom.unpack$\approx$, packing and unpacking multiple MSP mono signals onto and off a multi-channel signal. 
 jcom.adc$\approx$ and jcom.dac$\approx$ offers additional possibilities for direct audio input and output using PortAudio \cite{Bencina:2003}, bypassing MSP altogether. 
@@ -678,14 +678,14 @@ The sample rate and vector size used for Multicore processing as well as the num
 A number of multi-channel audio generators for e.g. noise and common waveforms are available.
 This set of generators can easily be extended.
 The various units available in the Jamoma DSP filter and audio effects libraries can readily be wrapped into Multicore externals for Max.
-jcom.fft$\approx$ and jcom.window$\approx$ offers additional possibilities for spectral processing of multi-channel signals.
+jcom.fft$\approx$ and jcom.window$\approx$ were developed for spectral processing of multi-channel signals.
 % TODO: Are further details required, e.g. on how to deal with complex signals (complex = complex numbers)?
-Several objects are available for level control and mixing. 
-jcom.gain$\approx$ can be used to control gain levels for multichannel signals, while jcom.matrix$\approx$ offers $M \times N$ matrix-based mixing of the $M$ channels of the incomming signal onto the $N$ channels of the resulting signal. This can e.g. be used for various amplitude-based spatialisation algorithms such as VBAP \cite{Pulkki:1997vbap}, DBAP \cite{lossius:2009} and ambisonics \cite{Schacher:2006ambi_max}.
-Finally jcom.matrixmixer$\approx$ offers possibility of mixing $M$ incomming multichannel signals onto $N$ returned multichannel signal.
-This combined mixer/router is still rudimentary, and for the time being assumes all incoming and returned signal to have the same number of channels.
+Several objects are available for level control and mixing: 
+jcom.gain$\approx$ can be used to control gain levels for multichannel signals, while jcom.matrix$\approx$ allows $M \times N$ matrix-based mixing of the $M$ channels of the incoming signal onto the $N$ channels of the resulting signal. This can e.g. be used for various amplitude-based spatialization algorithms such as VBAP \cite{Pulkki:1997vbap}, DBAP \cite{lossius:2009} and ambisonics \cite{Schacher:2006ambi_max}.
+Finally jcom.matrixmixer$\approx$ offers possibility of mixing $M$ incoming multichannel signals onto $N$ returned multichannel signal.
+This combined mixer/router is still rudimentary, and assumes all incoming and returned signal to have the same number of channels.
 
-Figure \ref{fig:max-before-after} illustrates the use of Multicore objects in a patch providing spatialisation of 3 mono sources to 16 speakers, with additional post-spatialisation mastering of the signals using a limiter and gain adjustment.
+Figure \ref{fig:max-before-after} illustrates the use of Multicore objects in a patch providing spatialization of 3 mono sources to 16 speakers, with additional post-spatialization mastering of the signals using a limiter and gain adjustment.
 The use of Multicore objects greatly helps simplifying the patch as compared to a standard MSP audio graph. 
 
 % TODO: Finish of this section by referencing \ref{fig:max-before-after}, how it illustrates MSP to Multicore bridging, matrix, FX and output using PortAudio. Also comment on how much simpler it is to reconfigure the number of speakers: We now only need to change attribute values in jcom.matrix≈ and jcom.dbap, instead of having to do repatching. (Save latter for discussion)
@@ -704,13 +704,13 @@ The use of Multicore objects greatly helps simplifying the patch as compared to 
 A strong component of the Jamoma Modular framework is the provision of ready-to-use building blocks for sound spatialization \cite{Peters:2009}.
 To pass multichannel signals between these modules, Jamoma up until now has been using a simple patching hack that wraps multiple MSP signals into a multichannel cable. Within each module, this multichannel connection was then unwrapped in order that audio signals could be processed. 
 One of several disadvantages of this solution was that whenever the number of sources or speakers was changed, MSP objects and connections had to be destroyed and created.
-As Jamoma modules for spatialisation aims at being flexible, enabling the user to define the number of incoming (to be spatialized) sounds and number of outgoing audio feeds (number of loudspeakers), creating and deletion of MSP objects and connections was done using scripting.
+As Jamoma modules for spatialization aims at being flexible, enabling the user to define the number of incoming (to be spatialized) sounds and number of outgoing audio feeds (number of loudspeakers), creating and deletion of MSP objects and connections was done using scripting.
 This could create certain stress on Max for time critical situations, and was not experienced to be sufficiently reliable for real-world performance situations.
 Furthermore a change in the DSP structure also required a rebuild of the DSP chain.
 
-The previous scripting and patching hack approach is currently being substituted for Jamoma Multicore externals to simplify the spatialization modules and make them more robust.
+The previous scripting and patching hack approach is currently being replaced for Jamoma Multicore externals to simplify the spatialization modules and make them more robust.
 Figure \ref{fig:max-before-after}b indicates how the number of sources and speakers can be changed simply by updating attribute values for a few select Multicore externals, thus eliminating the need for scripting in Jamoma Modules.
-As the Multicore signal network can be reconfigured dynamically without requiring a 'recompile' of the signal chain, this kind of changes can be done on the fly while audio is running
+Because the Multicore signal network can be dynamically reconfigured without the need to 'recompile' the DSP signal chain, on-the-fly changes are possible while audio is running.
 
 % CHANGED: I think we most of the following more or less covered now, but it should be breviews. I see some that fit better in a future work section.
 
@@ -765,10 +765,9 @@ The following listing demonstrates a simple \emph{irb} session:
   osc.set "frequency", 220.0
 \end{lstlisting}
 
-By using Jamoma Multicore in the Ruby environment for live coding users are able to access all of the benefits of using a popular, general purpose language while at the same time gaining access to many of the benefits of a domain specific language for musical performance such as ChucK.
+\noindent By using Jamoma Multicore in the Ruby environment for live coding, users are able to access all of the benefits of using a popular, general purpose language while at the same time gaining access to many of the benefits of a domain specific language for musical performance such as ChucK.
 
 % TODO: Are there any published articles specifically about using irb for live coding performance?
-
 All features of Jamoma Multicore can be accessed in real time through a web browser using Ruby on Rails.  Through the use of AJAX, interactive widgets can populate a dynamic interface in a web-browser for real time control of parameters, as in the screenshot below.
 
 \begin{figure}[htbp]
