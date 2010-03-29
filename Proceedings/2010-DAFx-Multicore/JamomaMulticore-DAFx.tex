@@ -960,13 +960,17 @@ The ``implicit patching'' paradigm of Marsyas provides an example of the power o
 
 % TODO - assigned to Nils
 
+From Figure \ref{fig:max-before-after} the advantages in terms of working and maintaining of multichannel audio patches in common computer music environments can be clearly seen.
+For now, the ability to work individually on a single audio channels within the audio graph is currently limited.
+For instance, it is possible to apply jcom.filter$\approx$ to similarly filter all audio channels within a graph connection. however, many multichannel audio application (such as the Near Field Compensation in Higher Order Ambisonics) rely on filtering processes individualized across audio channels. Future work will address this issue.
+We also want to include upmix/downmix algorithms into the Audio Graph to seamlessly mediate between different kind of media formats. Here, we are planning to explore the potential to attach additional meta-information to the individual audio channels to ensure that the correct audio material is being processed (e.g. to identify the signals in an Ambisonics B-format, or to distinguish a binaurally processed audio stream from a conventional stereo track). \\
+Somehow related to IEM's CUBEmixer \footnote{\url{http://ambisonics.iem.at/xchange/products/cubemixer}}, the authors are currently developing a multichannel mixing application which enables the user to work with common spatial audio rendering concepts such as VBAP, DBAP, ViMiC and Ambisonics according to his compositional aspiration and technical possibilities \cite{Peters:2009}. The Jamoma Multicore Audio Graph Layer is essential to this development.
 
 
 % == Mighty Mixer ==
-
-- ability to work individually on the audio channels is currently limited (e.g. to apply a different filter to each channel of a signal)
+ stuff to work on:\\
 - how do we dynamically change the number of channels on the fly within one mulichannel signal? use a jcom.matrix=, jcom.split=, add a jcom.duplicate= ? 
-- can multicore cabels contain additional meta-information (attributes, dictionaries....)
+%- can multicore cabels contain additional meta-information (attributes, dictionaries....)
 - encoded audio? (AAC, mp3-surround, DIRAC) , or ... does multicore only works with PCM audio ? -- we need to be able to specify stream-format metadata (also for 7.1 vs 8-channel)
 - how we do upmixing/downmixing of channels ? 
     - spatialization - currently prototyped:
@@ -978,7 +982,7 @@ The ``implicit patching'' paradigm of Marsyas provides an example of the power o
         - this way we have access to spatialisation in all environments
             (and some of them are available only in some of the environments)
         - even more into future: matrixmixer (mighty mixer): creates one instance for each inlet to outlet coupling
-                                    check out the IEM CUBEmixer  http://ambisonics.iem.at/xchange/products/cubemixer
+                                    
         - also into future: same for ViMiC combining matrix=, delays, etc.
         - we have a prototype implementation in Nils' object (userLib->Vimic->jmod.sur.sourceControl.maxhelp)
 
