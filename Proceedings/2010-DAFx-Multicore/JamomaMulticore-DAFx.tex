@@ -176,7 +176,9 @@
 % NP: this is a features from the hyperref package. They don't show up when you print it, so I don't really care about them
 
 
-
+% TODO: Possible re-naming:
+%   Jamoma Audio Graph
+%   Jamoma DSP Graph
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -185,13 +187,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Jamoma Multicore is a framework for creating graph structures in which unit generators are connected together to process multichannel audio in real-time.  
-The main applications currently are processing of multichannel audio signals in Max/MSP and PureData as well as live audio coding in Ruby.  
+Current applications focus on multichannel audio processing in Max/MSP and PureData as well as live audio coding in Ruby.  
+Jamoma Multicore is particularly well-suited to spatial audio contexts demanding large numbers of audio channels, such as Higher Order Ambisonics, Wave Field Synthesis and microphone arrays for beamforming.
 Jamoma Multicore forms part of the Jamoma layered architecture.
-
-% particular benefit when dealing with spatial audio
-% especially with a massive number of audio channels (Higher Order Ambisonics, WFS, microphone arrays for beamforming)
-% TODO: we talk about current applications.... this irritates me somehow - what else could one do with it? 
-% Can't we do Live audio coding with Jamoma Multicore in Max now too?
 
 \end{abstract} % (end)
 
@@ -250,9 +248,8 @@ According to the outlined main applications and the functionalities provided by 
 %%Second, the content carried by the connections is dynamic; the number of channels, the size of the sample vectors, and the sample-rate of the audio can change during runtime operation.  
 %Third, the type of graph used relies on a \emph{pull} pattern which is readily adapted to multi-threaded parallel calculations.
 
-In order to meet the stated requirements, the Jamoma audio graph layer relies on a \emph{pull} pattern (see section~\ref{sec:pull}) and is designed to be independent from the host environment's DSP scheduler as much as possible.
-An additional design decision is the use of a ``peer object model".  
-The peer object model abstracts the implementation and execution of the graph from any particular environment or platform.  
+In order to meet the stated requirements, the Jamoma audio graph layer relies on a \emph{pull} pattern (see Section~\ref{sec:pull}) and is designed to be independent from the host environment's DSP scheduler as much as possible.
+An additional design decision is the use of a ``peer object model" which abstracts the implementation and execution of the graph from any particular environment or platform.  
 This allows for Jamoma Multicore to be readily implemented for any number of environments.  
 To date the authors have created implementations for Max, PureData, Audio Units, and Ruby.
 % NP: the term peer object model is unclear to me -- maybe the whole peer-object thing should go into the background
@@ -738,7 +735,7 @@ As the Multicore signal network can be reconfigured dynamically without requirin
 \subsection{PureData (Pd)} % (fold)
 
 Jamoma Multicore has also been implemented for Pure Data which is essentially similar to Jamoma Multicore for Max/MSP. 
-The most obvious difference between Multicore for Pure Data and Max may be the slightly different external names, having '=' instead of '$\approx$' appended as an indicator for multichannel signal streams. 
+The most obvious difference between Multicore for Pure Data and Max may be the slightly different external names, having `=' instead of `$\approx$' appended as an indicator for multichannel signal streams. 
 Figure \ref{fig:pd} demonstrates the use of Jamoma Multicore in Pd for passing 4 channels through a chain for processing, taking advantage of the multichannel patch cord connections.  
 
 \begin{figure}[htbp]
@@ -803,11 +800,12 @@ The currently supported export formats are: Max 5 patcher, C++ source code, Ruby
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-\section{Discussion} % (fold)
+\section{Discussion and future work} % (fold)
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Efficiency} % (fold)
+\subsection{In Practice} % (fold) Practical Considerations
+% how is it to work with
 
 Audio processing is often demanding on the CPU, and the question of performance is an important one when introducing a new audio graph system.
 But questions concerning efficiency and performance should address more than just the audio signal processing, looking into all aspects and processes related to the use and development of the framework.
@@ -815,14 +813,17 @@ In the following we will discuss Multicore in relation to development and mainte
 
 % TODO: is it efficiency, or does the word 'cost' apply to the above?  [TAP]
 
+
 \subsubsection{Code design} % (fold)
+
+% TODO: assigned -- Trond
 
 - maintabability
 - documented code
 - code efficiency
 - testing
 
-% TODO: not sure how boastful we really want to be with the above -- testing and documentation are currently anemic (at best).  [TAP]
+% TODO: not sure how boastful we really want to be with the above -- testing and documentation are currently anemic (at best).  [TAP]   (but, this is future work)  -- what does it really mean that this is pleasant to work with
 
 % Eric Lyon had the following comment about our DSP paper, which I think could be worked-in here as a way to tie the goals of Multicore into the bigger picture:
 %
@@ -838,6 +839,8 @@ In the following we will discuss Multicore in relation to development and mainte
 
 \subsubsection{Audio graph patching} % (fold)
 
+% Assigned to Trond
+
 - multicore in Max/Jamoma makes life so much easier....
 - easier/faster to create easier/faster to maintain -- changing the number of channels does *not* require a change to the program
 - much less code
@@ -848,7 +851,10 @@ In the following we will discuss Multicore in relation to development and mainte
 
 % (end)
 
-\subsubsection{Performance} %(fold)
+
+\subsection{Performance} %(fold)
+% TODO: How to avoid the musical performance connotation in title?
+% Maybe subsubsections break this apart?
 
 CPU concerns:
 
@@ -874,7 +880,9 @@ Other performance concerns:
 
 \subsubsection{Multithreading} % (fold)
 
-% TODO: Is multithreading just a part of performance rather than it's own subsubsection? [TAP]
+% TODO - assigned to Tim and Nils
+
+We do see a potential for doing it this way:
 
 wouldn't Multicore (on its own) greatly simplify non-realtime processing, provided that we had audio objects for anything needed so that we could totally avoid MSP, and also had a way of controlling the Max clock?
 
@@ -904,6 +912,8 @@ We hope that this intelligent and adaptive multithreading will be able to maximi
 
 \subsubsection{Multiple Simultaneous Graphs} % (fold)
 
+% TODO: assigned -- Tim
+
 By it's nature, a Multicore graph is defined as all objects connected together into a graph structure terminating at a terminal object that drives the graph.  
 There is no limitation on how many of these graphs may exist independently, and simultaneously, in any environment.  
 As these graphs are fully-independent of each other they may run at different rates, in different threads, and addressing different hardware.  The independent graphs may even run side-by-side with one running in real-time while another is operating out of real time.
@@ -912,7 +922,10 @@ As these graphs are fully-independent of each other they may run at different ra
 
 % (end)
 
+
 \subsubsection{Dynamic vector size} % (fold)
+
+% TODO: assigned -- Trond
 
 One example the demonstrates the need for dynamic vectorsizes is the gabor.psola.pat example from FTM. 
 Also granular approaches may benefit (for example, implementing some of the ideas from Curtis Roads' engine).
@@ -925,7 +938,10 @@ Also granular approaches may benefit (for example, implementing some of the idea
 
 % (end)
 
+
 \subsubsection{Implicit Patching} % (fold)
+
+% TODO: assigned -- Tim
 
 Currently all connections in a Jamoma Multicore graph are managed manually.  
 We have begun investigating means connecting many objects according to patterns rather than explicitly creating and destroying each individual connection.  
@@ -936,17 +952,13 @@ The ``implicit patching'' paradigm of Marsyas provides an example of the power o
 % (end)
 
 
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-\section{Future work} % (fold)
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% TODO: Not sure this "Future Work" section should be separate.  Most of the previous section is also Future Work that doesn't really exist yet...
-
 \subsection{Improving support for work on spatial audio} % (fold)
+
+% TODO - assigned to Nils
+
+
+
+% == Mighty Mixer ==
 
 - ability to work individually on the audio channels is currently limited (e.g. to apply a different filter to each channel of a signal)
 - how do we dynamically change the number of channels on the fly within one mulichannel signal? use a jcom.matrix=, jcom.split=, add a jcom.duplicate= ? 
