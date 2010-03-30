@@ -172,9 +172,6 @@
 \maketitle
 \sloppy
 
-% TODO: Nils, do you know how to make the footnotes not have the annoying colored boxes around the numbers?
-% NP: this is a features from the hyperref package. They don't show up when you print it, so I don't really care about them
-
 
 % TODO: Possible re-naming:
 %   Jamoma Audio Graph		[Tim votes for this one]
@@ -203,7 +200,8 @@ Jamoma Multicore forms part of the Jamoma layered architecture.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \label{sec:intro}
-TODO: I feel that we don't really say WHY we develop this framework. We develop this because .......... 
+% TODO: I feel that we don't really say WHY we develop this framework. We develop this because ..........   
+%		Can we answer this in the Requirements section?  [TAP]
 % TODO: Do we need to mention the Jamoma Graph environment as well and update the figure below?
 
 Many frameworks, toolkits, and environments for real-time audio processing fuse the issues of creating unit generators with creating graph structures that process audio through those unit generators.  
@@ -224,11 +222,11 @@ Alternatively, the Jamoma Platform implements a clear separation of concerns, st
 
 
 \subsubsection{Requirements}
-According to the outlined main applications and the functionalities provided by the co-existing Jamoma frameworks (Figure \ref{fig:layers}), the Jamoma Multicore Audio Graph Layer has the following requierements: 
+%According to the outlined main applications and the functionalities provided by the co-existing Jamoma frameworks (Figure \ref{fig:layers}), the Jamoma Multicore Audio Graph Layer has the following requirements: 
 % Nils is suggesting that we don't launch in here to say what is different about our stuff, but rather say what we are trying to accomplish [tap]
 % Stronger to be able to state what we want -- just a matter of re-phrasing the following.
 
-% TODO: need an introduction to requirements before starting the bullet-points
+Through years of accumulated collective experience with a myriad of contexts for realtime multichannel audio work, we found a number of practical needs were still unmet by readily available environments.  We believe these necessities are required not only to ease usability concerns in some environments, but also to open new avenues of creation, exchange, performance, and research in digital audio effects.
 
 \begin{packed_item}
 
@@ -282,7 +280,6 @@ To date the authors have created implementations for Max, PureData, Audio Units,
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-% TODO: _really_ stress multichannel throughout
 % TODO: begin with the historical background -- the difficulty of patching multichannel/ambisonic object networks in MSP, etc. etc. etc.
 
 \subsection{Audio Graph Structures} % (fold)
@@ -318,9 +315,12 @@ Audio at the top of the graph `pushes' down through each subsequent object in th
 
 Alternatively, audio processing may be driven from the bottom of the chain from a `terminal object' or `sink'.  
 This `pull' method for processing an audio graph is used by several environment's including Apple's AUGraph and ChucK \cite{wang:2008}. 
-AUGraph and ChucK are subject to certain limitations however: AUGraph does not permit ``fanning'' connections (many inlets connected to one outlet and vice-versa) while ChucK is not multithreaded.
+AUGraph and ChucK are subject to certain limitations however: AUGraph does not permit ``fanning'' connections (many inlets connected to one outlet)\footnote{http://developer.apple.com/mac/library/documentation/General/Conceptual/SLGlobalGlossary/Glossary/Glossary.html} while ChucK is not multithreaded.
 
 % TODO: do we need to cite a source or add a footnote for the AUGraph documentation about this fanning thing?
+% http://lists.apple.com/archives/coreaudio-api/2005/Aug/msg00251.html
+% http://developer.apple.com/mac/library/documentation/General/Conceptual/SLGlobalGlossary/Glossary/Glossary.html says:
+% "fan out:  In electronics generally, to direct one output signal to multiple inputs. Audio units cannot perform fan out of this sort. To feed multiple audio unit inputs, you direct an audio unit output to a buffer (such as a splitter unit) that has multiple outputs, each of which can connect to a separate audio unit input."
 
 % (end)
 
@@ -768,6 +768,9 @@ The following listing demonstrates a simple \emph{irb} session:
 \noindent By using Jamoma Multicore in the Ruby environment for live coding, users are able to access all of the benefits of using a popular, general purpose language while at the same time gaining access to many of the benefits of a domain specific language for musical performance such as ChucK.
 
 % TODO: Are there any published articles specifically about using irb for live coding performance?
+% TODO: Trond, there is a chapter in this book: http://books.google.com/books?id=93y-8DRUAz8C&lpg=PP1&ots=5_8bnjZqxB&dq=live%20coding%20irb%20ruby&lr=&pg=PR10#v=onepage&q=live%20coding%20irb%20ruby&f=false
+% What do you think?
+
 All features of Jamoma Multicore can be accessed in real time through a web browser using Ruby on Rails.  Through the use of AJAX, interactive widgets can populate a dynamic interface in a web-browser for real time control of parameters, as in the screenshot below.
 
 \begin{figure}[htbp]
@@ -789,7 +792,7 @@ Likewise we can export from a Ruby source file to Pd and from a Pd canvas to C++
 The ability to export code/patcher/canvas/document from any supported environment to any other supported environment offers great flexibility, not only for code generation and prototyping, but for freedom in sharing work across platforms and with colleagues.  
 The currently supported export formats are: Max 5 patcher, C++ source code, Ruby source code and PureData.
 
-% TODO: Discuss, either here or later on, the future potential for prototyping in Max, and turn into C++ code for e.g. VST and AudioUnit plugins.
+The additional ability to compile code and export a ready-to-use AudioUnit or VST plug-ins from any of these environments is currently in active development.
 
 % (end)
 % (end)
@@ -806,11 +809,7 @@ The currently supported export formats are: Max 5 patcher, C++ source code, Ruby
 \subsection{In Practice} % (fold) Practical Considerations
 % how is it to work with
 
-Audio processing is often demanding on the CPU, and the question of performance is an important one when introducing a new audio graph system.
-But questions concerning efficiency and performance should address more than just the audio signal processing, looking into all aspects and processes related to the use and development of the framework.
-In the following we will discuss Multicore in relation to development and maintenance of the source code itself, development of audio graphs (e.g. patching in Max) and audio processing performance.
-
-% TODO: is it efficiency, or does the word 'cost' apply to the above?  [TAP]
+Audio processing and is demanding on several levels.  Computational efficiency and performance concerns are just one of the aspects related to the real-world use and development of any audio graph framework.  The Jamoma Multicore framework seeks to strike a balance between raw number-crunching, coding and maintaining code, as well as the flexibility and usability of features for end-users in various environments.
 
 
 \subsubsection{Code design} % (fold)
@@ -913,13 +912,9 @@ The implemented pulling strategy (Section \ref{sec:pull}) offers opportunities t
 
 \subsubsection{Multiple Simultaneous Graphs} % (fold)
 
-% TODO: assigned -- Tim
-
 By it's nature, a Multicore graph is defined as all objects connected together into a graph structure terminating at a terminal object that drives the graph.  
 There is no limitation on how many of these graphs may exist independently, and simultaneously, in any environment.  
 As these graphs are fully-independent of each other they may run at different rates, in different threads, and addressing different hardware.  The independent graphs may even run side-by-side with one running in real-time while another is operating out of real time.
-
-% TODO: I thought this was true, but the 'addressing different hardware' part seems to not be true at the moment -- all jcom.dac≈ object's are sharing a single point of access to hardware internally.  Maybe this is a feature request though?  [TAP]
 
 % (end)
 
@@ -942,11 +937,9 @@ Also granular approaches may benefit (for example, implementing some of the idea
 
 \subsubsection{Implicit Patching} % (fold)
 
-% TODO: assigned -- Tim
+Currently all connections in a Jamoma Multicore graph are managed manually.  In a graphical environment such as Max we could re-phrase this to say that the connections between objects are explicitly patched together by the user.  A higher-level alternative to this ``explicit patching'' by the user is the ``implicit patching'' paradigm embraced by Marsyas \cite{Bray:2005}.
 
-Currently all connections in a Jamoma Multicore graph are managed manually.  
-We have begun investigating means connecting many objects according to patterns rather than explicitly creating and destroying each individual connection.  
-The ``implicit patching'' paradigm of Marsyas provides an example of the power of operating on collections of objects \cite{Bray:2005}.
+With implicit patching the user is able to interact with groups of objects that are networked together by specifying a pattern to use, rather than directly and manually making each connection.  One elementary example is the creation of a multi-band EQ, by creating an array of bandpass filters and then specifying then to connect as a parallel group.  A group patched according to a `series' pattern would be connected one after the other to apply all transformation throughout the chain of objects in the group.
 
 % (end)
 
@@ -1011,7 +1004,7 @@ We rock.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% TODO: we need an object like out‚Äö√Ñ√∂‚àö¬¢‚àö‚Ä† that drives a graph outside of real time to fill a buffer~ or jit.matrix
+% TODO: we need an object like out≈ that drives a graph outside of real time to fill a buffer~ or jit.matrix
 % TODO: trond or nils -- do you have some interesting applications of the above?
 % TODO: If we are presenting a graph system, should we discuss the potential (if any) for expanding this from being a graph system for audio processing, to video processing or other kinds of time-tagged data, along the line of e.g. Max/Jitter, QuartzComposer or Octane?
 % TODO: Discuss the potential for work on spatialisation, and further work in this direction...
