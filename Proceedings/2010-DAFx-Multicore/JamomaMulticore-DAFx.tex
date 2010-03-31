@@ -814,12 +814,12 @@ Audio processing and is demanding on several levels.  Computational efficiency a
 
 \subsubsection{Code design} % (fold)
 
-% TODO: assigned -- Trond
+The Jamoma frameworks align with contemporary philosophies for good coding practice, facilitating the readability, debugging, maintenance, and distribution of code.
+The frameworks emphasize expressive syntax, idioms, and conventions \cite{Martin:2009} and adhere to the DRY (Don't Repeat Yourself) principle, which states that ``Every piece of knowledge must have a single, unambiguous, authoritative representation within a system'' \cite{Hunt:1999}.
+Unit testing  \cite{Martin:2009} is so far implemented only in some of the frameworks, mainly for methods processed asynchronously, at control rate.
+A general system for developing methods for testing audio signal processes and graphs remains to be developed, but is likely to be much simpler to achieve using the text-based Jamoma Multicore implementation for Ruby than it would be within the graphical patching environments Max or Pd.
+This is a long term investment in keeping the code base maintainable, well-documented, stable and extendable, hopefully also encouraging others to make use of the frameworks and join in contributing to future development.
 
-- maintabability
-- documented code
-- code efficiency
-- testing
 
 % TODO: not sure how boastful we really want to be with the above -- testing and documentation are currently anemic (at best).  [TAP]   (but, this is future work)  -- what does it really mean that this is pleasant to work with
 
@@ -828,8 +828,8 @@ Audio processing and is demanding on several levels.  Computational efficiency a
 %	I'm most intrigued by this statement, and would be happy to hear more about it in your paper:
 %
 %		"Perhaps more important, but more difficult to quantify,
-%		we believe we have created a context in which code is ‚Äö√Ñ√∂ pleas-
-%		ant to work with."
+%		we believe we have created a context in which code is ``pleas-
+%		ant to work with.''
 %
 %		This seems to be an increasingly important criterion, especially if (as I believe) we're evolving to a much more porous and flexible continuum across data-flow, scripting, and compiled coding as different entry points for musicians, depending on what they need to do. 
 
