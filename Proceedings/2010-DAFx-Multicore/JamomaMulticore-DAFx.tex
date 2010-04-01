@@ -178,7 +178,7 @@
 \begin{abstract} % (fold)
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+%
 The Jamoma Audio Graph (JAG) layer is a framework for creating graph structures in which unit generators are connected together to process multichannel audio in real-time.  
 This layer forms part of the Jamoma layered architecture for interactive systems.
 Jamoma Audio Graph is particularly well-suited to spatial audio contexts demanding large numbers of audio channels, such as Higher Order Ambisonics, Wave Field Synthesis and microphone arrays for beamforming.
@@ -225,7 +225,6 @@ Alternatively, the Jamoma Platform implements a clear separation of concerns, st
 
 \subsection{Requirements}
 %According to the outlined main applications and the functionalities provided by the co-existing Jamoma frameworks (Figure \ref{fig:layers}), the Jamoma Audio Graph Audio Graph Layer has the following requirements: 
-% Nils is suggesting that we don't launch in here to say what is different about our stuff, but rather say what we are trying to accomplish [tap]
 % Stronger to be able to state what we want -- just a matter of re-phrasing the following.
 
 Through years of accumulated collective experience with a myriad of contexts for realtime multichannel audio work, we found a number of practical needs were still unmet by readily available environments.  We believe these necessities are required not only to ease usability concerns in some environments, but also to open new avenues of creation, exchange, performance, and research in digital audio effects.
@@ -242,13 +241,13 @@ Through years of accumulated collective experience with a myriad of contexts for
 \item{Allowing for multi-threaded parallel audio processing}
  
 \end{packed_item}	
-
+%
 % In addition to the decoupling of the unit generators (Jamoma DSP) from the processing graph, Jamoma Audio Graph differs from other audio graph architectures in several important ways. %NP: do we need this prev. sentence? isn't that clear ? 
 % NP: my suggestion: we should do this section similar to the intro of the DSP paper 1. state our requirements 2. background review 3. explain our solution
 %% First, the connections between objects in the graphs are multi-channel connections; any given connection may carry N channels of audio.  
 %%Second, the content carried by the connections is dynamic; the number of channels, the size of the sample vectors, and the sample-rate of the audio can change during runtime operation.  
 %Third, the type of graph used relies on a \emph{pull} pattern which is readily adapted to multi-threaded parallel calculations.
-
+%
 In order to meet the stated requirements, the Jamoma Audio Graph Layer relies on a \emph{pull} pattern (see Section~\ref{sec:pull}) and is designed to be independent from the host environment's DSP scheduler as much as possible.
 An additional design decision is the use of a ``peer object model" which abstracts the implementation and execution of the graph from any particular environment or platform.  
 This allows for Jamoma Audio Graph to be readily implemented for any number of environments.  
@@ -549,24 +548,23 @@ Ability to host Audio Units and VST may extend these environments, but with limi
 
 Jamoma Audio Graph is a framework\footnote{We use the term framework in a generic sense, as a dynamically linked library together with supporting source and an API.} implementing a synchronous multichannel audio processing graph driven using a pull methodology.
 This is accomplished through the creation of a node class for the graph, \texttt{TTAudioGraphObject}, which wraps a unit generator with other supporting objects.  
-\texttt{TTAudioGraphObject} then manages these instances and the information necessary to pull samples from its sources.
+\texttt{TTAudioGraphObject} then manages these instances and the information necessary to pull samples from its sources. 
+
+Figure \ref{fig:anatomy} shows these classes and their relations. Here, an object is connected to three upstream objects, and to two downstream objects, with all connections being multichannel. 
+A connection between objects can be considered as a many-to-many association; each outlet can be connected to many inlets, and each inlet can be connected to many outlets. 
+The source objects represented by $s0$, $s1$, etc. can then be considered as join tables representing each connection in the many-to-many relationship individually.
 
 % TODO: in the figure we should label the white box with the rounded corners as TTAudio GraphObject -- TAP
 % TODO: Make sure that this figure is still looking good when in black and white - TL
-
-\begin{figure}[htbp]
+%
+\begin{figure}[!htbp]
 \centerline{\framebox{
 	\includegraphics[width=0.9\columnwidth]{anatomy-compact}}}
 \caption{TTAudioGraphObject Class Anatomy}
 \label{fig:anatomy}
 \end{figure}
-
-Figure \ref{fig:anatomy} shows these classes and how they are related. 
-In the figure an object is connected to three upstream objects, and to two downstream objects, with all connections being multichannel. 
-A connection between objects can be considered as a many-to-many association; each outlet can be connected to many inlets, and each inlet can be connected to many outlets. 
-The source objects represented by $s0$, $s1$, etc. can then be considered as join tables representing each connection in the many-to-many relationship individually.
-
-The architecture of \texttt{TTAudioGraphObject} is layered: the audio graph object itself only knows about its inlets; the inlets only know about their sources (joins); the sources know about what object and from which outlet they are connected. 
+%
+\noindent The architecture of \texttt{TTAudioGraphObject} is layered: the audio graph object itself only knows about its inlets; the inlets only know about their sources (joins); the sources know about what object and from which outlet they are connected. 
 In the figure this is illustrated by the object having four inlets. 
 Two multichannel sources $s0$ and $s1$ are connected to the first inlet $in0$, two to the second, and so on. 
 In short:
@@ -943,34 +941,39 @@ A group patched according to a `series' pattern would connect one after the othe
 
 
 \subsection{Improving support for work on spatial audio} % (fold)
-
 % TODO - assigned to Nils
+The advantages in working and maintaining of multichannel audio patches in common computer music environments can be clearly seen in Figure \ref{fig:max-before-after}. 
+For now, the ability to work individually on a single audio channels within the audio graph is limited.
+For instance, it is possible to apply jcom.filter$\approx$ to manipulate all audio channels within a graph connection in the same way. However, many multichannel audio application (such as the Near Field Compensation in Higher Order Ambisonics) rely on filtering processes individualized across audio channels. Future work will address this issue.
 
-From Figure \ref{fig:max-before-after} the advantages in terms of working and maintaining of multichannel audio patches in common computer music environments can be clearly seen.
-For now, the ability to work individually on a single audio channels within the audio graph is currently limited.
-For instance, it is possible to apply jcom.filter$\approx$ to similarly filter all audio channels within a graph connection. however, many multichannel audio application (such as the Near Field Compensation in Higher Order Ambisonics) rely on filtering processes individualized across audio channels. Future work will address this issue.
-We also want to include upmix/downmix algorithms into the Audio Graph to seamlessly mediate between different kind of media formats. Here, we are planning to explore the potential to attach additional meta-information to the individual audio channels to ensure that the correct audio material is being processed (e.g. to identify the signals in an Ambisonics B-format, or to distinguish a binaurally processed audio stream from a conventional stereo track). \\
-Somehow related to IEM's CUBEmixer \footnote{\url{http://ambisonics.iem.at/xchange/products/cubemixer}}, the authors are currently developing a multichannel mixing application which enables the user to work with common spatial audio rendering concepts such as VBAP, DBAP, ViMiC and Ambisonics according to his compositional aspiration and technical possibilities \cite{Peters:2009}. The Jamoma Audio Graph Audio Graph Layer is essential to this development.
+We also want to include upmix/downmix algorithms into the Audio Graph to seamlessly mediate between different kind of multichannel media formats including compressed spatial audio material (e.g. mp3-surround, DIRAC). Here, we are planning to explore the potential to attach additional meta-information to the individual audio channels to ensure that the correct audio material is being processed (e.g. to identify the signals in an Ambisonics B-format, or to distinguish a binaurally processed audio stream from a conventional stereo track). 
 
+Somehow related to IEM's CUBEmixer \footnote{\url{http://ambisonics.iem.at/xchange/products/cubemixer}}, the authors are currently developing a multichannel authoring/mixing application which enables the user to work and combine common spatial audio rendering concepts such as VBAP, DBAP, ViMiC \cite{Peters:2008b} and Ambisonics according to his compositional aspiration and/or technical possibilities \cite{Peters:2009}. The Jamoma Audio Graph Layer is essential to this development and is already being used in a prototype of this application (Figure \ref{fig:SceneMixer}).
+\begin{figure}[htbp]
+	\centering
+		\includegraphics[width=1\columnwidth]{SceneMixer.png}
+	\caption{Prototype of an authoring application combining common spatial rendering concepts using Jamoma Audio Graph}
+	\label{fig:SceneMixer}
+\end{figure}
 
 % == Mighty Mixer ==
- stuff to work on:\\
-- how do we dynamically change the number of channels on the fly within one mulichannel signal? use a jcom.matrix=, jcom.split=, add a jcom.duplicate= ? 
+% stuff to work on:\\
+%- how do we dynamically change the number of channels on the fly within one mulichannel signal? use a jcom.matrix=, jcom.split=, add a jcom.duplicate= ? 
 %- can multicore cabels contain additional meta-information (attributes, dictionaries....)
-- encoded audio? (AAC, mp3-surround, DIRAC) , or ... does multicore only works with PCM audio ? -- we need to be able to specify stream-format metadata (also for 7.1 vs 8-channel)
-- how we do upmixing/downmixing of channels ? 
-    - spatialization - currently prototyped:
-        - VBAP: matrix= so no scripting, 
-            numSource -> numInputs
-            numSpeakers -> numOutputs
-        - todo: ramping
-        - future: making spatialisation objects will contain an instance of the matrix= object
-        - this way we have access to spatialisation in all environments
-            (and some of them are available only in some of the environments)
-        - even more into future: matrixmixer (mighty mixer): creates one instance for each inlet to outlet coupling
-                                    
-        - also into future: same for ViMiC combining matrix=, delays, etc.
-        - we have a prototype implementation in Nils' object (userLib->Vimic->jmod.sur.sourceControl.maxhelp)
+%- encoded audio? (AAC, mp3-surround, DIRAC) , or ... does multicore only works with PCM audio ? -- we need to be %able to specify stream-format metadata (also for 7.1 vs 8-channel)
+%- how we do upmixing/downmixing of channels ? 
+%    - spatialization - currently prototyped:
+%        - VBAP: matrix= so no scripting, 
+%            numSource -> numInputs
+%            numSpeakers -> numOutputs
+%        - todo: ramping
+%        - future: making spatialisation objects will contain an instance of the matrix= object
+%        - this way we have access to spatialisation in all environments
+%            (and some of them are available only in some of the environments)
+%        - even more into future: matrixmixer (mighty mixer): creates one instance for each inlet to outlet coupling
+%                                    
+%        - also into future: same for ViMiC combining matrix=, delays, etc.
+%        - we have a prototype implementation in Nils' object (userLib->Vimic->jmod.sur.sourceControl.maxhelp)
 
 % (end)
 % (end)
