@@ -179,10 +179,10 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The Jamoma Audio Graph Layer (JAGL) is a framework for creating graph structures\footnote{Wikipedia defines this by saying ``a graph is an abstract representation of a set of objects where some pairs of the objects are connected by links''. \url{http://en.wikipedia.org/wiki/Graph_(mathematics)}} in which unit generators are connected together to process multichannel audio in real-time.  
-The Jamoma Audio Graph Layer is currently implemented in Max/MSP, PureData, Ruby, and AudioUnits.
-The Jamoma Audio Graph is particularly well-suited to spatial audio contexts demanding large numbers of audio channels, such as Higher Order Ambisonics, Wave Field Synthesis and microphone arrays for beamforming.
-This layer forms part of the Jamoma layered architecture.
+The Jamoma Audio Graph (JAG) layer is a framework for creating graph structures in which unit generators are connected together to process multichannel audio in real-time.  
+This layer forms part of the Jamoma layered architecture for interactive systems.
+Jamoma Audio Graph is particularly well-suited to spatial audio contexts demanding large numbers of audio channels, such as Higher Order Ambisonics, Wave Field Synthesis and microphone arrays for beamforming.
+Current implementations of Jamoma Audio Graph target the Max/MSP, PureData, Ruby, and AudioUnit environments.
 
 \end{abstract} % (end)
 
@@ -200,7 +200,7 @@ This layer forms part of the Jamoma layered architecture.
 %		Can we answer this in the Requirements section?  [TAP]
 % TODO: Do we need to mention the Jamoma Graph environment as well and update the figure below?
 
-Many frameworks, toolkits, and environments for real-time audio processing fuse the issues of creating unit generators with creating graph structures that process audio through those unit generators.  
+Many frameworks, toolkits, and environments for real-time audio processing fuse the issues of creating unit generators with creating graph\footnote{Wikipedia defines this by saying ``a graph is an abstract representation of a set of objects where some pairs of the objects are connected by links''. \url{http://en.wikipedia.org/wiki/Graph_(mathematics)}} structures that process audio through those unit generators.  
 Alternatively, the Jamoma Platform implements a clear separation of concerns, structured in a layered architecture of several frameworks \cite{Place:2010}.
  Five frameworks currently comprise the Jamoma Platform, providing a comprehensive infrastructure for creating computer music systems. 
  These frameworks are: Jamoma Foundation, Jamoma Graphics, Jamoma Modular, Jamoma DSP, and Jamoma Audio Graph (see Figure~\ref{fig:layers}). 
