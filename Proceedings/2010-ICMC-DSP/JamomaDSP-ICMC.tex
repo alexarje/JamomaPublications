@@ -287,12 +287,12 @@ for layered communications and computer network protocol design or the iPhone So
 
 \begin{figure}[htbp]
 \centerline{\framebox{
-	\includegraphics[width=0.9\columnwidth]{layers-alt}}}
+	\includegraphics[width=0.9\columnwidth]{layers-alt2}}}
 \caption{The Jamoma Platform as Layered Architecture.}
 \label{fig:layers}
 \end{figure}
 
-Jamoma, originally conceived as a modular standard for structuring patchers in Max \cite{Place:2006}, has now evolved into a layered architecture of frameworks providing comprehensive infrastructure for creating computer music systems in general, not just for Max/MSP.  This section presents each of the five frameworks currently comprising the Jamoma Platform: Jamoma Foundation, Jamoma DSP, Jamoma Multicore, Jamoma Graphics and Jamoma Modular (see Figure~\ref{fig:layers}).  We will emphasize the Foundation and DSP layers to illustrate how we meet the requirements of Section \ref{sec:Requirements}.
+Jamoma, originally conceived as a modular standard for structuring patchers in Max \cite{Place:2006}, has now evolved into a layered architecture of frameworks providing comprehensive infrastructure for creating computer music systems in general, not just for Max/MSP.  This section presents each of the five frameworks currently comprising the Jamoma Platform: Jamoma Foundation, Jamoma DSP, Jamoma Graph and Audio Graph, Jamoma Graphics and Jamoma Modular (see Figure~\ref{fig:layers}).  We will emphasize the Foundation and DSP layers to illustrate how we meet the requirements of Section \ref{sec:Requirements}.
  
 % TODO: be sure to emphasize the  polymorphic typing and dynamic binding throughout this section to tie in to the abstract etc...
   
@@ -365,9 +365,9 @@ Additional layers have been created on top of the Jamoma Foundation, both in ser
 
 The \textbf{Graphics Layer} \cite{web10}, based on Cairo \cite{web11}, provides a platform-independent and host-independent way to create 2D graphical user interfaces (GUI). It has already been used in Max/MSP and for AudioUnit plug-ins.
 
-The \textbf{Multicore Audio Graph Layer} \cite{web12} combines unit generators from Jamoma DSP into audio processing topologies.  Many of the initiatives reviewed in Section~\ref{sec:prior_art} conflate both a means to create unit generators and a method by which those objects are combined into audio graphs.  In the Jamoma Platform we provide a clear division between creating and using unit generators versus combining them into a graph.  This allows the unit generators to be assembled in any way that seems desirable for a particular context.
+The \textbf{Graph Layer} provides a means by which Jamoma Foundation objects may be networked ('patched') together to perform either synchronous or asynchronous tasks.  The \textbf{Audio Graph Layer} \cite{web12} specializes the Graph Layer to combine unit generators from Jamoma DSP into audio processing topologies.  Many of the initiatives reviewed in Section~\ref{sec:prior_art} conflate both a means to create unit generators and a method by which those objects are combined into audio graphs.  In the Jamoma Platform we provide a clear division between creating and using unit generators versus combining them into a graph.  This allows the unit generators to be assembled in any way that seems desirable for a particular context.
 
-The \textbf{Modular Framework} \cite{web13}, the highest layer of the Jamoma Platform, provides a modular structure for developing  and controlling Max/MSP/Jitter patches \cite{Place:2006}. It builds upon the Foundation, DSP, Graphics, and Multicore frameworks.
+The \textbf{Modular Framework} \cite{web13}, the highest layer of the Jamoma Platform, provides a modular structure for developing  and controlling Max/MSP/Jitter patches \cite{Place:2006}. It builds upon the Foundation, DSP, Graphics, and Graph/AudioGraph frameworks.
 
 % (end)
 
@@ -424,7 +424,7 @@ The spatial sound rendering technique ViMiC (Virtual Microphone Control) is a vi
 
 \subsection{Ruby, IRB, Rails}
 \lstset{language=Ruby,commentstyle=\color{black}} 
-Ruby Language Bindings make the entirety of the DSP library accessible in the Ruby environment.  Together with Jamoma Multicore, Ruby's interactive shell (irb) can be used for live-coding by creating objects and manipulating the graph of those objects in real-time.  The following code shows a very simple irb session creating an instance of a lowpass filter and interactively passing values one at a time through the filter.
+Ruby Language Bindings make the entirety of the DSP library accessible in the Ruby environment.  Together with Jamoma Audio Graph, Ruby's interactive shell (irb) can be used for live-coding by creating objects and manipulating the graph of those objects in real-time.  The following code shows a very simple irb session creating an instance of a lowpass filter and interactively passing values one at a time through the filter.
 
 % TODO: this breaks across paragraphs -- yuck
 
@@ -472,7 +472,7 @@ A myriad of mundane, but critical, details for DSP classes are taken care of by 
 
 Introspection features of the Jamoma Foundation make it possible to query objects to automate the process of creating mappings and advanced control of the objects such as those cataloged in \cite{Pendharkar:2006}.
 
-A strength of the architecture of Jamoma DSP is the ease with which one can combine, connect, reconnect, and reconfigure unit generators on the fly.  This characteristic lends itself to exploring a variety of paradigms for connecting unit generators into processing graphs.  The initial development of Jamoma Multicore implements an explicitly constructed topology of unit generators using dynamic multichannel connections between nodes in the graph.  We have begun discussing alternative models that resemble the implicit patching pattern of Marsyas \cite{Bray:2005}.  In particular we have initiated a design for processing signals through a grouping of objects into an array.
+A strength of the architecture of Jamoma DSP is the ease with which one can combine, connect, reconnect, and reconfigure unit generators on the fly.  This characteristic lends itself to exploring a variety of paradigms for connecting unit generators into processing graphs.  The initial development of Jamoma Audio Graph implements an explicitly constructed topology of unit generators using dynamic multichannel connections between nodes in the graph.  We have begun discussing alternative models that resemble the implicit patching pattern of Marsyas \cite{Bray:2005}.  In particular we have initiated a design for processing signals through a grouping of objects into an array.
 
 The GNU LGPL license chosen for the Jamoma frameworks have enabled them to be used for open-source as well as commercial software development.  Electrotap's Tap.Tools \cite{web17} is a collection of externals for Max/MSP with an emphasis on audio effects processing.  Hipno \cite{Place:2005} was a set of audio effects plug-ins in the VST, RTAS and AudioUnit formats using the now discontinued Cycling'74 Pluggo environment.  Plug-in development expanding upon the ideas from Hipno is underway, using the Jamoma Platform as a means of gaining independence from the restrictions of proprietary frameworks.
 
@@ -487,7 +487,7 @@ Jamoma Foundation and DSP provide a flexible, user-extendable, runtime environme
 
 Perhaps more important, but more difficult to quantify, we believe we have created a context in which code is `pleasant to work with'.  As stated in \cite{Lerch:2005}, ``A well-defined API can also speed up the development process, since the implementation can focus more on the algorithmic aspects and less on implementation issues like API design.'' 
 
-The power of this runtime is demonstrated through the ability to compile objects for Max, Pd, AudioUnits, VST, and Jamoma Multicore.
+The power of this runtime is demonstrated through the ability to compile objects for Max, Pd, AudioUnits, VST, and Jamoma Audio Graph.
 
 % (end)
 
@@ -541,7 +541,7 @@ We would like to thank Dave Watson, Th\'eo de la Hogue, Tristan Matthews, and Jo
 \bibitem[A9]{web9} 	  \url{http://github.com/tap/JamomaDSP}
 \bibitem[A10]{web10}  \url{http://github.com/tap/JamomaGraphics} 
 \bibitem[A11]{web11}  \url{http://cairographics.org}
-\bibitem[A12]{web12}  \url{http://github.com/tap/JamomaMulticore}
+\bibitem[A12]{web12}  \url{http://github.com/tap/JamomaAudioGraph}
 \bibitem[A13]{web13}  \url{http://github.com/tap/JamomaModular}
 \bibitem[A14]{web14}  \url{http://github.com/tap/JamomaRuby}
 \bibitem[A15]{web15}  \url{http://ruby-doc.org/docs/ProgrammingRuby/html/irb.html}
