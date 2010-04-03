@@ -199,18 +199,16 @@ This framework forms part of the Jamoma layered architecture for interactive sys
 % TODO: I feel that we don't really say WHY we develop this framework. We develop this because ..........   
 %		Can we answer this in the Requirements section?  [TAP]
 
-Many frameworks, toolkits, and environments for real-time audio processing fuse the issues of creating unit generators with creating graph structures\footnote{Wikipedia defines this by saying ``a graph is an abstract representation of a set of objects where some pairs of the objects are connected by links''. \url{http://en.wikipedia.org/wiki/Graph_(mathematics)}} that process audio through those unit generators.
+Many frameworks, toolkits, and environments for real-time audio fuse the issues of creating unit generators with creating graph structures\footnote{Wikipedia defines this by saying ``a graph is an abstract representation of a set of objects where some pairs of the objects are connected by links''. \url{http://en.wikipedia.org/wiki/Graph_(mathematics)}} that process audio through those unit generators.
 % TODO: Could we come up with a better and more permanent reference for this definition than Wikipedia? What do Wikipedia itself reference?
 % CHANGED: I moved the footnote one word to the right (after structure) as that seems to work better with the text flow - TL
 Alternatively, the Jamoma Platform implements a clear separation of concerns, structured in a layered architecture of several frameworks \cite{Place:2010}.
- Five frameworks currently comprise the Jamoma Platform, providing a comprehensive infrastructure for creating computer music systems. 
- These frameworks are: Jamoma Foundation, Jamoma Graphics, Jamoma Modular, Jamoma DSP, and Jamoma Audio Graph (see Figure~\ref{fig:layers}).
-% TODO: Add Jamoma Graph to this discussion. 
-% TODO: Jamoma Graph should be renamed as well, e.g. to Jamoma Async Graph.
-% TODO: update the figure to include Jamoma Graph and possibly make the look-and-feel more consistent with other figures in the paper? All the different background colors look bewildering, don't add anything to the general understanding of the concepts (each framework is already demarked by the boundaries), and look bad in print
- Jamoma Foundation provides low-level support, base classes, and communication systems; Jamoma Graphics provides screen graphics; Jamoma Modular provides a structured approach to development and control of modules in the graphical media environment Max \cite{Place:2006} and Jamoma DSP specializes the Foundation classes to provide a framework for creating a library of unit generators. 
- Jamoma Audio Graph, the focus of this paper, is an open source C++ framework providing the ability to create and network Jamoma DSP objects into dynamic graph structures for audio processing\footnote{Licensing for all layers of the Jamoma Platform are provided under the terms of the GNU LGPL}.  
+Six frameworks currently comprise the Jamoma Platform, providing a comprehensive infrastructure for creating computer music systems. 
+These frameworks are: Jamoma Foundation, Jamoma Graphics, Jamoma Modular, Jamoma DSP, Jamoma Graph and Jamoma Audio Graph (see Figure~\ref{fig:layers}).
 
+Jamoma Foundation provides low-level support, base classes, and communication systems; Jamoma Graphics provides screen graphics; Jamoma Modular provides a structured approach to development and control of modules in the graphical media environment Max \cite{Place:2006} and Jamoma DSP specializes the Foundation classes to provide a framework for creating a library of unit generators. 
+Jamoma Graph networks Jamoma Foundation based objects into graph structures, providing a basic asynchronous processing model for objects (nodes) in the graph structure. 
+Jamoma Audio Graph (JAG), the focus of this paper, is an open source C++ framework that extends and specializes the Jamoma Graph layer.  It provides the ability to create and network Jamoma DSP objects into dynamic graph structures for synchronous audio processing\footnote{Licensing for all layers of the Jamoma Platform are provided under the terms of the GNU LGPL}.  
 
 
 \begin{figure}[htbp]
@@ -222,33 +220,25 @@ Alternatively, the Jamoma Platform implements a clear separation of concerns, st
 
 
 \subsection{Requirements}
-%According to the outlined main applications and the functionalities provided by the co-existing Jamoma frameworks (Figure \ref{fig:layers}), the Jamoma Audio Graph Audio Graph Layer has the following requirements: 
-% Stronger to be able to state what we want -- just a matter of re-phrasing the following.
 
-Through years of accumulated collective experience with a myriad of contexts for realtime multichannel audio work, we found a number of practical needs were still unmet by readily available environments.  We believe these necessities are required not only to ease usability concerns in some environments, but also to open new avenues of creation, exchange, performance, and research in digital audio effects.
+Through years of accumulated collective experience in a myriad of contexts for realtime multichannel audio work, we found a number of practical needs were still unmet by readily available environments.  We believe the following necessities are required not only to ease usability concerns in some environments, but also to open new avenues of creation, exchange, performance, and research in digital audio effects.
 
-% TODO: The above paragraph is nice, but I still feel that we jump into the following bulleted list in a way that make the flow of the text feel awkward here. - TL
 \begin{packed_item}
-
-\item{Multichannel audio streams within one audio graph connection}
-\item{Allowing different sample-rates and vector sizes simultaneously}  
-\item{Live coding and dynamic modification of an audio graph at runtime}    
-\item{Sending information about the channel's audio content as meta data}  
-\item{Cross-platform}
-\item{Exporting the Audio Graph to different Programming Languages}
-\item{Allowing for multi-threaded parallel audio processing}
- 
+	\item{Connections between objects must be capable of delivering multiple channels of audio}
+	\item{Support for audio signals with multiple sample rates and vector sizes simultaneously within a graph}
+	\item{Audio signal sample rate, vector size, and number of channels must be dynamic (able to be changed in realtime)}
+	\item{Dynamic modification of an audio graph at runtime (Live coding/Live patching)}    
+	\item{Ability to transport representations of an audio graph between different programming languages}
+	\item{Support for multi-threaded parallel audio processing}
+	\item{Liberal licensing for both open source and commercial use}
+	\item{Cross-platform}
+	%\item{Sending information about the channel's audio content as meta data}  
+	% CHANGED: we aren't really doing this last thing right now [TAP]
 \end{packed_item}	
-%
-% In addition to the decoupling of the unit generators (Jamoma DSP) from the processing graph, Jamoma Audio Graph differs from other audio graph architectures in several important ways. %NP: do we need this prev. sentence? isn't that clear ? 
-% NP: my suggestion: we should do this section similar to the intro of the DSP paper 1. state our requirements 2. background review 3. explain our solution
-%% First, the connections between objects in the graphs are multi-channel connections; any given connection may carry N channels of audio.  
-%%Second, the content carried by the connections is dynamic; the number of channels, the size of the sample vectors, and the sample-rate of the audio can change during runtime operation.  
-%Third, the type of graph used relies on a \emph{pull} pattern which is readily adapted to multi-threaded parallel calculations.
-%
-In order to meet the stated requirements, the Jamoma Audio Graph Layer relies on a \emph{pull} pattern (see Section~\ref{sec:pull}) and is designed to be independent from the host environment's DSP scheduler as much as possible.
+
+In order to best meet these requirements, Jamoma Audio Graph relies on a \emph{pull} pattern (see Section~\ref{sec:pull}) and is designed to be independent from the host environment's DSP scheduler.
 An additional design decision is the use of a ``peer object model" which abstracts the implementation and execution of the graph from any particular environment or platform.  
-This allows for Jamoma Audio Graph to be readily implemented for any number of environments.  
+This allows for the Jamoma Audio Graph layer to be readily implemented for any number of environments.
 To date the authors have created implementations for Max, PureData, Audio Units, and Ruby.
 % NP: the term peer object model is unclear to me -- maybe the whole peer-object thing should go into the background
 
