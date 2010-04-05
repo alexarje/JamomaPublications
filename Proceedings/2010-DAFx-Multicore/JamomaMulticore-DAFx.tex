@@ -792,8 +792,8 @@ The use of multi-channel signals greatly reduce tedious and repetitious patching
 More important though it greatly improves the workflow in terms of flexibility and inter-operability.
 Jamoma modules for spatialization shares a common interface, and the number of sources and speakers can be dynamically reconfigured on the fly in a simple way using configuration scripts describing the number and positions of sources and speakers. 
 The usefulnes of this can be illustrated by the practical experience of one of the authors while working on a sound installation in Oslo in 2002 \cite{Rudi:2003}.
-For the last week before the opening, two of the composers moved several times a day between working at the installation site using a 24 speaker setup, a 16 speaker setup at the studio of one of the composers and using stereo headphones.
-Every time the parts of the patch dealing with spatialization had to be substituted.
+For the last week before the opening, two of the composers moved several times a day between working at 24 speaker setup at the installation site, a 16 speaker setup at a studio and off-site development using stereo headphones.
+Every time the parts of the patch dealing with spatialisation had to be substituted.
 Using Jamoma Modular it would instead be possible to trigger simple cue scripts to reconfigure the system from one setup to another.
 
 Within Jamoma Modular the Jamoma Audio Graph is eventually planned to be used for all audio modules.
@@ -829,7 +829,7 @@ Jamoma Audio Graph offers alternative ways of monitoring the CPU load.
 Computational performance efficiency is not only a matter of number crunching, but also efficient and dynamic management of processes.
 In live performance situations, such as concerts and works for stage, the processes running tend to change dynamically for the duration of the piece.
 The ability for  dynamic patching without breaking audio implies that processes can be loaded, unloaded, connected and disconnected on the fly, thus preventing processes that are not currently being used from requiring processing resources.
-It also opens possibility for dynamic reconfiguration of the sequence of processes without requiring the signals to pass through the \emph{send~} and \emph{receive~} MSP combo, thus avoiding the introduction of one vector lengths of delay.
+It also opens possibility for dynamic reconfiguration of the sequence of processes without requiring the signals to pass through the \emph{send\textasciitilde} and \emph{receive\textasciitilde} MSP combo, thus avoiding the introduction of one vector lengths of delay.
 Dynamic patching also enables dynamic loading of polyphonic voices as needed.
 While the maximum number of voices has to be predefined in Max/MSP using \emph{poly\textasciitilde}, Csound use a different approach dynamically instantiating as many instances of an instrument as required by the score at any one time.
 Jamoma Audio Graph offers similar possibilities in Max for polyphonic synthesis.
