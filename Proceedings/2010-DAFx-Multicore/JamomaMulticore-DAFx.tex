@@ -537,7 +537,7 @@ The source objects represented by $s0$, $s1$, etc. can then be considered as joi
 \label{fig:anatomy}
 \end{figure}
 %
-\noindent The architecture of \texttt{TTAudioGraphObject} is layered: the audio graph object itself only knows about its inlets; the inlets only know about their sources (joins); the sources know about what object and from which outlet they are connected. 
+\noindent The architecture of \texttt{TTAudioGraphObject} is layered: the audio graph object itself only knows about its inlets; the inlets only know about their sources (joins); the sources know from what object and from which outlet they are connected. 
 In the figure this is illustrated by the object having four inlets. 
 Two multi-channel sources $s0$ and $s1$ are connected to the first inlet $in0$, two to the second, and so on. 
 In short:
@@ -556,11 +556,11 @@ In short:
 \subsection{Building the Graph} % (fold)
 
 For processing to occur, the connections of the graph must be established.  
-This is done by passing a source object and the outlet and inlet number of the connection to the downstream object's \texttt{connect()} method.  
+This is accomplished by passing a reference to a source object, as well as the outlet and inlet numbers for the connection, to the downstream object's \texttt{connect()} method.  
 Similarly, connections may be cut by passing the same information to the downstream object's \texttt{drop()} method.  
-Connections may be created or cut at any time before, after, or during the graph being processed.  
+Connections may be created or dropped at any time before, after or during the graph being processed.  That is to day that there is no global signal chain compilation; the graph may dynamically change over the course of its operation and performance.
+
 % TODO: Would it make sense to add that changes to the graph structure takes effect from the next frame processed? - TL
-There is no global signal chain compilation; the graph may dynamically change over the course of a performance.
 
 % (end)
 
@@ -578,7 +578,7 @@ The unit generator is simply an instance of a Jamoma DSP class, specified as an 
 This unit generator is responsible for actually calculating the audio to be stored by the outlet buffers.
 
 Unlike the outlets, the \emph{inlets} are active.  
-When asked for a vector of audio by the unit generator, they then each request audio from each of their sources (other objects' outlets).  
+When asked for a vector of audio by the unit generator, the inlets each request audio from each of their sources (other objects' outlets).  
 If an inlet has multiple sources, those sources are summed.  
 When all of the inlets have performed this operation, then the unit generator proceeds to process the audio buffered in the inlets and fills the buffers in the outlets.  
 Sources manage a one-to-one connection between an inlet and an outlet; inlets may have zero or more sources.  
@@ -613,7 +613,7 @@ There are many applications of this description, including visual representation
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% TODO: In section 1.1 I)mplementation we state that we have implemented JAG for Audio Unit. Don't Audio Unit then need to be added to this section? - TL
+% TODO: In section 1.1 Implementation we state that we have implemented JAG for Audio Unit. Don't Audio Unit then need to be added to this section? - TL
 
 \subsection{Max/MSP} % (fold)
 
