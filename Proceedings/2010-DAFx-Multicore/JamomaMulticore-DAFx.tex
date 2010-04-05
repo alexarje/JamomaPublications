@@ -621,22 +621,22 @@ There are many applications of this description, including visual representation
 \end{figure*}
 
 A number of externals for multi-channel audio processing in Max have been developed combining Jamoma's Audio Graph and DSP frameworks. 
-The Max implementation of the Jamoma Audio Graph represents multi-channel signals as ordinary patch chords.
-Interfacing between MSP and a Jamoma Audio Graph is facilitated by the externals \emph{jcom.pack$\approx$} and \emph{jcom.unpack$\approx$}, packing and unpacking multiple mono MSP signals into and out of a multi-channel signal. 
-\emph{jcom.adc$\approx$} and \emph{jcom.dac$\approx$} offers additional possibilities for direct audio input and output using PortAudio \cite{Bencina:2003}, bypassing MSP altogether. 
+The Max implementation of the Jamoma Audio Graph layer represents multi-channel signals as ordinary patch chords.
+Interfacing between MSP and a Jamoma Audio Graph is facilitated by the externals \emph{jcom.pack$\approx$} and \emph{jcom.unpack$\approx$}, packing and unpacking multiple mono MSP signals into and out of a Jamoma Audio Graph multi-channel signal. 
+\emph{jcom.adc$\approx$} and \emph{jcom.dac$\approx$} offer additional possibilities for direct audio input and output using PortAudio \cite{Bencina:2003} and thus bypassing MSP altogether. 
 Two or more multi-channel signals might be intertwined into one joint multi-channel signal and separated again using \emph{jcom.join$\approx$} and \emph{jcom.split$\approx$}.
-The sample rate and vector size used for Audio Graph processing as well as the number of channels in a multi-channel signal can be inspected using \emph{jcom.info$\approx$}.
+The sample rate and vector size used for audio graph processing, as well as the number of channels in a multi-channel signal, can be inspected using \emph{jcom.info$\approx$}.
 
-A number of multi-channel audio generators and processors comprising common signal processing tasks are available. %for e.g. noise and common waveforms are available.
-This set of generators can easily be extended.
-The various units available in the Jamoma DSP filter and audio effects libraries can readily be wrapped into Audio Graph externals for Max.
-\emph{jcom.fft$\approx$} and \emph{jcom.window$\approx$} were developed for spectral processing of multi-channel signals.
+A number of multi-channel audio generators and processors comprising common signal processing tasks are available.
+This set of generators can be readily extended.
+For example, the various units available in the Jamoma DSP filter and audio effects libraries can easily wrapped into Audio Graph externals for Max using a single line of C++ code.
+
+Spectral processing for multi-channel signals is implemented through the \emph{jcom.fft$\approx$} and \emph{jcom.window$\approx$} objects.
 % TODO: Are further details required, e.g. on how to deal with complex signals (complex = complex numbers)?
 % Currently a multi-channel signal is considered to be a complex signal with channel 1 being the real part and channel 2 being the imaginary part -- the design here has never really be discussed yet by us...  [TAP]
-Several objects are available for level control and mixing: 
-\emph{jcom.gain$\approx$} can be used to control gain levels for multi-channel signals, while \emph{jcom.matrix$\approx$} allows $M \times N$ matrix-based mixing of the $M$ channels of the incoming signal onto the $N$ channels of the resulting signal. 
-This can e.g. be used for various amplitude-based spatialization algorithms such as VBAP \cite{Pulkki:1997vbap}, DBAP \cite{lossius:2009} and ambisonics \cite{Schacher:2006ambi_max}.
-Finally \emph{jcom.matrixmixer$\approx$} offers possibility of mixing $M$ incoming multi-channel signals onto $N$ returned multi-channel signal.
+Several objects are available for level control and mixing, such as \emph{jcom.gain$\approx$} for controlling gain levels of multi-channel signals, while \emph{jcom.matrix$\approx$} allows $M \times N$ matrix-based mixing of the $M$ channels of the incoming signal onto the $N$ channels of the resulting signal. 
+This can be used for various amplitude-based spatialization algorithms such as VBAP \cite{Pulkki:1997vbap}, DBAP \cite{lossius:2009} and ambisonics \cite{Schacher:2006ambi_max}.
+Finally \emph{jcom.matrixmixer$\approx$} offers the possibility of mixing $M$ incoming multi-channel signals onto $N$ returned multi-channel signals.
 This combined mixer/router is still rudimentary, and assumes all incoming and returned signal to have the same number of channels.
 
 Figure \ref{fig:max-before-after} illustrates the use of Jamoma Audio Graph objects in a patch providing spatialization of 3 mono sources to 16 speakers, with additional post-spatialization mastering of the signals using a limiter and gain adjustment.
@@ -658,15 +658,17 @@ The use of JAG objects greatly helps simplifying the patch as compared to a stan
 
 %TODO: I find the way we move between present and past tense in the following paragraph awkward. - TL
 A strong component of the Jamoma Modular framework is the provision of ready-to-use building blocks for sound spatialization \cite{Peters:2009}.
-To pass multi-channel signals between these modules, Jamoma up until now has been using a simple patching hack that wraps multiple MSP signals into a multi-channel cable. Within each module, this multi-channel connection was then unwrapped in order that audio signals could be processed. 
+
+In the past Jamoma used a simple patching hack that wrapped multiple MSP signals into a multi-channel cable. 
+Within each module, this multi-channel connection was then unwrapped in order that audio signals could be processed. 
 One of several disadvantages of this solution was that whenever the number of sources or speakers was changed, MSP objects and connections had to be destroyed and created.
-As Jamoma modules for spatialization aims at being flexible, enabling the user to define the number of incoming (to be spatialized) sounds and number of outgoing audio feeds (number of loudspeakers), creating and deletion of MSP objects and connections was done using scripting.
-This could create certain stress on Max for time critical situations, and was not experienced to be sufficiently reliable for real-world performance situations.
-Furthermore a change in the DSP structure also required a rebuild of the DSP chain.
+As Jamoma modules for spatialization aim to be flexible, enabling the user to define the number of incoming (to be spatialized) sounds and the number of outgoing audio feeds (number of loudspeakers), required that creation and deletion of MSP objects and connections be done using patcher scripting.
+This often created stress on Max in time critical situations, and was not sufficiently reliable for real-world performance situations.
+Furthermore, a change in the DSP structure also required a rebuild of the DSP chain.
 
 The previous scripting and patching hack approach is currently being replaced by Jamoma Audio Graph externals to simplify the spatialization modules and make them more robust.
-Figure \ref{fig:max-before-after}b indicates how the number of sources and speakers can be changed simply by updating attribute values for a few select JAG externals, thus eliminating the need for scripting in Jamoma Modules.
-Because the Audio Graph signal network can be dynamically reconfigured without the need to recompile the DSP signal chain, on-the-fly changes are possible while audio is running.
+Figure \ref{fig:max-before-after}b indicates how the number of sources and speakers can be changed simply by updating attribute values for a few select JAG externals, thus eliminating the need for patcher scripting in Jamoma Modules.
+Because the Audio Graph signal network can be dynamically reconfigured without the need to recompile the DSP signal chain, on-the-fly changes are possible while audio is running.  In other words, a change to the number of channels requires only a change of parameters rather than change to the program itself.
 
 % CHANGED: I think we most of the following more or less covered now, but it should be breviews. I see some that fit better in a future work section.
 
