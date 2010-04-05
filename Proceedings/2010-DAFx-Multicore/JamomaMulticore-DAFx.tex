@@ -811,11 +811,23 @@ The emphasis in code design is a long term investment in making the frameworks p
 
 % Assigned to Trond
 
-- multicore in Max/Jamoma makes life so much easier....
-- easier/faster to create easier/faster to maintain -- changing the number of channels does *not* require a change to the program
-- much less code
-- flexibility moving between mono, stereo and 5.1, don't have to make 3 different versions of the same mopule (DRY)
-- generalised modules for spatial audio that work with any source and speaker configuration
+The initial motivation for development of Jamoma Audio Graph was simplification of work on spatialisation in Jamoma Modular. 
+The use of multi-channel signals greatly reduce tedious and repetitious patching where the same chain of audio processes have to be created over and over again for each channel. 
+More important though it greatly improves the workflow in terms of flexibility and inter-operability.
+Jamoma modules for spatialisation shares a common interface, and the number of sources and speakers can be dynamically reconfigured on the fly in a simple way using configuration scripts describing the number and positions of sources and speakers. 
+The usefulnes of this can be illustrated by the practical experience of one of the authors while working on a sound installation in Oslo in 2002 \cite{Rudi:2003}.
+For the last week before the opening, two of the composers moved several times a day between working at the installation site using a 24 speaker setup, a 16 speaker setup at the studio of one of the composers and using stereo headphones.
+Every time the parts of the patch dealing with spatialisation had to be substituted.
+Using Jamoma Modular it would instead be possible to trigger simple cue scripts to reconfigure the system from one setup to another.
+
+Within Jamoma Modular the Jamoma Audio Graph is eventually planned to be used for all audio modules.
+One of the major benefits will be the ability to easily reconfigure each module for work on mono, stereo, 5.1 or other surround sound signals.
+This way we avoid having to create and maintain several versions of modules for the same audio process, in accordance with the DRY principle.
+For modules that also depend on the use of ordinary MSP externals internally, we still will have to use \emph{jcom.pack$\approx$} and \emph{jcom.pack$\approx$} in combination with Max scripting.
+
+
+
+
 - ability to export to other environments (C++, Pd, Ruby, AudioUnit plug-ins)
 - Integra is striving somehow for a similar cross-coding....
 
