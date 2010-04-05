@@ -201,7 +201,6 @@ This framework forms part of the Jamoma layered architecture for interactive sys
 
 Many frameworks, toolkits, and environments for real-time audio fuse the issues of creating unit generators with creating graph structures\footnote{Wikipedia defines this by saying ``a graph is an abstract representation of a set of objects where some pairs of the objects are connected by links''. \url{http://en.wikipedia.org/wiki/Graph_(mathematics)}} that process audio through those unit generators.
 % TODO: Could we come up with a better and more permanent reference for this definition than Wikipedia? What do Wikipedia itself reference?
-% CHANGED: I moved the footnote one word to the right (after structure) as that seems to work better with the text flow - TL
 Alternatively, the Jamoma Platform implements a clear separation of concerns, structured in a layered architecture of several frameworks \cite{Place:2010}.
 Six frameworks currently comprise the Jamoma Platform, providing a comprehensive infrastructure for creating computer music systems. 
 These frameworks are: Jamoma Foundation, Jamoma Graphics, Jamoma Modular, Jamoma DSP, Jamoma Graph and Jamoma Audio Graph (see Figure~\ref{fig:layers}).
@@ -241,12 +240,6 @@ An additional design decision is the use of a ``peer object model" which abstrac
 This allows for the Jamoma Audio Graph layer to be readily implemented for any number of environments.
 To date the authors have created implementations for Max, PureData, Audio Units, and Ruby.
 % NP: the term peer object model is unclear to me -- maybe the whole peer-object thing should go into the background
-
-% TODO For list of requirements:  Decoupling Graph and Unit Generator
-
-%- presenting distinguishing between graph and units
-%    - what is a graph and a unit?
-%
 %- application for Jamoma Audio Graph
 %    - e.g. up/downmixing; encoding/decoding 
 
@@ -649,7 +642,7 @@ This combined mixer/router is still rudimentary, and assumes all incoming and re
 Figure \ref{fig:max-before-after} illustrates the use of Jamoma Audio Graph objects in a patch providing spatialization of 3 mono sources to 16 speakers, with additional post-spatialization mastering of the signals using a limiter and gain adjustment.
 The use of JAG objects greatly helps simplifying the patch as compared to a standard MSP audio graph. 
 
-% TODO: Finish of this section by referencing \ref{fig:max-before-after}, how it illustrates MSP to Audio Graph bridging, matrix, FX and output using PortAudio. Also comment on how much simpler it is to reconfigure the number of speakers: We now only need to change attribute values in jcom.matrix≈ and jcom.dbap, instead of having to do repatching. (Save latter for discussion)
+% TODO: Finish off this section by referencing \ref{fig:max-before-after}, how it illustrates MSP to Audio Graph bridging, matrix, FX and output using PortAudio. Also comment on how much simpler it is to reconfigure the number of speakers: We now only need to change attribute values in jcom.matrix≈ and jcom.dbap, instead of having to do repatching. (Save latter for discussion)
 
 %\begin{figure*}[!t]
 %\centering
@@ -838,9 +831,13 @@ This is similar to audio processing using FTM and Gabor \cite{Schnell:2005_Gabor
 Jamoma Audio Graph offers alternative ways of monitoring the CPU load.
 
 % TODO: Tim, do you have anything meaningful to add to this?
+% Just one thing: the MSP load should be accurate if using pack≈ and unpack≈, thought it won't reflect a graph driven by dac≈ [TAP]
+
 %- Integrated Analysis and Benchmarking -- perhaps reference the upchuck operator in ChucK?
  %  -- This integrated analysis and benchmarking could also provide the basis by which an audio graph such as Jamoma Audio Graph is able to evaluate how to optimize the processes in the graph to make intelligent decisions on how to distribute the processing among threads or processors.
  
+% TODO: The following is not computational performance! The heading of simply using 'Performance' for this section was much better.  It's better to be ambiguous than wrong ;-) [TAP]
+
 Computational performance efficiency is not only a matter of number crunching, but also efficient and dynamic management of processes.
 In live performance situations, such as concerts and works for stage, the processes running tend to change dynamically for the duration of the piece.
 The ability for  dynamic patching without breaking audio implies that processes can be loaded, unloaded, connected and disconnected on the fly, thus preventing processes that are not currently being used from requiring processing resources.
@@ -851,11 +848,13 @@ Jamoma Audio Graph offers similar possibilities in Max for polyphonic synthesis.
 Polyphonic voices might be represented as dynamically changing channels in a portion of the graph, which are mixed at the end using a \emph{matrix$\approx$}.
 
 % Tim, do you want to add anything on live coding as a live performance practice in its own right?
+% not particularly, that doesn't seem to add anything to the focus of the paper...  [TAP]
 
-%
-%		A few other thoughts - maybe worth writing a bit more on SuperCollider, as it is much more flexible and elegant than Max/MSP/Pd in allowing new pieces of DSP to be eased in and out of a performance (compared to the rigid poly~ structure, on the one hand, or glitches whenever new DSP objects are created on the other). 
+%		A few other thoughts - maybe worth writing a bit more on SuperCollider, as it is much more flexible and elegant than Max/MSP/Pd in allowing new pieces of DSP to be eased in and out of a performance (compared to the rigid poly~ structure, on the one hand, or glitches whenever new DSP objects are created on the other).
+% This idea also seems to distract from our focus, IMO [TAP]
 
 % (end)
+
 
 \subsubsection{Multithreading} % (fold)
 
@@ -924,13 +923,15 @@ With implicit patching the user is able to interact with groups of objects that 
 One elementary example is the creation of a multi-band EQ, by creating an array of bandpass filters and then specifying then to connect as a parallel group.  
 A group patched according to a `series' pattern would connect one after the other to apply a transformation throughout the chain of objects in the group.
 
+% unit generators are added to a collection and their interaction with the signal processing graph is determined according to a pattern such as 'series', 'fanout', etc. \cite{Bray:2005}.
+
 % (end)
 
 % (end)
 
 
 \subsection{Improving support for work on spatial audio} % (fold)
-% TODO - assigned to Nils
+
 The advantages in working and maintaining of multi-channel audio patches in common computer music environments can be clearly seen in Figure \ref{fig:max-before-after}. 
 For now, the ability to work individually on a single audio channels within the audio graph is limited.
 For instance, it is possible to apply jcom.filter$\approx$ to manipulate all audio channels within a graph connection in the same way. However, many multi-channel audio application (such as the Near Field Compensation in Higher Order Ambisonics) rely on filtering processes individualized across audio channels. Future work will address this issue.
@@ -997,19 +998,7 @@ We rock.
 % TODO: If we are presenting a graph system, should we discuss the potential (if any) for expanding this from being a graph system for audio processing, to video processing or other kinds of time-tagged data, along the line of e.g. Max/Jitter, QuartzComposer or Octane?
 % TODO: Discuss the potential for work on spatialisation, and further work in this direction...
 % TODO: Non-PCM streams?  The need for audio signal metadata?
-% TODO: Also talk about the Jamoma Graph thing?
-
 % TODO: Grand Central Dispatch (GCD) is now open source, is this relevant?
-
-% unit generators are added to a collection and their interaction with the signal processing graph is determined according to a pattern such as 'series', 'fanout', etc. \cite{Bray:2005}.
-
-%Marsyas is a software framework for building efficient complex audio processing systems and applications \cite{Tzanetakis:2008}. "Audio processing systems are defined hierarchically through composition using implicit patching. Both the specification of the processing network and the control of it while data is flowing through can be performed at runtime without requiring recompilation."
-
-%"It is based on a dataflow model of computation in which any audio processing system is represented as a large network of interconnected basic audio process- ing units."  Just like Max/MSP, Pd, Chuck, etc.
-
-% TODO: Is there any other environment that we should acknowledge?
-
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
