@@ -822,33 +822,35 @@ For modules that also depend on the use of ordinary MSP externals internally, we
 
 
 
-
+% TODO
 - ability to export to other environments (C++, Pd, Ruby, AudioUnit plug-ins)
 - Integra is striving somehow for a similar cross-coding....
 
 % (end)
 
 
-\subsection{Performance} %(fold)
-% TODO: How to avoid the musical performance connotation in title?
+\subsection{Computational performance} %(fold)
 % Maybe subsubsections break this apart?
 
-CPU concerns:
+The primary focus of development up until now has been to get the design of Jamoma Audio Graph right, and it is not very optimized yet, due to the early state of the project.
+As audio processing happens independently of MSP, the DSP load indicated by MSP can not be used to profile performance within the Max environment.
+This is similar to audio processing using FTM and Gabor \cite{Schnell:2005_Gabor}.
+Jamoma Audio Graph offers alternative ways of monitoring the CPU load.
 
-- not very optimized right now, due to the early state of the project
-
+% TODO: Tim, do you have anything meaningful to add to this?
 %- Integrated Analysis and Benchmarking -- perhaps reference the upchuck operator in ChucK?
  %  -- This integrated analysis and benchmarking could also provide the basis by which an audio graph such as Jamoma Audio Graph is able to evaluate how to optimize the processes in the graph to make intelligent decisions on how to distribute the processing among threads or processors.
  
-Other performance concerns:
+Computational performance efficiency is not only a matter of number crunching, but also efficient and dynamic management of processes.
+In live performance situations, such as concerts and works for stage, the processes running tend to change dynamically for the duration of the piece.
+The ability for  dynamic patching without breaking audio implies that processes can be loaded, unloaded, connected and disconnected on the fly, thus preventing processes that are not currently being used from requiring processing resources.
+It also opens possibility for dynamic reconfiguration of the sequence of processes without requiring the signals to pass through the \emph{send~} and \emph{receive~} MSP combo, thus avoiding the introduction of one vector lengths of delay.
+Dynamic patching also enables dynamic loading of polyphonic voices as needed.
+While the maximum number of voices has to be predefined in Max/MSP using \emph{poly\textasciitilde}, Csound use a different approach dynamically instantiating as many instances of an instrument as required by the score at any one time.
+Jamoma Audio Graph offers similar possibilities in Max for polyphonic synthesis.
+Polyphonic voices might be represented as dynamically changing channels in a portion of the graph, which are mixed at the end using a \emph{matrix$\approx$}.
 
-- performance is a question of CPU use, but also how it performs in other senses....
-- dynamic patching without breaking audio
-- benefit of live coding paradigm:
-    - performance patch: be able to create and delete subpatches on the fly depending on what's required for different parts of the performance
-    - alternative way of freeing up CPU to the mute~ or poly~ approach in MSP
-    - will it be easier to make polyphonic synths (one obejct can make several instances internally, and then get them all onto the same multicable)
-    - polyphonic synthesis: voices are represented as dynamically changing channels in a portion of the graph, which are mixed at the end using a matrix=. Sort of similar to what Csound do: Creatind and destroying instrument instances as needed rather than having a fixed number of voices (the way poly~ have)
+% Tim, do you want to add anything on live coding as a live performance practice in its own right?
 
 %
 %		A few other thoughts - maybe worth writing a bit more on SuperCollider, as it is much more flexible and elegant than Max/MSP/Pd in allowing new pieces of DSP to be eased in and out of a performance (compared to the rigid poly~ structure, on the one hand, or glitches whenever new DSP objects are created on the other). 
