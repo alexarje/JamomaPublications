@@ -264,6 +264,21 @@ To date the authors have created implementations for Max, PureData, Audio Units,
 
 % TODO: begin with the historical background -- the difficulty of patching multi-channel/ambisonic object networks in MSP, etc. etc. etc.
 
+\subsection{Decoupling Graph and Unit Generator} % (fold)
+
+The Jamoma DSP framework for creating unit generators does not define the way in which one must produce signal processing topographies.  
+Instead, the process of creating objects and connecting them are envisioned and implemented orthogonally and the graph is created using a separate framework: Jamoma Audio Graph.  
+Thanks to this decoupling of Jamoma DSP and Jamoma Audio Graph we are able to create and use Jamoma DSP unit generators with a number of different graph structures.  
+Jamoma Audio Graph is one graph structure that a developer may choose to employ.
+
+Max/MSP, Pd, SuperCollider, Csound, Bidule, AudioMulch, Reaktor and Reason all have have unit generators, but the unit generators can only be used within the particular environment. 
+The unit generators have a proprietary format and thus no interchangeability.  Likewise, the graph structure is proprietary. 
+While SDKs are available for some of these environments, for others no SDK exists and the systems are closed. 
+Ability to host Audio Units and VST may extend these environments, but with limitations.
+
+% (end)
+
+
 \subsection{Audio Graph Structures} % (fold)
 
 A graph structure is an abstract structure where paths are created between nodes (objects) in a set.
@@ -284,21 +299,6 @@ The Jamoma Audio Graph processes blocks of samples at once rather than a single 
 These blocks of samples are passed using a Jamoma DSP class that represents audio signals.  This class bundles vectors of audio for multiple channels together with an interface for accessing the signal's data and metadata.
 % TODO: From a mathematical viewpoint I am not convinced that it is correct to use the word "vector" for multi-channel frames, as these "vectors" really are 2-dimensional and hence matrixes: M samples x N channels. See e.g. http://mathworld.wolfram.com/Vector.html for a definition of "vector" - TL
 % I believe that we aren't really allocating a matrix though, we are actually working on this as an array of vectors [TAP]
-
-% (end)
-
-
-\subsection{Decoupling Graph and Unit Generator} % (fold)
-
-The Jamoma DSP framework for creating unit generators does not define the way in which one must produce signal processing topographies.  
-Instead, the process of creating objects and connecting them are envisioned and implemented orthogonally and the graph is created using a separate framework known as Jamoma Audio Graph.  
-Thanks to this decoupling of Jamoma DSP and Jamoma Audio Graph we are able to create and use Jamoma DSP unit generators with a number of different graph structures.  
-Jamoma Audio Graph is one graph structure that a developer may choose to employ.
-
-Max/MSP, Pd, SuperCollider, Csound, Bidule, AudioMulch, Reaktor and Reason all have have unit generators, but the unit generators can only be used within the particular environment. 
-The unit generators have a proprietary format and thus no interchangeability.  Likewise, the graph structure is proprietary. 
-While SDKs are available for some of these environments, for others no SDK exists and the systems are closed. 
-Ability to host Audio Units and VST may extend these environments, but with limitations.
 
 % (end)
 
