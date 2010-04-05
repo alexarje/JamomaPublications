@@ -288,6 +288,21 @@ These blocks of samples are passed using a Jamoma DSP class that represents audi
 % (end)
 
 
+\subsection{Decoupling Graph and Unit Generator} % (fold)
+
+The Jamoma DSP framework for creating unit generators does not define the way in which one must produce signal processing topographies.  
+Instead, the process of creating objects and connecting them are envisioned and implemented orthogonally and the graph is created using a separate framework known as Jamoma Audio Graph.  
+Thanks to this decoupling of Jamoma DSP and Jamoma Audio Graph we are able to create and use Jamoma DSP unit generators with a number of different graph structures.  
+Jamoma Audio Graph is one graph structure that a developer may choose to employ.
+
+Max/MSP, Pd, SuperCollider, Csound, Bidule, AudioMulch, Reaktor and Reason all have have unit generators, but the unit generators can only be used within the particular environment. 
+The unit generators have a proprietary format and thus no interchangeability.  Likewise, the graph structure is proprietary. 
+While SDKs are available for some of these environments, for others no SDK exists and the systems are closed. 
+Ability to host Audio Units and VST may extend these environments, but with limitations.
+
+% (end)
+
+
 \subsection{Push vs. Pull} \label{sec:pull} % (fold)
 
 When visualizing a signal processing graph, it is common to represent the flow of audio from top-to-bottom or left-to-right.  
@@ -492,20 +507,6 @@ https://ccrma.stanford.edu/~jchrsmt/Compose/Chuck/nchannel18.ck
 
 % (end)
 
-
-\subsection{Decoupling Graph and Unit Generator} % (fold)
-
-Jamoma DSP does not define the way in which one must produce signal processing topographies.  
-Instead, the process of creating objects and connecting them are envisioned and implemented orthogonally and the graph is created using a separate framework known as Jamoma Audio Graph.  
-Thanks to this decoupling of Jamoma DSP and Jamoma Audio Graph we are able to create and use Jamoma DSP unit generators with a number of different graph structures.  
-Jamoma Audio Graph is one graph structure that a developer may choose for usage.
-
-Max/MSP, Pd, SuperCollider, Csound, Bidule, AudioMulch, Reaktor and Reason all have have unit generators, but the unit generators can only be used within the particular environment. 
-The unit generators have a proprietary format and thus no interchangeability.  Likewise, the graph structure is proprietary. 
-While SDKs are available for some of these environments, for others no SDK exists and the systems are closed. 
-Ability to host Audio Units and VST may extend these environments, but with limitations.
-
-% (end)
 
 % (end)
 
