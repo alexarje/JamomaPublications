@@ -807,13 +807,14 @@ For modules that also depend on the use of ordinary MSP externals internally, we
 
 % (end)
 
-
 \subsection{Computational performance} %(fold)
 % Maybe use subsubsection break this apart?
 
-Initial development of Jamoma Audio Graph has focused on the design of an architecturally sound system.  As the project emerges from the early stages of development, minimal time has yet to be devoted directly to issues of optimization, though such issues have informed the architecture itself.
+Initial development of Jamoma Audio Graph has focused on the design of an architecturally sound system.  
+As the project emerges from the early stages of development, minimal time has yet to be devoted directly to issues of optimization, though such issues have informed the architecture itself.
 
-Measurement of computational/processor load can be rudimentarily profiled using the facilities of the host environment (e.g. the CPU readout in Max's DSP Status window), or via alternative methods built into special Jamoma Audio Graph classes.  In cases where the audio processing occurs independently of the host environment, such as in Max using the \texttt{jcom.dac≈} object, the host environment will not be able to adequately measure the computational load of a Jamoma Audio Graph in the same way as would apply to audio processing using FTM and Gabor \cite{Schnell:2005_Gabor}.
+Measurement of computational/processor load can be rudimentarily profiled using the facilities of the host environment (e.g. the CPU readout in Max's DSP Status window), or via alternative methods built into special Jamoma Audio Graph classes.  
+In cases where the audio processing occurs independently of the host environment, such as in Max using the \texttt{jcom.dac$\approx$} object, the host environment will not be able to adequately measure the computational load of a Jamoma Audio Graph in the same way as would apply to audio processing using FTM and Gabor \cite{Schnell:2005_Gabor}.
 
 Computational performance, however, is not merely a matter of efficient number crunching, but also efficient and dynamic management of processes.
 In live performance situations, such as concerts, works for stage and installations, the active processes often change dynamically over the duration of a work.
@@ -851,7 +852,9 @@ In addition to prevention of race conditions and deadlocks, multi-channel real-t
 
 Jamoma Audio Graph supports operation in multi-threaded environments by running multiple parallel graphs on separate threads.  Current research is focused on the expansion of multi-threaded support to include intelligent and adaptive multi-threading within a single graph structure.  
 
-The implemented pulling strategy (Section \ref{sec:pull}) offers opportunities to analyze and benchmark an audio graph structure's computational performance in real-time.  Involved audio processes can then be distributed and managed amongst different threads or processors, particularly where bifurcations of the graph are present, based on a heuristic determination of how to best balance resources against computational load.  The Dynamic Component Cluster Rendering, as found in TANGA, presents a promising thread-management strategy for Jamoma Audio Graph\cite{PartzschAES122}.
+The implemented pulling strategy (Section \ref{sec:pull}) offers opportunities to analyze and benchmark an audio graph structure's computational performance in real-time.  
+Involved audio processes can then be distributed and managed amongst different threads or processors, particularly where bifurcations of the graph are present, based on a heuristic determination of how to best balance resources against computational load.  
+The Dynamic Component Cluster Rendering, as found in TANGA, presents a promising thread-management strategy for Jamoma Audio Graph\cite{PartzschAES122}.
 
 % (end)
 % (end)
@@ -871,28 +874,15 @@ As these graphs are fully-independent of each other they may run at different ra
 
 % TODO: assigned -- Trond
 
-A number of audio processing algorithms require dynamic change of vector size, dynamic variations in onset position of the vectors, overlapping vectors or varying sampling rate for all or some parts of the audio graph. Examples are Fast Fourier Transforms at various vector sizes and with varying amount of overlap, upsampled FFT for improved frequency resolution at low frequencies or granulation with sample accurate grain onset and 
+A number of audio processing algorithms require dynamic change of vector size, dynamic variations in onset position of the vectors, overlapping vectors or varying sampling rate for all or some parts of the audio graph. 
+Examples are Fast Fourier Transforms at various vector sizes and with varying amount of overlap, up-sampled FFT for improved frequency resolution at low frequencies and granulation with sample accurate grain onset. 
+In particular the Gabor library offers several interesting audio signal processing methods that can only be achieved by introducing a signal processing paradigm based on the general idea of streams of atomic sound entities processed with arbitrary timing or arbitrary processing rates. 
+Gabor achieves this by scheduling vectors within the Max event (or message) processing model rather than the block-wise signal stream processing engine of MSP. 
+Sound particles are processed at arbitrary rates or moments and thus can be adjusted to the frequency, texture or rhythm of a sound or to the required processing rate of a particular algorithm \cite{Schnell:2005_Gabor}.
 
-
-
-
-The Gabor library introduces a signal processing paradigm based on the general idea of streams of atomic sound entities pro- cessed with arbitrary timing or arbitrary processing rates. Gabor modules are scheduled within the Max event (or message) pro- cessing model rather than the block-wise signal stream processing engine. This way Gabor allows for the combination of different signal processing techniques in a unified framework one could de- scribe as generalized granular synthesis.
-
-In summary Gabor relies on two basic ideas of processing sound as atomic particles and in arbitrary rates:
-• Gabor processes arbitrary atomic sound particles such as grains, wave periods or frames and their description by different sets of parameters or coefficients in form of streams of generic vectors and matrices.
-• Sound particles are processed at arbitrary rates or moments and thus can be adjusted to the frequency, texture or rhythm of a sound or to the required processing rate of a particular algorithm.
-
-
-
-% One example that demonstrates the need for dynamic vector sizes is the gabor.psola.pat example from FTM. 
-Also granular approaches may benefit (for example, implementing some of the ideas from Curtis Roads' engine).
-
-- ideal environment for spectral processing (changing signals into the native FFT size)
-- similar for granulation.... (creating/destroying grains on-the-fly, dynamic vector sizes)
-% CHANGED: The following is out:
-% - Trond making things difficult: Would we somehow need to ID-tag each channel, so that a filter downstream from a saw generator recognize which channel it is dealing with
-
-% TODO: I have no idea what Trond is talking about in the above :-)  [TAP]
+Support for this kind of dynamic reconfiguration of vector sizes, sampling rate and vector onset remains to be implemented. 
+A future implementation is envisaged to rely on a pairs of object bridging between a regular pulling of vectors, and a subsection of a graph with a higher degree of flexibility. 
+Depending on the audio processing algorithm at hand, the bridging objects might be communicating to ensure that the incoming bridge is looking and buffering sufficiently far ahead in the incoming signal so that it is able to provide the vectors requested from the pulling bridge object at the end of the chain.
 
 % (end)
 
