@@ -889,7 +889,8 @@ Depending on the audio processing algorithm at hand, the bridging objects might 
 
 \subsubsection{Implicit Patching} % (fold)
 
-Currently all connections in an audio graph are managed manually.  In a graphical environment such as Max we could re-phrase this to say that the connections between objects are explicitly patched together by the user.  A higher-level alternative to this ``explicit patching'' by the user is the ``implicit patching'' paradigm embraced by Marsyas \cite{Bray:2005}.
+Currently all connections in an audio graph are managed manually.  In a graphical environment such as Max we could re-phrase this to say that the connections between objects are explicitly patched together by the user.  
+A higher-level alternative to this ``explicit patching'' by the user is the ``implicit patching'' paradigm embraced by Marsyas \cite{Bray:2005}.
 
 With implicit patching the user is able to interact with groups of objects that are networked together by specifying a pattern to use, rather than directly and manually making each connection.  
 One elementary example is the creation of a multi-band EQ, by creating an array of bandpass filters and then specifying then to connect as a parallel group.  
