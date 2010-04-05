@@ -179,7 +179,7 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-Jamoma Audio Graph is a framework for creating graph structures in which unit generators are connected together to process dynamic multichannel audio in real-time.  
+Jamoma Audio Graph is a framework for creating graph structures in which unit generators are connected together to process dynamic multi-channel audio in real-time.  
 These graph structures are particularly well-suited to spatial audio contexts demanding large numbers of audio channels, such as Higher Order Ambisonics, Wave Field Synthesis and microphone arrays for beamforming.
 % TODO: I'm not convinced that we currently should mention WFS, as we don't have support for it anywhere in Jamoma so far.
 This framework forms part of the Jamoma layered architecture for interactive systems, with current implementations of Jamoma Audio Graph targeting the Max/MSP, PureData, Ruby, and AudioUnit environments.
@@ -221,7 +221,7 @@ Jamoma Audio Graph (JAG), the focus of this paper, is an open source C++ framewo
 
 \subsection{Requirements}
 
-Through years of accumulated collective experience in a myriad of contexts for realtime multichannel audio work, we found a number of practical needs were still unmet by readily available environments.  We believe the following necessities are required not only to ease usability concerns in some environments, but also to open new avenues of creation, exchange, performance, and research in digital audio effects.
+Through years of accumulated collective experience in a myriad of contexts for realtime multi-channel audio work, we found a number of practical needs were still unmet by readily available environments.  We believe the following necessities are required not only to ease usability concerns in some environments, but also to open new avenues of creation, exchange, performance, and research in digital audio effects.
 
 \begin{packed_item}
 	\item{Connections between objects must be capable of delivering multiple channels of audio}
@@ -262,7 +262,7 @@ To date the authors have created implementations for Max, PureData, Audio Units,
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-% TODO: begin with the historical background -- the difficulty of patching multichannel/ambisonic object networks in MSP, etc. etc. etc.
+% TODO: begin with the historical background -- the difficulty of patching multi-channel/ambisonic object networks in MSP, etc. etc. etc.
 
 \subsection{Audio Graph Structures} % (fold)
 
@@ -283,7 +283,7 @@ To reduce the computational overhead of making synchronous calls through the gra
 The Jamoma Audio Graph processes blocks of samples at once rather than a single sample at a time.  
 These blocks of samples are passed using a Jamoma DSP class that represents audio signals.  This class bundles vectors of audio for multiple channels together with an interface for accessing the signal's data and metadata.
 % TODO: From a mathematical viewpoint I am not convinced that it is correct to use the word "vector" for multi-channel frames, as these "vectors" really are 2-dimensional and hence matrixes: M samples x N channels. See e.g. http://mathworld.wolfram.com/Vector.html for a definition of "vector" - TL
-% I beleive that we aren't really allocating a matrix though, we are actually working on this as an array of vectors [TAP]
+% I believe that we aren't really allocating a matrix though, we are actually working on this as an array of vectors [TAP]
 
 % This might be conflicting with how Gabor is able to work on vectors of dynamically changing size, e.g. for Yin analysis or whatever it is called...
 
@@ -292,13 +292,13 @@ These blocks of samples are passed using a Jamoma DSP class that represents audi
 
 \subsection{Push vs. Pull} \label{sec:pull} % (fold)
 
-When visualizing a graph for DSP processing, it is common to represent the flow of audio from top to bottom or left to right.  
-Under the hood, the processing is often implemented in this top-to-bottom flow as well.  
+When visualizing a signal processing graph, it is common to represent the flow of audio from top-to-bottom or left-to-right.  
+Under the hood, the processing may be implemented in this top-to-bottom flow as well.  
 Audio at the top of the graph `pushes' down through each subsequent object in the chain until it reaches the bottom.
 
 Alternatively, audio processing may be driven from the bottom of the chain from a `terminal object' or `sink'.  
-This `pull' method for processing an audio graph is used by several environment's including Apple's AUGraph and ChucK \cite{wang:2008}. 
-AUGraph and ChucK are subject to certain limitations however: AUGraph does not permit ``fanning'' connections (many inlets connected to one outlet)\footnote{http://developer.apple.com/mac/library/documentation/General/\\Conceptual/SLGlobalGlossary/Glossary/Glossary.html} while ChucK is not multithreaded.
+This strategy for processing an audio graph, the `pull' method, is used by several environments including Apple's AUGraph and ChucK \cite{wang:2008}. 
+AUGraph and ChucK are subject to certain limitations however: AUGraph does not permit ``fanning'' connections (many inlets connected to one outlet)\footnote{http://developer.apple.com/mac/library/documentation/General/\\Conceptual/SLGlobalGlossary/Glossary/Glossary.html} while ChucK is not multi-threaded.
 % CHANGED: Added a line break in footnote to make it look better. - TL 2010-01-01
 
 % TODO: do we need to cite a source or add a footnote for the AUGraph documentation about this fanning thing?
@@ -312,7 +312,7 @@ AUGraph and ChucK are subject to certain limitations however: AUGraph does not p
 \subsection{Multichannel Processing} % (fold)
 
 In many real-time audio patching environments, such as Max/MSP, Pd, Bidule or AudioMulch, audio objects are connected using mono signals. 
-For multichannel spatial processing the patch has to be tailored to the number of sources and speakers. 
+For multi-channel spatial processing the patch has to be tailored to the number of sources and speakers. 
 If such programs are considered programming environments and the patch the program, a change in the number of sources or speakers requires a rewrite of the program, not just a change to one or more configuration parameters.
 
 % TODO: do we need citations for Max, Pd, Bidule, and AudioMulch?
@@ -322,15 +322,15 @@ If such programs are considered programming environments and the patch the progr
 
 \subsubsection{CSound} % (fold)
 
-In Csound multichannel audio graphing is extended somewhat through the introduction of the ``chn'' set of opcodes.
-% Zak enables flexible routing from one instrument to another as instruments may be reconfigured in the score without requiring changes to the orchestra \cite{Mikelson:2000} and is used e.g. by the \texttt{vbapz} opcode for multichannel vector-base amplitude panning.
+In Csound multi-channel audio graphing is extended somewhat through the introduction of the ``chn'' set of opcodes.
+% Zak enables flexible routing from one instrument to another as instruments may be reconfigured in the score without requiring changes to the orchestra \cite{Mikelson:2000} and is used e.g. by the \texttt{vbapz} opcode for multi-channel vector-base amplitude panning.
 The ``chn'' opcodes allow for accessing a global string-indexed software bus enabling communicating between a host application and the Csound engine, but can also be used for dynamic routing within Csound itself \cite{Yi:2006}.
-Below is an example of  a simple multichannel filter implementation using named software busses to iterate through the channels:
+Below is an example of  a simple multi-channel filter implementation using named software busses to iterate through the channels:
 
 % Note: This example was provided by √òyvind Brandsegg. The code have proper spacing when typeset.
 
 \begin{lstlisting}
-; multichannel filter, event handler 
+; multi-channel filter, event handler 
     instr 2 
     iNumC    = p4      ; number of channels 
     iCF      = p5      ; filter cutoff 
@@ -341,7 +341,7 @@ Below is an example of  a simple multichannel filter implementation using named 
     if ichnNum < iNumC igoto makeEvent
     endin
 
-; multichannel filter, audio processing
+; multi-channel filter, audio processing
     instr 3    
     instance = p4
     iCF      = p5
@@ -357,7 +357,7 @@ Below is an example of  a simple multichannel filter implementation using named 
 \subsubsection{SuperCollider} % (fold)
 
 SuperCollider has an elegant way of representing multiple channels of audio as arrays. 
-When an array of audio signals is given as input to a unit generator it causes multichannel expansion: multiple copies of the unit generator create an array of unit generators, each processing a different signal from the array of inputs. 
+When an array of audio signals is given as input to a unit generator it causes multi-channel expansion: multiple copies of the unit generator create an array of unit generators, each processing a different signal from the array of inputs. 
 In the following example a stereo signal containing white and pink noise is filtered:
 
 \begin{lstlisting}
@@ -373,7 +373,7 @@ In the following example a stereo signal containing white and pink noise is filt
 
 \begin{comment}
 	
-NP: my research into multichannel capabilities with SC\\
+NP: my research into multi-channel capabilities with SC\\
 seems to be simple\\     
 a) making a 3 channel  Sine Oscillator 
 
@@ -385,7 +385,7 @@ b) making a 24 channel sine wave oscillator in SC:
 { Out.ar( 0, SinOsc.ar.dup(24) ) }.play;
 \end{lstlisting}  
 
-for more complex multichannel handling by a system called Multichannel Expansion, see \url{http://danielnouri.org/docs/SuperColliderHelp/Other%20Topics/MultiChannel.html}
+for more complex multi-channel handling by a system called Multichannel Expansion, see \url{http://danielnouri.org/docs/SuperColliderHelp/Other%20Topics/MultiChannel.html}
 
 \end{comment} 
 
@@ -481,7 +481,7 @@ b = Buffer.read(s, "/Users/lossius/Music/AIFF/VT Mandela_lyd/Lange/klokkerhav.ai
 
 \begin{comment}
 
-Examples of arrays here, although I'm not sure yet if this at all relates to audio multichannel signals:
+Examples of arrays here, although I'm not sure yet if this at all relates to audio multi-channel signals:
 http://chuck.cs.princeton.edu/doc/examples/
 
 Multichannel example:
@@ -495,7 +495,7 @@ https://ccrma.stanford.edu/~jchrsmt/Compose/Chuck/nchannel18.ck
 
 \end{comment} 
 
-% TODO: Who else has a true multichannel environment?  anyone?
+% TODO: Who else has a true multi-channel environment?  anyone?
 
 % (end)
 
@@ -525,11 +525,11 @@ Ability to host Audio Units and VST may extend these environments, but with limi
 
 \subsection{Structure} % (fold)
 
-Jamoma Audio Graph is a framework\footnote{We use the term framework in a generic sense, as a dynamically linked library together with supporting source and an API.} implementing a synchronous multichannel audio processing graph driven using a pull methodology.
+Jamoma Audio Graph is a framework\footnote{We use the term framework in a generic sense, as a dynamically linked library together with supporting source and an API.} implementing a synchronous multi-channel audio processing graph driven using a pull methodology.
 This is accomplished through the creation of a node class for the graph, \texttt{TTAudioGraphObject}, which wraps a unit generator with other supporting objects.  
 \texttt{TTAudioGraphObject} then manages these instances and the information necessary to pull samples from its sources. 
 
-Figure \ref{fig:anatomy} shows these classes and their relations. Here, an object is connected to three upstream objects, and to two downstream objects, with all connections being multichannel. 
+Figure \ref{fig:anatomy} shows these classes and their relations. Here, an object is connected to three upstream objects, and to two downstream objects, with all connections being multi-channel. 
 A connection between objects can be considered as a many-to-many association; each outlet can be connected to many inlets, and each inlet can be connected to many outlets. 
 The source objects represented by $s0$, $s1$, etc. can then be considered as join tables representing each connection in the many-to-many relationship individually.
 
@@ -545,7 +545,7 @@ The source objects represented by $s0$, $s1$, etc. can then be considered as joi
 %
 \noindent The architecture of \texttt{TTAudioGraphObject} is layered: the audio graph object itself only knows about its inlets; the inlets only know about their sources (joins); the sources know about what object and from which outlet they are connected. 
 In the figure this is illustrated by the object having four inlets. 
-Two multichannel sources $s0$ and $s1$ are connected to the first inlet $in0$, two to the second, and so on. 
+Two multi-channel sources $s0$ and $s1$ are connected to the first inlet $in0$, two to the second, and so on. 
 In short:
 \begin{tabbing}
 \hspace{2.6cm}\=A graph has many objects.\\
@@ -645,11 +645,11 @@ This set of generators can easily be extended.
 The various units available in the Jamoma DSP filter and audio effects libraries can readily be wrapped into Audio Graph externals for Max.
 \emph{jcom.fft$\approx$} and \emph{jcom.window$\approx$} were developed for spectral processing of multi-channel signals.
 % TODO: Are further details required, e.g. on how to deal with complex signals (complex = complex numbers)?
-% Currently a multichannel signal is considered to be a complex signal with channel 1 being the real part and channel 2 being the imaginary part -- the design here has never really be discussed yet by us...  [TAP]
+% Currently a multi-channel signal is considered to be a complex signal with channel 1 being the real part and channel 2 being the imaginary part -- the design here has never really be discussed yet by us...  [TAP]
 Several objects are available for level control and mixing: 
-\emph{jcom.gain$\approx$} can be used to control gain levels for multichannel signals, while \emph{jcom.matrix$\approx$} allows $M \times N$ matrix-based mixing of the $M$ channels of the incoming signal onto the $N$ channels of the resulting signal. 
+\emph{jcom.gain$\approx$} can be used to control gain levels for multi-channel signals, while \emph{jcom.matrix$\approx$} allows $M \times N$ matrix-based mixing of the $M$ channels of the incoming signal onto the $N$ channels of the resulting signal. 
 This can e.g. be used for various amplitude-based spatialization algorithms such as VBAP \cite{Pulkki:1997vbap}, DBAP \cite{lossius:2009} and ambisonics \cite{Schacher:2006ambi_max}.
-Finally \emph{jcom.matrixmixer$\approx$} offers possibility of mixing $M$ incoming multichannel signals onto $N$ returned multichannel signal.
+Finally \emph{jcom.matrixmixer$\approx$} offers possibility of mixing $M$ incoming multi-channel signals onto $N$ returned multi-channel signal.
 This combined mixer/router is still rudimentary, and assumes all incoming and returned signal to have the same number of channels.
 
 Figure \ref{fig:max-before-after} illustrates the use of Jamoma Audio Graph objects in a patch providing spatialization of 3 mono sources to 16 speakers, with additional post-spatialization mastering of the signals using a limiter and gain adjustment.
@@ -671,7 +671,7 @@ The use of JAG objects greatly helps simplifying the patch as compared to a stan
 
 %TODO: I find the way we move between present and past tense in the following paragraph awkward. - TL
 A strong component of the Jamoma Modular framework is the provision of ready-to-use building blocks for sound spatialization \cite{Peters:2009}.
-To pass multichannel signals between these modules, Jamoma up until now has been using a simple patching hack that wraps multiple MSP signals into a multichannel cable. Within each module, this multichannel connection was then unwrapped in order that audio signals could be processed. 
+To pass multi-channel signals between these modules, Jamoma up until now has been using a simple patching hack that wraps multiple MSP signals into a multi-channel cable. Within each module, this multi-channel connection was then unwrapped in order that audio signals could be processed. 
 One of several disadvantages of this solution was that whenever the number of sources or speakers was changed, MSP objects and connections had to be destroyed and created.
 As Jamoma modules for spatialization aims at being flexible, enabling the user to define the number of incoming (to be spatialized) sounds and number of outgoing audio feeds (number of loudspeakers), creating and deletion of MSP objects and connections was done using scripting.
 This could create certain stress on Max for time critical situations, and was not experienced to be sufficiently reliable for real-world performance situations.
@@ -704,8 +704,8 @@ Because the Audio Graph signal network can be dynamically reconfigured without t
 \subsection{PureData (Pd)} % (fold)
 
 The Jamoma Audio Graph layer is also implemented for Pure Data, which is essentially similar to Jamoma Audio Graph for Max/MSP. 
-The most obvious difference between JAG for Pure Data and JAG for Max may be the slightly different naming convention, the Pure Data version using `=' instead of `$\approx$' appended as an indicator for multichannel signal streams. 
-Figure \ref{fig:pd} demonstrates the use of Jamoma Audio Graph in Pd for passing 4 channels through a chain for processing, taking advantage of the multichannel patch cord connections.  
+The most obvious difference between JAG for Pure Data and JAG for Max may be the slightly different naming convention, the Pure Data version using `=' instead of `$\approx$' appended as an indicator for multi-channel signal streams. 
+Figure \ref{fig:pd} demonstrates the use of Jamoma Audio Graph in Pd for passing 4 channels through a chain for processing, taking advantage of the multi-channel patch cord connections.  
 
 \begin{figure}[htbp]
 \centerline{\framebox{
@@ -851,9 +851,9 @@ Other performance concerns:
 
 Parallel CPU architectures are becoming increasingly common in desktop computing platforms.
 UC Berkeley's Parallel Computing Laboratory identified audio applications as one of the most promising but also most challenging use cases for parallel computing \cite{asanovic2008parallel}. 
-In addition to prevention of race conditions and deadlocks, multichannel real-time audio computing also requires low latency and jitter-free audio processing execution.
+In addition to prevention of race conditions and deadlocks, multi-channel real-time audio computing also requires low latency and jitter-free audio processing execution.
 
-Jamoma Audio Graph supports operation in multi-threaded environments by running multiple parallel graphs on separate threads.  Current research is focused on the expansion of multi-threaded support to include intelligent and adaptive multithreading within a single graph structure.  
+Jamoma Audio Graph supports operation in multi-threaded environments by running multiple parallel graphs on separate threads.  Current research is focused on the expansion of multi-threaded support to include intelligent and adaptive multi-threading within a single graph structure.  
 
 The implemented pulling strategy (Section \ref{sec:pull}) offers opportunities to analyze and benchmark at the audio graph structure in real-time.  Involved audio processes can then be distributed and managed amongst different threads or processors, particularly where bifurcations of the graph are present, based on a heuristic determination of how to best balance resources against computational load.  A promising management strategy can be found in \cite{PartzschAES122}.
 
@@ -867,8 +867,8 @@ The implemented pulling strategy (Section \ref{sec:pull}) offers opportunities t
 
 %wouldn't Audio Graph (on its own) greatly simplify non-realtime processing, provided that we had audio objects for anything needed so that we could totally avoid MSP, and also had a way of controlling the Max clock?
 
-%    - multithreading where applicable
-%    - pragmatic multithreading: real-time statistics for optimizing between different processors
+%    - multi-threading where applicable
+%    - pragmatic multi-threading: real-time statistics for optimizing between different processors
 %   
 %A   B
 % \ /
@@ -921,13 +921,13 @@ A group patched according to a `series' pattern would connect one after the othe
 
 \subsection{Improving support for work on spatial audio} % (fold)
 % TODO - assigned to Nils
-The advantages in working and maintaining of multichannel audio patches in common computer music environments can be clearly seen in Figure \ref{fig:max-before-after}. 
+The advantages in working and maintaining of multi-channel audio patches in common computer music environments can be clearly seen in Figure \ref{fig:max-before-after}. 
 For now, the ability to work individually on a single audio channels within the audio graph is limited.
-For instance, it is possible to apply jcom.filter$\approx$ to manipulate all audio channels within a graph connection in the same way. However, many multichannel audio application (such as the Near Field Compensation in Higher Order Ambisonics) rely on filtering processes individualized across audio channels. Future work will address this issue.
+For instance, it is possible to apply jcom.filter$\approx$ to manipulate all audio channels within a graph connection in the same way. However, many multi-channel audio application (such as the Near Field Compensation in Higher Order Ambisonics) rely on filtering processes individualized across audio channels. Future work will address this issue.
 
-We also want to include upmix/downmix algorithms into the Audio Graph to seamlessly mediate between different kind of multichannel media formats including compressed spatial audio material (e.g. mp3-surround, DIRAC). Here, we are planning to explore the potential to attach additional meta-information to the individual audio channels to ensure that the correct audio material is being processed (e.g. to identify the signals in an Ambisonics B-format, or to distinguish a binaurally processed audio stream from a conventional stereo track). 
+We also want to include upmix/downmix algorithms into the Audio Graph to seamlessly mediate between different kind of multi-channel media formats including compressed spatial audio material (e.g. mp3-surround, DIRAC). Here, we are planning to explore the potential to attach additional meta-information to the individual audio channels to ensure that the correct audio material is being processed (e.g. to identify the signals in an Ambisonics B-format, or to distinguish a binaurally processed audio stream from a conventional stereo track). 
 
-Somehow related to IEM's CUBEmixer \footnote{\url{http://ambisonics.iem.at/xchange/products/cubemixer}}, the authors are currently developing a multichannel authoring/mixing application which enables the user to work and combine common spatial audio rendering concepts such as VBAP, DBAP, ViMiC \cite{Peters:2008b} and Ambisonics according to his compositional aspiration and/or technical possibilities \cite{Peters:2009}. The Jamoma Audio Graph Layer is essential to this development and is already being used in a prototype of this application (Figure \ref{fig:SceneMixer}).
+Somehow related to IEM's CUBEmixer \footnote{\url{http://ambisonics.iem.at/xchange/products/cubemixer}}, the authors are currently developing a multi-channel authoring/mixing application which enables the user to work and combine common spatial audio rendering concepts such as VBAP, DBAP, ViMiC \cite{Peters:2008b} and Ambisonics according to his compositional aspiration and/or technical possibilities \cite{Peters:2009}. The Jamoma Audio Graph Layer is essential to this development and is already being used in a prototype of this application (Figure \ref{fig:SceneMixer}).
 \begin{figure}[htbp]
 	\centering
 		\includegraphics[width=1\columnwidth]{SceneMixer.png}
@@ -1011,7 +1011,7 @@ We rock.
 The authors wish to thank Alexander Refsum Jensenius and the fourMs lab at the University of Oslo for hosting the workshop during which the initial architecture of Jamoma Audio Graph was designed. % Called 'lydbær' at the time...
 We additionally thank Pascal Baltazar and everyone at GMEA Centre National de Cr\' eation Musicale for hosting a spatialization workshop during which the design of Jamoma Audio Graph was reviewed and heavily revised. % Called 'Jamoma Multicore' at the time...
 Initial development was supported by The Municipality of Bergen.  
-\O yvind Brandsegg, Jeff Carey and IOhannes Zm\"olnig have provided valuable insight into processing of multichannel signals in Csound, SuperCollider and Pd respectively.
+\O yvind Brandsegg, Jeff Carey and IOhannes Zm\"olnig have provided valuable insight into processing of multi-channel signals in Csound, SuperCollider and Pd respectively.
 Jesse Allison provided assistance with the Ruby on Rails implementation of Jamoma Audio Graph.
 % (end)
 
