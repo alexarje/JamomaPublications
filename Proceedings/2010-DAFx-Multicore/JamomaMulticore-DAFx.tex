@@ -776,24 +776,10 @@ The Jamoma Audio Graph framework seeks to strike a balance between raw number-cr
 
 The Jamoma frameworks align with contemporary philosophies for good coding practice, thus facilitating the readability, debugging, maintenance and distribution of code.
 The frameworks emphasize expressive syntax, idioms, and conventions \cite{Martin:2009} and adhere to the DRY (Don't Repeat Yourself) principle, which states that ``Every piece of knowledge must have a single, unambiguous, authoritative representation within a system'' \cite{Hunt:1999}.
-Unit testing  \cite{Martin:2009} is so far implemented only in some of the frameworks, mainly for methods processed asynchronously, at control rate.
+Unit testing is so far implemented only in some of the frameworks, mainly for methods processed asynchronously, at control rate.
 A general system for developing methods for testing audio signal processes and graphs remains to be developed, but is likely to be much simpler to achieve using the text-based Jamoma Audio Graph implementation for Ruby than it would be within the graphical patching environments Max or Pd.
 
-The emphasis in code design is a long term investment in making the frameworks pleasant to work with and on, keeping the code base intuitive to use, maintainable, well-documented, stable and extendable, thus hopefully also encouraging others to make use of the frameworks and join in contributing to future development.
-
-% +1 : nice job on the above, Trond!  :-)    [TAP]
-
-% TODO: not sure how boastful we really want to be with the above -- testing and documentation are currently anemic (at best).  [TAP]   (but, this is future work)  -- what does it really mean that this is pleasant to work with
-
-% Eric Lyon had the following comment about our DSP paper, which I think could be worked-in here as a way to tie the goals of Audio Graph into the bigger picture:
-%
-%	I'm most intrigued by this statement, and would be happy to hear more about it in your paper:
-%
-%		"Perhaps more important, but more difficult to quantify,
-%		we believe we have created a context in which code is ``pleas-
-%		ant to work with.''
-%
-%		This seems to be an increasingly important criterion, especially if (as I believe) we're evolving to a much more porous and flexible continuum across data-flow, scripting, and compiled coding as different entry points for musicians, depending on what they need to do. 
+The emphasis in code design is a long term investment in creating frameworks with which it is pleasant work, intuitive to use, easy to maintain, well-documented, stable and supporting an extendable code base.  We do this to encourage others to make use of the frameworks and join in contributing to future development.
 
 % (end)
 
