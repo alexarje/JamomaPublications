@@ -875,14 +875,15 @@ As these graphs are fully-independent of each other they may run at different ra
 % TODO: assigned -- Trond
 
 A number of audio processing algorithms require dynamic change of vector size, dynamic variations in onset position of the vectors, overlapping vectors or varying sampling rate for all or some parts of the audio graph. 
-Examples are Fast Fourier Transforms at various vector sizes and with varying amount of overlap, up-sampled FFT for improved frequency resolution at low frequencies and granulation with sample accurate grain onset. 
+Examples are Fast Fourier Transforms at various vector sizes and with varying amount of overlap, up-sampled FFT for improved frequency resolution at low frequencies and granulation with sample accurate grain onset and duration. 
 In particular the Gabor library offers several interesting audio signal processing methods that can only be achieved by introducing a signal processing paradigm based on the general idea of streams of atomic sound entities processed with arbitrary timing or arbitrary processing rates. 
 Gabor achieves this by scheduling vectors within the Max event (or message) processing model rather than the block-wise signal stream processing engine of MSP. 
 Sound particles are processed at arbitrary rates or moments and thus can be adjusted to the frequency, texture or rhythm of a sound or to the required processing rate of a particular algorithm \cite{Schnell:2005_Gabor}.
 
-Support for this kind of dynamic reconfiguration of vector sizes, sampling rate and vector onset remains to be implemented. 
-A future implementation is envisaged to rely on a pair of objects bridging between a regular pulling of vectors, and a subsection of a graph with a higher degree of flexibility. 
-Depending on the audio processing algorithm at hand, the bridging objects might be communicating to ensure that the incoming bridge is looking and buffering sufficiently far ahead in the incoming signal so that it is able to provide the vectors requested from the pulling bridge object at the end of the chain.
+Support for this kind of dynamic reconfiguration of vector sizes, sampling rate and vector onsets remains to be implemented. 
+A future implementation is envisaged to rely on a pair of objects bridging between the regular part of the graph and a subsection with a higher degree of flexibility. 
+Depending on the audio processing algorithm at hand, the bridging objects might be required to communicate back and forth to ensure that the incoming bridge is looking and buffering sufficiently far ahead in the incoming signal so that it is able to provide the vectors requested from the pulling bridge object at the end of the chain.
+If the stream of vectors or grains depends on analysis of the incoming signal, as is the case for PSOLA (Pitch Synchronous Overlap-add), the internal communication between the two bridging objects might also be used to control the pull mechanism based on the results of the analysis of incoming audio.
 
 % (end)
 
