@@ -285,8 +285,6 @@ These blocks of samples are passed using a Jamoma DSP class that represents audi
 % TODO: From a mathematical viewpoint I am not convinced that it is correct to use the word "vector" for multi-channel frames, as these "vectors" really are 2-dimensional and hence matrixes: M samples x N channels. See e.g. http://mathworld.wolfram.com/Vector.html for a definition of "vector" - TL
 % I believe that we aren't really allocating a matrix though, we are actually working on this as an array of vectors [TAP]
 
-% This might be conflicting with how Gabor is able to work on vectors of dynamically changing size, e.g. for Yin analysis or whatever it is called...
-
 % (end)
 
 
@@ -301,15 +299,10 @@ This strategy for processing an audio graph, the `pull' method, is used by sever
 AUGraph and ChucK are subject to certain limitations however: AUGraph does not permit ``fanning'' connections (many inlets connected to one outlet)\footnote{http://developer.apple.com/mac/library/documentation/General/\\Conceptual/SLGlobalGlossary/Glossary/Glossary.html} while ChucK is not multi-threaded.
 % CHANGED: Added a line break in footnote to make it look better. - TL 2010-01-01
 
-% TODO: do we need to cite a source or add a footnote for the AUGraph documentation about this fanning thing?
-% http://lists.apple.com/archives/coreaudio-api/2005/Aug/msg00251.html
-% http://developer.apple.com/mac/library/documentation/General/Conceptual/SLGlobalGlossary/Glossary/Glossary.html says:
-% "fan out:  In electronics generally, to direct one output signal to multiple inputs. Audio units cannot perform fan out of this sort. To feed multiple audio unit inputs, you direct an audio unit output to a buffer (such as a splitter unit) that has multiple outputs, each of which can connect to a separate audio unit input."
-
 % (end)
 
 
-\subsection{Multichannel Processing} % (fold)
+\subsection{Multi-channel Processing} % (fold)
 
 In many real-time audio patching environments, such as Max/MSP, Pd, Bidule or AudioMulch, audio objects are connected using mono signals. 
 For multi-channel spatial processing the patch has to be tailored to the number of sources and speakers. 
@@ -322,10 +315,10 @@ If such programs are considered programming environments and the patch the progr
 
 \subsubsection{CSound} % (fold)
 
-In Csound multi-channel audio graphing is extended somewhat through the introduction of the ``chn'' set of opcodes.
+In Csound multi-channel audio graph possibilities are extended somewhat through the introduction of the ``chn'' set of opcodes.
 % Zak enables flexible routing from one instrument to another as instruments may be reconfigured in the score without requiring changes to the orchestra \cite{Mikelson:2000} and is used e.g. by the \texttt{vbapz} opcode for multi-channel vector-base amplitude panning.
-The ``chn'' opcodes allow for accessing a global string-indexed software bus enabling communicating between a host application and the Csound engine, but can also be used for dynamic routing within Csound itself \cite{Yi:2006}.
-Below is an example of  a simple multi-channel filter implementation using named software busses to iterate through the channels:
+The ``chn'' opcodes provide access to a global string-indexed software bus enabling communicating between a host application and the Csound engine, but can also be used for dynamic routing within Csound itself \cite{Yi:2006}.
+Below is an example of a simple multi-channel filter implementation using named software busses to iterate through the channels:
 
 % Note: This example was provided by √òyvind Brandsegg. The code have proper spacing when typeset.
 
@@ -356,8 +349,8 @@ Below is an example of  a simple multi-channel filter implementation using named
 
 \subsubsection{SuperCollider} % (fold)
 
-SuperCollider has an elegant way of representing multiple channels of audio as arrays. 
-When an array of audio signals is given as input to a unit generator it causes multi-channel expansion: multiple copies of the unit generator create an array of unit generators, each processing a different signal from the array of inputs. 
+SuperCollider employs an elegant solution by representing signals containing multiple channels of audio as arrays. 
+When an array of audio signals is given as input to a unit generator it causes multi-channel expansion: multiple copies of the unit generator are spawned to create an array of unit generators, each processing a different signal from the array of inputs.
 In the following example a stereo signal containing white and pink noise is filtered:
 
 \begin{lstlisting}
