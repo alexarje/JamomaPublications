@@ -872,8 +872,6 @@ As these graphs are fully-independent of each other they may run at different ra
 
 \subsubsection{Dynamic vector size} % (fold)
 
-% TODO: assigned -- Trond
-
 A number of audio processing algorithms require dynamic change of vector size, dynamic variations in onset position of the vectors, overlapping vectors or varying sampling rate for all or some parts of the audio graph. 
 Examples are Fast Fourier Transforms at various vector sizes and with varying amount of overlap, up-sampled FFT for improved frequency resolution at low frequencies and granulation with sample accurate grain onset and duration. 
 In particular the Gabor library offers several interesting audio signal processing methods that can only be achieved by introducing a signal processing paradigm based on the general idea of streams of atomic sound entities processed with arbitrary timing or arbitrary processing rates. 
@@ -951,14 +949,16 @@ Somehow related to IEM's CUBEmixer \footnote{\url{http://ambisonics.iem.at/xchan
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-We rock.
+% CHANGED: I did the following as our first draft, basically going through the bullet points of our requirements.  [TAP]
+
+The Jamoma Audio Graph framework implements a flexible and dynamic architecture for creating networks of multi-channel unit generators that operate in real time.
+The connections between objects are not only capable of delivering multiple channels of audio through each individual connection, but the number of audio channels may change dynamically during the operation of the audio graph.  
+Furthermore, the connections themselves are dynamic, meaning that unit generators may be connected or detached during the operation of the audio graph without requiring the signal chain to be re-compiled, and giving rise to live coding and live patching applications.
+Finally, the vector size of the signal processing graph, as well as the sample rate of the graph is dynamic with parts of the graph that may operated at different rates for spectral, granular, or other areas of interest.
+
+Through implementations for a variety of text-based and graphical environments, we have proven the flexibility of the architecture and the potential for great usability improvements to those environments.  We believe the structure to be a good fit for multi-threaded parallel processing, which comprises much of the future development of Jamoma Audio Graph.  As an open source project with cross-platform support, we believe that Jamoma Audio Graph provides a relevant and applicable model for developing real time audio processing systems.
 
 % (end)
-
-
-
-
-% CHANGED Trond's attempt at outlining ends here  -------------------------------------
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
