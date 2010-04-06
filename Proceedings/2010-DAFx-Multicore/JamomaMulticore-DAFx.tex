@@ -666,8 +666,8 @@ As Jamoma modules for spatialization aim to be flexible, enabling the user to de
 This often created stress on Max in time critical situations, and was not sufficiently reliable for real-world performance situations.
 Furthermore, a change in the DSP structure also required a rebuild of the DSP chain.
 
-The previous scripting and patching hack approach is currently being replaced by Jamoma Audio Graph externals to simplify the spatialization modules and make them more robust.
-Figure \ref{fig:max-before-after}b indicates how the number of sources and speakers can be changed simply by updating attribute values for a few select JAG externals, thus eliminating the need for patcher scripting in Jamoma Modules.
+The previous scripting and patching hack approach is currently being replaced by JAG objects to simplify the spatialization modules and make them more robust.
+Figure \ref{fig:max-before-after}b indicates how the number of sources and speakers can be changed simply by updating attribute values for a few JAG objects, thus eliminating the need for patcher scripting in Jamoma Modules.
 Because the Audio Graph signal network can be dynamically reconfigured without the need to recompile the DSP signal chain, on-the-fly changes are possible while audio is running.  In other words, a change to the number of channels requires only a change of parameters rather than change to the program itself.
 
 % CHANGED: I think we most of the following more or less covered now, but it should be breviews. I see some that fit better in a future work section.
@@ -694,12 +694,12 @@ Because the Audio Graph signal network can be dynamically reconfigured without t
 
 The Jamoma Audio Graph layer is also implemented for Pure Data, which is essentially similar to Jamoma Audio Graph for Max/MSP. 
 The most obvious difference between JAG for Pure Data and JAG for Max may be the slightly different naming convention, the Pure Data version using `=' instead of `$\approx$' appended as an indicator for multi-channel signal streams. 
-Figure \ref{fig:pd} demonstrates the use of Jamoma Audio Graph in Pd for passing 4 channels through a chain for processing, taking advantage of the multi-channel patch cord connections.  
+Figure \ref{fig:pd} demonstrates the use of JAG in Pd for passing 4 channels through a chain for processing, taking advantage of the multi-channel patch cord connections.  
 
 \begin{figure}[htbp]
 \centerline{\framebox{
 	\includegraphics[width=0.7\columnwidth]{multicore-pd}}}
-\caption{Pd patch, processing 4 channels with Jamoma Audio Graph}
+\caption{Pd patch, processing 4 channels with JAG}
 \label{fig:pd}
 \end{figure}
 
@@ -739,7 +739,7 @@ All features of Jamoma Audio Graph can be accessed in real time through a web br
 \end{figure}
 
 % (end)
-
+%TODO: the picture should be renewed, showing Jamoma Audio Graph instead of Multicore
 
 \subsection{Cross-Coding} %(fold)
 
