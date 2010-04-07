@@ -13,7 +13,8 @@ build
 # PDF files are generated too -- sometimes we might want them in, but when that is the case we can force-add them
 *.pdf
 
-
+# Git conflict residue
+*.orig
 
 Proceedings/2010-DAFx-Multicore/JamomaMulticore-DAFx.dvi
 Proceedings/2010-DAFx-Multicore/JamomaMulticore-DAFx.ps
