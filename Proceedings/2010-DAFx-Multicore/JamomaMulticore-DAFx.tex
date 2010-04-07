@@ -114,35 +114,9 @@
   \pdfcompresslevel=9
   \usepackage[pdftex]{graphicx}
   \usepackage[figure,table]{hypcap}
-%\else % compiling with latex
-%  \usepackage[dvips]{epsfig,graphicx}
-%  \usepackage[dvips,
-%    colorlinks=false, % no color links
-%    bookmarksnumbered, % use section numbers with bookmarks
-%    pdfstartview=XYZ % start with zoom=100% instead of full screen
-%  ]{hyperref}
-%  % hyperrefs are active in the pdf file after conversion
-%  \usepackage[figure,table]{hypcap}
-%\fi
+
 
 \title{\papertitle}
-
-%-------------SINGLE-AUTHOR HEADER STARTS (uncomment below if your paper has a single author)-----------------------
-%\affiliation{\paperauthorA}    % This command replaces \name{The DAFx Crew}
-%{\href{http://www.acoustics.hut.fi/dafx08/}{Dept. of Signal Processing and Acoustics,} \\ Helsinki University of Technology, TKK \\ Espoo, Finland\\
-%{\tt \href{mailto:dafx-08@acoustics.hut.fi}{dafx-08@acoustics.hut.fi}}}
-%-----------------------------------SINGLE-AUTHOR HEADER ENDS------------------------------------------------------
-
-%---------------TWO-AUTHOR HEADER STARTS (uncomment below if your paper has two authors)-----------------------
-%\twoaffiliations{\paperauthorA, \sthanks{This work was supported by the XYZ Foundation}}
-%{\href{
-%http://www.acoustics.hut.fi/dafx08/}{Dept. of Signal Processing and Acoustics,} \\ Helsinki University of Technology, TKK \\ Espoo, Finland\\
-%{\tt \href{mailto:dafx-08@acoustics.hut.fi}{dafx-08@acoustics.hut.fi}}
-%}
-%{\paperauthorB,\sthanks{This guy is a very good fellow}}
-%{\href{http://www.acoustics.hut.fi/dafx08/}{Reading Group, Dept.~of Reading Sciences} \\ Univ.~of Universe, Sun \\ {\tt \href{mailto:dafx-08@acoustics.hut.fi}{dafx-08@acoustics.hut.fi}}
-%}
-%-------------------------------------TWO-AUTHOR HEADER ENDS------------------------------------------------------
 
 %---------------THREE-AUTHOR HEADER STARTS (uncomment below if your paper has three authors)-----------------------
 \threeaffiliations{\paperauthorA}
@@ -162,12 +136,8 @@
 \hyphenation{a-syn-chro-nous ja-mo-ma}
 
 \begin{document}
-% more pdf-tex settings:
-%\ifpdf % used graphic file format for pdflatex
   \DeclareGraphicsExtensions{.png,.jpg,.pdf}
-%\else  % used graphic file format for latex
-%  \DeclareGraphicsExtensions{.eps}
-%\fi
+
 
 \maketitle
 \sloppy
@@ -207,12 +177,12 @@ These frameworks are: Jamoma Foundation, Jamoma Graphics, Jamoma Modular, Jamoma
 
 Jamoma Foundation provides low-level support, base classes, and communication systems; Jamoma Graphics provides screen graphics; Jamoma Modular provides a structured approach to development and control of modules in the graphical media environment Max \cite{Place:2006} and Jamoma DSP specializes the Foundation classes to provide a framework for creating a library of unit generators. 
 Jamoma Graph networks Jamoma Foundation based objects into graph structures, providing a basic asynchronous processing model for objects (nodes) in the graph structure. 
-Jamoma Audio Graph (JAG), the focus of this paper, is an open source C++ framework that extends and specializes the Jamoma Graph layer.  It provides the ability to create and network Jamoma DSP objects into dynamic graph structures for synchronous audio processing\footnote{Licensing for all layers of the Jamoma Platform are provided under the terms of the GNU LGPL}.  
+Jamoma Audio Graph, the focus of this paper, is an open source C++ framework that extends and specializes the Jamoma Graph layer.  It provides the ability to create and network Jamoma DSP objects into dynamic graph structures for synchronous audio processing\footnote{Licensing for all layers of the Jamoma Platform are provided under the terms of the GNU LGPL}.  
 
 
 \begin{figure}[htbp]
 \centerline{\framebox{
-	\includegraphics[width=0.95\columnwidth]{layers-multicore}}}
+	\includegraphics[width=0.89\columnwidth]{layers-multicore}}}
 \caption{The Jamoma Platform as Layered Architecture.}
 \label{fig:layers}
 \end{figure}
@@ -235,7 +205,7 @@ Through years of accumulated collective experience in a myriad of contexts for r
 	% CHANGED: we aren't really doing this last thing right now [TAP]
 \end{packed_item}	
 
-In order to best meet these requirements, Jamoma Audio Graph relies on a \emph{pull} pattern (see Section~\ref{sec:pull}) and is designed to be independent from the host environment's DSP scheduler.
+\noindent In order to best meet these requirements, Jamoma Audio Graph relies on a \emph{pull} pattern (see Section~\ref{sec:pull}) and is designed to be independent from the host environment's DSP scheduler.
 An additional design decision is the use of a ``peer object model" which abstracts the implementation and execution of the graph from any particular environment or platform.  
 This allows for the Jamoma Audio Graph layer to be readily implemented for any number of environments.
 To date the authors have created implementations for Max, PureData, Audio Units, and Ruby.
@@ -261,7 +231,7 @@ To date the authors have created implementations for Max, PureData, Audio Units,
 
 The Jamoma DSP framework for creating unit generators does not define the way in which one must produce signal processing topographies.  
 Instead, the process of creating objects and connecting them are envisioned and implemented orthogonally and the graph is created using a separate framework: Jamoma Audio Graph.  
-Thanks to this decoupling of Jamoma DSP and Jamoma Audio Graph we are able to create and use Jamoma DSP unit generators with a number of different graph structures.  
+Due to this decoupling of Jamoma DSP and Jamoma Audio Graph we are able to create and use Jamoma DSP unit generators with a number of different graph structures.  
 Jamoma Audio Graph is one graph structure that a developer may choose to employ.
 
 Max/MSP, Pd, SuperCollider, Csound, Bidule, AudioMulch, Reaktor and Reason all have have unit generators, but the unit generators can only be used within the particular environment. 
@@ -288,10 +258,11 @@ In the Jamoma Platform this is also the case, where Jamoma Audio Graph comprises
 % NO: control-rate is a simply a sub-rate of the audio-rate that runs more slowly, e.g. for ramps.  Asynchronous is like MIDI where there is no rate at all: messages just come in whenever a key is pressed or a slider moved [TAP]
 
 To reduce the computational overhead of making synchronous calls through the graph for every sample, most systems employ the notion of \emph{frame processing}.  
-The Jamoma Audio Graph processes blocks of samples at once rather than a single sample at a time.  
-These blocks of samples are passed using a Jamoma DSP class that represents audio signals.  This class bundles vectors of audio for multiple channels together with an interface for accessing the signal's data and metadata.
-% TODO: From a mathematical viewpoint I am not convinced that it is correct to use the word "vector" for multi-channel frames, as these "vectors" really are 2-dimensional and hence matrixes: M samples x N channels. See e.g. http://mathworld.wolfram.com/Vector.html for a definition of "vector" - TL
-% I believe that we aren't really allocating a matrix though, we are actually working on this as an array of vectors [TAP]
+The \texttt{TTAudioSignal} class in Jamoma DSP represents audio signals as a collection of audio sample vectors and metadata, containing one vector per audio channel.
+Jamoma Audio Graph uses the \texttt{TTAudioSignal} class to processes these vectors of samples at once rather than a single sample at a time. 
+
+%These blocks or vectors of samples are passed using a Jamoma DSP class that represents audio signals.  
+%This class bundles vectors of audio for multiple channels together and provides an interface for accessing the signal's data and metadata.
 
 % (end)
 
@@ -517,7 +488,7 @@ This is accomplished through the creation of a node class for the graph, \texttt
 \texttt{TTAudioGraphObject} then manages these instances and the information necessary to pull samples from its sources. 
 
 Figure \ref{fig:anatomy} shows these classes and their relations. Here, an object is connected to three upstream objects, and to two downstream objects, with all connections being multi-channel. 
-A connection between objects can be considered as a many-to-many association; each outlet can be connected to many inlets, and each inlet can be connected to many outlets. 
+In database parlance, a connection between objects can be considered as a many-to-many association; each outlet can be connected to many inlets, and each inlet can be connected to many outlets. 
 The source objects represented by $s0$, $s1$, etc. can then be considered as join tables representing each connection in the many-to-many relationship individually.
 
 % TODO: in the figure we should label the white box with the rounded corners as TTAudio GraphObject -- TAP
@@ -530,7 +501,7 @@ The source objects represented by $s0$, $s1$, etc. can then be considered as joi
 \label{fig:anatomy}
 \end{figure}
 %
-\noindent The architecture of \texttt{TTAudioGraphObject} is layered: the audio graph object itself only knows about its inlets; the inlets only know about their sources (joins); the sources know from what object and from which outlet they are connected. 
+\noindent The architecture of \texttt{TTAudioGraphObject} is layered: the audio graph object itself only knows about its inlets; the inlets only know about their sources (the so-called `joins' in database terminology); the sources know from what object and from which outlet they are connected. 
 In the figure this is illustrated by the object having four inlets. 
 Two multi-channel sources $s0$ and $s1$ are connected to the first inlet $in0$, two to the second, and so on. 
 In short:
@@ -606,7 +577,7 @@ There are many applications of this description, including visual representation
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% TODO: In section 1.1 Implementation we state that we have implemented JAG for Audio Unit. Don't Audio Unit then need to be added to this section? - TL
+% TODO: In section 1.1 Implementation we state that we have implemented Jamoma Audio Graph for Audio Unit. Don't Audio Unit then need to be added to this section? - TL
 
 \subsection{Max/MSP} % (fold)
 
@@ -629,7 +600,7 @@ The sample rate and vector size used for audio graph processing, as well as the 
 
 A number of multi-channel audio generators and processors comprising common signal processing tasks are available.
 This set of generators can be readily extended.
-For example, the various units available in the Jamoma DSP filter and audio effects libraries can easily wrapped into Audio Graph externals for Max using a single line of C++ code.
+For example, the various units available in the Jamoma DSP libraries can be easily wrapped into Audio Graph externals for Max using a single line of C++ code.
 
 Spectral processing for multi-channel signals is implemented through the \emph{jcom.fft$\approx$} and \emph{jcom.window$\approx$} objects.
 % TODO: Are further details required, e.g. on how to deal with complex signals (complex = complex numbers)?
@@ -640,9 +611,7 @@ Finally \emph{jcom.matrixmixer$\approx$} offers the possibility of mixing $M$ in
 This combined mixer/router is still rudimentary, and assumes all incoming and returned signal to have the same number of channels.
 
 Figure \ref{fig:max-before-after} illustrates the use of Jamoma Audio Graph objects in a patch providing spatialization of 3 mono sources to 16 speakers, with additional post-spatialization mastering of the signals using a limiter and gain adjustment.
-The use of JAG objects greatly helps simplifying the patch as compared to a standard MSP audio graph. 
-
-% TODO: Finish off this section by referencing \ref{fig:max-before-after}, how it illustrates MSP to Audio Graph bridging, matrix, FX and output using PortAudio. Also comment on how much simpler it is to reconfigure the number of speakers: We now only need to change attribute values in jcom.matrix≈ and jcom.dbap, instead of having to do repatching. (Save latter for discussion)
+The use of Jamoma Audio Graph objects greatly helps simplifying the patch as compared to a standard MSP audio graph. 
 
 %\begin{figure*}[!t]
 %\centering
@@ -666,8 +635,8 @@ As Jamoma modules for spatialization aim to be flexible, enabling the user to de
 This often created stress on Max in time critical situations, and was not sufficiently reliable for real-world performance situations.
 Furthermore, a change in the DSP structure also required a rebuild of the DSP chain.
 
-The previous scripting and patching hack approach is currently being replaced by JAG objects to simplify the spatialization modules and make them more robust.
-Figure \ref{fig:max-before-after}b indicates how the number of sources and speakers can be changed simply by updating attribute values for a few JAG objects, thus eliminating the need for patcher scripting in Jamoma Modules.
+The previous scripting and patching hack approach is currently being replaced by Jamoma Audio Graph objects to simplify the spatialization modules and make them more robust.
+Figure \ref{fig:max-before-after}b indicates how the number of sources and speakers can be changed simply by updating attribute values for a few Jamoma Audio Graph objects, thus eliminating the need for patcher scripting in Jamoma Modules.
 Because the Audio Graph signal network can be dynamically reconfigured without the need to recompile the DSP signal chain, on-the-fly changes are possible while audio is running.  In other words, a change to the number of channels requires only a change of parameters rather than change to the program itself.
 
 % CHANGED: I think we most of the following more or less covered now, but it should be breviews. I see some that fit better in a future work section.
@@ -693,13 +662,13 @@ Because the Audio Graph signal network can be dynamically reconfigured without t
 \subsection{PureData (Pd)} % (fold)
 
 The Jamoma Audio Graph layer is also implemented for Pure Data, which is essentially similar to Jamoma Audio Graph for Max/MSP. 
-The most obvious difference between JAG for Pure Data and JAG for Max may be the slightly different naming convention, the Pure Data version using `=' instead of `$\approx$' appended as an indicator for multi-channel signal streams. 
-Figure \ref{fig:pd} demonstrates the use of JAG in Pd for passing 4 channels through a chain for processing, taking advantage of the multi-channel patch cord connections.  
+The most obvious difference between Jamoma Audio Graph for Pure Data and Jamoma Audio Graph for Max may be the slightly different naming convention, the Pure Data version using `=' instead of `$\approx$' appended as an indicator for multi-channel signal streams. 
+Figure \ref{fig:pd} demonstrates the use of Jamoma Audio Graph in Pd for passing 4 channels through a chain for processing, taking advantage of the multi-channel patch cord connections.  
 
 \begin{figure}[htbp]
 \centerline{\framebox{
-	\includegraphics[width=0.7\columnwidth]{multicore-pd}}}
-\caption{Pd patch, processing 4 channels with JAG}
+	\includegraphics[width=0.75\columnwidth]{multicore-pd}}}
+\caption{Pd patch, processing 4 channels with Jamoma Audio Graph}
 \label{fig:pd}
 \end{figure}
 
@@ -733,7 +702,7 @@ All features of Jamoma Audio Graph can be accessed in real time through a web br
 
 \begin{figure}[htbp]
 \centerline{\framebox{
-	\includegraphics[width=0.7\columnwidth]{multicore-rails}}}
+	\includegraphics[width=0.8\columnwidth]{multicore-rails}}}
 \caption{Jamoma Audio Graph graph operating in a Ruby on Rails application through a web browser}
 \label{fig:rails}
 \end{figure}
@@ -789,8 +758,8 @@ The use of multi-channel signals greatly reduces tedious and repetitious patchin
 More importantly, it greatly improves the workflow in terms of flexibility and inter-operability.
 
 Jamoma modules for spatialization share a common interface. The number of sources and speakers are dynamically reconfigured on-the-fly using simple configuration scripts describing the number and positions of sources and speakers.
-The usefulness of this can be illustrated by the practical experience of one of the authors while working on a sound installation in Oslo in 2002 \cite{Rudi:2003}.
-For the final week preceding the opening, two of the composers moved several times a day between working at the 24 speaker setup of the installation site, a 16 speaker setup at a studio and off-site development using stereo headphones.
+The usefulness of this can be illustrated by the practical experience of one of the authors while working on a sound installation in Oslo in 2002 as reported in \cite{Rudi:2003}:
+For the final week preceding the opening, two of the composers moved several times a day between working at the 24 speaker setup of the installation site, a 16 speaker setup at a studio and off-site development using stereo headphones \cite{lossius:2007sound_space_body}.
 Each time a composer moved between environments the various parts of the patch dealing with spatialization had to be substituted.
 Using Jamoma Modular it would instead be possible to trigger simple cue scripts to reconfigure the system from one setup to another.
 
@@ -825,12 +794,9 @@ It additionally opens possibilities for dynamic reconfiguration of the sequence 
 
 Dynamic patching furthermore enables dynamic loading of polyphonic voices as needed.
 While the maximum number of voices has to be predefined in Max/MSP using \emph{poly\textasciitilde}, Csound instead dynamically creates as many instances of an instrument as required by the score at any one time.
-Jamoma Audio Graph offers similar possibilities in Max for polyphonic synthesis.
+Jamoma Audio Graph offers similar possibilities in Max and Pd for polyphonic synthesis.
 Polyphonic voices might be represented as dynamically changing channels in a portion of the graph, and mixed at the end using a \emph{matrix$\approx$}.
 
-
-% TODO: Tim, do you have anything meaningful to add to this?
-% Just one thing: the MSP load should be accurate if using pack≈ and unpack≈, thought it won't reflect a graph driven by dac≈ [TAP]
 
 %- Integrated Analysis and Benchmarking -- perhaps reference the upchuck operator in ChucK?
  %  -- This integrated analysis and benchmarking could also provide the basis by which an audio graph such as Jamoma Audio Graph is able to evaluate how to optimize the processes in the graph to make intelligent decisions on how to distribute the processing among threads or processors.
@@ -911,9 +877,8 @@ The advantages of multi-channel audio patches in common computer music environme
 The ability to work individually on a single audio channels within the audio graph is currently limited.
 For instance, it is possible to apply jcom.filter$\approx$ to manipulate all audio channels within a graph connection in the same way. 
 However, many multi-channel audio applications (such as the Near Field Compensation in Higher Order Ambisonics) rely on filtering processes individualized across audio channels. Future work will address this issue.
-
-Additional plans include the introduction of upmix/downmix algorithms into the Audio Graph to seamlessly mediate between different multi-channel media formats including compressed spatial audio material (e.g. mp3-surround, DirAC). 
-Here, we are planning to explore the potential to attach additional meta-information to the individual audio channels to ensure that multichannel audio material is correctly processed (e.g. to identify the signal components in an Ambisonics B-format, or to distinguish a binaurally processed audio stream from a conventional stereo track). 
+Jamoma Audio Graph can be further extended to support upmix/downmix algorithms that seamlessly mediate between different multi-channel media formats including compressed spatial audio material (e.g. mp3-surround, DirAC \cite{Pulkki2007dirac_1}). 
+We plan to explore the potential of attaching additional meta-information to the individual audio channels to ensure that multi-channel audio material is correctly processed (e.g. to identify the signal components in an Ambisonics B-format, or to distinguish a binaurally processed audio stream from a conventional stereo track). 
 
 Related to IEM's CUBEmixer \cite{musil2008cubemixer}, the authors are currently developing a multi-channel authoring/mixing application which enables the user to work and combine common spatial audio rendering concepts such as VBAP, DBAP, ViMiC \cite{Peters:2008b} and Ambisonics according to compositional aspiration and/or technical possibilities \cite{Peters:2009}. The Jamoma Audio Graph layer is essential to this development and is already being used in a prototype of this application (Figure \ref{fig:SceneMixer}).
 \begin{figure}[htbp]
