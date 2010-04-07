@@ -776,7 +776,7 @@ The Jamoma Audio Graph framework seeks to strike a balance between raw number-cr
 
 The Jamoma frameworks align with contemporary philosophies for good coding practice, thus facilitating the readability, debugging, maintenance and distribution of code.
 The frameworks emphasize expressive syntax, idioms, and conventions \cite{Martin:2009} and adhere to the DRY (Don't Repeat Yourself) principle, which states that ``Every piece of knowledge must have a single, unambiguous, authoritative representation within a system'' \cite{Hunt:1999}.
-Unit testing is so far implemented only in some of the frameworks, mainly for methods processed asynchronously, at control rate.
+Unit testing is so far implemented only in some of the frameworks, mainly for methods processed asynchronously.
 A general system for developing methods for testing audio signal processes and graphs remains to be developed, but is likely to be much simpler to achieve using the text-based Jamoma Audio Graph implementation for Ruby than it would be within the graphical patching environments Max or Pd.
 
 The emphasis in code design is a long term investment in creating frameworks with which it is pleasant work, intuitive to use, easy to maintain, well-documented, stable and supporting an extendable code base.  We do this to encourage others to make use of the frameworks and join in contributing to future development.
@@ -785,7 +785,7 @@ The emphasis in code design is a long term investment in creating frameworks wit
 
 \subsubsection{Audio graph patching} % (fold)
 
-The initial motivation for development of Jamoma Audio Graph was simplification of work on spatialization in Jamoma Modular. 
+The initial motivation for development of Jamoma Audio Graph was simplification of work on spatialization patches in Jamoma Modular. 
 The use of multi-channel signals greatly reduces tedious and repetitious patching where the same chain of audio processes need to be created over and over again for each channel. 
 More importantly, it greatly improves the workflow in terms of flexibility and inter-operability.
 
@@ -795,7 +795,7 @@ For the final week preceding the opening, two of the composers moved several tim
 Each time a composer moved between environments the various parts of the patch dealing with spatialization had to be substituted.
 Using Jamoma Modular it would instead be possible to trigger simple cue scripts to reconfigure the system from one setup to another.
 
-Within Jamoma Modular the Jamoma Audio Graph is eventually planned to be used for all audio modules.
+Within Jamoma Modular, Jamoma Audio Graph is eventually planned to be used for all audio modules.
 One of the major benefits will be the ability to easily reconfigure each module for work on mono, stereo, 5.1 or other surround sound signals.
 Thus we can avoid creating and maintaining several versions of modules for the same audio process, in accordance with the DRY principle.
 For modules that also depend on the use of ordinary MSP externals internally, we can use \emph{jcom.pack$\approx$} and \emph{jcom.pack$\approx$} in combination with Max scripting.
@@ -816,14 +816,16 @@ As the project emerges from the early stages of development, minimal time has ye
 Measurement of computational/processor load can be rudimentarily profiled using the facilities of the host environment (e.g. the CPU readout in Max's DSP Status window), or via alternative methods built into special Jamoma Audio Graph classes.  
 In cases where the audio processing occurs independently of the host environment, such as in Max using the \texttt{jcom.dac$\approx$} object, the host environment will not be able to adequately measure the computational load of a Jamoma Audio Graph in the same way as would apply to audio processing using FTM and Gabor \cite{Schnell:2005_Gabor}.
 
-Computational performance, however, is not merely a matter of efficient number crunching, but also efficient and dynamic management of processes.
+% TODO: we cite the above paper multple times in this paper, should it be just once?
+
+Computational performance, however, is not merely a matter of efficient number crunching in the processes, but also efficient and dynamic management of processes.
 In live performance situations, such as concerts, works for stage and installations, the active processes often change dynamically over the duration of a work.
-The ability for dynamic patching without interrupting audio delivery promises that processes are seemlessly loaded, unloaded, connected and disconnected on the fly. 
+The ability for dynamic patching without interrupting audio delivery promises that processes are seamlessly loaded, unloaded, connected and disconnected on the fly. 
 This further enables the balancing of processing resources because all employed processes need not be present for the entire duration of a work.
 It additionally opens possibilities for dynamic reconfiguration of the sequence of processes in Max without requiring the signals to pass through the \emph{send\textasciitilde} and \emph{receive\textasciitilde} MSP combo, thus avoiding the introduction of a potentially undesirable vector-length of delay.
 
 Dynamic patching furthermore enables dynamic loading of polyphonic voices as needed.
-While the maximum number of voices has to be predefined in Max/MSP using \emph{poly\textasciitilde}, Csound instead dynamically create as many instances of an instrument as required by the score at any one time.
+While the maximum number of voices has to be predefined in Max/MSP using \emph{poly\textasciitilde}, Csound instead dynamically creates as many instances of an instrument as required by the score at any one time.
 Jamoma Audio Graph offers similar possibilities in Max for polyphonic synthesis.
 Polyphonic voices might be represented as dynamically changing channels in a portion of the graph, and mixed at the end using a \emph{matrix$\approx$}.
 
@@ -863,18 +865,19 @@ The Dynamic Component Cluster Rendering, as found in TANGA, presents a promising
 
 \subsubsection{Multiple Simultaneous Graphs} % (fold)
 
-By it's nature, an audio graph is defined as all objects connected together into a graph structure terminating at a terminal object that drives the graph.  
+By it's nature, an audio graph is defined as all objects connected together into a graph structure terminating at a sink object that drives the graph.  
 There is no limitation on how many of these graphs may exist independently, and simultaneously, in any environment.  
-As these graphs are fully-independent of each other they may run at different rates, in different threads, and addressing different hardware.  The independent graphs may even run side-by-side with one running in real-time while another is operating out of real time.
+As these graphs are fully-independent of each other they may run at different rates, in different threads, and addressing different hardware.  
+The independent graphs may even run side-by-side with one running in real-time while another is operating out of real time.
 
 % (end)
 
 
 \subsubsection{Dynamic vector size} % (fold)
 
-A number of audio processing algorithms require dynamic change of vector size, dynamic variations in onset position of the vectors, overlapping vectors or varying sampling rate for all or some parts of the audio graph. 
-Examples are Fast Fourier Transforms at various vector sizes and with varying amount of overlap, up-sampled FFT for improved frequency resolution at low frequencies and granulation with sample accurate grain onset and duration. 
-In particular the Gabor library offers several interesting audio signal processing methods that can only be achieved by introducing a signal processing paradigm based on the general idea of streams of atomic sound entities processed with arbitrary timing or arbitrary processing rates. 
+A variety of audio processing algorithms require dynamic change of vector size, dynamic variations in onset position of the vectors, overlapping vectors or varying sampling rate for all or some parts of the audio graph. 
+Examples include the Fast Fourier Transform at various vector sizes and with varying amount of overlap, up-sampled FFT for improved frequency resolution at low frequencies and granulation with sample accurate grain onset and duration. 
+In particular the Gabor library for Max/MSP offers several interesting audio signal processing methods that can only be achieved by introducing a signal processing paradigm based on the general idea of streams of atomic sound entities processed with arbitrary timing or arbitrary processing rates. 
 Gabor achieves this by scheduling vectors within the Max event (or message) processing model rather than the block-wise signal stream processing engine of MSP. 
 Sound particles are processed at arbitrary rates or moments and thus can be adjusted to the frequency, texture or rhythm of a sound or to the required processing rate of a particular algorithm \cite{Schnell:2005_Gabor}.
 
@@ -888,10 +891,11 @@ If the stream of vectors or grains depends on analysis of the incoming signal, a
 
 \subsubsection{Implicit Patching} % (fold)
 
-Currently all connections in an audio graph are managed manually.  In a graphical environment such as Max we could re-phrase this to say that the connections between objects are explicitly patched together by the user.  
+Currently all connections in an audio graph are managed manually.  
+In a graphical environment such as Max we could say that the connections between objects are explicitly patched together by the user.  
 A higher-level alternative to this ``explicit patching'' by the user is the ``implicit patching'' paradigm embraced by Marsyas \cite{Bray:2005}.
 
-With implicit patching the user is able to interact with groups of objects that are networked together by specifying a pattern to use, rather than directly and manually making each connection.  
+Through the use of implicit patching the user is able to interact with groups of objects that are networked together by specifying a \emph{pattern} to use, rather than directly and manually making each connection.  
 One elementary example is the creation of a multi-band EQ, by creating an array of bandpass filters and then specifying then to connect as a parallel group.  
 A group patched according to a `series' pattern would connect one after the other to apply a transformation throughout the chain of objects in the group.
 
@@ -904,13 +908,15 @@ A group patched according to a `series' pattern would connect one after the othe
 
 \subsection{Improving support for work on spatial audio} % (fold)
 
-The advantages in working and maintaining of multi-channel audio patches in common computer music environments can be clearly seen in Figure \ref{fig:max-before-after}. 
-For now, the ability to work individually on a single audio channels within the audio graph is limited.
-For instance, it is possible to apply jcom.filter$\approx$ to manipulate all audio channels within a graph connection in the same way. However, many multi-channel audio application (such as the Near Field Compensation in Higher Order Ambisonics) rely on filtering processes individualized across audio channels. Future work will address this issue.
+The advantages of multi-channel audio patches in common computer music environments can be clearly seen in Figure \ref{fig:max-before-after}. 
+The ability to work individually on a single audio channels within the audio graph is currently limited.
+For instance, it is possible to apply jcom.filter$\approx$ to manipulate all audio channels within a graph connection in the same way. 
+However, many multi-channel audio applications (such as the Near Field Compensation in Higher Order Ambisonics) rely on filtering processes individualized across audio channels. Future work will address this issue.
 
-We also want to include upmix/downmix algorithms into the Audio Graph to seamlessly mediate between different kind of multi-channel media formats including compressed spatial audio material (e.g. mp3-surround, DIRAC). Here, we are planning to explore the potential to attach additional meta-information to the individual audio channels to ensure that the correct audio material is being processed (e.g. to identify the signals in an Ambisonics B-format, or to distinguish a binaurally processed audio stream from a conventional stereo track). 
+Additional plans include the introduction of upmix/downmix algorithms into the Audio Graph to seamlessly mediate between different multi-channel media formats including compressed spatial audio material (e.g. mp3-surround, DIRAC). 
+Here, we are planning to explore the potential to attach additional meta-information to the individual audio channels to ensure that audio material is correctly processed (e.g. to identify the signals in an Ambisonics B-format, or to distinguish a binaurally processed audio stream from a conventional stereo track). 
 
-Somehow related to IEM's CUBEmixer \cite{musil2008cubemixer}, the authors are currently developing a multi-channel authoring/mixing application which enables the user to work and combine common spatial audio rendering concepts such as VBAP, DBAP, ViMiC \cite{Peters:2008b} and Ambisonics according to his compositional aspiration and/or technical possibilities \cite{Peters:2009}. The Jamoma Audio Graph Layer is essential to this development and is already being used in a prototype of this application (Figure \ref{fig:SceneMixer}).
+Related to IEM's CUBEmixer \cite{musil2008cubemixer}, the authors are currently developing a multi-channel authoring/mixing application which enables the user to work and combine common spatial audio rendering concepts such as VBAP, DBAP, ViMiC \cite{Peters:2008b} and Ambisonics according to compositional aspiration and/or technical possibilities \cite{Peters:2009}. The Jamoma Audio Graph layer is essential to this development and is already being used in a prototype of this application (Figure \ref{fig:SceneMixer}).
 \begin{figure}[htbp]
 	\centering
 		\includegraphics[width=1\columnwidth]{SceneMixer.png}
